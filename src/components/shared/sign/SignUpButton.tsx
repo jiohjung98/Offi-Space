@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-const SignInButton = () => {
+const SignUpButton = () => {
   const router = useRouter();
   return (
     <button
@@ -12,4 +12,4 @@ const SignInButton = () => {
   );
 };
 
-export default SignInButton;
+export default SignUpButton;

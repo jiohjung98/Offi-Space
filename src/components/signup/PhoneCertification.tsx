@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import ToBack from '../shared/sign/ToBack';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';
+import { motion } from 'framer-motion';
 
 const PhoneCertification = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -91,43 +92,79 @@ const PhoneCertification = () => {
 
   return (
     <div className="max-w-[360px] mx-auto">
-      <ToBack />
+      <motion.div
+        initial={{ opacity: 0, translateX: -90 }}
+        transition={{
+          duration: 0.4,
+          ease: 'easeInOut',
+          delay: 0.3
+        }}
+        animate={{
+          opacity: 1,
+          translateX: 0
+        }}>
+        <ToBack />
+      </motion.div>
 
-      <div className="text-black text-[22px] font-semibold font-pretendard leading-[30.80px] mt-[24px] ml-4">
-        본인인증을 위해 <br />
-        휴대폰 번호를
-        <br />
-        인증해주세요.
-      </div>
-
-      <div className="mt-[70px] border-b border-neutral-100">
-        <div className="pb-2 flex">
-          <div className="flex justify-center items-center">+82</div>
-          <div className="flex-grow flex justify-center items-center">
-            <input
-              style={{ backgroundColor: isRequest ? 'transparent' : '' }}
-              disabled={isRequest}
-              type="tel"
-              maxLength={13}
-              className="outline-none"
-              placeholder="010-0000-0000 "
-              value={phoneNumber}
-              onChange={handlePhoneNumberChange}
-              ref={startRef}
-            />
-          </div>
-          <button
-            disabled={btnStatus == 'FIRST'}
-            className={`w-[83px] h-[31px] px-3.5 py-1.5 rounded border justify-center items-center gap-2.5 flex text-center text-sm font-normal font-pretendard ${
-              btnStatus === 'FIRST'
-                ? 'bg-white text-zinc-400'
-                : 'bg-space-purple text-white'
-            }`}
-            onClick={handleClick}>
-            {btnStatus == 'THIRD' ? '인증확인' : '인증전송'}
-          </button>
+      <motion.div
+        initial={{ opacity: 0, translateX: -90 }}
+        transition={{
+          duration: 0.4,
+          ease: 'easeInOut',
+          delay: 0.6
+        }}
+        animate={{
+          opacity: 1,
+          translateX: 0
+        }}>
+        <div className="text-black text-[22px] font-semibold font-pretendard leading-[30.80px] mt-[24px] ml-4">
+          본인인증을 위해 <br />
+          휴대폰 번호를
+          <br />
+          인증해주세요.
         </div>
-      </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, translateX: -90 }}
+        transition={{
+          duration: 0.4,
+          ease: 'easeInOut',
+          delay: 0.9
+        }}
+        animate={{
+          opacity: 1,
+          translateX: 0
+        }}>
+        <div className="mt-[70px] border-b border-neutral-100">
+          <div className="pb-2 flex">
+            <div className="flex justify-center items-center">+82</div>
+            <div className="flex-grow flex justify-center items-center">
+              <input
+                style={{ backgroundColor: isRequest ? 'transparent' : '' }}
+                disabled={isRequest}
+                type="tel"
+                maxLength={13}
+                className="outline-none"
+                placeholder="010-0000-0000 "
+                value={phoneNumber}
+                onChange={handlePhoneNumberChange}
+                ref={startRef}
+              />
+            </div>
+            <button
+              disabled={btnStatus == 'FIRST'}
+              className={`w-[83px] h-[31px] px-3.5 py-1.5 rounded border justify-center items-center gap-2.5 flex text-center text-sm font-normal font-pretendard ${
+                btnStatus === 'FIRST'
+                  ? 'bg-white text-zinc-400'
+                  : 'bg-space-purple text-white'
+              }`}
+              onClick={handleClick}>
+              {btnStatus == 'THIRD' ? '인증확인' : '인증전송'}
+            </button>
+          </div>
+        </div>
+      </motion.div>
 
       {isRequest && (
         <>
@@ -135,6 +172,7 @@ const PhoneCertification = () => {
             <div className="pb-2 flex">
               <div className="flex-grow flex">
                 <input
+                  disabled={validTime == 0}
                   type="tel"
                   maxLength={6}
                   className="outline-none"
