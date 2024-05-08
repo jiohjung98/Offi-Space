@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import JobPositionItem from './JobPositionItem';
 import { jobPosition } from '@/constant/jobPosition';
+import { motion } from 'framer-motion';
 
 const JobPosition = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,12 +34,23 @@ const JobPosition = () => {
 
       <ul className="mt-[34px] mx-auto w-[361px]">
         {allPosition?.map((position) => (
-          <JobPositionItem
-            title={position}
+          <motion.li
             key={position}
-            handleClick={handleClick}
-            selectPosition={selectPosition}
-          />
+            initial={{ opacity: 0, translateX: -90 }}
+            transition={{
+              duration: 0.6,
+              ease: 'easeInOut'
+            }}
+            animate={{
+              opacity: 1,
+              translateX: 0
+            }}>
+            <JobPositionItem
+              title={position}
+              handleClick={handleClick}
+              selectPosition={selectPosition}
+            />
+          </motion.li>
         ))}
       </ul>
       {selectPosition == null ? (

@@ -12,7 +12,7 @@ const JobPositionItem = ({
   selectPosition
 }: JobPositionItemProps) => {
   return (
-    <li className="list-none mt-[17px] cursor-pointer" onClick={() => handleClick(title)}>
+    <div className="mt-[17px] cursor-pointer" onClick={() => handleClick(title)}>
       <div className="w-[361px] h-9 pb-4 border-b border-neutral-200 justify-between items-center inline-flex">
         <div className="text-neutral-700 text-sm font-normal font-['Pretendard']">
           {title}
@@ -25,7 +25,7 @@ const JobPositionItem = ({
           )}
         </div>
       </div>
-    </li>
+    </div>
   );
 };
 

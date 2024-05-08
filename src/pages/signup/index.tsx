@@ -1,4 +1,4 @@
-import PhoneCertification from '@/components/signup/PhoneCertification';
+// import PhoneCertification from '@/components/signup/PhoneCertification';
 import MainContainer from '@/components/shared/MainContainer';
 import JobPosition from '@/components/signup/JobPosition';
 
