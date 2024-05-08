@@ -25,7 +25,7 @@ const SigninForm = () => {
     if (isError) {
       timeoutId = setTimeout(() => {
         setIsError(false);
-      }, 3000);
+      }, 5000);
     }
     return () => clearTimeout(timeoutId);
   }, [isError]);
@@ -114,7 +114,7 @@ const SigninForm = () => {
         <div
           className="mt-[16px] text-red-700 text-xs font-medium font-pretendard leading-tight"
           style={{ display: isError ? 'block' : 'none' }}>
-          *등록되지 않은 계정이거나 비밀번호가 바르지 않습니다.
+          *등록되지 않은 계정이거나 비밀번호가 올바르지 않습니다.
           <br />
           입력하신 내용을 다시 확인해주세요.
         </div>

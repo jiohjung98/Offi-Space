@@ -1,24 +1,30 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, Dispatch, useEffect, useRef, useState } from 'react';
 import ToBack from '../shared/sign/ToBack';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';
 import { motion } from 'framer-motion';
 
-const PhoneCertification = () => {
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
+const EmailCertification = ({
+  setStep
+}: {
+  setStep: Dispatch<React.SetStateAction<number>>;
+}) => {
+  const [userEmail, setUserEmail] = useState('');
+  const [emailValid, setEmailValid] = useState(false);
   const [btnStatus, setBtnStatus] = useState<SignupBtnStatus>('FIRST');
   const [isRequest, setIsRequest] = useState(false);
   const [validNumber, setValidNumber] = useState<string>('');
-  const [validTime, setValidTime] = useState<number>(180);
+  const [validTime, setValidTime] = useState<number>(300);
   const [isError, setIsError] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const startRef = useRef<HTMLInputElement>(null);
 
-  const handlePhoneNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const regex = e.target.value
-      .replace(/[^0-9]/g, '')
-      .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
-      .replace(/(-{1,2})$/g, '');
-    setPhoneNumber(regex);
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setUserEmail(e.target.value);
+    const emailRegEx =
+      /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
+    const isValid = emailRegEx.test(e.target.value);
+    setEmailValid(isValid);
   };
 
   const handleValidNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,12 +37,12 @@ const PhoneCertification = () => {
   }, []);
 
   useEffect(() => {
-    if (phoneNumber.length === 13) {
+    if (emailValid) {
       setBtnStatus('SECOND');
     } else {
       setBtnStatus('FIRST');
     }
-  }, [phoneNumber]);
+  }, [emailValid]);
 
   useEffect(() => {
     if (isRequest) {
@@ -49,7 +55,7 @@ const PhoneCertification = () => {
     if (isError) {
       timeoutId = setTimeout(() => {
         setIsError(false);
-      }, 3000);
+      }, 4000);
     }
     return () => clearTimeout(timeoutId);
   }, [isError]);
@@ -81,6 +87,7 @@ const PhoneCertification = () => {
       }
       // todo validNumber 인증 확인 로직 추가
       alert('인증 로직 시작');
+      setStep((prev) => prev + 1);
     }
   };
 
@@ -106,10 +113,8 @@ const PhoneCertification = () => {
           translateX: 0
         }}>
         <div className="text-black text-[22px] font-semibold font-pretendard leading-[30.80px] mt-[24px] ml-4">
-          본인인증을 위해 <br />
-          휴대폰 번호를
-          <br />
-          인증해주세요.
+          가입한 이메일을 <br />
+          입력해주세요.
         </div>
       </motion.div>
 
@@ -124,19 +129,26 @@ const PhoneCertification = () => {
           opacity: 1,
           translateX: 0
         }}>
-        <div className="mt-[70px] border-b border-neutral-300">
+        <div className="mt-[70px] border-b border-neutral-300 ml-4">
+          <div className="flex mb-[13px]">
+            <label
+              htmlFor="email"
+              className="text-neutral-600 text-base font-semibold font-pretendard">
+              이메일
+            </label>
+            <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full" />
+          </div>
           <div className="pb-2 flex">
-            <div className="flex justify-center items-center">+82</div>
-            <div className="flex-grow flex justify-center items-center">
+            <div className="flex-grow flex items-center">
               <input
+                id="email"
                 style={{ backgroundColor: isRequest ? 'white' : '' }}
                 disabled={isRequest}
-                type="tel"
-                maxLength={13}
+                type="text"
                 className="outline-none"
-                placeholder="010-0000-0000 "
-                value={phoneNumber}
-                onChange={handlePhoneNumberChange}
+                placeholder="이메일을 입력해주세요."
+                value={userEmail}
+                onChange={handleEmailChange}
                 ref={startRef}
               />
             </div>
@@ -156,7 +168,16 @@ const PhoneCertification = () => {
 
       {isRequest && (
         <>
-          <div className="mt-[48px] border-b border-neutral-300">
+          <div className="mt-[48px] border-b border-neutral-300 ml-4">
+            {isError ? (
+              <div className="flex flex-row-reverse">
+                <div className="text-red-700 text-xs font-normal font-pretendard leading-tight">
+                  *올바르지 않은 코드입니다.
+                </div>
+              </div>
+            ) : (
+              <div className="pt-[15px]" />
+            )}
             <div className="pb-2 flex">
               <div className="flex-grow flex">
                 <input
@@ -175,17 +196,20 @@ const PhoneCertification = () => {
               </div>
             </div>
           </div>
-          {isError ? (
-            <div className="text-red-700 font-semibold font-pretendard text-xs">
-              *올바르지 않은 코드입니다.
+          <div className="flex items-center  mt-2 gap-2 ml-4">
+            <div className="w-3.5 h-3.5 relative">
+              <div className="w-3.5 h-3.5 left-0 top-0 absolute bg-slate-200 rounded-full">
+                <img src="/sign/emailerror.png" alt="" />
+              </div>
             </div>
-          ) : (
-            ''
-          )}
+            <div className="text-neutral-400 text-sm font-normal font-pretendard leading-tight">
+              이메일로 발송된 코드를 입력해주세요.
+            </div>
+          </div>
         </>
       )}
     </div>
   );
 };
 
-export default PhoneCertification;
+export default EmailCertification;

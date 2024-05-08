@@ -15,7 +15,7 @@ const SignPage = () => {
         <span className="text-neutral-400 text-sm font-light font-pretendard">
           비밀번호를 잊으셨나요?{' '}
         </span>
-        <Link href="/">
+        <Link href="/sign/findpassword">
           <span className="text-neutral-400 text-sm font-light font-pretendard underline">
             비밀번호 찾기{' '}
           </span>
