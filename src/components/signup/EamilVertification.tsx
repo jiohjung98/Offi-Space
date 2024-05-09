@@ -13,6 +13,7 @@ const EmailVerification = () => {
   const [isError, setIsError] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const startRef = useRef<HTMLInputElement>(null);
+  const [isInvalidCode, setIsInvalidCode] = useState(false);
 
   const { mutateAsync: emailRequest } = useMutation((email: string) => {
     return emailauthrequest({ emailAddress: email });
@@ -39,14 +40,14 @@ const EmailVerification = () => {
   const handleValidNumberChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const regex = e.target.value.replace(/[^0-9]/g, '');
     setValidNumber(regex);
-
+  
     if (regex.length === 6) {
       try {
         const { status } = await emailVerify({
           emailAddress: userEmail,
           code: Number(regex)
         });
-
+  
         if (status === 'SUCCESS') {
           console.log('인증 성공');
           console.log(status);
@@ -56,9 +57,14 @@ const EmailVerification = () => {
         const errorResponse = error.response.data;
         const errorCode = errorResponse.errorCode;
         console.log('인증 실패 - 에러 코드:', errorCode);
+  
+        if (errorCode === '1-005') {
+          setIsInvalidCode(true);
+        }
       }
     }
   };
+  
 
 
   const handleRetryClick = async () => {
@@ -189,7 +195,7 @@ const EmailVerification = () => {
             </div>
             <div className="flex items-center ml-4">
               <button
-                className={`w-[83px] h-[31px] px-3.5 py-1.5 rounded border justify-center items-center gap-2.5 flex text-center text-sm font-medium font-pretendard ${emailValid
+                className={`w-[83px] h-[31px] px-3.5 py-1.5 mb-1 rounded border justify-center items-center gap-2.5 flex text-center text-sm font-medium font-pretendard ${emailValid
                     ? 'bg-indigo-700 text-white'
                     : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                   }`}
@@ -223,6 +229,10 @@ const EmailVerification = () => {
                 </label>
                 <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full ml-[4px]" />
               </div>
+              {isInvalidCode && (
+    <div className="text-red-700 font-semibold font-pretendard text-xs ml-auto">
+      올바르지 않은 코드입니다.
+    </div>)}
             </div>
             <div className="mt-[13px] flex">
               <div className='flex-grow flex items-center'>

@@ -1,5 +1,4 @@
 // import { ICommon } from '../types/common';
-const apiEndpoint = process.env.API_ENDPOINT;
 
 import { postRequest } from '../request';
 import {
@@ -51,7 +50,7 @@ export const signin = async ({ memberEmail, memberPassword }: ISignIn) => {
 /* 이메일 인증 요청 */
 
 export const emailauthrequest = async ({ emailAddress }: IEmail) => {
-  const response = await postRequest<null, IEmail>('https://joo-api.store/auth/email', {
+  const response = await postRequest<null, IEmail>(`auth/email`, {
     emailAddress
   });
 
@@ -61,7 +60,7 @@ export const emailauthrequest = async ({ emailAddress }: IEmail) => {
 /* 이메일 코드 검증 */
 
 export const emailauthverify = async ({ emailAddress, code }: IEmailAuth) => {
-  const response = await postRequest<null, IEmailAuth>('https://joo-api.store/auth/email/verify', {
+  const response = await postRequest<null, IEmailAuth>(`auth/email/verify`, {
     emailAddress,
     code
   });
