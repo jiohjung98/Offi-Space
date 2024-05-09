@@ -1,6 +1,7 @@
 // import PhoneCertification from '@/components/signup/PhoneCertification';
 import MainContainer from '@/components/shared/MainContainer';
-import JobPosition from '@/components/signup/JobPosition';
+import EamilVerification from '@/components/signup/EamilVertification';
+// import JobPosition from '@/components/signup/JobPosition';
 
 const SignUpPage = () => {
   // todo 단계별로 회원가입 이뤄지게
@@ -8,7 +9,8 @@ const SignUpPage = () => {
   return (
     <MainContainer>
       {/* <PhoneCertification /> */}
-      <JobPosition />
+      {/* <JobPosition /> */}
+      <EamilVerification/>
     </MainContainer>
   );
 };

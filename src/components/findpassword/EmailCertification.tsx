@@ -2,24 +2,37 @@ import React, { ChangeEvent, Dispatch, useEffect, useRef, useState } from 'react
 import ToBack from '../shared/sign/ToBack';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';
 import { motion } from 'framer-motion';
+import { useMutation } from 'react-query';
+import { emailauthrequest, emailauthverify } from '@/api/auth/auth.post.api';
+import { invertSecond } from '@/utils/invertSecond';
 
-const EmailCertification = ({
-  setStep
-}: {
+interface EmailCertificationProps {
   setStep: Dispatch<React.SetStateAction<number>>;
-}) => {
-  const [userEmail, setUserEmail] = useState('');
+}
+
+const EmailCertification = ({ setStep }: EmailCertificationProps) => {
+  const [userEmail, setUserEmail] = useState<string>('');
   const [emailValid, setEmailValid] = useState(false);
   const [btnStatus, setBtnStatus] = useState<SignupBtnStatus>('FIRST');
   const [isRequest, setIsRequest] = useState(false);
   const [validNumber, setValidNumber] = useState<string>('');
   const [validTime, setValidTime] = useState<number>(300);
   const [isError, setIsError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const startRef = useRef<HTMLInputElement>(null);
 
+  const { mutateAsync: emailRequest } = useMutation((email: string) => {
+    return emailauthrequest({ emailAddress: email });
+  });
+
+  const { mutateAsync: emailVerify } = useMutation(
+    ({ emailAddress, code }: { emailAddress: string; code: number }) => {
+      return emailauthverify({ emailAddress, code });
+    }
+  );
+
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setUserEmail(e.target.value);
     const emailRegEx =
       /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
@@ -52,13 +65,14 @@ const EmailCertification = ({
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
-    if (isError) {
+    if (isError || emailError) {
       timeoutId = setTimeout(() => {
         setIsError(false);
+        setEmailError(false);
       }, 4000);
     }
     return () => clearTimeout(timeoutId);
-  }, [isError]);
+  }, [isError, emailError]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -72,11 +86,18 @@ const EmailCertification = ({
     return () => clearInterval(intervalId);
   }, [isRequest, validTime]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (btnStatus == 'SECOND') {
-      //todo 인증 전송 로직 추가
-      setIsRequest(true);
-      setBtnStatus('THIRD');
+      const { status } = (await emailRequest(userEmail)) as unknown as { status: string };
+      if (status == 'SUCCESS') {
+        setIsRequest(true);
+        setBtnStatus('THIRD');
+      }
+      if (status == 'FAIL') {
+        setUserEmail('');
+        setEmailError(true);
+        return;
+      }
     }
     if (btnStatus == 'THIRD') {
       if (validNumber.length != 6) {
@@ -85,16 +106,21 @@ const EmailCertification = ({
         inputRef.current?.focus();
         return;
       }
-      // todo validNumber 인증 확인 로직 추가
-      alert('인증 로직 시작');
-      setStep((prev) => prev + 1);
-    }
-  };
+      const { status } = (await emailVerify({
+        emailAddress: userEmail,
+        code: Number(validNumber)
+      })) as unknown as { status: string };
 
-  const formatTime = (time: number): string => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      if (status == 'SUCCESS') {
+        setStep((prev) => prev + 1);
+      }
+      if (status == 'FAIL') {
+        setValidNumber('');
+        setIsError(true);
+        inputRef.current?.focus();
+        return;
+      }
+    }
   };
 
   return (
@@ -164,6 +190,15 @@ const EmailCertification = ({
             </button>
           </div>
         </div>
+        {emailError ? (
+          <div className="flex ml-4">
+            <div className="text-red-700 text-xs font-normal font-pretendard leading-tight">
+              *등록되지 않은 이메일입니다.
+            </div>
+          </div>
+        ) : (
+          ''
+        )}
       </motion.div>
 
       {isRequest && (
@@ -192,7 +227,7 @@ const EmailCertification = ({
                 />
               </div>
               <div className="text-red-700 text-base font-medium font-pretendard">
-                {formatTime(validTime)}
+                {invertSecond(validTime)}
               </div>
             </div>
           </div>
