@@ -20,7 +20,7 @@ const JobPosition = () => {
   return (
     <div>
       <div className="mt-6 w-[393px] h-[72px] py-[25px] bg-white border-b-4 border-neutral-200 items-center justify-end relative">
-        <div className="text-center text-black text-base font-medium font-['Pretendard'] leading-snug">
+        <div className="text-center text-black text-md font-medium font-pretendard leading-snug">
           직무선택
         </div>
         <div
