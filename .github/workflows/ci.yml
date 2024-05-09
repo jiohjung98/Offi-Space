@@ -14,14 +14,14 @@ jobs:
     steps:
       - name: Create .env file
         run: |
-          touch .env.local
-          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env.local
+          touch .env
+          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '18'
-      - run: yarn install
-      - run: yarn lint
+          node-version: '20'
+      - run: npm run install
+      - run: npm run lint
 
   build:
     name: Build
@@ -30,14 +30,14 @@ jobs:
     steps:
       - name: Create .env file
         run: |
-          touch .env.local
-          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env.local
+          touch .env
+          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '18'
-      - run: yarn install
-      - run: CI='false' yarn build
+          node-version: '20'
+      - run: npm run install
+      - run: CI='false' npm run build
 
   test:
     name: Test
@@ -46,11 +46,11 @@ jobs:
     steps:
       - name: Create .env file
         run: |
-          touch .env.local
-          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env.local
+          touch .env
+          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
         with:
-          node-version: '18'
-      - run: yarn install
-      - run: yarn test
+          node-version: '20'
+      - run: npm run install
+      - run: npm run test
