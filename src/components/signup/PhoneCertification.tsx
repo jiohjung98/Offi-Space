@@ -2,6 +2,9 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import ToBack from '../shared/sign/ToBack';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';
 import { motion } from 'framer-motion';
+import { invertSecond } from '@/utils/invertSecond';
+import { useMutation } from 'react-query';
+import { phoneauthrequest, phoneauthverify } from '@/api/auth/auth.post.api';
 
 const PhoneCertification = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -12,6 +15,18 @@ const PhoneCertification = () => {
   const [isError, setIsError] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const startRef = useRef<HTMLInputElement>(null);
+
+  const { mutateAsync: phoneRequest } = useMutation((number: string) => {
+    return phoneauthrequest({
+      phoneNumber: number
+    });
+  });
+
+  const { mutateAsync: phoneVerify } = useMutation(
+    ({ phoneNumber, code }: { phoneNumber: string; code: number }) => {
+      return phoneauthverify({ phoneNumber, code });
+    }
+  );
 
   const handlePhoneNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const regex = e.target.value
@@ -66,11 +81,15 @@ const PhoneCertification = () => {
     return () => clearInterval(intervalId);
   }, [isRequest, validTime]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (btnStatus == 'SECOND') {
-      //todo 인증 전송 로직 추가
-      setIsRequest(true);
-      setBtnStatus('THIRD');
+      const { status } = (await phoneRequest(phoneNumber.replace(/-/g, ''))) as {
+        status: string;
+      };
+      if (status == 'SUCCESS') {
+        setIsRequest(true);
+        setBtnStatus('THIRD');
+      }
     }
     if (btnStatus == 'THIRD') {
       if (validNumber.length != 6) {
@@ -79,15 +98,15 @@ const PhoneCertification = () => {
         inputRef.current?.focus();
         return;
       }
-      // todo validNumber 인증 확인 로직 추가
-      alert('인증 로직 시작');
-    }
-  };
+      const { status } = (await phoneVerify({
+        phoneNumber: phoneNumber.replace(/-/g, ''),
+        code: Number(validNumber)
+      })) as { status: string };
 
-  const formatTime = (time: number): string => {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      if (status == 'SUCCESS') {
+        alert('성공');
+      }
+    }
   };
 
   return (
@@ -171,7 +190,7 @@ const PhoneCertification = () => {
                 />
               </div>
               <div className="text-red-700 text-base font-medium font-pretendard">
-                {formatTime(validTime)}
+                {invertSecond(validTime)}
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 
 const FindPasswordPage = () => {
   const [step, setStep] = useState(0);
+
   return (
     <MainContainer>
       {step === 0 ? <EmailCertification setStep={setStep} /> : null}

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import JobPositionItem from './JobPositionItem';
-import { jobPosition } from '@/constant/jobPosition';
+import { jobPosition as allPostion } from '@/constant/jobPosition';
 import { motion } from 'framer-motion';
 
 const JobPosition = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [allPosition, setAllPosition] = useState(() => Object.keys(jobPosition));
   const [selectPosition, setSelectPosition] = useState<string | null>(null);
 
   const handleClick = (title: string) => {
@@ -14,6 +13,8 @@ const JobPosition = () => {
 
   const handleSubmit = () => {
     //todo : 선택한 직무 넘기기
+    const res = allPostion?.find((item) => item.title === selectPosition);
+    console.log(res?.description);
     alert('클릭');
   };
 
@@ -33,9 +34,9 @@ const JobPosition = () => {
       </div>
 
       <ul className="mt-[34px] mx-auto w-[361px]">
-        {allPosition?.map((position) => (
+        {allPostion?.map((position, i) => (
           <motion.li
-            key={position}
+            key={i}
             initial={{ opacity: 0, translateX: -90 }}
             transition={{
               duration: 0.6,
@@ -46,7 +47,7 @@ const JobPosition = () => {
               translateX: 0
             }}>
             <JobPositionItem
-              title={position}
+              title={position.title}
               handleClick={handleClick}
               selectPosition={selectPosition}
             />
