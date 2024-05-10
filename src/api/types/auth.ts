@@ -49,6 +49,11 @@ export interface IEmailAuth extends IEmail {
   code: number;
 }
 
+export interface IEmailAuth2 {
+  emailAddress: string;
+  code: number;
+}
+
 export interface ITokenRefresh {
   // 아직 타입 안들어옴
 }

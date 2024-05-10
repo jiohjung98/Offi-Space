@@ -1,6 +1,6 @@
 // import PhoneCertification from '@/components/signup/PhoneCertification';
 import MainContainer from '@/components/shared/MainContainer';
-import EamilVerification from '@/components/signup/EamilVertification';
+import EmaillVerification from '@/components/signup/EmailVerification';
 // import JobPosition from '@/components/signup/JobPosition';
 
 const SignUpPage = () => {
@@ -10,7 +10,7 @@ const SignUpPage = () => {
     <MainContainer>
       {/* <PhoneCertification /> */}
       {/* <JobPosition /> */}
-      <EamilVerification/>
+      <EmaillVerification/>
     </MainContainer>
   );
 };
