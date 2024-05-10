@@ -40,6 +40,7 @@ const EmailVerification = () => {
       /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
     const isValid = emailRegEx.test(e.target.value);
     setEmailValid(isValid);
+    setIsPartnerShip(false);
   };
 
   const handleValidNumberChange = async (e: ChangeEvent<HTMLInputElement>) => {
