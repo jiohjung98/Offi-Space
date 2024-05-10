@@ -50,7 +50,7 @@ const EmailVerification = () => {
       try {
         const { status } = await emailVerify({
           emailAddress: userEmail,
-          code: Number(regex) // 여기도 변경해야 함
+          code: Number(regex) 
         });
   
         if (status === 'SUCCESS') {
@@ -79,6 +79,9 @@ const EmailVerification = () => {
       setValidTime(300);
       setTimerExpired(false);
     } catch (error) {
+      if (error.response.data.errorCode === '1-003') {
+        setIsPartnerShip(true);
+      }
       setIsError(true);
     }
   };

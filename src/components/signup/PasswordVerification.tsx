@@ -25,7 +25,7 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
           translateX: 0
         }}>
         <div className="text-black text-[22px] font-semibold font-pretendard leading-[30.80px] mt-[24px] ml-4">
-          {userName}님, 비밀번호를 설정해주세요.
+          회원가입을 위한<br/>정보를 입력해주세요.
         </div>
       </motion.div>
       <motion.div
@@ -121,7 +121,7 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
           opacity: 1,
           translateX: 0
         }}>
-        <div className="mt-[62px] ml-4 border-b border-neutral-300">
+        <div className="mt-[29px] ml-4 border-b border-neutral-300">
           <div className="flex">
             <label
               htmlFor="password"
@@ -162,7 +162,7 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
             className='mb-auto'
             width={14}
             height={14} />
-          <div className="ml-[8px] text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">안전한 계정을 위해 8~20자리 비밀번호를 입력해주세요.</div>
+          <div className="ml-[8px] text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">*영문 (대문자 포함), 숫자, 특수문자 중 2가지 이상 조합 8~16자리</div>
         </div>
       </motion.div>
     </div>
