@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ToBack from '../shared/sign/ToBack';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -8,6 +8,17 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [showJobPosition, setShowJobPosition] = useState(false);
+    const [selectedJob, setSelectedJob] = useState<string | null>(null);
+    const [allAgreed, setAllAgreed] = useState(false);
+    const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
+    const [termsCheckIcon, setTermsCheckIcon] = useState(false);
+    const [serviceTermsCheckIcon, setServiceTermsCheckIcon] = useState(false);
+    const [privacyTermsCheckIcon, setPrivacyTermsCheckIcon] = useState(false);
+    const [marketingTermsCheckIcon, setMarketingTermsCheckIcon] = useState(false);
+
+    useEffect(() => {
+        checkFormValidity();
+    }, [passwordError, selectedJob, allAgreed, termsCheckIcon, serviceTermsCheckIcon, privacyTermsCheckIcon, marketingTermsCheckIcon]);
 
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newPassword = e.target.value;
@@ -28,8 +39,71 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
         setShowJobPosition(true);
     };
 
-    return (
+    const checkFormValidity = () => {
+        if (passwordError === '' && selectedJob && serviceTermsCheckIcon && privacyTermsCheckIcon) {
+            setNextButtonDisabled(false);
+        } else {
+            setNextButtonDisabled(true);
+        }
+    };
 
+    const handleAllAgreed = () => {
+        const newAllAgreed = !allAgreed;
+        setAllAgreed(newAllAgreed);
+        setTermsCheckIcon(newAllAgreed);
+        setServiceTermsCheckIcon(newAllAgreed);
+        setPrivacyTermsCheckIcon(newAllAgreed);
+        setMarketingTermsCheckIcon(newAllAgreed);
+        checkFormValidity();
+    };
+
+    const handleServiceTermsCheck = () => {
+        const newServiceTermsCheckIcon = !serviceTermsCheckIcon;
+        setServiceTermsCheckIcon(newServiceTermsCheckIcon);
+        checkAllAgreed();
+        checkFormValidity();
+        updateAllAgreedIcon();
+    };
+
+    const handlePrivacyTermsCheck = () => {
+        const newPrivacyTermsCheckIcon = !privacyTermsCheckIcon;
+        setPrivacyTermsCheckIcon(newPrivacyTermsCheckIcon);
+        checkAllAgreed();
+        checkFormValidity();
+        updateAllAgreedIcon();
+    };
+
+    const handleMarketingTermsCheck = () => {
+        const newMarketingTermsCheckIcon = !marketingTermsCheckIcon;
+        setMarketingTermsCheckIcon(newMarketingTermsCheckIcon);
+        checkAllAgreed();
+        checkFormValidity();
+        updateAllAgreedIcon();
+    };
+
+    const updateAllAgreedIcon = () => {
+        if (serviceTermsCheckIcon && privacyTermsCheckIcon && marketingTermsCheckIcon) {
+            setAllAgreed(true);
+            setTermsCheckIcon(true);
+        } else {
+            setAllAgreed(false);
+            setTermsCheckIcon(false);
+        }
+    };
+
+    const checkAllAgreed = () => {
+        if (serviceTermsCheckIcon && privacyTermsCheckIcon && marketingTermsCheckIcon) {
+            setAllAgreed(true);
+        } else {
+            setAllAgreed(false);
+        }
+    };
+
+    const handleNextButtonClick = () => {
+
+    };
+
+    return (
         <div className="max-w-[360px] mx-auto">
             {!showJobPosition && (
                 <><ToBack /><motion.div
@@ -163,7 +237,7 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                                         id="job"
                                         type="text"
                                         className="outline-none w-full cursor-pointer"
-                                        placeholder="직무를 목록에서 선택해주세요."
+                                        placeholder={selectedJob ? selectedJob : "직무를 목록에서 선택해주세요."}
                                         readOnly
                                     />
                                 </div>
@@ -174,6 +248,53 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                                     height={7} />
                             </div>
                         </div>
+                        <div className="h-[181px] bg-stone-50 rounded-lg ml-4 mt-[55px]">
+                            <button onClick={handleAllAgreed} className="w-full h-12 bg-white rounded-lg border border-neutral-300 flex items-center">
+                                {allAgreed ? (
+                                    <Image src="/CheckedIcon.svg" alt="CheckIcon" className="ml-[17px]" width={12} height={10} />
+                                ) : (
+                                    <Image src="/CheckIcon.svg" alt="CheckIcon Logo" className="ml-[17px]" width={12} height={10} />
+                                )}
+                                <div className="text-neutral-600 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">모두 동의합니다</div>
+                            </button>
+                            <button onClick={handleServiceTermsCheck} className="w-[328px] h-[21px] items-center inline-flex mt-[24px]">
+                                {serviceTermsCheckIcon ? (
+                                    <Image src="/CheckedIcon.svg" alt="CheckIcon" className="ml-[17px]" width={12} height={10} />
+                                ) : (
+                                    <Image src="/CheckSubIcon.svg" alt="CheckSubIcon Logo" className="ml-[17px]" width={12} height={10} />
+                                )}
+                                <div className="w-full justify-start items-center flex justify-between">
+                                    <div className="text-stone-500 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">(필수) 서비스 이용약관 동의</div>
+                                    <Image src="/RightArrowIcon.svg" alt="RightArrowIcon Logo" width={6} height={12} />
+                                </div>
+                            </button>
+                            <button onClick={handlePrivacyTermsCheck} className="w-[328px] h-[21px] items-center inline-flex mt-[12px]">
+                                {privacyTermsCheckIcon ? (
+                                    <Image src="/CheckedIcon.svg" alt="CheckIcon" className="ml-[17px]" width={12} height={10} />
+                                ) : (
+                                    <Image src="/CheckSubIcon.svg" alt="CheckSubIcon Logo" className="ml-[17px]" width={12} height={10} />
+                                )}
+                                <div className="w-full justify-start items-center flex justify-between">
+                                    <div className="text-stone-500 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">(필수) 개인정보 수집 및 이용동의</div>
+                                    <Image src="/RightArrowIcon.svg" alt="RightArrowIcon Logo" width={6} height={12} />
+                                </div>
+                            </button>
+                            <button onClick={handleMarketingTermsCheck} className="w-[328px] h-[21px] items-center inline-flex mt-[12px]">
+                                {marketingTermsCheckIcon ? (
+                                    <Image src="/CheckedIcon.svg" alt="CheckIcon" className="ml-[17px]" width={12} height={10} />
+                                ) : (
+                                    <Image src="/CheckSubIcon.svg" alt="CheckSubIcon Logo" className="ml-[17px]" width={12} height={10} />
+                                )}
+                                <div className="w-full justify-start items-center flex justify-between">
+                                    <div className="text-stone-500 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">(선택) 마케팅 정보 수집 및 이용 동의</div>
+                                    <Image src="/RightArrowIcon.svg" alt="RightArrowIcon Logo" width={6} height={12} />
+                                </div>
+                            </button>
+                            <button className={`w-full h-12 mt-[32px] mb-[48px] rounded-lg border border-neutral-300 ${nextButtonDisabled ? 'cursor-not-allowed' : 'cursor-pointer bg-indigo-700 text-white'}`} onClick={handleNextButtonClick} disabled={nextButtonDisabled}>
+                                <div className={`text-center text-[15px] font-normal font-['Pretendard'] leading-snug ${nextButtonDisabled ? 'text-zinc-400' : 'text-white'}`}>다음</div>
+                            </button>
+
+                        </div>
                     </motion.div></>
             )}
             {showJobPosition && (
@@ -181,78 +302,11 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.1 }}
                 >
-                    <JobPosition />
+                    <JobPosition setSelectedJob={setSelectedJob} setShowJobPosition={setShowJobPosition} />
                 </motion.div>
             )}
-            <motion.div
-                    initial={{ opacity: 0, translateX: -90 }}
-                    transition={{
-                        duration: 0.4,
-                        ease: 'easeInOut',
-                        delay: 0.3
-                    }}
-                    animate={{
-                        opacity: 1,
-                        translateX: 0
-                    }}>
-            <div className="h-[181px] bg-stone-50 rounded-lg ml-4 mt-[55px]">
-                <button className="w-full h-12 bg-white rounded-lg border border-neutral-300 flex items-center">
-                    <Image src="/CheckIcon.svg"
-                        alt="CheckIcon Logo"
-                        className='ml-[17px]'
-                        width={12}
-                        height={10} />
-                    <div className="text-neutral-600 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">모두 동의합니다</div>
-                </button>
-                <button className="w-[328px] h-[21px] items-center inline-flex mt-[24px]">
-                    <Image src="/CheckSubIcon.svg"
-                        alt="CheckSubIcon Logo"
-                        className='ml-[17px]'
-                        width={12}
-                        height={10} />
-                    <div className="w-full justify-start items-center flex justify-between">
-                        <div className="text-stone-500 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">(필수) 서비스 이용약관 동의 </div>
-                        <Image src="/RightArrowIcon.svg"
-                            alt="RightArrowIcon Logo"
-                            width={6}
-                            height={12} />
-                    </div>
-                </button>
-                <button className="w-[328px] h-[21px] items-center inline-flex mt-[12px]">
-                    <Image src="/CheckSubIcon.svg"
-                        alt="CheckSubIcon Logo"
-                        className='ml-[17px]'
-                        width={12}
-                        height={10} />
-                    <div className="w-full justify-start items-center flex justify-between">
-                        <div className="text-stone-500 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">(필수) 개인정보 수집 및 이용동의</div>
-                        <Image src="/RightArrowIcon.svg"
-                            alt="RightArrowIcon Logo"
-                            width={6}
-                            height={12} />
-                    </div>
-                </button>
-                <button className="w-[328px] h-[21px] items-center inline-flex mt-[12px]">
-                    <Image src="/CheckSubIcon.svg"
-                        alt="CheckSubIcon Logo"
-                        className='ml-[17px]'
-                        width={12}
-                        height={10} />
-                    <div className="w-full justify-start items-center flex justify-between">
-                        <div className="text-stone-500 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">(선택) 마케팅 정보 수집 및 이용 동의 </div>
-                        <Image src="/RightArrowIcon.svg"
-                            alt="RightArrowIcon Logo"
-                            width={6}
-                            height={12} />
-                    </div>
-                </button>
-                <button className="w-full h-12 mt-[32px] mb-[48px] rounded-lg border border-neutral-300">
-                <div className="text-center text-zinc-400 text-[15px] font-normal font-['Pretendard'] leading-snug">다음</div>
-                    </button>
-            </div>
-            </motion.div>
         </div>
     );
 };

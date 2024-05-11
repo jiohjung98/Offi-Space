@@ -3,20 +3,22 @@ import JobPositionItem from './JobPositionItem';
 import { jobPosition as allPostion } from '@/constant/jobPosition';
 import { motion } from 'framer-motion';
 
-const JobPosition = () => {
+const JobPosition = ({ setSelectedJob, setShowJobPosition }: { setSelectedJob: (job: string) => void; setShowJobPosition: (show: boolean) => void; }) => {
   //todo : 이미 선택된 직무를 다시 변경 할 수 있으니까 초기 직무선택값을 받아야함
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectPosition, setSelectPosition] = useState<string | null>(null);
 
   const handleClick = (title: string) => {
     setSelectPosition(title);
+    setSelectedJob(title);
   };
 
   const handleSubmit = () => {
     //todo : 선택한 직무 넘기기
     const res = allPostion?.find((item) => item.title === selectPosition);
     console.log(res?.description);
-    alert('클릭');
+    setShowJobPosition(false);
+    
   };
 
   return (
@@ -27,7 +29,7 @@ const JobPosition = () => {
         </div>
         <div
           onClick={() => {
-            //todo : 모달 닫기
+            handleSubmit()
           }}
           className="w-[18px] h-[18px] absolute top-[25px] right-[16px] cursor-pointer">
           <img src="/sign/positionClose.png" alt="" className="w-full" />

@@ -1,5 +1,6 @@
 import MainContainer from '@/components/shared/MainContainer';
-import PhoneCertification from '@/components/signup/PhoneCertification';
+import EmailVerification from '@/components/signup/EmailVerification';
+// import PhoneCertification from '@/components/signup/PhoneCertification';
 // import JobPosition from '@/components/signup/JobPosition';
 
 const SignUpPage = () => {
@@ -7,7 +8,7 @@ const SignUpPage = () => {
   // const [step, setStep] = useState<number>(0);
   return (
     <MainContainer>
-      <PhoneCertification/>
+      <EmailVerification/>
     </MainContainer>
   );
 };
