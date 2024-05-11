@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import ToBack from '../shared/sign/ToBack';
 import { useMutation } from 'react-query';
@@ -49,17 +50,17 @@ const EmailVerification = () => {
     
     if (regex.length === 6) {
       try {
-        const { status } = await emailVerify({
+        const { status } = (await emailVerify({
           emailAddress: userEmail,
           code: Number(regex) 
-        });
+        })) as unknown as { status: string };
   
         if (status === 'SUCCESS') {
           console.log('인증 성공');
           console.log(status);
           setIsEmailConfirmed(true);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
         const errorResponse = error.response.data;
         const errorCode = errorResponse.errorCode;
@@ -72,14 +73,13 @@ const EmailVerification = () => {
     }
   };
   
-  
   const handleRetryClick = async () => {
     try {
       await emailRequest(userEmail);
       setShowVerification(true);
       setValidTime(300);
       setTimerExpired(false);
-    } catch (error) {
+    } catch (error: any) {
       if (error.response.data.errorCode === '1-003') {
         setIsPartnerShip(true);
       }
