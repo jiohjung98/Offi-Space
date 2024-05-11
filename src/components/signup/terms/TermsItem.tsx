@@ -3,22 +3,27 @@ import React, { Dispatch, MouseEvent } from 'react';
 interface TermsItemProps {
   title: string;
   description: string;
+  subTitle: string;
   checked: boolean;
   onChange: (e: MouseEvent<HTMLElement>, checked: boolean) => void;
   setOpenModal: Dispatch<React.SetStateAction<boolean>>;
   setModalDescription: Dispatch<React.SetStateAction<string | null>>;
+  setModalSubTitle: Dispatch<React.SetStateAction<string | null>>;
 }
 
 const TermsItem = ({
   title,
   description,
   checked,
+  subTitle,
+  setModalSubTitle,
   onChange,
   setOpenModal,
   setModalDescription
 }: TermsItemProps) => {
   const handleClick = () => {
     setModalDescription(description);
+    setModalSubTitle(subTitle);
     setOpenModal(true);
   };
 

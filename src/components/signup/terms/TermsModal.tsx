@@ -7,10 +7,15 @@ import remarkGfm from 'remark-gfm';
 
 interface TermsModalProps {
   modalDescription: string | null;
+  modalSubTitle: string | null;
   setOpenModal: Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TermsModal = ({ modalDescription, setOpenModal }: TermsModalProps) => {
+const TermsModal = ({
+  modalDescription,
+  setOpenModal,
+  modalSubTitle
+}: TermsModalProps) => {
   console.log(modalDescription);
   const $portalRoot = document.getElementById('root-portal');
 
@@ -25,7 +30,7 @@ const TermsModal = ({ modalDescription, setOpenModal }: TermsModalProps) => {
     <MainContainer>
       <div className="mt-3 w-[393px] h-[72px] py-[25px] bg-white border-b-4 border-neutral-200 items-center justify-end relative">
         <div className="text-center text-black text-md font-medium font-pretendard leading-snug">
-          직무선택
+          {modalSubTitle}
         </div>
         <div
           onClick={() => {

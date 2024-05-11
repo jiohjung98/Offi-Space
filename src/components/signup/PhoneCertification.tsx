@@ -104,6 +104,7 @@ const PhoneCertification = () => {
       })) as { status: string };
 
       if (status == 'SUCCESS') {
+        //todo 여기서 SUCCESS (휴대폰 인증 완료 ) 되면 이메일 인증으로 넘어가면 됩니다.
         alert('성공');
       }
     }

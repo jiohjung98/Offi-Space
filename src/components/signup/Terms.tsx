@@ -15,6 +15,7 @@ const Terms = () => {
   );
   const [openModal, setOpenModal] = useState(false);
   const [modalDescription, setModalDescription] = useState<string | null>(null);
+  const [modalSubTitle, setModalSubTitle] = useState<string | null>(null);
 
   const handleAgreement = (id: number, checked: boolean) => {
     setTermsAgreements((prevTerms) => {
@@ -38,7 +39,13 @@ const Terms = () => {
   const isAllTermsChecked = termsAgreements.every((term) => term.checked);
 
   if (openModal) {
-    return <TermsModal setOpenModal={setOpenModal} modalDescription={modalDescription} />;
+    return (
+      <TermsModal
+        setOpenModal={setOpenModal}
+        modalDescription={modalDescription}
+        modalSubTitle={modalSubTitle}
+      />
+    );
   }
 
   return (
@@ -49,6 +56,8 @@ const Terms = () => {
           <TermsItem
             checked={term.checked}
             title={term.title}
+            subTitle={term.subTitle}
+            setModalSubTitle={setModalSubTitle}
             description={term.description}
             setOpenModal={setOpenModal}
             setModalDescription={setModalDescription}
