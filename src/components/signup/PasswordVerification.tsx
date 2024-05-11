@@ -51,35 +51,39 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
     const handleServiceTermsCheck = () => {
         const newServiceTermsCheckIcon = !serviceTermsCheckIcon;
         setServiceTermsCheckIcon(newServiceTermsCheckIcon);
-        checkAllAgreed();
-        checkFormValidity();
         updateAllAgreedIcon();
-    };
-
-    const handlePrivacyTermsCheck = () => {
-        const newPrivacyTermsCheckIcon = !privacyTermsCheckIcon;
-        setPrivacyTermsCheckIcon(newPrivacyTermsCheckIcon);
-        checkAllAgreed();
-        checkFormValidity();
-        updateAllAgreedIcon();
-    };
-
-    const handleMarketingTermsCheck = () => {
-        const newMarketingTermsCheckIcon = !marketingTermsCheckIcon;
-        setMarketingTermsCheckIcon(newMarketingTermsCheckIcon);
-        checkAllAgreed();
-        checkFormValidity();
-        updateAllAgreedIcon();
-    };
-
-    const checkAllAgreed = () => {
-        if (serviceTermsCheckIcon && privacyTermsCheckIcon && marketingTermsCheckIcon) {
+        if (newServiceTermsCheckIcon && privacyTermsCheckIcon && marketingTermsCheckIcon) {
             setAllAgreed(true);
-        } else {
+        }
+        else {
             setAllAgreed(false);
         }
     };
-
+    
+    const handlePrivacyTermsCheck = () => {
+        const newPrivacyTermsCheckIcon = !privacyTermsCheckIcon;
+        setPrivacyTermsCheckIcon(newPrivacyTermsCheckIcon);
+        updateAllAgreedIcon();
+        if (serviceTermsCheckIcon && newPrivacyTermsCheckIcon && marketingTermsCheckIcon) {
+            setAllAgreed(true);
+        }
+        else {
+            setAllAgreed(false);
+        }
+    };
+    
+    const handleMarketingTermsCheck = () => {
+        const newMarketingTermsCheckIcon = !marketingTermsCheckIcon;
+        setMarketingTermsCheckIcon(newMarketingTermsCheckIcon);
+        updateAllAgreedIcon();
+        if (serviceTermsCheckIcon && privacyTermsCheckIcon && newMarketingTermsCheckIcon) {
+            setAllAgreed(true);
+        }
+        else {
+            setAllAgreed(false);
+        }
+    };
+    
     const updateAllAgreedIcon = () => {
         if (allAgreed) {
             setTermsCheckIcon(true);
@@ -96,7 +100,6 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
         setMarketingTermsCheckIcon(newAllAgreed);
         checkFormValidity();
     };
-
 
     const handleNextButtonClick = () => {
         // todo
