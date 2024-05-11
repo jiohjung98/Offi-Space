@@ -212,11 +212,10 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                                     />
                                 </div>
                                 <Image src="/DropDown.svg"
-                                    alt="ExclamationMark Logo"
+                                    alt="DropDown Logo"
                                     className='mr-[10px]'
                                     width={14}
                                     height={7} />
-
                             </div>
                         </div>
                     </motion.div></>
@@ -231,6 +230,61 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                     <JobPosition />
                 </motion.div>
             )}
+            <div className="h-[181px] bg-stone-50 rounded-lg ml-4 mt-[55px]">
+                <button className="w-full h-12 bg-white rounded-lg border border-neutral-300 flex items-center">
+                    <Image src="/CheckIcon.svg"
+                        alt="CheckIcon Logo"
+                        className='ml-[17px]'
+                        width={12}
+                        height={10} />
+                    <div className="text-neutral-600 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">모두 동의합니다</div>
+                </button>
+                <button className="w-[328px] h-[21px] items-center inline-flex mt-[24px]">
+                    <Image src="/CheckSubIcon.svg"
+                        alt="CheckSubIcon Logo"
+                        className='ml-[17px]'
+                        width={12}
+                        height={10} />
+                    <div className="w-full justify-start items-center flex justify-between">
+                        <div className="text-stone-500 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">(필수) 서비스 이용약관 동의 </div>
+                        <Image src="/RightArrowIcon.svg"
+                            alt="RightArrowIcon Logo"
+                            width={6}
+                            height={12} />
+                    </div>
+                </button>
+                <button className="w-[328px] h-[21px] items-center inline-flex mt-[12px]">
+                    <Image src="/CheckSubIcon.svg"
+                        alt="CheckSubIcon Logo"
+                        className='ml-[17px]'
+                        width={12}
+                        height={10} />
+                    <div className="w-full justify-start items-center flex justify-between">
+                        <div className="text-stone-500 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">(필수) 개인정보 수집 및 이용동의</div>
+                        <Image src="/RightArrowIcon.svg"
+                            alt="RightArrowIcon Logo"
+                            width={6}
+                            height={12} />
+                    </div>
+                </button>
+                <button className="w-[328px] h-[21px] items-center inline-flex mt-[12px]">
+                    <Image src="/CheckSubIcon.svg"
+                        alt="CheckSubIcon Logo"
+                        className='ml-[17px]'
+                        width={12}
+                        height={10} />
+                    <div className="w-full justify-start items-center flex justify-between">
+                        <div className="text-stone-500 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">(선택) 마케팅 정보 수집 및 이용 동의 </div>
+                        <Image src="/RightArrowIcon.svg"
+                            alt="RightArrowIcon Logo"
+                            width={6}
+                            height={12} />
+                    </div>
+                </button>
+                <button className="w-full h-12 mt-[32px] mb-[48px] rounded-lg border border-neutral-300">
+                <div className="text-center text-zinc-400 text-[15px] font-normal font-['Pretendard'] leading-snug">다음</div>
+                    </button>
+            </div>
         </div>
     );
 };
