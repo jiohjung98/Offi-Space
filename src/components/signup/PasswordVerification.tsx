@@ -76,17 +76,6 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                                 </div>
                             </div>
                         </div>
-                    </motion.div><motion.div
-                        initial={{ opacity: 0, translateX: -90 }}
-                        transition={{
-                            duration: 0.4,
-                            ease: 'easeInOut',
-                            delay: 0.6
-                        }}
-                        animate={{
-                            opacity: 1,
-                            translateX: 0
-                        }}>
                         <div className="mt-[37px] ml-4 border-b border-neutral-300">
                             <div className="flex items-center">
                                 <div className="flex">
@@ -124,17 +113,6 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                                 height={14} />
                             <div className="ml-[8px] text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">본인 인증, 예약 확인, 약관 변경 안내 등을 위해 사용됩니다.<br />사내 이메일로 정확하게 입력해주세요.</div>
                         </div>
-                    </motion.div><motion.div
-                        initial={{ opacity: 0, translateX: -90 }}
-                        transition={{
-                            duration: 0.4,
-                            ease: 'easeInOut',
-                            delay: 0.6
-                        }}
-                        animate={{
-                            opacity: 1,
-                            translateX: 0
-                        }}>
                         <div className="mt-[29px] ml-4 border-b border-neutral-300">
                             <div className="flex">
                                 <label
@@ -161,17 +139,6 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                                 </div>
                             </div>
                         </div>
-                    </motion.div><motion.div
-                        initial={{ opacity: 0, translateX: -90 }}
-                        transition={{
-                            duration: 0.4,
-                            ease: 'easeInOut',
-                            delay: 0.6
-                        }}
-                        animate={{
-                            opacity: 1,
-                            translateX: 0
-                        }}>
                         <div className='mt-[15px] ml-4 flex'>
                             <Image
                                 src="/ExclamationMark.svg"
@@ -181,17 +148,6 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                                 height={14} />
                             <div className="ml-[8px] text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">*영문 (대문자 포함), 숫자, 특수문자 중 2가지 이상 조합 8~16자리</div>
                         </div>
-                    </motion.div><motion.div
-                        initial={{ opacity: 0, translateX: -90 }}
-                        transition={{
-                            duration: 0.4,
-                            ease: 'easeInOut',
-                            delay: 0.6
-                        }}
-                        animate={{
-                            opacity: 1,
-                            translateX: 0
-                        }}>
                         <div className="mt-[29px] ml-4 border-b border-neutral-300">
                             <div className="flex">
                                 <label
@@ -230,6 +186,17 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                     <JobPosition />
                 </motion.div>
             )}
+            <motion.div
+                    initial={{ opacity: 0, translateX: -90 }}
+                    transition={{
+                        duration: 0.4,
+                        ease: 'easeInOut',
+                        delay: 0.3
+                    }}
+                    animate={{
+                        opacity: 1,
+                        translateX: 0
+                    }}>
             <div className="h-[181px] bg-stone-50 rounded-lg ml-4 mt-[55px]">
                 <button className="w-full h-12 bg-white rounded-lg border border-neutral-300 flex items-center">
                     <Image src="/CheckIcon.svg"
@@ -285,6 +252,7 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                 <div className="text-center text-zinc-400 text-[15px] font-normal font-['Pretendard'] leading-snug">다음</div>
                     </button>
             </div>
+            </motion.div>
         </div>
     );
 };
