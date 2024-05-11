@@ -9,7 +9,6 @@ export const setCookie = (name: string, value: string, options?: CookieSetOption
 };
 
 export const getCookie = (name: string, options?: CookieGetOptions) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return cookies.get(name, options);
 };
 

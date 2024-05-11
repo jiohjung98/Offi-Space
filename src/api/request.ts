@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
 import { instance } from './instance';

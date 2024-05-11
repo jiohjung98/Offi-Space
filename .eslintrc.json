@@ -21,10 +21,13 @@
   "rules": {
     "react-refresh/only-export-components": [
       "warn",
+    
       {
         "allowConstantExport": true
       }
     ],
-    "react/jsx-pascal-case": "warn"
+
+   "no-unused-vars": "warn",
+  "react/jsx-pascal-case": "warn"
   }
 }
