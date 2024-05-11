@@ -207,10 +207,16 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                                         id="job"
                                         type="text"
                                         className="outline-none w-full cursor-pointer"
-                                        placeholder="직무를 선택해주세요."
+                                        placeholder="직무를 목록에서 선택해주세요."
                                         readOnly
                                     />
                                 </div>
+                                <Image src="/DropDown.svg"
+                                    alt="ExclamationMark Logo"
+                                    className='mr-[10px]'
+                                    width={14}
+                                    height={7} />
+
                             </div>
                         </div>
                     </motion.div></>
