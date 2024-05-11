@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Dispatch, MouseEvent } from 'react';
 
 interface TermsItemProps {

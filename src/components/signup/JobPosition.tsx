@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import JobPositionItem from './JobPositionItem';
 import { jobPosition as allPostion } from '@/constant/jobPosition';
@@ -5,7 +6,6 @@ import { motion } from 'framer-motion';
 
 const JobPosition = ({ setSelectedJob, setShowJobPosition }: { setSelectedJob: (job: string) => void; setShowJobPosition: (show: boolean) => void; }) => {
   //todo : 이미 선택된 직무를 다시 변경 할 수 있으니까 초기 직무선택값을 받아야함
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectPosition, setSelectPosition] = useState<string | null>(null);
 
   const handleClick = (title: string) => {
