@@ -50,7 +50,7 @@ export const signin = async ({ memberEmail, memberPassword }: ISignIn) => {
 /* 이메일 인증 요청 */
 
 export const emailauthrequest = async ({ emailAddress }: IEmail) => {
-  const response = await postRequest<null, IEmail>('auth/email', {
+  const response = await postRequest<null, IEmail>(`auth/email`, {
     emailAddress
   });
 
@@ -60,7 +60,7 @@ export const emailauthrequest = async ({ emailAddress }: IEmail) => {
 /* 이메일 코드 검증 */
 
 export const emailauthverify = async ({ emailAddress, code }: IEmailAuth) => {
-  const response = await postRequest<null, IEmailAuth>('auth/email/verify', {
+  const response = await postRequest<null, IEmailAuth>(`auth/email/verify`, {
     emailAddress,
     code
   });
