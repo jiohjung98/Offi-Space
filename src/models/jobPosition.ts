@@ -1,0 +1,18 @@
+export type JobPositionType =
+  | ''
+  | 'OWNER'
+  | 'OFFICE'
+  | 'FINANCE'
+  | 'HRD'
+  | 'PROMOTION'
+  | 'ITDEV'
+  | 'ITPLAN'
+  | 'SALE'
+  | 'DESIGN'
+  | 'SERVICE'
+  | 'CONTENTS'
+  | 'RND'
+  | 'PROFESSIONAL'
+  | 'MD'
+  | 'INSURANCE'
+  | 'ETC';

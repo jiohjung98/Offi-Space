@@ -1,5 +1,5 @@
 // import { ICommon } from '../types/common';
-import { basicResponse } from '@/models/response';
+import { basicResponse } from '../../models/response';
 import { postRequest } from '../request';
 import {
   ISignIn,
@@ -71,7 +71,7 @@ export const emailauthverify = async ({ emailAddress, code }: IEmailAuth) => {
 /* 휴대전화 번호 인증 요청*/
 
 export const phoneauthrequest = async ({ phoneNumber }: IPhoneNumber) => {
-  const response = await postRequest<null, IPhoneNumber>('/auth/phone', {
+  const response = await postRequest<null, IPhoneNumber>(`auth/phone`, {
     phoneNumber
   });
 
@@ -81,7 +81,7 @@ export const phoneauthrequest = async ({ phoneNumber }: IPhoneNumber) => {
 /* 휴대전화 번호 코드 검증*/
 
 export const phoneauthverify = async ({ phoneNumber, code }: IPhoneAuth) => {
-  const response = await postRequest<null, IPhoneAuth>('/auth/phone/verify', {
+  const response = await postRequest<null, IPhoneAuth>(`auth/phone/verify`, {
     phoneNumber,
     code
   });

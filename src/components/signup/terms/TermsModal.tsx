@@ -16,7 +16,6 @@ const TermsModal = ({
   setOpenModal,
   modalSubTitle
 }: TermsModalProps) => {
-  console.log(modalDescription);
   const $portalRoot = document.getElementById('root-portal');
 
   if ($portalRoot == null) {
@@ -27,8 +26,8 @@ const TermsModal = ({
   }
 
   return createPortal(
-    <MainContainer>
-      <div className="mt-3 w-[393px] h-[72px] py-[25px] bg-white border-b-4 border-neutral-200 items-center justify-end relative">
+    <div className="h-full w-full mx-auto z-10 fixed top-0 left-1/2 transform -translate-x-1/2 bg-white overflow-y-auto">
+      <div className="mx-auto mt-3 w-[393px] h-[72px] py-[25px] bg-white border-b-4 border-neutral-200 items-center justify-end relative">
         <div className="text-center text-black text-md font-medium font-pretendard leading-snug">
           {modalSubTitle}
         </div>
@@ -47,7 +46,7 @@ const TermsModal = ({
           {modalDescription}
         </ReactMarkdown>
       </div>
-    </MainContainer>,
+    </div>,
     $portalRoot
   );
 };

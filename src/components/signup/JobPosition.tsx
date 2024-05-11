@@ -1,33 +1,51 @@
-import React, { useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import JobPositionItem from './JobPositionItem';
 import { jobPosition as allPostion } from '@/constant/jobPosition';
 import { motion } from 'framer-motion';
+import { createPortal } from 'react-dom';
 
-const JobPosition = () => {
-  //todo : 이미 선택된 직무를 다시 변경 할 수 있으니까 초기 직무선택값을 받아야함
+interface JobPositionProps {
+  setJobModal: Dispatch<React.SetStateAction<boolean>>;
+  setSelectedJob: Dispatch<React.SetStateAction<string>>;
+  selectedJob: string;
+}
+
+const JobPosition = ({ setJobModal, setSelectedJob, selectedJob }: JobPositionProps) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectPosition, setSelectPosition] = useState<string | null>(null);
+  const [initialPosition, setInitialPosition] = useState<string>(selectedJob);
+
+  const $portalRoot = document.getElementById('root-portal');
+
+  if ($portalRoot == null) {
+    return null;
+  }
 
   const handleClick = (title: string) => {
+    setInitialPosition('');
     setSelectPosition(title);
   };
 
   const handleSubmit = () => {
-    //todo : 선택한 직무 넘기기
     const res = allPostion?.find((item) => item.title === selectPosition);
-    console.log(res?.description);
-    alert('클릭');
+    if (res) {
+      setSelectedJob(res?.title);
+      setJobModal(false);
+    }
   };
 
-  return (
-    <div>
-      <div className="mt-3 w-[393px] h-[72px] py-[25px] bg-white border-b-4 border-neutral-200 items-center justify-end relative">
+  return createPortal(
+    <div className="w-[361px] h-[190px] rounded-lg mx-auto">
+      <div className="mt-3 h-[72px] py-[25px] bg-white border-b-4 border-neutral-200 items-center justify-end relative">
         <div className="text-center text-black text-md font-medium font-pretendard leading-snug">
           직무선택
         </div>
         <div
           onClick={() => {
-            //todo : 모달 닫기
+            setJobModal(false);
           }}
           className="w-[18px] h-[18px] absolute top-[25px] right-[16px] cursor-pointer">
           <img src="/sign/positionClose.png" alt="" className="w-full" />
@@ -51,6 +69,7 @@ const JobPosition = () => {
               title={position.title}
               handleClick={handleClick}
               selectPosition={selectPosition}
+              initialPosition={initialPosition}
             />
           </motion.li>
         ))}
@@ -72,7 +91,8 @@ const JobPosition = () => {
           </button>
         </div>
       )}
-    </div>
+    </div>,
+    $portalRoot
   );
 };
 
