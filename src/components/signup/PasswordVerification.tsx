@@ -47,16 +47,6 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
         }
     };
 
-    const handleAllAgreed = () => {
-        const newAllAgreed = !allAgreed;
-        setAllAgreed(newAllAgreed);
-        setTermsCheckIcon(newAllAgreed);
-        setServiceTermsCheckIcon(newAllAgreed);
-        setPrivacyTermsCheckIcon(newAllAgreed);
-        setMarketingTermsCheckIcon(newAllAgreed);
-        checkFormValidity();
-    };
-
     const handleServiceTermsCheck = () => {
         const newServiceTermsCheckIcon = !serviceTermsCheckIcon;
         setServiceTermsCheckIcon(newServiceTermsCheckIcon);
@@ -64,7 +54,7 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
         checkFormValidity();
         updateAllAgreedIcon();
     };
-
+    
     const handlePrivacyTermsCheck = () => {
         const newPrivacyTermsCheckIcon = !privacyTermsCheckIcon;
         setPrivacyTermsCheckIcon(newPrivacyTermsCheckIcon);
@@ -72,7 +62,7 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
         checkFormValidity();
         updateAllAgreedIcon();
     };
-
+    
     const handleMarketingTermsCheck = () => {
         const newMarketingTermsCheckIcon = !marketingTermsCheckIcon;
         setMarketingTermsCheckIcon(newMarketingTermsCheckIcon);
@@ -80,17 +70,7 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
         checkFormValidity();
         updateAllAgreedIcon();
     };
-
-    const updateAllAgreedIcon = () => {
-        if (serviceTermsCheckIcon && privacyTermsCheckIcon && marketingTermsCheckIcon) {
-            setAllAgreed(true);
-            setTermsCheckIcon(true);
-        } else {
-            setAllAgreed(false);
-            setTermsCheckIcon(false);
-        }
-    };
-
+    
     const checkAllAgreed = () => {
         if (serviceTermsCheckIcon && privacyTermsCheckIcon && marketingTermsCheckIcon) {
             setAllAgreed(true);
@@ -98,9 +78,27 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
             setAllAgreed(false);
         }
     };
+    
+    const updateAllAgreedIcon = () => {
+        if (allAgreed) {
+            setTermsCheckIcon(true);
+        } else {
+            setTermsCheckIcon(false);
+        }
+    };
+    
+    const handleAllAgreed = () => {
+        const newAllAgreed = !allAgreed;
+        setAllAgreed(newAllAgreed);
+        setServiceTermsCheckIcon(newAllAgreed);
+        setPrivacyTermsCheckIcon(newAllAgreed);
+        setMarketingTermsCheckIcon(newAllAgreed);
+        checkFormValidity();
+    };
+    
 
     const handleNextButtonClick = () => {
-
+        // todo
     };
 
     return (
@@ -249,14 +247,18 @@ const PasswordVerification = ({ userName, userEmail }: { userName: string; userE
                             </div>
                         </div>
                         <div className="h-[181px] bg-stone-50 rounded-lg ml-4 mt-[55px]">
-                            <button onClick={handleAllAgreed} className="w-full h-12 bg-white rounded-lg border border-neutral-300 flex items-center">
                                 {allAgreed ? (
+                                    <button onClick={handleAllAgreed} className="w-full h-12 bg-white rounded-lg border border-indigo-700 flex items-center">
                                     <Image src="/CheckedIcon.svg" alt="CheckIcon" className="ml-[17px]" width={12} height={10} />
+                                    <div className="text-indigo-600 text-sm font-semibold font-['Pretendard'] leading-[21px] ml-[10px]">모두 동의합니다</div>
+                                    </button>
                                 ) : (
+                                    <button onClick={handleAllAgreed} className="w-full h-12 bg-white rounded-lg border border-neutral-300 flex items-center">
                                     <Image src="/CheckIcon.svg" alt="CheckIcon Logo" className="ml-[17px]" width={12} height={10} />
+                                    <div className="text-neutral-700 text-sm font-semibold font-['Pretendard'] leading-[21px] ml-[10px]">모두 동의합니다</div>
+                                    </button>
                                 )}
-                                <div className="text-neutral-600 text-sm font-normal font-['Pretendard'] leading-[21px] ml-[10px]">모두 동의합니다</div>
-                            </button>
+                                
                             <button onClick={handleServiceTermsCheck} className="w-[328px] h-[21px] items-center inline-flex mt-[24px]">
                                 {serviceTermsCheckIcon ? (
                                     <Image src="/CheckedIcon.svg" alt="CheckIcon" className="ml-[17px]" width={12} height={10} />
