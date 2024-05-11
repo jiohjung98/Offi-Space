@@ -1,4 +1,3 @@
-// import PhoneCertification from '@/components/signup/PhoneCertification';
 import MainContainer from '@/components/shared/MainContainer';
 import EmaillVerification from '@/components/signup/EmailVerification';
 // import JobPosition from '@/components/signup/JobPosition';

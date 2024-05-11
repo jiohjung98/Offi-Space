@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import JobPositionItem from './JobPositionItem';
-import { jobPosition } from '@/constant/jobPosition';
+import { jobPosition as allPostion } from '@/constant/jobPosition';
 import { motion } from 'framer-motion';
 
 const JobPosition = () => {
+  //todo : 이미 선택된 직무를 다시 변경 할 수 있으니까 초기 직무선택값을 받아야함
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [allPosition, setAllPosition] = useState(() => Object.keys(jobPosition));
   const [selectPosition, setSelectPosition] = useState<string | null>(null);
 
   const handleClick = (title: string) => {
@@ -14,12 +14,14 @@ const JobPosition = () => {
 
   const handleSubmit = () => {
     //todo : 선택한 직무 넘기기
+    const res = allPostion?.find((item) => item.title === selectPosition);
+    console.log(res?.description);
     alert('클릭');
   };
 
   return (
     <div>
-      <div className="mt-6 w-[393px] h-[72px] py-[25px] bg-white border-b-4 border-neutral-200 items-center justify-end relative">
+      <div className="mt-3 w-[393px] h-[72px] py-[25px] bg-white border-b-4 border-neutral-200 items-center justify-end relative">
         <div className="text-center text-black text-md font-medium font-pretendard leading-snug">
           직무선택
         </div>
@@ -33,9 +35,9 @@ const JobPosition = () => {
       </div>
 
       <ul className="mt-[34px] mx-auto w-[361px]">
-        {allPosition?.map((position) => (
+        {allPostion?.map((position, i) => (
           <motion.li
-            key={position}
+            key={i}
             initial={{ opacity: 0, translateX: -90 }}
             transition={{
               duration: 0.6,
@@ -46,7 +48,7 @@ const JobPosition = () => {
               translateX: 0
             }}>
             <JobPositionItem
-              title={position}
+              title={position.title}
               handleClick={handleClick}
               selectPosition={selectPosition}
             />

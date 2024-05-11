@@ -1,5 +1,5 @@
 // import { ICommon } from '../types/common';
-
+import { basicResponse } from '@/models/response';
 import { postRequest } from '../request';
 import {
   ISignIn,
@@ -55,7 +55,7 @@ export const emailauthrequest = async ({ emailAddress }: IEmail) => {
     emailAddress
   });
 
-  return response;
+  return response as basicResponse | null;
 };
 
 /* 이메일 코드 검증 */
@@ -66,7 +66,7 @@ export const emailauthverify = async ({ emailAddress, code }: IEmailAuth) => {
     code
   });
 
-  return response;
+  return response as basicResponse | null;
 };
 
 /* 휴대전화 번호 인증 요청*/
@@ -76,7 +76,7 @@ export const phoneauthrequest = async ({ phoneNumber }: IPhoneNumber) => {
     phoneNumber
   });
 
-  return response;
+  return response as basicResponse | null;
 };
 
 /* 휴대전화 번호 코드 검증*/
@@ -87,7 +87,7 @@ export const phoneauthverify = async ({ phoneNumber, code }: IPhoneAuth) => {
     code
   });
 
-  return response;
+  return response as basicResponse | null;
 };
 
 /* 로그아웃*/

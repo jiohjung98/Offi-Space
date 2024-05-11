@@ -3,8 +3,8 @@ import ToBack from '../shared/sign/ToBack';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';
 import { motion } from 'framer-motion';
 import { useMutation } from 'react-query';
-import { emailauthrequest, emailauthverify } from '@/api/auth/auth.post.api';
 import { invertSecond } from '@/utils/invertSecond';
+import { emailauthrequest, emailauthverify } from '@/api/auth/auth.post.api';
 
 interface EmailCertificationProps {
   setStep: Dispatch<React.SetStateAction<number>>;
@@ -88,7 +88,7 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
 
   const handleClick = async () => {
     if (btnStatus == 'SECOND') {
-      const { status } = (await emailRequest(userEmail)) as unknown as { status: string };
+      const { status } = (await emailRequest(userEmail)) as { status: string };
       if (status == 'SUCCESS') {
         setIsRequest(true);
         setBtnStatus('THIRD');
@@ -109,7 +109,7 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
       const { status } = (await emailVerify({
         emailAddress: userEmail,
         code: Number(validNumber)
-      })) as unknown as { status: string };
+      })) as { status: string };
 
       if (status == 'SUCCESS') {
         setStep((prev) => prev + 1);
