@@ -88,7 +88,7 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
 
   const handleClick = async () => {
     if (btnStatus == 'SECOND') {
-      const { status } = (await emailRequest(userEmail)) as { status: string };
+      const { status } = await emailRequest(userEmail);
       if (status == 'SUCCESS') {
         setIsRequest(true);
         setBtnStatus('THIRD');
@@ -106,20 +106,25 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
         inputRef.current?.focus();
         return;
       }
-      const { status } = (await emailVerify({
-        emailAddress: userEmail,
-        code: Number(validNumber)
-      })) as { status: string };
+      try {
+        const { status } = (await emailVerify({
+          emailAddress: userEmail,
+          code: Number(validNumber)
+        })) as { status: string };
 
-      if (status == 'SUCCESS') {
-        setStep((prev) => prev + 1);
-      }
-      //todo error 처리가 안됨 AxiosError: Request failed with status code 400
-      if (status == 'FAIL') {
-        setValidNumber('');
-        setIsError(true);
-        inputRef.current?.focus();
-        return;
+        if (status == 'SUCCESS') {
+          setStep((prev) => prev + 1);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        const errorResponse = error.response.data;
+        const errorCode = errorResponse.errorCode;
+        if (errorCode === '1-005') {
+          setValidNumber('');
+          setIsError(true);
+          inputRef.current?.focus();
+          return;
+        }
       }
     }
   };

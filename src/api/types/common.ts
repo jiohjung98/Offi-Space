@@ -1,5 +1,5 @@
 export interface ICommon<T> {
-  status: number;
+  status: string;
   code: string;
   message: string;
   value: T;

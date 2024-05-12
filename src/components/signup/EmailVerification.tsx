@@ -53,10 +53,10 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
 
     if (regex.length === 6) {
       try {
-        const { status } = (await emailVerify({
+        const { status } = await emailVerify({
           emailAddress: userEmail,
           code: Number(regex)
-        })) as unknown as { status: string };
+        });
 
         if (status === 'SUCCESS') {
           onNext(userName, userEmail);

@@ -16,10 +16,12 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
   const [btnStatus, setBtnStatus] = useState<SignupBtnStatus>('FIRST');
   const [isRequest, setIsRequest] = useState(false);
   const [validNumber, setValidNumber] = useState<string>('');
-  const [validTime, setValidTime] = useState<number>(180);
+  const [validTime, setValidTime] = useState<number>(300);
   const [isError, setIsError] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const startRef = useRef<HTMLInputElement>(null);
+
+  console.log(isError);
 
   const { mutateAsync: phoneRequest } = useMutation((number: string) => {
     return phoneauthrequest({
@@ -103,20 +105,25 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
         inputRef.current?.focus();
         return;
       }
-      const { status } = (await phoneVerify({
-        phoneNumber: phoneNumber.replace(/-/g, ''),
-        code: Number(validNumber)
-      })) as { status: string };
+      try {
+        const { status } = await phoneVerify({
+          phoneNumber: phoneNumber.replace(/-/g, ''),
+          code: Number(validNumber)
+        });
 
-      if (status == 'SUCCESS') {
-        onNext(phoneNumber);
-      }
-      //todo error 처리가 안됨 AxiosError: Request failed with status code 400
-      if (status == 'FAIL') {
-        setValidNumber('');
-        setIsError(true);
-        inputRef.current?.focus();
-        return;
+        if (status == 'SUCCESS') {
+          onNext(phoneNumber);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        const errorResponse = error.response.data;
+        const errorCode = errorResponse.errorCode;
+        if (errorCode === '1-007') {
+          setValidNumber('');
+          setIsError(true);
+          inputRef.current?.focus();
+          return;
+        }
       }
     }
   };
@@ -186,7 +193,17 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
       </motion.div>
 
       {isRequest && (
-        <>
+        <motion.div
+          initial={{ opacity: 0, translateX: -90 }}
+          transition={{
+            duration: 0.4,
+            ease: 'easeInOut',
+            delay: 0.3
+          }}
+          animate={{
+            opacity: 1,
+            translateX: 0
+          }}>
           <div className="mt-[48px] border-b border-neutral-300">
             <div className="pb-2 flex">
               <div className="flex-grow flex">
@@ -213,7 +230,7 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
           ) : (
             ''
           )}
-        </>
+        </motion.div>
       )}
     </div>
   );
