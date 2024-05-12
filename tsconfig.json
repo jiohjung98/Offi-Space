@@ -15,20 +15,13 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@app/*": [
-        "src/app/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@types/*": [
-        "src/types/*"
-      ], 
-      "@utils/*": [
-        "src/utils/*"
-      ],
+      "@app/*": ["src/app/*"],
+      "@components/*": ["src/components/*"],
+      "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@constant/*": ["src/constant/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.mjs",],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.mjs"],
   "exclude": ["node_modules"]
 }

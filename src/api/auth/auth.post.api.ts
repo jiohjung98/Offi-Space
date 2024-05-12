@@ -1,4 +1,5 @@
 // import { ICommon } from '../types/common';
+import { basicResponse } from '@/models/response';
 import { postRequest } from '../request';
 import {
   ISignIn,
@@ -9,6 +10,7 @@ import {
   IPhoneNumber,
   IPhoneAuth
 } from '../types/auth';
+
 
 /* 회원가입 */
 
@@ -49,22 +51,22 @@ export const signin = async ({ memberEmail, memberPassword }: ISignIn) => {
 /* 이메일 인증 요청 */
 
 export const emailauthrequest = async ({ emailAddress }: IEmail) => {
-  const response = await postRequest<null, IEmail>('auth/email', {
+  const response = await postRequest<null, IEmail>(`auth/email`, {
     emailAddress
   });
 
-  return response;
+  return response as basicResponse | null;
 };
 
 /* 이메일 코드 검증 */
 
 export const emailauthverify = async ({ emailAddress, code }: IEmailAuth) => {
-  const response = await postRequest<null, IEmailAuth>('auth/email/verify', {
+  const response = await postRequest<null, IEmailAuth>(`auth/email/verify`, {
     emailAddress,
     code
   });
 
-  return response;
+  return response as basicResponse | null;
 };
 
 /* 휴대전화 번호 인증 요청*/
@@ -74,7 +76,7 @@ export const phoneauthrequest = async ({ phoneNumber }: IPhoneNumber) => {
     phoneNumber
   });
 
-  return response;
+  return response as basicResponse | null;
 };
 
 /* 휴대전화 번호 코드 검증*/
@@ -85,7 +87,7 @@ export const phoneauthverify = async ({ phoneNumber, code }: IPhoneAuth) => {
     code
   });
 
-  return response;
+  return response as basicResponse | null;
 };
 
 /* 로그아웃*/
