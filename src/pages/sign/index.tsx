@@ -27,7 +27,7 @@ const SignHomePage = () => {
         <SignUpButton />
       </div>
 
-      <div className="text-center mt-[26px]">
+      <div className="text-center mt-[26px] mb-8">
         <span className="text-neutral-400 text-sm font-light font-pretendard">
           비밀번호를 잊으셨나요?{' '}
         </span>

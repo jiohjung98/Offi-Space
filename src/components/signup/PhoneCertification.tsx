@@ -111,6 +111,13 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
       if (status == 'SUCCESS') {
         onNext(phoneNumber);
       }
+      //todo error 처리가 안됨 AxiosError: Request failed with status code 400
+      if (status == 'FAIL') {
+        setValidNumber('');
+        setIsError(true);
+        inputRef.current?.focus();
+        return;
+      }
     }
   };
 

@@ -54,6 +54,7 @@ export const emailauthrequest = async ({ emailAddress }: IEmail) => {
     emailAddress
   });
 
+  // todo : response 타입 설정 필요 임시로 basicResponse로 해놓음
   return response as basicResponse | null;
 };
 

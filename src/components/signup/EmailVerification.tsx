@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { emailauthrequest, emailauthverify } from '../../api/auth/auth.post.api';
 import { ApplyValues } from '@/models/applyValues';
+import { invertSecond } from '@/utils/invertSecond';
 
 interface EmailVerification {
   onNext: (name: ApplyValues['memberName'], email: ApplyValues['memberEmail']) => void;
@@ -17,7 +18,6 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
   const [emailValid, setEmailValid] = useState(false);
   const [validNumber, setValidNumber] = useState<string>('');
   const [validTime, setValidTime] = useState<number>(300);
-  const [isError, setIsError] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const startRef = useRef<HTMLInputElement>(null);
   const [isInvalidCode, setIsInvalidCode] = useState(false);
@@ -59,12 +59,9 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
         })) as unknown as { status: string };
 
         if (status === 'SUCCESS') {
-          console.log('인증 성공');
-          console.log(status);
           onNext(userName, userEmail);
         }
       } catch (error: any) {
-        console.error(error);
         const errorResponse = error.response.data;
         const errorCode = errorResponse.errorCode;
         console.log('인증 실패 - 에러 코드:', errorCode);
@@ -86,7 +83,6 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
       if (error.response.data.errorCode === '1-003') {
         setIsPartnerShip(true);
       }
-      setIsError(true);
     }
   };
 
@@ -95,13 +91,13 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
   }, []);
 
   useEffect(() => {
-    if (isError) {
+    if (isInvalidCode) {
       const timeoutId = setTimeout(() => {
-        setIsError(false);
+        setIsInvalidCode(false);
       }, 4000);
       return () => clearTimeout(timeoutId);
     }
-  }, [isError]);
+  }, [isInvalidCode]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -289,13 +285,12 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
                   maxLength={6}
                 />
               </div>
-              <div className="flex items-center ml-4 text-indigo-600 text-xs font-semibold font-pretendard">
-                {Math.floor(validTime / 60)}:
-                {validTime % 60 < 10 ? `0${validTime % 60}` : validTime % 60}
+              <div className="text-red-700 text-base font-medium font-pretendard">
+                {invertSecond(validTime)}
               </div>
             </div>
           </div>
-          <div className="mt-[15px] ml-4 flex">
+          <div className="mt-[15px] ml-4 flex mb-8">
             <Image
               src="/ExclamationMark.svg"
               alt="ExclamationMark Logo"

@@ -114,6 +114,7 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
       if (status == 'SUCCESS') {
         setStep((prev) => prev + 1);
       }
+      //todo error 처리가 안됨 AxiosError: Request failed with status code 400
       if (status == 'FAIL') {
         setValidNumber('');
         setIsError(true);
@@ -202,7 +203,17 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
       </motion.div>
 
       {isRequest && (
-        <>
+        <motion.div
+          initial={{ opacity: 0, translateX: -90 }}
+          transition={{
+            duration: 0.4,
+            ease: 'easeInOut',
+            delay: 0.6
+          }}
+          animate={{
+            opacity: 1,
+            translateX: 0
+          }}>
           <div className="mt-[48px] border-b border-neutral-300 ml-4">
             {isError ? (
               <div className="flex flex-row-reverse">
@@ -241,7 +252,7 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
               이메일로 발송된 코드를 입력해주세요.
             </div>
           </div>
-        </>
+        </motion.div>
       )}
     </div>
   );

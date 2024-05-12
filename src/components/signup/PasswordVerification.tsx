@@ -161,7 +161,7 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
           <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full ml-[4px]" />
           {passwordError && (
             <div className="text-red-700 font-semibold font-pretendard text-xs ml-auto">
-              비밀번호 형식을 확인해주세요.
+              *비밀번호 형식을 확인해주세요.
             </div>
           )}
         </div>
