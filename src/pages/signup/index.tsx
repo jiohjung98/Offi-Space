@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { signup } from '@/api/auth/auth.post.api';
 import { ISignUp } from '@/api/types/auth';
 import MainContainer from '@/components/shared/MainContainer';
@@ -5,13 +6,16 @@ import EmailVerification from '@/components/signup/EmailVerification';
 import PasswordVerification from '@/components/signup/PasswordVerification';
 import PhoneCertification from '@/components/signup/PhoneCertification';
 import { ApplyValues } from '@/models/applyValues';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 
 const SignUpPage = () => {
+  const router = useRouter();
   const [applyValues, setApplyValues] = useState<Partial<ApplyValues>>({
-    step: 1
+    step: 2
   });
+  const [error, setError] = useState(false);
 
   const { mutateAsync: signUpReq } = useMutation(
     ({
@@ -30,6 +34,18 @@ const SignUpPage = () => {
         memberPhone,
         memberSmsAgree
       });
+    },
+    {
+      onSuccess: () =>
+        setApplyValues((prev) => ({
+          ...prev,
+          step: (prev.step as number) + 1
+        })),
+      onError: (error: any) => {
+        if (error.response.data) {
+          setError(true);
+        }
+      }
     }
   );
 
@@ -79,6 +95,10 @@ const SignUpPage = () => {
       });
     }
   }, [applyValues, signUpReq]);
+
+  if (error) {
+    router.replace('signup/error');
+  }
 
   return (
     <MainContainer>

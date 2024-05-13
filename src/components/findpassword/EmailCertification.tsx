@@ -191,6 +191,7 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
                 value={userEmail}
                 onChange={handleEmailChange}
                 ref={startRef}
+                autoComplete="off"
               />
             </div>
             <button
