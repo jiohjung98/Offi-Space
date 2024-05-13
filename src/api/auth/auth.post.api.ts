@@ -17,20 +17,16 @@ export const signup = async ({
   memberEmail,
   memberPassword,
   memberName,
-  memberGender,
   memberJob,
   memberPhone,
-  memberBirthDate,
   memberSmsAgree
 }: ISignUp) => {
   const response = await postRequest<ICommon<null>, ISignUp>('members', {
     memberEmail,
     memberPassword,
     memberName,
-    memberGender,
     memberJob,
     memberPhone,
-    memberBirthDate,
     memberSmsAgree
   });
   return response;

@@ -7,10 +7,8 @@ export interface ISignIn {
 
 export interface ISignUp extends ISignIn {
   memberName: string;
-  memberGender: string;
   memberJob: string;
   memberPhone: string;
-  memberBirthDate: string;
   memberSmsAgree: boolean;
 }
 
@@ -19,7 +17,6 @@ export interface IUpdateProfile {
   memberName: string;
   memberJob: string;
   memberPhone: string;
-  memberBirthDate: string;
 }
 
 export interface IPhoneNumber {

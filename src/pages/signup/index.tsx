@@ -18,20 +18,16 @@ const SignUpPage = () => {
       memberEmail,
       memberPassword,
       memberName,
-      memberGender,
       memberJob,
       memberPhone,
-      memberBirthDate,
       memberSmsAgree
     }: ISignUp) => {
       return signup({
         memberEmail,
         memberPassword,
         memberName,
-        memberGender,
         memberJob,
         memberPhone,
-        memberBirthDate,
         memberSmsAgree
       });
     }
@@ -77,10 +73,8 @@ const SignUpPage = () => {
         memberEmail: applyValues.memberEmail as string,
         memberPassword: applyValues.memberPassword as string,
         memberName: applyValues.memberName as string,
-        memberGender: applyValues.memberGender as string,
         memberJob: applyValues.memberJob as string,
         memberPhone: applyValues.memberPhone as string,
-        memberBirthDate: applyValues.memberBirthDate as string,
         memberSmsAgree: applyValues.memberSmsAgree as boolean
       });
     }
