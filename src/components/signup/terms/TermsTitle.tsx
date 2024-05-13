@@ -1,5 +1,5 @@
 import React, { MouseEvent } from 'react';
-
+//
 interface TermsTitleProps {
   checked: boolean;
   onChange: (e: MouseEvent<HTMLElement>, checked: boolean) => void;

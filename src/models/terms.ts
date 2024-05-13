@@ -5,3 +5,4 @@ export interface TermsType {
   required: boolean;
   subTitle: string;
 }
+//
