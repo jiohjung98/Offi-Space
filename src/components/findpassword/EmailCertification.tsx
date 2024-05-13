@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, Dispatch, useEffect, useRef, useState } from 'react';
 import ToBack from '../shared/sign/ToBack';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';

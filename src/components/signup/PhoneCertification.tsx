@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import ToBack from '../shared/sign/ToBack';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';
@@ -129,7 +128,6 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
         if (status == 'SUCCESS') {
           onNext(phoneNumber);
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         const errorResponse = error.response.data;
         const errorCode = errorResponse.errorCode;

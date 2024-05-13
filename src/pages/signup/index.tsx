@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { signup } from '@/api/auth/auth.post.api';
 import { ISignUp } from '@/api/types/auth';
 import MainContainer from '@/components/shared/MainContainer';

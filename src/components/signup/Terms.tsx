@@ -22,6 +22,28 @@ const Terms = ({ setIsSmsAgree, setIsAllAgreeChecked }: TermsProps) => {
   const [modalDescription, setModalDescription] = useState<string | null>(null);
   const [modalSubTitle, setModalSubTitle] = useState<string | null>(null);
 
+  useEffect(() => {
+    const isAllRequireChecked = termsAgreements
+      .filter((term) => term.required)
+      .every((term) => term.checked);
+    if (isAllRequireChecked) {
+      setIsAllAgreeChecked(true);
+    } else {
+      setIsAllAgreeChecked(false);
+    }
+  }, [termsAgreements, setIsAllAgreeChecked]);
+
+  useEffect(() => {
+    const isSmsChecked = termsAgreements
+      .filter((term) => term.required == false)
+      .every((term) => term.checked);
+    if (isSmsChecked) {
+      setIsSmsAgree(true);
+    } else {
+      setIsSmsAgree(false);
+    }
+  }, [termsAgreements, setIsSmsAgree]);
+
   const handleAgreement = (id: number, checked: boolean) => {
     setTermsAgreements((prevTerms) => {
       return prevTerms.map((term) => (term.id === id ? { ...term, checked } : term));
@@ -35,28 +57,6 @@ const Terms = ({ setIsSmsAgree, setIsAllAgreeChecked }: TermsProps) => {
   };
 
   const isAllTermsChecked = termsAgreements.every((term) => term.checked);
-
-  useEffect(() => {
-    const isAllRequireChecked = termsAgreements
-      .filter((term) => term.required)
-      .every((term) => term.checked);
-    if (isAllRequireChecked) {
-      setIsAllAgreeChecked(true);
-    } else {
-      setIsAllAgreeChecked(false);
-    }
-  }, [termsAgreements]);
-
-  useEffect(() => {
-    const isSmsChecked = termsAgreements
-      .filter((term) => term.required == false)
-      .every((term) => term.checked);
-    if (isSmsChecked) {
-      setIsSmsAgree(true);
-    } else {
-      setIsSmsAgree(false);
-    }
-  }, [termsAgreements]);
 
   if (openModal) {
     return (

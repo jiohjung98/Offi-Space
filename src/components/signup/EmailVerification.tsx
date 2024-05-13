@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import ToBack from '../shared/sign/ToBack';
 import { useMutation } from 'react-query';

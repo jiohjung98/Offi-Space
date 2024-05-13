@@ -21,7 +21,7 @@ const JobPositionItem = ({
     } else {
       setIsInitSelect(false);
     }
-  }, [initialPosition]);
+  }, [initialPosition, setIsInitSelect, title]);
 
   return (
     <div className="mt-[17px] cursor-pointer" onClick={() => handleClick(title)}>

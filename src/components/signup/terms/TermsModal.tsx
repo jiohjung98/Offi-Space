@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import MainContainer from '@/components/shared/MainContainer';
 import React, { Dispatch } from 'react';
 import { createPortal } from 'react-dom';
 import ReactMarkdown from 'react-markdown';
