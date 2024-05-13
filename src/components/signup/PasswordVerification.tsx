@@ -80,6 +80,25 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
   return (
     <div className="max-w-[360px] mx-auto">
       <ToBack />
+      <div className="ml-4 mb-[50px] flex gap-[12px]">
+        <div>
+          <span className="text-space-purple text-[16.80px] font-bold font-pretendard">
+            3
+          </span>
+          <span className="text-black text-[16.80px] font-medium font-pretendard">
+            {' '}
+            /{' '}
+          </span>
+          <span className="text-black text-[16.80px] font-medium font-pretendard">
+            3 단계
+          </span>
+        </div>
+        <div className="w-[152.40px] h-[25.20px] bg-indigo-700 flex justify-center items-center">
+          <div className="text-center text-white text-sm font-medium font-pretendard">
+            거의 다 완료되었어요!
+          </div>
+        </div>
+      </div>
 
       <div className="text-black text-[22px] font-semibold font-pretendard leading-[30.80px] mt-[24px] ml-4">
         회원가입을 위한

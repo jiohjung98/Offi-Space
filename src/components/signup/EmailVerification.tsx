@@ -142,6 +142,38 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
         transition={{
           duration: 0.4,
           ease: 'easeInOut',
+          delay: 0.2
+        }}
+        animate={{
+          opacity: 1,
+          translateX: 0
+        }}>
+        <div className="ml-4 mb-[50px] flex gap-[12px]">
+          <div>
+            <span className="text-space-purple text-[16.80px] font-bold font-pretendard">
+              2
+            </span>
+            <span className="text-black text-[16.80px] font-medium font-pretendard">
+              {' '}
+              /{' '}
+            </span>
+            <span className="text-black text-[16.80px] font-medium font-pretendard">
+              3 단계
+            </span>
+          </div>
+          <div className="w-[152.40px] h-[25.20px] bg-indigo-700 flex justify-center items-center">
+            <div className="text-center text-white text-sm font-medium font-pretendard">
+              한번 더 확인이 필요해요.
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, translateX: -90 }}
+        transition={{
+          duration: 0.4,
+          ease: 'easeInOut',
           delay: 0.3
         }}
         animate={{

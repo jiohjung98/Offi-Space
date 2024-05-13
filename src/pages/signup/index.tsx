@@ -4,17 +4,15 @@ import MainContainer from '@/components/shared/MainContainer';
 import EmailVerification from '@/components/signup/EmailVerification';
 import PasswordVerification from '@/components/signup/PasswordVerification';
 import PhoneCertification from '@/components/signup/PhoneCertification';
+import SignupDone from '@/components/signup/SignupDone';
 import { ApplyValues } from '@/models/applyValues';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
 
 const SignUpPage = () => {
-  const router = useRouter();
   const [applyValues, setApplyValues] = useState<Partial<ApplyValues>>({
-    step: 2
+    step: 0
   });
-  const [error, setError] = useState(false);
 
   const { mutateAsync: signUpReq } = useMutation(
     ({
@@ -39,12 +37,13 @@ const SignUpPage = () => {
         setApplyValues((prev) => ({
           ...prev,
           step: (prev.step as number) + 1
-        })),
-      onError: (error: any) => {
-        if (error.response.data) {
-          setError(true);
-        }
-      }
+        }))
+      // todo : error 처리 필요
+      // onError: (error: any) => {
+      //   if (error.response.data) {
+      //     setError(true);
+      //   }
+      // }
     }
   );
 
@@ -95,10 +94,6 @@ const SignUpPage = () => {
     }
   }, [applyValues, signUpReq]);
 
-  if (error) {
-    router.replace('signup/error');
-  }
-
   return (
     <MainContainer>
       {applyValues.step === 0 ? <PhoneCertification onNext={handlePhoneNumber} /> : null}
@@ -106,8 +101,7 @@ const SignUpPage = () => {
       {applyValues.step === 2 ? (
         <PasswordVerification onNext={handleRemainData} applyValues={applyValues} />
       ) : null}
-      {/* todo 회원가입 완료 되면,mutateAsync onSucess로 applyValues step 3으로 만들고 done
-      페이지 보이기 */}
+      {applyValues.step === 4 ? <SignupDone /> : null}
     </MainContainer>
   );
 };

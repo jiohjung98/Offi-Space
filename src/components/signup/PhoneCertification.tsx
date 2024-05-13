@@ -145,6 +145,30 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
   return (
     <div className="max-w-[360px] mx-auto">
       <ToBack />
+      <motion.div
+        initial={{ opacity: 0, translateX: -90 }}
+        transition={{
+          duration: 0.4,
+          ease: 'easeInOut',
+          delay: 0.2
+        }}
+        animate={{
+          opacity: 1,
+          translateX: 0
+        }}>
+        <div className="ml-4 mb-[50px]">
+          <span className="text-space-purple text-[16.80px] font-bold font-pretendard">
+            1
+          </span>
+          <span className="text-black text-[16.80px] font-medium font-pretendard">
+            {' '}
+            /{' '}
+          </span>
+          <span className="text-black text-[16.80px] font-medium font-pretendard">
+            3 단계
+          </span>
+        </div>
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0, translateX: -90 }}
