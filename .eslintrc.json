@@ -9,16 +9,11 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended"
   ],
-  "ignorePatterns": [
-    "dist",
-    ".eslintrc.json"
-  ],
+  "ignorePatterns": ["dist", ".eslintrc.json"],
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "react",
-    "react-refresh"
-  ],
+  "plugins": ["react", "react-refresh"],
   "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
     "react-refresh/only-export-components": [
       "warn",
     

@@ -29,7 +29,7 @@ const TermsItem = ({
   };
 
   return (
-    <li className="w-[328px] h-[21px] justify-between items-center inline-flex">
+    <li className="w-[328px] h-[21px] justify-between items-center inline-flex cursor-pointer">
       <div
         onClick={(e) => {
           onChange(e, !checked);

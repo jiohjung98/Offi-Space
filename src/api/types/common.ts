@@ -1,6 +1,6 @@
 export interface ICommon<T> {
-  status: number;
-  code: string;
+  status: string;
+  errorCode: string;
   message: string;
-  value: T;
+  data: T;
 }
