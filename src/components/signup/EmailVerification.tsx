@@ -7,22 +7,25 @@ import Image from 'next/image';
 import { emailauthrequest, emailauthverify } from '../../api/auth/auth.post.api';
 import { ApplyValues } from '@/models/applyValues';
 import { invertSecond } from '@/utils/invertSecond';
+import { SignupBtnStatus } from '@/models/signupBtnStatus';
+import { signError } from '@/constant/signError';
 
 interface EmailVerification {
   onNext: (name: ApplyValues['memberName'], email: ApplyValues['memberEmail']) => void;
 }
 
 const EmailVerification = ({ onNext }: EmailVerification) => {
-  const [userName, setUserName] = useState<string>('');
-  const [userEmail, setUserEmail] = useState<string>('');
-  const [emailValid, setEmailValid] = useState(false);
+  const [userName, setUserName] = useState<string>(''); //유저 이름 입력
+  const [userEmail, setUserEmail] = useState<string>(''); //유저 이메일 입력
+  const [emailValid, setEmailValid] = useState(false); //email valid 상태
   const [validNumber, setValidNumber] = useState<string>('');
   const [validTime, setValidTime] = useState<number>(300);
-  const [showVerification, setShowVerification] = useState(false);
+  const [btnStatus, setBtnStatus] = useState<SignupBtnStatus>('FIRST');
+  const [isRequest, setIsRequest] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const startRef = useRef<HTMLInputElement>(null);
-  const [isInvalidCode, setIsInvalidCode] = useState(false);
-  const [isPartnerShip, setIsPartnerShip] = useState(false);
-  const [timerExpired, setTimerExpired] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { mutateAsync: emailRequest } = useMutation((email: string) => {
     return emailauthrequest({ emailAddress: email });
@@ -34,85 +37,103 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
     }
   );
 
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
-  };
-
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserEmail(e.target.value);
     const emailRegEx =
       /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
     const isValid = emailRegEx.test(e.target.value);
     setEmailValid(isValid);
-    setIsPartnerShip(false);
   };
 
-  const handleValidNumberChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleValidNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
     const regex = e.target.value.replace(/[^0-9]/g, '');
     setValidNumber(regex);
+  };
 
-    if (regex.length === 6) {
+  const handleClick = async () => {
+    if (btnStatus == 'SECOND') {
       try {
-        const { status } = await emailVerify({
+        const { status } = await emailRequest(userEmail);
+        if (status == 'SUCCESS') {
+          setIsRequest(true);
+          setBtnStatus('THIRD');
+        }
+      } catch (error: any) {
+        const errorResponse = error.response.data;
+        const errorCode = errorResponse.errorCode;
+        const select = signError.find((item) => item.errorCode === errorCode);
+        if (select) {
+          setErrorMessage(select.message);
+          setUserEmail('');
+          setBtnStatus('FIRST');
+          startRef.current?.focus();
+          return;
+        }
+      }
+    }
+    if (btnStatus == 'THIRD') {
+      if (validNumber.length != 6) {
+        setValidNumber('');
+        setErrorMessage('6자리 코드를 입력해주세요.');
+        inputRef.current?.focus();
+        return;
+      }
+      try {
+        const { status } = (await emailVerify({
           emailAddress: userEmail,
-          code: Number(regex)
-        });
+          code: Number(validNumber)
+        })) as { status: string };
 
-        if (status === 'SUCCESS') {
+        if (status == 'SUCCESS') {
           onNext(userName, userEmail);
         }
       } catch (error: any) {
         const errorResponse = error.response.data;
         const errorCode = errorResponse.errorCode;
-        console.log('인증 실패 - 에러 코드:', errorCode);
-
-        if (errorCode === '1-005') {
-          setIsInvalidCode(true);
+        const select = signError.find((item) => item.errorCode === errorCode);
+        if (select) {
+          setErrorMessage(select.message);
+          setValidNumber('');
+          inputRef.current?.focus();
+          return;
         }
       }
     }
   };
 
-  const handleRetryClick = async () => {
-    try {
-      await emailRequest(userEmail);
-      setShowVerification(true);
-      setValidTime(300);
-      setTimerExpired(false);
-    } catch (error: any) {
-      if (error.response.data.errorCode === '1-003') {
-        setIsPartnerShip(true);
-      }
+  useEffect(() => {
+    if (emailValid) {
+      setBtnStatus('SECOND');
+    } else {
+      setBtnStatus('FIRST');
     }
-  };
+  }, [emailValid]);
 
   useEffect(() => {
     startRef.current?.focus();
   }, []);
 
   useEffect(() => {
-    if (isInvalidCode) {
-      const timeoutId = setTimeout(() => {
-        setIsInvalidCode(false);
+    let timeoutId: NodeJS.Timeout;
+    if (errorMessage != '') {
+      timeoutId = setTimeout(() => {
+        setErrorMessage('');
       }, 4000);
-      return () => clearTimeout(timeoutId);
     }
-  }, [isInvalidCode]);
+    return () => clearTimeout(timeoutId);
+  }, [errorMessage]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-    if (validTime > 0) {
+
+    if (isRequest && validTime > 0) {
       intervalId = setInterval(() => {
-        setValidTime((prevTime) => {
-          if (prevTime === 1) {
-            setTimerExpired(true);
-          }
-          return prevTime - 1;
-        });
+        setValidTime((prevTime) => prevTime - 1);
       }, 1000);
     }
+
     return () => clearInterval(intervalId);
-  }, [validTime]);
+  }, [isRequest, validTime]);
 
   return (
     <div className="max-w-[360px] mx-auto">
@@ -154,7 +175,7 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
             </label>
             <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full ml-[4px]" />
           </div>
-          <div className="mt-[13px] flex">
+          <div className="mt-[13px] flex mb-2">
             <div className="flex-grow flex items-center">
               <input
                 id="name"
@@ -162,7 +183,8 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
                 className="outline-none w-full"
                 placeholder="이름을 입력해주세요."
                 value={userName}
-                onChange={handleNameChange}
+                onChange={(e) => setUserName(e.target.value)}
+                ref={startRef}
               />
             </div>
           </div>
@@ -180,7 +202,7 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
           translateX: 0
         }}>
         <div className="mt-[37px] ml-4 border-b border-neutral-300">
-          <div className="flex items-center">
+          <div className="flex items-center justify-between">
             <div className="flex">
               <label
                 htmlFor="email"
@@ -189,18 +211,17 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
               </label>
               <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full ml-[4px]" />
             </div>
-            {userEmail && !emailValid && (
-              <div className="text-red-700 font-semibold font-pretendard text-xs ml-auto">
-                *이메일 형식에 맞지 않습니다.
+            {errorMessage != '' && isRequest === false ? (
+              <div className="flex ml-4">
+                <div className="text-red-700 text-xs font-normal font-pretendard leading-tight">
+                  {errorMessage}
+                </div>
               </div>
-            )}
-            {isPartnerShip && !timerExpired && (
-              <div className="text-red-700 font-semibold font-pretendard text-xs ml-auto">
-                계약되지 않은 회사입니다.
-              </div>
+            ) : (
+              ''
             )}
           </div>
-          <div className="mt-[13px] flex">
+          <div className="mt-[13px] flex ">
             <div className="flex-grow flex items-center">
               <input
                 id="email"
@@ -211,21 +232,21 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
                 onChange={handleEmailChange}
               />
             </div>
-            <div className="flex items-center ml-4">
+            <div className="flex items-center ml-4 mb-2">
               <button
-                className={`w-[83px] h-[31px] px-3.5 py-1.5 mb-1 rounded border justify-center items-center gap-2.5 flex text-center text-sm font-medium font-pretendard ${
-                  emailValid
-                    ? 'bg-indigo-700 text-white'
-                    : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                disabled={btnStatus == 'FIRST'}
+                className={`w-[83px] h-[31px] px-3.5 py-1.5 rounded border justify-center items-center gap-2.5 flex text-center text-sm font-normal font-pretendard ${
+                  btnStatus === 'FIRST'
+                    ? 'bg-white text-zinc-400'
+                    : 'bg-space-purple text-white'
                 }`}
-                disabled={!emailValid}
-                onClick={handleRetryClick}>
-                {showVerification ? '재요청' : '중복확인'}
+                onClick={handleClick}>
+                {btnStatus == 'THIRD' ? '인증확인' : '인증전송'}
               </button>
             </div>
           </div>
         </div>
-        <div className="mt-[15px] ml-4 flex">
+        <div className="mt-[8px] ml-4 flex">
           <Image
             src="/ExclamationMark.svg"
             alt="ExclamationMark Logo"
@@ -240,7 +261,7 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
           </div>
         </div>
       </motion.div>
-      {showVerification && (
+      {isRequest && (
         <motion.div
           initial={{ opacity: 0, translateX: -90 }}
           transition={{
@@ -253,7 +274,7 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
             translateX: 0
           }}>
           <div className="mt-[37px] ml-4 border-b border-neutral-300">
-            <div className="flex items-center">
+            <div className="flex items-center justify-between">
               <div className="flex">
                 <label
                   htmlFor="verificationCode"
@@ -262,16 +283,13 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
                 </label>
                 <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full ml-[4px]" />
               </div>
-              {isInvalidCode && !timerExpired && (
-                <div className="text-red-700 font-semibold font-pretendard text-xs ml-auto">
-                  올바르지 않은 코드입니다.
+              {errorMessage != '' ? (
+                <div className="flex flex-row-reverse">
+                  <div className="text-red-700 text-xs font-normal font-pretendard leading-tight">
+                    {errorMessage}
+                  </div>
                 </div>
-              )}
-              {timerExpired && (
-                <div className="text-red-700 font-semibold font-pretendard text-xs ml-auto">
-                  인증 시간이 초과되었습니다.
-                </div>
-              )}
+              ) : null}
             </div>
             <div className="mt-[13px] flex">
               <div className="flex-grow flex items-center">
@@ -283,6 +301,7 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
                   value={validNumber}
                   onChange={handleValidNumberChange}
                   maxLength={6}
+                  ref={inputRef}
                 />
               </div>
               <div className="text-red-700 text-base font-medium font-pretendard">
@@ -290,7 +309,7 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
               </div>
             </div>
           </div>
-          <div className="mt-[15px] ml-4 flex mb-8">
+          <div className="mt-[8px] ml-4 flex mb-8">
             <Image
               src="/ExclamationMark.svg"
               alt="ExclamationMark Logo"

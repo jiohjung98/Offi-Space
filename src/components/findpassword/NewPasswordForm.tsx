@@ -130,7 +130,7 @@ const NewPasswordForm = ({
           </div>
         </div>
       </div>
-      <div className="w-full flex justify-center items-center mx-auto mb-2">
+      <div className="w-full flex justify-center items-center mx-auto mb-4">
         <button
           disabled={!validBtn}
           className={`mt-[250px] w-[361px] h-12 px-3.5 rounded-lg  justify-center items-center inline-flex text-[15px] font-semibold font-pretendard leading-snug
