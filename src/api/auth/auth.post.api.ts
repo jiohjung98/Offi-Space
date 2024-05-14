@@ -3,27 +3,27 @@ import { postRequest } from '../request';
 import {
   ISignIn,
   ISignUp,
-  UserInfoType,
   IEmail,
   IEmailAuth,
   IPhoneNumber,
-  IPhoneAuth
+  IPhoneAuth,
+  UserLoginType
 } from '../types/auth';
 import { ICommon } from '../types/common';
 
 /* 회원가입 */
 
 export const signup = async ({
-  memberEmail,
-  memberPassword,
+  email,
+  password,
   memberName,
   memberJob,
   memberPhone,
   memberSmsAgree
 }: ISignUp) => {
   const response = await postRequest<ICommon<null>, ISignUp>('members', {
-    memberEmail,
-    memberPassword,
+    email,
+    password,
     memberName,
     memberJob,
     memberPhone,
@@ -34,10 +34,10 @@ export const signup = async ({
 
 /* 로그인 */
 
-export const signin = async ({ memberEmail, memberPassword }: ISignIn) => {
-  const response = await postRequest<UserInfoType, ISignIn>('login', {
-    memberEmail,
-    memberPassword
+export const signin = async ({ email, password }: ISignIn) => {
+  const response = await postRequest<UserLoginType, ISignIn>('login', {
+    email,
+    password
   });
 
   return response;

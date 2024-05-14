@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-interface SigninType {
-  email: string;
-  password: string;
-}
+import useLogin from '@/hook/useLogin';
+import { ISignIn } from '@/api/types/auth';
+// interface SigninType {
+//   email: string;
+//   password: string;
+// }
 
 const SigninForm = () => {
   const [isError, setIsError] = useState(false);
@@ -12,12 +13,16 @@ const SigninForm = () => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<SigninType>();
+  } = useForm<ISignIn>();
 
-  const FormSubmit = async (data: SigninType) => {
+  const { mutate } = useLogin();
+
+  const FormSubmit = async (data: ISignIn) => {
+    setIsError(false);
+    const { email, password } = data;
+    mutate({ email, password });
     //todo : signin 처리
     console.log(data);
-    setIsError(true);
   };
 
   useEffect(() => {
