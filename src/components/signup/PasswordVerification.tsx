@@ -78,7 +78,7 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
   }
 
   return (
-    <div className="max-w-[360px] mx-auto">
+    <div className="max-w-[360px] mx-auto ">
       <ToBack />
       <div className="ml-4 mb-[50px] flex gap-[12px]">
         <div>
