@@ -61,3 +61,4 @@ export type FindPassword = Pick<ISignUp, 'password'>;
 export type ChangePassword = Pick<ISignUp, 'password'>;
 export type UserInfoType = ICommon<IUserInfo>;
 export type UserLoginType = ICommon<IToken>;
+export type UserProfile = ICommon<IUpdateProfile>;
