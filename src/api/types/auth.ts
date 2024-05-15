@@ -1,8 +1,8 @@
 import { ICommon } from './common';
 
 export interface ISignIn {
-  memberEmail: string;
-  memberPassword: string;
+  email: string;
+  password: string;
 }
 
 export interface ISignUp extends ISignIn {
@@ -51,9 +51,14 @@ export interface IEmailAuth2 {
   code: number;
 }
 
+export interface IToken {
+  accessToken: string;
+}
 export interface ITokenRefresh {
   // 아직 타입 안들어옴
 }
-export type FindPassword = Pick<ISignUp, 'memberPassword'>;
-export type ChangePassword = Pick<ISignUp, 'memberPassword'>;
+export type FindPassword = Pick<ISignUp, 'password'>;
+export type ChangePassword = Pick<ISignUp, 'password'>;
 export type UserInfoType = ICommon<IUserInfo>;
+export type UserLoginType = ICommon<IToken>;
+export type UserProfile = ICommon<IUpdateProfile>;

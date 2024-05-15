@@ -22,11 +22,9 @@ export const instance: Axios = axios.create({
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const token = getCookie('token') as string;
-    const id = getCookie('id') as string;
     if (config && config.headers) {
       if (token) {
-        config.headers.Authorization = token;
-        config.headers.id = id;
+        config.headers.Authorization = `Bearer ${token}`;
       }
     }
     if (process.env.NODE_ENV === 'development') {
