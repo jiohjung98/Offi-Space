@@ -1,7 +1,10 @@
 import React from 'react';
 import PopularPostsItem from './PopularPostsItem';
+import { usePopularPostsStore } from '@/store/popularPosts.store';
 
 const PopularPosts = () => {
+  const { category } = usePopularPostsStore();
+  console.log(category);
   return (
     <section className="w-[361px] mx-[16px] mt-[24px]">
       <header>

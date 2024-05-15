@@ -1,8 +1,14 @@
 import { useCareerTalk } from '@/store/careerTalk.stroe';
-import React from 'react';
+import { usePopularPostsStore } from '@/store/popularPosts.store';
+import React, { useEffect } from 'react';
 
 const PositionFilter = () => {
   const { initialPosition, setModal } = useCareerTalk();
+  const { setCategory } = usePopularPostsStore();
+
+  useEffect(() => {
+    setCategory(initialPosition);
+  }, [initialPosition, setCategory]);
 
   return (
     <div

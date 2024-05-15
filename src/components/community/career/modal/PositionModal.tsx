@@ -4,12 +4,16 @@ import { jobPosition as allPostion } from '@/constant/jobPosition';
 import { motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { useCareerTalk } from '@/store/careerTalk.stroe';
+import { usePopularPostsStore } from '@/store/popularPosts.store';
 
 const PositionModal = () => {
   const { setModal, initialPosition: selectedJob, setPosition } = useCareerTalk();
+  const { setCategory } = usePopularPostsStore();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const [selectPosition, setSelectPosition] = useState<string | null>(null);
   const [initialPosition, setInitialPosition] = useState<string>(selectedJob);
 
@@ -30,6 +34,7 @@ const PositionModal = () => {
     if (res) {
       setPosition(res?.title);
       setModal(false);
+      setCategory(res.title);
     }
   };
 
