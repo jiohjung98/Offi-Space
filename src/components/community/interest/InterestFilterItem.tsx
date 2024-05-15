@@ -20,8 +20,8 @@ const InterestFilterItem = ({ title }: InterestFilterItemProps) => {
   return (
     <div
       onClick={() => setTag(title)}
-      className={`cursor-pointer w-max h-[33px] py-2 px-4 border border-neutral-300 rounded-2xl flex justify-center items-center
-    ${isSelected ? 'bg-stone-500 text-white font-semibold' : 'bg-white text-stone-500 '}
+      className={`text-sm cursor-pointer w-max h-[33px] py-2 px-4 border border-neutral-300 rounded-2xl flex justify-center items-center
+    ${isSelected ? 'bg-gray-500 text-white font-semibold' : 'bg-white text-gray-500 '}
     `}>
       <span>{title}</span>
     </div>
