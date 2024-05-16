@@ -33,13 +33,13 @@ const PositionModalItem = ({
         <div className="w-5 h-5 relative">
           {title == selectPosition || isInitSelect ? (
             <img
-              src="/sign/positionColorCircle.png"
+              src="/community/colorCircle.svg"
               alt=""
               className="object-cover object-center"
             />
           ) : (
             <img
-              src="/sign/positionCircle.png"
+              src="/community/circle.svg"
               alt=""
               className="object-cover object-center"
             />

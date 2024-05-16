@@ -4,9 +4,9 @@ import { postData } from '../mock/postData';
 
 const PostsLayout = () => {
   return (
-    <div className="mx-4">
+    <div className="mx-4 mt-10">
       {postData.map((post) => (
-        <PostItem post={post} />
+        <PostItem post={post} key={post.id} />
       ))}
     </div>
   );

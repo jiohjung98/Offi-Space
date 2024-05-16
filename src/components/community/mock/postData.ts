@@ -1,5 +1,6 @@
 export const postData: postData[] = [
   {
+    id: 'asdaasdasdasd',
     title: '글 제목1',
     content: '글 내용1',
     image: [
@@ -21,6 +22,7 @@ export const postData: postData[] = [
     viewCount: 10
   },
   {
+    id: 'awaewe',
     title: '글 제목1',
     content: '글 내용1',
     image: [
@@ -42,6 +44,7 @@ export const postData: postData[] = [
     viewCount: 10
   },
   {
+    id: 'asdawe312',
     title: '글 제목1',
     content: '글 내용1',
     image: [
@@ -65,6 +68,7 @@ export const postData: postData[] = [
 ];
 
 export interface postData {
+  id: string;
   title: string;
   content: string;
   image: string[];

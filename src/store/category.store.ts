@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
-interface usePopularPostsStoreType {
+interface useCategoryStoreType {
   category: string | null;
   setCategory: (payload: string) => void;
 }
 
-export const usePopularPostsStore = create<usePopularPostsStoreType>((set) => ({
+export const useCategoryStore = create<useCategoryStoreType>((set) => ({
   category: null,
   setCategory: (payload: string) =>
     set(() => ({

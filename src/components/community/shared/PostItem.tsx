@@ -2,10 +2,14 @@ import React from 'react';
 import { postData } from '../mock/postData';
 import { formatDate, formatTime } from '@/utils/invertFullTime';
 import PostItemImageLayout from './PostItemImageLayout';
+import { useRouter } from 'next/router';
 
 const PostItem = ({ post }: { post: postData }) => {
+  const router = useRouter();
   return (
-    <div className="my-6 border-b-2 border-neutral-200">
+    <div
+      onClick={() => router.push(`/community/${post.id}`)}
+      className="my-6 border-b-2 border-neutral-200 cursor-pointer">
       {/* 태그자리 */}
       <div className="px-2 py-1 text-center bg-space-purple-light inline-flex rounded-3xl">
         <span className="text-xs font-medium text-space-purple">{post.tag}</span>
@@ -42,7 +46,7 @@ const PostItem = ({ post }: { post: postData }) => {
       <PostItemImageLayout postImage={post.image} />
 
       {/* 글 부가정보 */}
-      <div className="mt-[21px] mb-6 flex justify-between items-center text-gray-400">
+      <div className="mt-[21px] mb-6 flex justify-between items-center text-gray-400 text-xs">
         {/* 글 쓴 시간 */}
         <div className="flex items-center">
           {/* 일자 */}
@@ -55,12 +59,12 @@ const PostItem = ({ post }: { post: postData }) => {
         <div className="flex gap-3">
           {/* 하트 */}
           <div className="flex gap-1 items-center">
-            <img src="/community/heart.png" alt="" />
+            <img src="/community/heart.svg" alt="" />
             <span>{post.wishCount}</span>
           </div>
           {/* 댓글 */}
           <div className="flex gap-1 items-center">
-            <img src="/community/reply.png" alt="" />
+            <img src="/community/reply.svg" alt="" />
             <span>{post.commentCount}</span>
           </div>
           {/* 조회수 */}

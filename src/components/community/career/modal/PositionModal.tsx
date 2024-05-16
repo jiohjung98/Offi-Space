@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import JobPositionItem from '../../../signup/JobPositionItem';
 import { jobPosition as allPostion } from '@/constant/jobPosition';
 import { motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { useCareerTalk } from '@/store/careerTalk.stroe';
-import { usePopularPostsStore } from '@/store/popularPosts.store';
+import { useCategoryStore } from '@/store/category.store';
+import PositionModalItem from './PositionModalItem';
 
 const PositionModal = () => {
   const { setModal, initialPosition: selectedJob, setPosition } = useCareerTalk();
-  const { setCategory } = usePopularPostsStore();
+  const { setCategory } = useCategoryStore();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -42,7 +42,7 @@ const PositionModal = () => {
     <div className="w-[361px] h-[190px] rounded-lg mx-auto">
       <div className="mt-3 h-[72px] py-[25px] bg-white border-b-4 border-neutral-200 items-center justify-end relative">
         <div className="text-center text-black text-md font-medium font-pretendard leading-snug">
-          직무선택
+          직무 변경
         </div>
         <div
           onClick={() => {
@@ -66,7 +66,7 @@ const PositionModal = () => {
               opacity: 1,
               translateX: 0
             }}>
-            <JobPositionItem
+            <PositionModalItem
               title={position.title}
               handleClick={handleClick}
               selectPosition={selectPosition}
