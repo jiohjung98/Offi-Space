@@ -28,7 +28,7 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
   });
 
   const { mutateAsync: emailVerify } = useMutation(
-    ({ emailAddress, code }: { emailAddress: string; code: number }) => {
+    ({ emailAddress, code }: { emailAddress: string; code: string }) => {
       return emailauthverify({ emailAddress, code });
     }
   );
@@ -117,7 +117,7 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
       try {
         const { status } = (await emailVerify({
           emailAddress: userEmail,
-          code: Number(validNumber)
+          code: validNumber
         })) as { status: string };
 
         if (status == 'SUCCESS') {
