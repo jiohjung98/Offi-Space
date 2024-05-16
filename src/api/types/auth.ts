@@ -24,7 +24,7 @@ export interface IPhoneNumber {
 }
 
 export interface IPhoneAuth extends IPhoneNumber {
-  code: number;
+  code: string;
 }
 
 export interface IUserInfo {
@@ -43,12 +43,12 @@ export interface IEmail {
   emailAddress: string;
 }
 export interface IEmailAuth extends IEmail {
-  code: number;
+  code: string;
 }
 
 export interface IEmailAuth2 {
   emailAddress: string;
-  code: number;
+  code: string;
 }
 
 export interface IToken {

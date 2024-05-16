@@ -30,7 +30,7 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
   });
 
   const { mutateAsync: phoneVerify } = useMutation(
-    ({ phoneNumber, code }: { phoneNumber: string; code: number }) => {
+    ({ phoneNumber, code }: { phoneNumber: string; code:string }) => {
       return phoneauthverify({ phoneNumber, code });
     }
   );
@@ -114,6 +114,8 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
 
     if (btnStatus == 'THIRD') {
       if (validNumber.length != 6) {
+        console.log(validNumber)
+        
         setValidNumber('');
         setErrorMessage('6자리 코드를 입력해주세요.');
         inputRef.current?.focus();
@@ -122,7 +124,7 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
       try {
         const { status } = await phoneVerify({
           phoneNumber: phoneNumber.replace(/-/g, ''),
-          code: Number(validNumber)
+          code: validNumber
         });
 
         if (status == 'SUCCESS') {
@@ -134,6 +136,9 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
         const select = signError.find((item) => item.errorCode === errorCode);
         if (select) {
           setErrorMessage(select.message);
+          console.log(validNumber);
+          console.log(parseInt(validNumber, 10));
+          console.log(Number(validNumber));
           setValidNumber('');
           inputRef.current?.focus();
           return;

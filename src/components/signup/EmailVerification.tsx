@@ -31,7 +31,7 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
   });
 
   const { mutateAsync: emailVerify } = useMutation(
-    ({ emailAddress, code }: { emailAddress: string; code: number }) => {
+    ({ emailAddress, code }: { emailAddress: string; code: string }) => {
       return emailauthverify({ emailAddress, code });
     }
   );
@@ -80,7 +80,7 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
       try {
         const { status } = (await emailVerify({
           emailAddress: userEmail,
-          code: Number(validNumber)
+          code: validNumber
         })) as { status: string };
 
         if (status == 'SUCCESS') {
