@@ -13,7 +13,7 @@ const JobPosition = dynamic(() => import('./JobPosition'), {
 
 interface PasswordVerificationProps {
   onNext: (
-    password: ApplyValues['memberPassword'],
+    password: ApplyValues['password'],
     job: ApplyValues['memberJob'],
     smsAgree: ApplyValues['memberSmsAgree']
   ) => void;
@@ -143,7 +143,7 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
               id="email"
               type="email"
               className="outline-none w-full"
-              value={applyValues.memberEmail}
+              value={applyValues.email}
               readOnly={true}
             />
           </div>

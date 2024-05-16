@@ -16,16 +16,16 @@ const SignUpPage = () => {
 
   const { mutateAsync: signUpReq } = useMutation(
     ({
-      memberEmail,
-      memberPassword,
+      email,
+      password,
       memberName,
       memberJob,
       memberPhone,
       memberSmsAgree
     }: ISignUp) => {
       return signup({
-        memberEmail,
-        memberPassword,
+        email,
+        password,
         memberName,
         memberJob,
         memberPhone,
@@ -57,24 +57,24 @@ const SignUpPage = () => {
 
   const handleNameAndEmail = (
     name: ApplyValues['memberName'],
-    email: ApplyValues['memberEmail']
+    email: ApplyValues['password']
   ) => {
     setApplyValues((prev) => ({
       ...prev,
       memberName: name,
-      memberEmail: email,
+      email: email,
       step: (prev.step as number) + 1
     }));
   };
 
   const handleRemainData = (
-    password: ApplyValues['memberPassword'],
+    password: ApplyValues['password'],
     job: ApplyValues['memberJob'],
     smsAgree: ApplyValues['memberSmsAgree']
   ) => {
     setApplyValues((prev) => ({
       ...prev,
-      memberPassword: password,
+      password: password,
       memberJob: job,
       memberSmsAgree: smsAgree,
       step: (prev.step as number) + 1
@@ -84,8 +84,8 @@ const SignUpPage = () => {
   useEffect(() => {
     if (applyValues.step === 3) {
       signUpReq({
-        memberEmail: applyValues.memberEmail as string,
-        memberPassword: applyValues.memberPassword as string,
+        email: applyValues.email as string,
+        password: applyValues.password as string,
         memberName: applyValues.memberName as string,
         memberJob: applyValues.memberJob as string,
         memberPhone: applyValues.memberPhone as string,

@@ -10,7 +10,7 @@ import { SignupBtnStatus } from '@/models/signupBtnStatus';
 import { signError } from '@/constant/signError';
 /* eslint-disable no-unused-vars */
 interface EmailVerification {
-  onNext: (name: ApplyValues['memberName'], email: ApplyValues['memberEmail']) => void;
+  onNext: (name: ApplyValues['memberName'], email: ApplyValues['email']) => void;
 }
 
 const EmailVerification = ({ onNext }: EmailVerification) => {
