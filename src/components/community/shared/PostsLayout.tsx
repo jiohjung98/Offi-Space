@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import FilterPicker from './FilterPicker';
+import React from 'react';
+import PostItem from './PostItem';
+import { postData } from '../mock/postData';
 
 const PostsLayout = () => {
-  const [filterPicker, setFilterPicker] = useState<string>('최신순');
   return (
     <div className="mx-4">
-      <FilterPicker filterPicker={filterPicker} setFilterPicker={setFilterPicker} />
-      <div className="mt-[200px]">asdasd</div>
+      {postData.map((post) => (
+        <PostItem post={post} />
+      ))}
     </div>
   );
 };
