@@ -11,8 +11,8 @@ const PostItem = ({ post }: { post: postData }) => {
       onClick={() => router.push(`/community/${post.id}`)}
       className="my-6 border-b-2 border-neutral-200 cursor-pointer">
       {/* 태그자리 */}
-      <div className="px-2 py-1 text-center bg-space-purple-light inline-flex rounded-3xl">
-        <span className="text-xs font-medium text-space-purple">{post.tag}</span>
+      <div className="px-2 py-1 text-center bg-gray-200 inline-flex rounded-3xl">
+        <span className="text-xs font-medium">{post.tag}</span>
       </div>
 
       {/* 글쓴 유저 자리 */}
@@ -68,7 +68,10 @@ const PostItem = ({ post }: { post: postData }) => {
             <span>{post.commentCount}</span>
           </div>
           {/* 조회수 */}
-          <div></div>
+          <div className="flex gap-1 items-center">
+            <img src="/community/viewCount.svg" alt="" />
+            <span>{post.viewCount}</span>
+          </div>
         </div>
       </div>
     </div>

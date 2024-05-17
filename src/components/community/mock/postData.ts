@@ -3,12 +3,7 @@ export const postData: postData[] = [
     id: 'asdaasdasdasd',
     title: '글 제목1',
     content: '글 내용1',
-    image: [
-      '/community/userImg.jpeg'
-      // '/community/userImg.jpeg'
-      // '/community/userImg.jpeg',
-      // '/community/userImg.jpeg'
-    ],
+    image: ['/community/userImg.jpeg', '/community/userImg.jpeg'],
     category: '글 카테고리',
     tag: '글 태그1',
     createdAt: '2024-05-13T08:30:00Z',
