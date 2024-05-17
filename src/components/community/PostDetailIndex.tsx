@@ -4,6 +4,7 @@ import { postData } from './mock/postData';
 import PostDetail from './shared/PostDetail';
 import CommentsLayout from './comments/CommentsLayout';
 import { Comment } from './mock/comments';
+import WriteCommentLayout from './comments/WriteCommentLayout';
 
 interface PostDetailIndexProps {
   data: postData;
@@ -16,9 +17,11 @@ const PostDetailIndex = ({ data, commentsData }: PostDetailIndexProps) => {
       <ToBackComunity />
       <PostDetail data={data} />
       {/* 구분선 */}
-      <div className="w-full h-[8.21px] bg-gray-100" />
+      <div className="w-full h-1 bg-gray-100" />
       {/* 댓글자리 */}
       <CommentsLayout commentsData={commentsData} />
+      {/* 댓글입력자리 */}
+      <WriteCommentLayout />
     </div>
   );
 };

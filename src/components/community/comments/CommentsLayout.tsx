@@ -5,7 +5,7 @@ import CommentsItem from './CommentsItem';
 const CommentsLayout = ({ commentsData }: { commentsData: Comment[] }) => {
   //todo 댓글 없을 때 디자인 필요
   return (
-    <div>
+    <div className="mb-[80px]">
       <div className="mt-5">댓글 수 </div>
       {commentsData.map((comment, i) => (
         <Fragment key={i}>
