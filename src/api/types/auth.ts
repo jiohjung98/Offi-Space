@@ -31,8 +31,8 @@ export interface IUserInfo {
   memberEmail: string;
   memberName: string;
   memberJob: string;
-  memberPhone: string;
-  memberBirthDate: string;
+  memberNickName: string;
+  memberSmsAgree: string;
 }
 
 export interface IWithdraw {

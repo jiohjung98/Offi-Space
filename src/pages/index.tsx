@@ -1,16 +1,24 @@
 // import { Inter } from 'next/font/google';
-// import { userinfo } from '@/api/auth/auth.get.api';
+import { userinfo } from '@/api/auth/auth.get.api';
 // import Layout from '@/components/layout/Layout';
+import { useMember, useSetMember } from '@/stores/user';
 import Image from 'next/image';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 
 // const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  // useEffect(() => {
-  //   userinfo();
-  // }, []);
-
+  ////////////// zustand 테스트 부분//////////////////
+  const member = useMember();
+  const { data: memberData } = useQuery('userinfo', userinfo);
+  const setmember = useSetMember();
+  useEffect(() => {
+    console.log(memberData);
+    setmember(memberData?.data);
+  }, [memberData, setmember]);
+  console.log(member);
+  /////////////////////////////////////////////////////
   return (
     <main className={`flex min-h-screen flex-col items-center justify-between p-24 `}>
       <div className=" z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
@@ -30,6 +38,10 @@ export default function Home() {
               height={24}
               priority
             />
+            {/*
+             */}
+            {/* 여기서 test */}
+            {member?.memberEmail}
           </a>
         </div>
       </div>
