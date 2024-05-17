@@ -2,7 +2,8 @@ export const postData: postData[] = [
   {
     id: 'asdaasdasdasd',
     title: '글 제목1',
-    content: '글 내용1',
+    content:
+      '컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠 본문컨텐츠입니다.',
     image: ['/community/userImg.jpeg', '/community/userImg.jpeg'],
     category: '글 카테고리',
     tag: '글 태그1',
@@ -66,7 +67,7 @@ export interface postData {
   id: string;
   title: string;
   content: string;
-  image: string[];
+  image?: string[];
   category: string;
   tag: string;
   createdAt: string;

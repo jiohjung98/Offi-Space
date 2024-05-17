@@ -3,13 +3,14 @@ import { postData } from '../mock/postData';
 import { formatDate, formatTime } from '@/utils/invertFullTime';
 import PostItemImageLayout from './PostItemImageLayout';
 import { useRouter } from 'next/router';
+import { sliceText } from '@/utils/sliceTexts';
 
 const PostItem = ({ post }: { post: postData }) => {
   const router = useRouter();
   return (
     <div
       onClick={() => router.push(`/community/${post.id}`)}
-      className="my-6 border-b-2 border-neutral-200 cursor-pointer">
+      className="my-6 cursor-pointer">
       {/* 태그자리 */}
       <div className="px-2 py-1 text-center bg-gray-200 inline-flex rounded-3xl">
         <span className="text-xs font-medium">{post.tag}</span>
@@ -40,10 +41,12 @@ const PostItem = ({ post }: { post: postData }) => {
       <div className="mt-5 text-lg font-bold">{post.title}</div>
 
       {/* 글 본문 */}
-      <div className="mt-3">{post.content}</div>
+      <div className="mt-3">{sliceText(post.content, 55)}</div>
 
       {/* 글 사진 */}
-      <PostItemImageLayout postImage={post.image} />
+      {(post.image?.length as number) > 0 && (
+        <PostItemImageLayout postImage={post.image} />
+      )}
 
       {/* 글 부가정보 */}
       <div className="mt-[21px] mb-6 flex justify-between items-center text-gray-400 text-xs">

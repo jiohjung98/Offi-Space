@@ -16,7 +16,6 @@ const PositionFilter = dynamic(
 
 const Communityindex = () => {
   const { currentTalk } = useCurrentTalkStore();
-
   return (
     <MainContainer>
       <CommunityHeader />
