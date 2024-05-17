@@ -24,15 +24,15 @@ export interface IPhoneNumber {
 }
 
 export interface IPhoneAuth extends IPhoneNumber {
-  code: number;
+  code: string;
 }
 
 export interface IUserInfo {
   memberEmail: string;
   memberName: string;
   memberJob: string;
-  memberPhone: string;
-  memberBirthDate: string;
+  memberNickName: string;
+  memberSmsAgree: string;
 }
 
 export interface IWithdraw {
@@ -43,12 +43,12 @@ export interface IEmail {
   emailAddress: string;
 }
 export interface IEmailAuth extends IEmail {
-  code: number;
+  code: string;
 }
 
 export interface IEmailAuth2 {
   emailAddress: string;
-  code: number;
+  code: string;
 }
 
 export interface IToken {

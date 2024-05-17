@@ -29,6 +29,7 @@ export const signup = async ({
     memberPhone,
     memberSmsAgree
   });
+  //retrun nll 처리를 하면 react query의 onSuccess 작동
   return response;
 };
 
