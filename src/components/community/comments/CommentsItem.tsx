@@ -1,10 +1,10 @@
 import React from 'react';
 import { Comment } from '../mock/comments';
 import { formatDate, formatTime } from '@/utils/invertFullTime';
-import { useDeleteModalStore } from '@/store/deleteModal.store';
+import { useModalStore } from '@/store/modal.store';
 
 const CommentsItem = ({ comment }: { comment: Comment }) => {
-  const { setOpen, setDeleteId, setCategory } = useDeleteModalStore();
+  const { setOpen, setDeleteId, setCategory } = useModalStore();
   return (
     <div className="mt-4 mb-5">
       {/* 사진 닉네임 카테고리 삭제 자리 */}

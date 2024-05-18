@@ -1,10 +1,10 @@
 import React from 'react';
 import { postData } from '../mock/postData';
 import { formatDate, formatTime } from '@/utils/invertFullTime';
-import { useDeleteModalStore } from '@/store/deleteModal.store';
+import { useModalStore } from '@/store/modal.store';
 
 const PostDetail = ({ data }: { data: postData }) => {
-  const { setOpen, setDeleteId, setCategory } = useDeleteModalStore();
+  const { setOpen, setDeleteId, setCategory } = useModalStore();
   return (
     <div className="mt-5 mb-8">
       {/* 태그자리 */}

@@ -1,9 +1,9 @@
-import { useDeleteModalStore } from '@/store/deleteModal.store';
+import { useModalStore } from '@/store/modal.store';
 import React, { useRef } from 'react';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 
 const DeleteModal = () => {
-  const { deleteId, category, setOpen } = useDeleteModalStore();
+  const { deleteId, category, setOpen } = useModalStore();
   console.log(deleteId);
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setOpen(false));

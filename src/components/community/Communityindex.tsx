@@ -5,6 +5,8 @@ import InterestFilter from './interest/InterestFilter';
 import PostsLayout from './shared/PostsLayout';
 import MainContainer from '../shared/MainContainer';
 import WritePostButton from './shared/WritePostButton';
+import { useModalStore } from '@/store/modal.store';
+import CreateModal from './shared/modal/CreateModal';
 
 const CommunityHeader = dynamic(
   () => import('@/components/community/shared/CommunityHeader'),
@@ -16,6 +18,7 @@ const PositionFilter = dynamic(
 );
 
 const Communityindex = () => {
+  const { open } = useModalStore();
   const { currentTalk } = useCurrentTalkStore();
   return (
     <MainContainer>
@@ -23,6 +26,7 @@ const Communityindex = () => {
       {currentTalk === 'career' ? <PositionFilter /> : <InterestFilter />}
       <PostsLayout />
       <WritePostButton />
+      {open ? <CreateModal /> : ''}
     </MainContainer>
   );
 };

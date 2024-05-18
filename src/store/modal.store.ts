@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface useCDeleteModalStoreType {
+interface useModalStoreType {
   open: boolean;
   setOpen: (payload: boolean) => void;
   deleteId: string | null;
@@ -9,7 +9,7 @@ interface useCDeleteModalStoreType {
   setCategory: (payload: string) => void;
 }
 
-export const useDeleteModalStore = create<useCDeleteModalStoreType>((set) => ({
+export const useModalStore = create<useModalStoreType>((set) => ({
   open: false, //modal 오픈 상태
   deleteId: null, // 삭제할 댓글이나 글 id
   category: null, // 댓글이냐 글이냐
