@@ -1,8 +1,10 @@
 import React from 'react';
 import { Comment } from '../mock/comments';
 import { formatDate, formatTime } from '@/utils/invertFullTime';
+import { useDeleteModalStore } from '@/store/deleteModal.store';
 
 const CommentsItem = ({ comment }: { comment: Comment }) => {
+  const { setOpen, setDeleteId, setCategory } = useDeleteModalStore();
   return (
     <div className="mt-4 mb-5">
       {/* 사진 닉네임 카테고리 삭제 자리 */}
@@ -23,7 +25,13 @@ const CommentsItem = ({ comment }: { comment: Comment }) => {
           <div className="flex justify-between">
             <div className="text-sm font-semibold">{comment.nickname}</div>
             {comment.isWritter && (
-              <div className="text-gray-500 text-sm font-normal underline cursor-pointer">
+              <div
+                onClick={() => {
+                  setOpen(true);
+                  setDeleteId(comment.id);
+                  setCategory('comment');
+                }}
+                className="text-gray-500 text-sm font-normal underline cursor-pointer">
                 삭제
               </div>
             )}

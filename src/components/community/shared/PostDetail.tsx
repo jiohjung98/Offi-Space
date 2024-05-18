@@ -1,8 +1,10 @@
 import React from 'react';
 import { postData } from '../mock/postData';
 import { formatDate, formatTime } from '@/utils/invertFullTime';
+import { useDeleteModalStore } from '@/store/deleteModal.store';
 
 const PostDetail = ({ data }: { data: postData }) => {
+  const { setOpen, setDeleteId, setCategory } = useDeleteModalStore();
   return (
     <div className="mt-5 mb-8">
       {/* 태그자리 */}
@@ -28,7 +30,13 @@ const PostDetail = ({ data }: { data: postData }) => {
           <div className="flex justify-between">
             <div className="text-sm font-semibold">{data.nickname}</div>
             {data.isWriter && (
-              <div className="text-gray-500 text-sm font-normal underline cursor-pointer">
+              <div
+                onClick={() => {
+                  setOpen(true);
+                  setDeleteId(data.id);
+                  setCategory('post');
+                }}
+                className="text-gray-500 text-sm font-normal underline cursor-pointer">
                 삭제
               </div>
             )}

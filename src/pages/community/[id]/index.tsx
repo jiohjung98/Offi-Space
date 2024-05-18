@@ -1,3 +1,4 @@
+'use client';
 import PostDetailIndex from '@/components/community/PostDetailIndex';
 import { commentsData } from '@/components/community/mock/comments';
 import { postData } from '@/components/community/mock/postData';

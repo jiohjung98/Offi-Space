@@ -15,7 +15,7 @@ export default function PostItemImageLayout({
         spaceBetween={12}
         className="mySwiper mt-3">
         {postImage?.map((image, i) => (
-          <SwiperSlide key={i} className="max-w-max">
+          <SwiperSlide key={i} className="max-w-max z-1">
             <PostItemImageItem image={image} count={postImage.length} />
           </SwiperSlide>
         ))}

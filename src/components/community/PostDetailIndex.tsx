@@ -5,6 +5,10 @@ import PostDetail from './shared/PostDetail';
 import CommentsLayout from './comments/CommentsLayout';
 import { Comment } from './mock/comments';
 import WriteCommentLayout from './comments/WriteCommentLayout';
+import { useDeleteModalStore } from '@/store/deleteModal.store';
+import dynamic from 'next/dynamic';
+
+const DeleteModal = dynamic(() => import('./shared/modal/DeleteModal'), { ssr: false });
 
 interface PostDetailIndexProps {
   data: postData;
@@ -12,8 +16,10 @@ interface PostDetailIndexProps {
 }
 
 const PostDetailIndex = ({ data, commentsData }: PostDetailIndexProps) => {
+  const { open } = useDeleteModalStore();
   return (
     <div className="mx-4">
+      <div className="h-[60px]" />
       <ToBackComunity />
       <PostDetail data={data} />
       {/* 구분선 */}
@@ -22,6 +28,7 @@ const PostDetailIndex = ({ data, commentsData }: PostDetailIndexProps) => {
       <CommentsLayout commentsData={commentsData} />
       {/* 댓글입력자리 */}
       <WriteCommentLayout />
+      {open ? <DeleteModal /> : ''}
     </div>
   );
 };

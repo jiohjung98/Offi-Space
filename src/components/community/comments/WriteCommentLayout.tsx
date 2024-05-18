@@ -1,24 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, ChangeEvent } from 'react';
 import { user } from '../mock/user';
 
 const WriteCommentLayout = () => {
-  const [commentValue, setCommentValue] = useState('');
+  const [commentValue, setCommentValue] = useState<string>('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [commentValue]);
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentValue(e.target.value);
+  };
+
   return (
-    <div className=" w-[368px] h-[70px] fixed bottom-0 bg-white flex items-center">
-      <div className="my-2 flex items-center gap-[13px] flex-1">
+    <div className="w-[393px] fixed bottom-0 bg-white flex items-center px-4 py-4 left-1/2 transform -translate-x-1/2">
+      <div className="flex gap-[13px] flex-1">
         <div>
           <img src={user.userImg} alt="" className="w-[42px] h-[42px] rounded-full" />
         </div>
         <div className="flex-1">
-          <input
+          <textarea
+            onFocus={() => console.log('focuse')}
+            ref={textareaRef}
             value={commentValue}
-            onChange={(e) => setCommentValue(e.target.value)}
-            type="text"
+            onChange={handleChange}
             placeholder="댓글을 입력해주세요."
-            className="w-full bg-gray-100 h-10 rounded-[10px] py-2  px-3"
+            className="w-full bg-gray-100 rounded-[10px] py-2 px-3 resize-none overflow-hidden"
+            rows={1}
           />
         </div>
-        <button className="px-3 py-2 rounded-md border border-gray-400 text-gray-600">
+        <button
+          disabled={commentValue === ''}
+          className={`h-10 px-3 py-2 rounded-md border shrink-0 font-semibold
+          ${commentValue === '' ? 'text-gray-600 border-gray-400' : 'text-white bg-space-purple'}
+          `}>
           등록
         </button>
       </div>

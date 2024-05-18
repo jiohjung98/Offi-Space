@@ -4,6 +4,7 @@ import { useCurrentTalkStore } from '@/store/currentTalk.store';
 import InterestFilter from './interest/InterestFilter';
 import PostsLayout from './shared/PostsLayout';
 import MainContainer from '../shared/MainContainer';
+import WritePostButton from './shared/WritePostButton';
 
 const CommunityHeader = dynamic(
   () => import('@/components/community/shared/CommunityHeader'),
@@ -21,6 +22,7 @@ const Communityindex = () => {
       <CommunityHeader />
       {currentTalk === 'career' ? <PositionFilter /> : <InterestFilter />}
       <PostsLayout />
+      <WritePostButton />
     </MainContainer>
   );
 };

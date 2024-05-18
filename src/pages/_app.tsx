@@ -1,6 +1,5 @@
 import QueryProvider from '@/providers/QueryProvider';
 import '@/styles/globals.css';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -11,7 +10,6 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryProvider>
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </QueryProvider>
   );
