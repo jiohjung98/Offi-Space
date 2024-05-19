@@ -1,3 +1,4 @@
+'use client';
 import PositionModal from '@/components/community/career/modal/PositionModal';
 import Layout from '@/components/layout/Layout';
 import MainContainer from '@/components/shared/MainContainer';

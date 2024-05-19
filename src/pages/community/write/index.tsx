@@ -1,3 +1,4 @@
+'use client';
 import WriteCareerPost from '@/components/community/WriteCareerPost';
 import WriteInterestPost from '@/components/community/WriteInterestPost';
 import MainContainer from '@/components/shared/MainContainer';

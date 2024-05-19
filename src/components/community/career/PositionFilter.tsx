@@ -25,7 +25,7 @@ const PositionFilter = () => {
         <span className="text-space-purple font-bold">{initialPosition}</span>
       </div>
       <div className="flex justify-center items-center mr-2">
-        <img src="/community/toBottom.png" alt="" />
+        <img src="/community/toBottom.svg" alt="" />
       </div>
     </div>
   );
