@@ -96,7 +96,7 @@ const WritePostContent = ({ setPostData }: WritePostContentType) => {
           onChange={handleChange}
         />
       </main>
-      <div className="h-[220px] mb-4">
+      <div className="h-[200px] mb-4">
         <Swiper
           onSwiper={(swiper: SwiperClass) => {
             swiperRef.current = swiper;
@@ -106,7 +106,7 @@ const WritePostContent = ({ setPostData }: WritePostContentType) => {
           className="mySwiper">
           {previewImg.map((item, i) => (
             <SwiperSlide className="max-w-max" key={i}>
-              <div className="w-[180px] h-[220px] relative">
+              <div className="w-[160px] h-[200px] relative">
                 <img src={item} alt="" className="w-full h-full object-cover" />
               </div>
               <img

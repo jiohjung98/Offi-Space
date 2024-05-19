@@ -20,9 +20,11 @@ const WritePostPosition = ({ postData, setPostData }: WritePostPositionType) => 
           {postData.category}
         </div>
         <div className="cursor-pointer" onClick={() => setIsOpen((prev) => !prev)}>
-          {/* 클릭안할시 */}
-          <img src="/community/toBottom.svg" alt="" />
-          {/* 클릭 할 시 */}
+          {isOpen ? (
+            <img src="/community/toTop.svg" />
+          ) : (
+            <img src="/community/toBottom.svg" />
+          )}
         </div>
       </div>
       {/* 클릭하면 나오는 부분 */}

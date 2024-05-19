@@ -1,9 +1,12 @@
 import React, { Fragment } from 'react';
 import PostItem from './PostItem';
 import { postData } from '../mock/postData';
+import { useCategoryStore } from '@/store/category.store';
 
 const PostsLayout = () => {
   //todo : category 바뀔 때 마다 감지해서 글 가져오기
+  const { category } = useCategoryStore();
+  console.log(category);
   return (
     <div className="mx-4 mt-10">
       {postData.map((post, i) => (
