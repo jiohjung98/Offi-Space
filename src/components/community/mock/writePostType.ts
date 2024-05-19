@@ -3,4 +3,5 @@ export interface writePostType {
   title: string | null;
   contents: string;
   tag: string;
+  images: File[];
 }
