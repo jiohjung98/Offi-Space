@@ -26,7 +26,6 @@ const PositionModal = () => {
   const handleClick = (title: string) => {
     setInitialPosition('');
     setSelectPosition(title);
-    setPosition(title);
   };
 
   const handleSubmit = () => {

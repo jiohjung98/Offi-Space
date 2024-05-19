@@ -15,8 +15,6 @@ const WriteCareerPost = () => {
     tag: tagWithCareer[0].title
   });
 
-  console.log(postData);
-
   return (
     <div className="mx-4">
       <div className="h-[60px]" />

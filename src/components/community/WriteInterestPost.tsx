@@ -5,6 +5,7 @@ import ToBackComunity from './shared/ToBackComunity';
 import WritePostTitle from './shared/WritePostTitle';
 import WritePostInterest from './interest/WritePostInterest';
 import WritePostInterestTag from './interest/WritePostInterestTag';
+import WritePostContent from './shared/WritePostContent';
 
 const WriteInterestPost = () => {
   const [postData, setPostData] = useState<Partial<writePostType>>({
@@ -12,7 +13,7 @@ const WriteInterestPost = () => {
     title: null,
     tag: tagWithInterest[0].title
   });
-  console.log(postData);
+
   return (
     <div className="mx-4">
       <div className="h-[60px]" />
@@ -25,6 +26,9 @@ const WriteInterestPost = () => {
       </nav>
       <div>
         <WritePostTitle postData={postData} setPostData={setPostData} />
+      </div>
+      <div>
+        <WritePostContent setPostData={setPostData} />
       </div>
       <footer>
         <WritePostInterestTag postData={postData} setPostData={setPostData} />
