@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -62,9 +63,9 @@ const UseMap: React.FC = () => {
       <div ref={mapRef} className="w-full h-full" />
       <button
         id="current-location-button"
-        className="absolute bottom-4 left-4 bg-blue-500 text-white p-2 rounded shadow"
+        className="absolute bottom-4 left-4 text-white p-2 flex items-center justify-center"
       >
-        현재 위치
+        <Image src="/MapLocation.png" alt="Current Location" width={24} height={24} />
       </button>
     </div>
   );
