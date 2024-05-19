@@ -8,9 +8,10 @@ const UseMap: React.FC = () => {
   useEffect(() => {
     const initMap = () => {
       if (mapRef.current) {
+        const initialCenter = new naver.maps.LatLng(37.4979, 127.0276);
         const mapOptions: naver.maps.MapOptions = {
-          center: new naver.maps.LatLng(37.5665, 126.9780),
-          zoom: 10,
+          center: initialCenter,
+          zoom: 16,
         };
         const map = new naver.maps.Map(mapRef.current, mapOptions);
 
@@ -63,7 +64,7 @@ const UseMap: React.FC = () => {
       <div ref={mapRef} className="w-full h-full" />
       <button
         id="current-location-button"
-        className="absolute bottom-4 left-4 text-white p-2 flex items-center justify-center"
+        className="absolute bottom-4 left-4 p-2 flex items-center justify-center"
       >
         <Image src="/MapLocation.png" alt="Current Location" width={24} height={24} />
       </button>
