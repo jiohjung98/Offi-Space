@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
+  const markerRef = useRef<naver.maps.Marker | null>(null);
 
   useEffect(() => {
     const initMap = () => {
@@ -10,7 +11,41 @@ const UseMap: React.FC = () => {
           center: new naver.maps.LatLng(37.5665, 126.9780),
           zoom: 10,
         };
-        new naver.maps.Map(mapRef.current, mapOptions);
+        const map = new naver.maps.Map(mapRef.current, mapOptions);
+
+        const handleCurrentLocation = () => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const currentLocation = new naver.maps.LatLng(
+                  position.coords.latitude,
+                  position.coords.longitude
+                );
+                map.setCenter(currentLocation);
+                map.setZoom(14);
+
+                if (markerRef.current) {
+                  markerRef.current.setPosition(currentLocation);
+                } else {
+                  markerRef.current = new naver.maps.Marker({
+                    position: currentLocation,
+                    map: map,
+                  });
+                }
+              },
+              (error) => {
+                console.error('Error getting current location:', error);
+              }
+            );
+          } else {
+            alert('Geolocation is not supported by this browser.');
+          }
+        };
+
+        const button = document.getElementById('current-location-button');
+        if (button) {
+          button.addEventListener('click', handleCurrentLocation);
+        }
       }
     };
 
@@ -22,7 +57,17 @@ const UseMap: React.FC = () => {
     }
   }, []);
 
-  return <div ref={mapRef} className="w-[90%] h-[100%] mx-auto my-auto" />;
+  return (
+    <div className="relative w-full h-full">
+      <div ref={mapRef} className="w-full h-full" />
+      <button
+        id="current-location-button"
+        className="absolute bottom-4 left-4 bg-blue-500 text-white p-2 rounded shadow"
+      >
+        현재 위치
+      </button>
+    </div>
+  );
 };
 
 export default UseMap;
