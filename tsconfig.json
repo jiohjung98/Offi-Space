@@ -24,6 +24,6 @@
       "@store/*": ["src/store/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.mjs"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.mjs", "types"],
   "exclude": ["node_modules"]
 }
