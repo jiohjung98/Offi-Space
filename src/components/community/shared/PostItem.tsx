@@ -13,7 +13,7 @@ const PostItem = ({ post }: { post: postData }) => {
       className="my-6 cursor-pointer">
       {/* 태그자리 */}
       <div className="px-2 py-1 text-center bg-gray-200 inline-flex rounded-3xl">
-        <span className="text-xs font-medium">{post.tag}</span>
+        <span className="text-xs font-medium text-gray-900">{post.tag}</span>
       </div>
 
       {/* 글쓴 유저 자리 */}
@@ -30,18 +30,20 @@ const PostItem = ({ post }: { post: postData }) => {
         {/* 유저 닉네임, 직무 */}
         <div className="flex flex-col">
           {/* 유저 이름 */}
-          <div className="text-sm font-semibold">{post.nickname}</div>
+          <div className="text-sm font-semibold text-gray-700">{post.nickname}</div>
 
           {/* 유저직무 */}
-          <div className="text-xs text-gray-400">{post.userCategory}</div>
+          <div className="text-xs text-gray-500">{post.userCategory}</div>
         </div>
       </div>
 
       {/* 글 제목 */}
-      <div className="mt-5 text-lg font-bold">{post.title}</div>
+      <div className="mt-5 text-lg font-bold text-gray-800">{post.title}</div>
 
       {/* 글 본문 */}
-      <div className="mt-3">{sliceText(post.content, 55)}</div>
+      <div className="mt-3 text-gray-800 text-sm font-normal">
+        {sliceText(post.content, 95)}
+      </div>
 
       {/* 글 사진 */}
       {(post.image?.length as number) > 0 && (
@@ -49,7 +51,7 @@ const PostItem = ({ post }: { post: postData }) => {
       )}
 
       {/* 글 부가정보 */}
-      <div className="mt-[21px] mb-6 flex justify-between items-center text-gray-400 text-xs">
+      <div className="mt-[21px] mb-6 flex justify-between items-center text-gray-500 text-xs">
         {/* 글 쓴 시간 */}
         <div className="flex items-center">
           {/* 일자 */}

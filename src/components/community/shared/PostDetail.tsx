@@ -79,7 +79,12 @@ const PostDetail = ({ data }: { data: postData }) => {
         {/* 좋아요 */}
         {/* todo : 내가 좋아요 누른 글인지 분기처리, 좋아요눌렀으면 다시 누를때 취소, 안눌렀으면 좋아요 처리 */}
         <div className="flex items-center justify-center gap-1">
-          <img src="/community/heart.svg" alt="" />
+          {data.isWished ? (
+            <img src="/community/colorHeart.svg" alt="" />
+          ) : (
+            <img src="/community/heart.svg" alt="" />
+          )}
+
           <div className="flex items-center justify-center gap-1">
             <div>좋아요</div>
             <div>{data.wishCount}</div>
