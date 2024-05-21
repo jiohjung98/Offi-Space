@@ -1,6 +1,29 @@
+import { jobPosition, getTitleFromDescription } from '@/constant/jobPosition';
+import { useMember } from '@/stores/user';
 import Link from 'next/link';
-
+import LogoutModal from '@/components/modal/logoutModal';
+import { useState } from 'react';
+import useLoggedOut from '@/hook/useLoggedOut';
+import SuccessModal from '@/components/modal/successModal';
 const MyPage = () => {
+  const member = useMember();
+  const job = getTitleFromDescription(jobPosition, member.memberJob);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const logout = useLoggedOut();
+  const handleLogout = () => {
+    console.log('Logged out');
+    setModalVisible(false);
+    setSuccessModal(true);
+    setTimeout(() => {
+      logout();
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    setModalVisible(false);
+  };
+
   return (
     <div className="w-full flex flex-col items-center justify-center mt-[102px]">
       <div className="flex flex-col justify-center items-center">
@@ -10,14 +33,14 @@ const MyPage = () => {
         <div className="w-[130px] h-[73px] flex flex-col justify-center items-center">
           <div className="h-14 flex flex-col justify-start items-start gap-2">
             <div className="w-[130px] text-center text-indigo-700 text-lg font-bold font-['Pretendard'] leading-[27px] mt-[8px]">
-              닉네임_123
+              {member.memberNickName}
             </div>
             <div className="w-[130px] text-center text-neutral-400 text-sm font-medium font-['Pretendard'] leading-[21px]">
-              디자인
+              {job}
             </div>
           </div>
           <div className="text-neutral-400 text-sm font-normal font-['Pretendard']">
-            user1@example.com
+            {member.memberEmail}
           </div>
         </div>
       </div>
@@ -107,11 +130,14 @@ const MyPage = () => {
       <div className="w-full h-[13px] bg-stone-50 mt-[24px] mb-[24px]" />
 
       <div className="w-[361px] h-[33px] pb-3 flex justify-start items-start gap-3.5">
-        <div className="text-center text-neutral-800 text-sm font-semibold font-['Pretendard'] leading-[21px]">
+        <div
+          onClick={() => setModalVisible(true)}
+          className="text-center text-neutral-800 text-sm font-semibold font-['Pretendard'] leading-[21px]">
           로그아웃
         </div>
       </div>
-
+      {isModalVisible && <LogoutModal onConfirm={handleLogout} onCancel={handleCancel} />}
+      {successModal && <SuccessModal />}
       <Link href={'/mypage/withdraw'}>
         <div className="w-[361px] h-[33px] pb-3 flex justify-start items-start gap-3.5">
           <div className="text-center text-neutral-800 text-sm font-semibold font-['Pretendard'] leading-[21px]">
