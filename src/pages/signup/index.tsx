@@ -50,7 +50,7 @@ const SignUpPage = () => {
   const handlePhoneNumber = (phoneNumber: ApplyValues['memberPhone']) => {
     setApplyValues((prev) => ({
       ...prev,
-      phoneNumber: phoneNumber,
+      memberPhone: phoneNumber,
       step: (prev.step as number) + 1
     }));
   };
