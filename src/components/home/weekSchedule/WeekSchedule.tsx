@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import { format, startOfWeek, addDays, isSaturday, isSunday, isSameDay } from 'date-fns';
 import { ko } from 'date-fns/locale';

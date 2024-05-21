@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import BgPurpleLayout from './BgPurpleLayout';
 import MainHeader from './MainHeader';
