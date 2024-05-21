@@ -27,7 +27,7 @@ const WeekSchedule = () => {
         </div>
       </div>
       {/* 주차별 캘린더 */}
-      <div className="flex gap-[11px] justify-center items-center">
+      <div className="flex gap-[11px] justify-center items-center bg-violet-50">
         {daysOfWeek.map((day, i) => (
           <div
             className={`py-[13px] px-[11px] flex flex-col gap-[13px] cursor-pointer text-base font-medium 
@@ -40,6 +40,13 @@ const WeekSchedule = () => {
             <div>{format(day, 'dd')}</div>
           </div>
         ))}
+      </div>
+      {/* 예약 리스트 */}
+      {/* 예약 일정이 없을 때 */}
+      <div className="py-12 border-b border-gray-200">
+        <div className="text-gray-500 text-base font-medium flex items-center justify-center">
+          예약된 일정이 없습니다.
+        </div>
       </div>
     </div>
   );

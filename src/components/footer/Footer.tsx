@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <footer>
-      <nav className="w-[393px] h-[97.02px] px-[25px] pt-[15px] pb-[35px] bg-white border-t border-stone-50 justify-between items-center inline-flex">
+      <nav className="fixed bottom-0 w-[393px] h-[97.02px] px-[25px] pt-[15px] pb-[35px] bg-white border-t border-stone-50 justify-between items-center inline-flex">
         <Link href="/">
           <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
