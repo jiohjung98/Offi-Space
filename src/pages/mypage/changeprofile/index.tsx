@@ -1,30 +1,54 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useMember } from '@/stores/user';
+import { getTitleFromDescription, jobPosition } from '@/constant/jobPosition';
 // import { useQuery } from 'react-query'; // Uncomment when useQuery is available
 
 export default function Profile() {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  // Mock state values
-  const [name, setName] = useState('닉네임_123');
-  const [email, setEmail] = useState('user1@example.com');
-  const [job, setJob] = useState('디자인');
-  const [contact, setContact] = useState('+82 10-1234-5678');
+  //api나오면 zustand 로직으로 수정
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [contact] = useState('010-1234-5678');
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const member = useMember();
+  const job = getTitleFromDescription(jobPosition, member.memberJob);
+
+  //백엔드에게 파일 보내는 로직
+
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     setSelectedFile(event.target.files[0]);
+  //   }
+  //   const formData = new FormData();
+  //   if (selectedFile) {
+  //     formData.append('file', selectedFile);
+  //   }
+  //   console.log(formData);
+
+  // };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedFile(event.target.files[0]);
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        if (e.target && e.target.result) {
+          setFileUrl(e.target.result.toString()); // 파일의 데이터 URL을 저장합니다.
+        }
+      };
+      reader.readAsDataURL(event.target.files[0]); // 파일을 데이터 URL로 읽습니다.
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', selectedFile);
-
-    // Dummy function for file upload, implement as needed
+    if (selectedFile) {
+      formData.append('file', selectedFile);
+    }
+    console.log(formData);
   };
-
-  // Uncomment and implement useQuery to fetch real data
-  // const { data, isLoading, error } = useQuery('profileData', fetchProfileData);
 
   return (
     <div className="w-full  flex items-center justify-center">
@@ -32,25 +56,34 @@ export default function Profile() {
         {/* Profile Picture Section */}
         <div className="flex flex-col items-center mb-[12px] mt-[80px]">
           <div className="w-[100px] relative">
-            <img
-              className="w-24 h-24 rounded-full"
-              src="/mypage/profilechange/ProfileImage.svg"
-              alt="Profile Picture"
-            />
-            <label
-              htmlFor="fileInput"
-              className="w-7 h-7 absolute bottom-0 right-0 bg-neutral-400 rounded-full border border-white cursor-pointer flex items-center justify-center">
-              <img
-                className="w-4 h-4"
-                src="/mypage/profilechange/Camera.svg"
-                alt="Edit Icon"
-              />
-              <input
-                id="fileInput"
-                type="file"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+            <label className=" cursor-pointer" htmlFor="fileInput">
+              {fileUrl ? (
+                <img
+                  className="w-24 h-24 rounded-full"
+                  src={fileUrl}
+                  alt="Selected Profile Picture"
+                />
+              ) : (
+                <img
+                  className="w-24 h-24 rounded-full"
+                  src="/mypage/profilechange/ProfileImage.svg"
+                  alt="Profile Picture"
+                />
+              )}
+
+              <label className="w-7 h-7 absolute bottom-0 right-0 bg-neutral-400 rounded-full border border-white cursor-pointer flex items-center justify-center">
+                <img
+                  className="w-4 h-4"
+                  src="/mypage/profilechange/Camera.svg"
+                  alt="Edit Icon"
+                />
+                <input
+                  id="fileInput"
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+              </label>
             </label>
           </div>
         </div>
@@ -63,7 +96,7 @@ export default function Profile() {
               이름
             </label>
             <div className="w-full h-12 px-4 py-2 bg-stone-50 rounded-lg border border-neutral-300 flex items-center">
-              <span className="text-neutral-400 text-sm">{name}</span>
+              <span className="text-neutral-400 text-sm">{member.memberName}</span>
             </div>
           </div>
           {/* Email Field */}
@@ -72,12 +105,12 @@ export default function Profile() {
               이메일
             </label>
             <div className="w-full h-12 px-4 py-2 bg-stone-50 rounded-lg border border-neutral-300 flex items-center">
-              <span className="text-neutral-400 text-sm">{email}</span>
+              <span className="text-neutral-400 text-sm">{member.memberEmail}</span>
             </div>
           </div>
           {/* Password Field */}
           <div>
-            <label className="block text-neutral-600 text-base font-semibold mb-2 flex items-center">
+            <label className=" text-neutral-600 text-base font-semibold mb-2 flex items-center">
               비밀번호
               <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full ml-1"></span>
             </label>
