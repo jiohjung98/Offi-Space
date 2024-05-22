@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import MapSearchBar from './MapSearchBar'; // 경로는 실제 파일 위치에 따라 조정하세요.
+import MapSearchResult from './MapSearchResult'; // 경로는 실제 파일 위치에 따라 조정하세요.
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const markerRef = useRef<naver.maps.Marker | null>(null);
   const [imageSrc, setImageSrc] = useState('/MapLocation.png');
   const [showMessage, setShowMessage] = useState(true);
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   useEffect(() => {
     let map: naver.maps.Map;
@@ -88,6 +91,8 @@ const UseMap: React.FC = () => {
           <button onClick={handleDismissMessage} className="ml-4">X</button>
         </div>
       )}
+      <MapSearchBar onFocus={() => setShowSearchResults(true)} />
+      {showSearchResults && <MapSearchResult onClose={() => setShowSearchResults(false)} />}
       <button
         id="current-location-button"
         className="absolute bottom-4 left-4 p-2 flex items-center justify-center"
