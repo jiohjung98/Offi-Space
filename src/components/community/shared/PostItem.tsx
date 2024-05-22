@@ -1,15 +1,15 @@
 import React from 'react';
-import { postData } from '../mock/postData';
 import { formatDate, formatTime } from '@/utils/invertFullTime';
 import PostItemImageLayout from './PostItemImageLayout';
 import { useRouter } from 'next/router';
 import { sliceText } from '@/utils/sliceTexts';
+import { postDataType } from '../model/postDataType';
 
-const PostItem = ({ post }: { post: postData }) => {
+const PostItem = ({ post }: { post: postDataType }) => {
   const router = useRouter();
   return (
     <div
-      onClick={() => router.push(`/community/${post.id}`)}
+      onClick={() => router.push(`/community/${post.postId}`)}
       className="my-6 cursor-pointer">
       {/* 태그자리 */}
       <div className="px-2 py-1 text-center bg-gray-200 inline-flex rounded-3xl">
@@ -21,7 +21,7 @@ const PostItem = ({ post }: { post: postData }) => {
         {/* 유저 사진 */}
         <div className="w-[42px] h-[42px]">
           <img
-            src={`${post.profileImage}`}
+            src={`${post.writer.profile}`}
             alt=""
             className="rounded-[50%] w-full h-full"
           />
@@ -30,10 +30,12 @@ const PostItem = ({ post }: { post: postData }) => {
         {/* 유저 닉네임, 직무 */}
         <div className="flex flex-col">
           {/* 유저 이름 */}
-          <div className="text-sm font-semibold text-gray-700">{post.nickname}</div>
+          <div className="text-sm font-semibold text-gray-700">
+            {post.writer.nickname}
+          </div>
 
           {/* 유저직무 */}
-          <div className="text-xs text-gray-500">{post.userCategory}</div>
+          <div className="text-xs text-gray-500">{post.writer.job}</div>
         </div>
       </div>
 
@@ -65,7 +67,7 @@ const PostItem = ({ post }: { post: postData }) => {
           {/* 하트 */}
           <div className="flex gap-1 items-center">
             <img src="/community/heart.svg" alt="" />
-            <span>{post.wishCount}</span>
+            <span>{post.likeCount}</span>
           </div>
           {/* 댓글 */}
           <div className="flex gap-1 items-center">
