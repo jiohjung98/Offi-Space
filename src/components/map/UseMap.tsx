@@ -45,6 +45,12 @@ const UseMap: React.FC = () => {
               markerRef.current = new naver.maps.Marker({
                 position: currentLocation,
                 map: map,
+                icon: {
+                  url: '/MyLocation.png',
+                  size: new naver.maps.Size(48, 48),
+                  origin: new naver.maps.Point(0, 0),
+                  anchor: new naver.maps.Point(24, 24),
+                },
               });
             }
           },
