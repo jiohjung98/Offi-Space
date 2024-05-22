@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import MapSearchBar from './MapSearchBar'; // 경로는 실제 파일 위치에 따라 조정하세요.
-import MapSearchResult from './MapSearchResult'; // 경로는 실제 파일 위치에 따라 조정하세요.
+import MapSearchBar from './MapSearchBar'; 
+import MapSearchResult from './MapSearchResult'; 
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -44,6 +44,7 @@ const UseMap: React.FC = () => {
 
             if (markerRef.current) {
               markerRef.current.setPosition(currentLocation);
+              map.setZoom(16);
             } else {
               markerRef.current = new naver.maps.Marker({
                 position: currentLocation,
