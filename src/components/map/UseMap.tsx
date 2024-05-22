@@ -5,6 +5,7 @@ const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const markerRef = useRef<naver.maps.Marker | null>(null);
   const [imageSrc, setImageSrc] = useState('/MapLocation.png');
+  const [showMessage, setShowMessage] = useState(true);
 
   useEffect(() => {
     let map: naver.maps.Map;
@@ -68,9 +69,19 @@ const UseMap: React.FC = () => {
     };
   }, []);
 
+  const handleDismissMessage = () => {
+    setShowMessage(false);
+  };
+
   return (
     <div className="relative w-full h-full">
       <div ref={mapRef} className="w-full h-full" />
+      {showMessage && (
+        <div className="absolute bottom-20 left-4 bg-white px-3 py-3.5 shadow-lg flex items-center">
+          <span>더 정확한 접속위치를 확인해보세요!</span>
+          <button onClick={handleDismissMessage} className="ml-4">X</button>
+        </div>
+      )}
       <button
         id="current-location-button"
         className="absolute bottom-4 left-4 p-2 flex items-center justify-center"
