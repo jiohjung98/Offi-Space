@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 declare namespace naver.maps {
     class Map {
+      panTo: any;
       constructor(element: HTMLElement | string, options: MapOptions);
       setCenter(latlng: LatLng): void;
       setZoom(zoom: number): void;
