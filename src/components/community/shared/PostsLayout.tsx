@@ -11,6 +11,7 @@ import { getAllPosts } from '../remote/post';
 const PostsLayout = () => {
   const { category } = useCategoryStore() as { category: string };
   const newCategory = useCategoryToEnum(category);
+  console.log(newCategory);
 
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObserver(ref, {});

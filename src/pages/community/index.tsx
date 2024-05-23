@@ -2,7 +2,7 @@
 import PositionModal from '@/components/community/career/modal/PositionModal';
 import Layout from '@/components/layout/Layout';
 import MainContainer from '@/components/shared/MainContainer';
-import { useCareerTalk } from '@/store/careerTalk.stroe';
+import { useCareerTalk } from '@/store/careerTalk.store';
 import dynamic from 'next/dynamic';
 import React from 'react';
 

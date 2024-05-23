@@ -1,3 +1,5 @@
+import { useCareerDescription } from '@/components/community/hooks/useCareerDesscription';
+import { useMemberStore } from '@/stores/user';
 import { create } from 'zustand';
 
 interface useCareerTalkType {
@@ -9,7 +11,9 @@ interface useCareerTalkType {
 
 export const useCareerTalk = create<useCareerTalkType>((set) => ({
   modalOpen: false,
-  initialPosition: '',
+  initialPosition: useCareerDescription(
+    useMemberStore.getState().member.memberJob
+  ) as string,
   setModal: (payload: boolean) =>
     set(() => ({
       modalOpen: payload
