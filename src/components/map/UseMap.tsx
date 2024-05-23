@@ -9,6 +9,7 @@ const UseMap: React.FC = () => {
   const [imageSrc, setImageSrc] = useState('/MapLocation.png');
   const [showMessage, setShowMessage] = useState(true);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let map: naver.maps.Map;
@@ -32,6 +33,7 @@ const UseMap: React.FC = () => {
     }
 
     const handleCurrentLocation = () => {
+      setLoading(true);
       if (navigator.geolocation && map) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -57,13 +59,16 @@ const UseMap: React.FC = () => {
                 },
               });
             }
+            setLoading(false);
           },
           (error) => {
             console.error('Error getting current location:', error);
+            setLoading(false);
           }
         );
       } else {
         alert('Geolocation is not supported by this browser.');
+        setLoading(false);
       }
     };
 
@@ -87,10 +92,13 @@ const UseMap: React.FC = () => {
     <div className="relative w-full h-full">
       <div ref={mapRef} className="w-full h-full" />
       {showMessage && (
-        <><div className="absolute bottom-[90px] left-4 bg-white px-3 py-3.5 shadow-lg flex items-center">
-          <span>더 정확한 접속위치를 확인해보세요!</span>
-          <button onClick={handleDismissMessage} className="ml-4">X</button>
-        </div><Image src='/triangle1.svg' alt="Current Location" className='absolute bottom-[80px] left-[40px]' width={18} height={10} /></>
+        <>
+          <div className="absolute bottom-[90px] left-4 bg-white px-3 py-3.5 shadow-lg flex items-center">
+            <span>더 정확한 접속위치를 확인해보세요!</span>
+            <button onClick={handleDismissMessage} className="ml-4">X</button>
+          </div>
+          <Image src='/triangle1.svg' alt="Current Location" className='absolute bottom-[80px] left-[40px]' width={18} height={10} />
+        </>
       )}
       <MapSearchBar onFocus={() => setShowSearchResults(true)} />
       {showSearchResults && <MapSearchResult onClose={() => setShowSearchResults(false)} />}
@@ -103,6 +111,11 @@ const UseMap: React.FC = () => {
       >
         <Image src={imageSrc} alt="Current Location" width={48} height={48} />
       </button>
+      {loading && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="loader"></div>
+        </div>
+      )}
     </div>
   );
 };
