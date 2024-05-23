@@ -1,3 +1,4 @@
+import { del } from '@/api/auth/auth.delete.api';
 import { useState } from 'react';
 
 const MemberWithdrawal = () => {
@@ -5,7 +6,10 @@ const MemberWithdrawal = () => {
   const handleCheckboxChange = (event: any) => {
     setIsChecked(event.target.checked);
   };
-
+  const handleWithdrawal = () => {
+    del();
+    alert('회원탈퇴가 완료되었습니다.');
+  };
   return (
     <div className="w-full h-screen bg-white flex flex-col items-center">
       <div className="flex flex-col p-[16px] items-start mt-10">
@@ -49,6 +53,7 @@ const MemberWithdrawal = () => {
         </div>
 
         <button
+          onClick={handleWithdrawal}
           className={`w-full mt-20 py-3 rounded-lg text-white font-semibold  flex justify-center  ${isChecked ? 'bg-blue-600' : 'bg-gray-400'} `}
           disabled={!isChecked}>
           회원탈퇴
