@@ -1,10 +1,15 @@
+import { BackArrow } from '@/components/backarrow/BackArrow';
 import React from 'react';
 
 const GuidePage = () => {
   return (
     <div className="w-full max-w-md mx-auto bg-white flex flex-col gap-8">
-      <div className="p-4">
-        <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] leading-[27px] mb-[14px] mt-[50px]">
+      <div className="mt-[40px] ml-[10px] mb-[2px]">
+        <BackArrow width="40px" height="24px" name="이용 가이드" />
+      </div>
+
+      <div className="px-4 ">
+        <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] leading-[27px] mb-[14px] ]">
           네트워크 이용 가이드
         </div>
         <div className="flex flex-col gap-2 relative pb-4">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useMember } from '@/stores/user';
 import { getTitleFromDescription, jobPosition } from '@/constant/jobPosition';
+import { BackArrow } from '@/components/backarrow/BackArrow';
 // import { useQuery } from 'react-query'; // Uncomment when useQuery is available
 
 export default function Profile() {
@@ -53,8 +54,8 @@ export default function Profile() {
   return (
     <div className="w-full  flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-6 rounded-lg ">
-        {/* Profile Picture Section */}
-        <div className="flex flex-col items-center mb-[12px] mt-[80px]">
+        <BackArrow width="40px" height="24px" name="프로필 수정" />
+        <div className="flex flex-col items-center mb-[12px] mt-[22px]">
           <div className="w-[100px] relative">
             <label className=" cursor-pointer" htmlFor="fileInput">
               {fileUrl ? (

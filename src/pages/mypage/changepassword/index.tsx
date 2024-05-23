@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { passwordverify } from '@/api/auth/auth.post.api';
 import { useMutation } from '@tanstack/react-query';
 import { changepassword } from '@/api/auth/auth.patch.api';
 import { useRouter } from 'next/navigation';
+import { BackArrow } from '@/components/backarrow/BackArrow';
 export default function PasswordChange() {
   const {
     register,
@@ -56,20 +57,22 @@ export default function PasswordChange() {
   return (
     <div className="flex items-center justify-center w-full  bg-gray-100">
       <div className="w-full  bg-white p-6 rounded-lg">
-        <Link href="/mypage">
+        {/* <Link href="/mypage">
           <img
             src="/mypage/passwordchange/BackArrow.svg"
             alt="Back"
             className="mb-10 cursor-pointer mt-[50px]"
           />
-        </Link>
+        </Link> */}
+
+        <BackArrow width="40px" height="24px" />
         <h2 className="text-2xl font-bold ">새로 사용할 </h2>
         <h2 className="text-2xl font-bold mb-[62px]"> 비밀번호를 설정해주세요. </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="">
           {/* Current Password Field */}
           <div className="mb-[24px]">
-            <label className=" text-neutral-600 text-base font-semibold mb-2 flex flex-row justify-start">
+            <label className="  text-neutral-600 text-base font-semibold mb-2 flex flex-row justify-start">
               기존 비밀번호
               <img
                 src="/mypage/passwordchange/YellowEllipse.svg"
