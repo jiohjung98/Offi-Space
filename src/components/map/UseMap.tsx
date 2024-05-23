@@ -87,10 +87,10 @@ const UseMap: React.FC = () => {
     <div className="relative w-full h-full">
       <div ref={mapRef} className="w-full h-full" />
       {showMessage && (
-        <div className="absolute bottom-20 left-4 bg-white px-3 py-3.5 shadow-lg flex items-center">
+        <><div className="absolute bottom-[90px] left-4 bg-white px-3 py-3.5 shadow-lg flex items-center">
           <span>더 정확한 접속위치를 확인해보세요!</span>
           <button onClick={handleDismissMessage} className="ml-4">X</button>
-        </div>
+        </div><Image src='/triangle1.svg' alt="Current Location" className='absolute bottom-[80px] left-[40px]' width={18} height={10} /></>
       )}
       <MapSearchBar onFocus={() => setShowSearchResults(true)} />
       {showSearchResults && <MapSearchResult onClose={() => setShowSearchResults(false)} />}
