@@ -9,7 +9,7 @@ export const changepassword = async ({
   currentPassword,
   newPassword
 }: IPasswordChage) => {
-  const response = await patchRequest<ICommon<null>, IPasswordChage>('/logout', {
+  const response = await patchRequest<ICommon<null>, IPasswordChage>('members/password', {
     currentPassword,
     newPassword
   });

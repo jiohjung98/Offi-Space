@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
-import axios from 'axios';
-import { useMember } from '@/stores/user'; // Ensure this path is correct
-
+import { passwordverify } from '@/api/auth/auth.post.api';
+import { useMutation } from '@tanstack/react-query';
+import { changepassword } from '@/api/auth/auth.patch.api';
+import { useRouter } from 'next/navigation';
 export default function PasswordChange() {
   const {
     register,
@@ -14,29 +15,37 @@ export default function PasswordChange() {
   } = useForm({ mode: 'onChange' });
   const [currentPasswordVerified, setCurrentPasswordVerified] = useState(false);
   const [passwordVerifiedButton, setPasswordVerifiedButton] = useState('확인');
-  const member = useMember();
-
+  const router = useRouter();
   const onSubmit = async (data: any) => {
-    try {
-      // Dummy API call
-      await axios.post('/api/change-password', data);
-      alert('Password changed successfully');
-    } catch (error) {
-      console.error(error);
-    }
+    changepassword({
+      currentPassword: data.currentPassword,
+      newPassword: data.newPassword
+    });
+    router.push('/mypage/changepassword/success');
   };
 
-  const verifyCurrentPassword = () => {
-    // Dummy check - Replace with actual check
-    if (watch('currentPassword') === 'aaa') {
+  const usePasswordVerify = () => {
+    const onSuccess = () => {
       setCurrentPasswordVerified(true);
       setPasswordVerifiedButton('확인완료');
-    } else {
+    };
+    const onError = () => {
       setError('currentPassword', {
         type: 'manual',
         message: '*일치하지 않습니다.'
       });
-    }
+    };
+    return useMutation({
+      mutationFn: passwordverify,
+      onSuccess: onSuccess,
+      onError: onError
+    });
+  };
+
+  const { mutate } = usePasswordVerify();
+
+  const verifyCurrentPassword = () => {
+    mutate({ password: watch('currentPassword') });
   };
 
   const newPassword = watch('newPassword');
