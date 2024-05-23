@@ -1,10 +1,10 @@
 import React, { Dispatch, useEffect, useState } from 'react';
-import { writePostType } from '../mock/writePostType';
 import useDebounce from '../hooks/useDebounce';
+import { WritePostType } from '../model/writePostType';
 
 interface WritePostTitleType {
-  postData: Partial<writePostType>;
-  setPostData: Dispatch<React.SetStateAction<Partial<writePostType>>>;
+  postData: Partial<WritePostType>;
+  setPostData: Dispatch<React.SetStateAction<WritePostType>>;
 }
 
 const WritePostTitle = ({ postData, setPostData }: WritePostTitleType) => {

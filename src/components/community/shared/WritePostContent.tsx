@@ -1,15 +1,16 @@
 import React, { ChangeEvent, Dispatch, useEffect, useRef, useState } from 'react';
-import { writePostType } from '../mock/writePostType';
 import useDebounce from '../hooks/useDebounce';
 import 'swiper/css';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
+import { WritePostType } from '../model/writePostType';
 
 interface WritePostContentType {
-  setPostData: Dispatch<React.SetStateAction<Partial<writePostType>>>;
+  postData: Partial<WritePostType>;
+  setPostData: Dispatch<React.SetStateAction<WritePostType>>;
 }
 
-const WritePostContent = ({ setPostData }: WritePostContentType) => {
-  const [textValue, setTextValue] = useState<string>('');
+const WritePostContent = ({ postData, setPostData }: WritePostContentType) => {
+  const [textValue, setTextValue] = useState<string>(postData.content || '');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [previewImg, setPreviewImg] = useState<string[]>([]);
   const swiperRef = useRef<SwiperClass | null>(null);
@@ -20,7 +21,7 @@ const WritePostContent = ({ setPostData }: WritePostContentType) => {
     if (fileBlob) {
       setPostData((prev) => ({
         ...prev,
-        images: [...(prev.images ?? []), fileBlob]
+        image: [...(prev.image ?? []), fileBlob]
       }));
     }
 
@@ -43,14 +44,14 @@ const WritePostContent = ({ setPostData }: WritePostContentType) => {
 
     setPostData((prev) => ({
       ...prev,
-      images: prev.images?.filter((_, i) => i !== index)
+      image: prev.image?.filter((_, i) => i !== index)
     }));
   };
 
   useEffect(() => {
     setPostData((prev) => ({
       ...prev,
-      contents: debouncedTitle
+      content: debouncedTitle
     }));
   }, [debouncedTitle, setPostData]);
 

@@ -1,12 +1,12 @@
 import React, { Dispatch } from 'react';
-import { writePostType } from '../mock/writePostType';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { tagWithCareer } from '@/constant/TagWithCareer';
+import { WritePostType } from '../model/writePostType';
 
 interface WritePostCareerTagType {
-  postData: Partial<writePostType>;
-  setPostData: Dispatch<React.SetStateAction<Partial<writePostType>>>;
+  postData: Partial<WritePostType>;
+  setPostData: Dispatch<React.SetStateAction<WritePostType>>;
 }
 
 const WritePostCareerTag = ({ postData, setPostData }: WritePostCareerTagType) => {

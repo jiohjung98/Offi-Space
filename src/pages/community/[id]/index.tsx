@@ -15,8 +15,6 @@ const CommunityDetailPage = () => {
     enabled: id != null
   });
 
-  console.log(postData?.data[0]);
-
   if (postData == null) {
     return null;
   }

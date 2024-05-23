@@ -1,10 +1,10 @@
 import { jobPosition } from '@/constant/jobPosition';
 import React, { Dispatch, useState } from 'react';
-import { writePostType } from '../mock/writePostType';
+import { WritePostType } from '../model/writePostType';
 
 interface WritePostPositionType {
-  postData: Partial<writePostType>;
-  setPostData: Dispatch<React.SetStateAction<Partial<writePostType>>>;
+  postData: Partial<WritePostType>;
+  setPostData: Dispatch<React.SetStateAction<WritePostType>>;
 }
 
 const WritePostPosition = ({ postData, setPostData }: WritePostPositionType) => {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { WritePostType } from '../model/writePostType';
 
 interface getAllPostsType {
   pageParam: string;
@@ -30,4 +31,19 @@ export const getPostDetail = async (id: string) => {
   const { data } = await axios.get(`http://localhost:3000/api/community/${id}`);
 
   return data;
+};
+
+export const deletePost = async (id: string) => {
+  const { data } = await axios.delete(`http://localhost:3000/api/community/${id}`);
+
+  //todo 삭제 오류 에러헨들링
+
+  return data;
+};
+
+export const writePost = async (writePostData: WritePostType) => {
+  const { data } = await axios.post(`http://localhost:3000/api/community`, writePostData);
+  const dataString = JSON.stringify(data);
+  //todo 에러핸들링 필요
+  return dataString;
 };

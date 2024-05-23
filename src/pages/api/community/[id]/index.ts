@@ -7,4 +7,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     );
     return res.status(200).json(postData);
   }
+  if (req.method === 'DELETE') {
+    const postData = await import(
+      '../../../../components/community/mock/deletePostRes.json'
+    );
+    return res.status(200).json(postData);
+  }
 }
