@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useLogin from '@/hook/useLogin';
 import { ISignIn } from '@/api/types/auth';
+import { signinmock } from '@/api/mock.api';
 // interface SigninType {
 //   email: string;
 //   password: string;
@@ -15,6 +16,10 @@ const SigninForm = () => {
     // setError,
     formState: { errors }
   } = useForm<ISignIn>();
+
+  useEffect(() => {
+    signinmock();
+  }, []);
 
   const { mutate, error } = useLogin();
 
