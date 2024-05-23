@@ -1,20 +1,29 @@
 'use client';
 import PostDetailIndex from '@/components/community/PostDetailIndex';
 import { commentsData } from '@/components/community/mock/comments';
-import { postData } from '@/components/community/mock/postData';
+import { getPostDetail } from '@/components/community/remote/post';
 import MainContainer from '@/components/shared/MainContainer';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { useQuery } from 'react-query';
 
 const CommunityDetailPage = () => {
   const router = useRouter();
   const { id } = router.query as { id: string };
-  //todo : 여기서 id 가져와서 글 상세정보 뿌려주기
-  console.log(id);
-  const data = postData[0];
+
+  const { data: postData } = useQuery(['post', id], () => getPostDetail(id), {
+    enabled: id != null
+  });
+
+  console.log(postData?.data[0]);
+
+  if (postData == null) {
+    return null;
+  }
+
   return (
     <MainContainer>
-      <PostDetailIndex data={data} commentsData={commentsData} />
+      <PostDetailIndex postData={postData?.data[0]} commentsData={commentsData} />
     </MainContainer>
   );
 };

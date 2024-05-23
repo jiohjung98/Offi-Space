@@ -1,27 +1,28 @@
 import React from 'react';
 import ToBackComunity from './shared/ToBackComunity';
-import { postData } from './mock/postData';
 import PostDetail from './shared/PostDetail';
 import CommentsLayout from './comments/CommentsLayout';
 import { Comment } from './mock/comments';
 import WriteCommentLayout from './comments/WriteCommentLayout';
 import { useModalStore } from '@/store/modal.store';
 import dynamic from 'next/dynamic';
+import { PostDetailDataType } from './model/postDetailType';
 
 const DeleteModal = dynamic(() => import('./shared/modal/DeleteModal'), { ssr: false });
 
 interface PostDetailIndexProps {
-  data: postData;
+  postData: PostDetailDataType;
   commentsData: Comment[];
 }
 
-const PostDetailIndex = ({ data, commentsData }: PostDetailIndexProps) => {
+const PostDetailIndex = ({ postData, commentsData }: PostDetailIndexProps) => {
   const { open } = useModalStore();
+
   return (
     <div className="mx-4">
       <div className="h-[60px]" />
       <ToBackComunity />
-      <PostDetail data={data} />
+      <PostDetail postData={postData} />
       {/* 구분선 */}
       <div className="w-full h-1 bg-gray-100" />
       {/* 댓글자리 */}
