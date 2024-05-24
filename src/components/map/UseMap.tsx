@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import MapSearchBar from './MapSearchBar'; 
 import MapSearchResult from './MapSearchResult'; 
+import { getBranchInfo } from '@/api/map/getOffice';
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -82,6 +83,17 @@ const UseMap: React.FC = () => {
         button.removeEventListener('click', handleCurrentLocation);
       }
     };
+  }, []);
+
+  useEffect(() => {
+    // 페이지가 로드될 때 API 호출
+    getBranchInfo()
+      .then((response) => {
+        console.log('Branch Info:', response);
+      })
+      .catch((error) => {
+        console.error('Error fetching branch info:', error);
+      });
   }, []);
 
   const handleDismissMessage = () => {
