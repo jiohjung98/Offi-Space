@@ -4,6 +4,7 @@ import MapSearchBar from './MapSearchBar';
 import MapSearchResult from './MapSearchResult'; 
 import { getBranchInfo } from '@/api/map/getOffice';
 import { Branch } from '@/api/types/branch';
+import OfficeModal from './OfficeModal';
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -15,6 +16,8 @@ const UseMap: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [branches, setBranches] = useState<Branch[]>([]);
   const [map, setMap] = useState<naver.maps.Map | null>(null); 
+  const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const initMap = () => {
@@ -68,6 +71,10 @@ const UseMap: React.FC = () => {
           origin: new naver.maps.Point(0, 0),
           anchor: new naver.maps.Point(24, 24),
         },
+      });
+      naver.maps.Event.addListener(marker, 'click', () => {
+        setSelectedBranch(branch);
+        setIsModalOpen(true);
       });
       markerRefs.current.push(marker);
     });
@@ -152,6 +159,12 @@ const UseMap: React.FC = () => {
           <div className="loader"></div>
         </div>
       )}
+      <OfficeModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        branchName={selectedBranch?.branchName || ''} 
+        branchAddress={selectedBranch?.branchAddress || ''} 
+      />
     </div>
   );
 };

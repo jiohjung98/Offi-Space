@@ -4,3 +4,10 @@ export interface Branch {
     branchLatitude: number;
     branchLongitude: number;
 }
+
+export interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    branchName: string;
+    branchAddress: string;
+}
