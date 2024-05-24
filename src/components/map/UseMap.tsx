@@ -3,20 +3,19 @@ import Image from 'next/image';
 import MapSearchBar from './MapSearchBar'; 
 import MapSearchResult from './MapSearchResult'; 
 import { getBranchInfo } from '@/api/map/getOffice';
-
+import { Branch } from '@/api/types/branch';
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const markerRef = useRef<naver.maps.Marker | null>(null);
+  const markerRefs = useRef<naver.maps.Marker[]>([]);
   const [imageSrc, setImageSrc] = useState('/MapLocation.png');
   const [showMessage, setShowMessage] = useState(true);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+  const [branches, setBranches] = useState<Branch[]>([]);
 
   useEffect(() => {
-    let map: naver.maps.Map;
-
     const initMap = () => {
       if (mapRef.current) {
         const initialCenter = new naver.maps.LatLng(37.4979, 127.0276);
@@ -24,7 +23,7 @@ const UseMap: React.FC = () => {
           center: initialCenter,
           zoom: 16,
         };
-        map = new naver.maps.Map(mapRef.current, mapOptions);
+        new naver.maps.Map(mapRef.current, mapOptions);
       }
     };
 
@@ -34,31 +33,74 @@ const UseMap: React.FC = () => {
       window.addEventListener('load', initMap);
       return () => window.removeEventListener('load', initMap);
     }
+  }, []);
 
+  useEffect(() => {
+    getBranchInfo()
+      .then((response) => {
+        console.log('Branch Info:', response);
+        setBranches(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching branch info:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (mapRef.current && branches.length > 0) {
+      const map = new naver.maps.Map(mapRef.current, {
+        center: new naver.maps.LatLng(37.4979, 127.0276),
+        zoom: 16,
+      });
+      setMarkers(map);
+    }
+  }, [branches]);
+
+  const setMarkers = (map: naver.maps.Map) => {
+    markerRefs.current.forEach(marker => marker.setMap(null));
+    markerRefs.current = [];
+
+    branches.forEach((branch) => {
+      const marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude),
+        map: map,
+        icon: {
+          url: '/OFficeActive.svg',
+          size: new naver.maps.Size(48, 48),
+          origin: new naver.maps.Point(0, 0),
+          anchor: new naver.maps.Point(24, 24),
+        },
+      });
+      markerRefs.current.push(marker);
+    });
+  };
+
+  useEffect(() => {
     const handleCurrentLocation = () => {
       setLoading(true);
-      if (navigator.geolocation && map) {
+      if (navigator.geolocation && mapRef.current) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            const currentLocation = new naver.maps.LatLng(
-              position.coords.latitude,
-              position.coords.longitude
-            );
-            map.panTo(currentLocation, { duration: 500 });
-            if (markerRef.current) {
-              markerRef.current.setPosition(currentLocation);
-              map.setZoom(16);
-            } else {
-              markerRef.current = new naver.maps.Marker({
-                position: currentLocation,
-                map: map,
-                icon: {
-                  url: '/MyLocation.png',
-                  size: new naver.maps.Size(48, 48),
-                  origin: new naver.maps.Point(0, 0),
-                  anchor: new naver.maps.Point(24, 24),
-                },
+            if (mapRef.current) {
+              const map = new naver.maps.Map(mapRef.current, {
+                center: new naver.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                zoom: 16,
               });
+              if (markerRef.current) {
+                markerRef.current.setPosition(new naver.maps.LatLng(position.coords.latitude, position.coords.longitude));
+                map.setZoom(16);
+              } else {
+                markerRef.current = new naver.maps.Marker({
+                  position: new naver.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                  map: map,
+                  icon: {
+                    url: '/MyLocation.png',
+                    size: new naver.maps.Size(48, 48),
+                    origin: new naver.maps.Point(0, 0),
+                    anchor: new naver.maps.Point(24, 24),
+                  },
+                });
+              }
             }
             setLoading(false);
           },
@@ -83,16 +125,6 @@ const UseMap: React.FC = () => {
         button.removeEventListener('click', handleCurrentLocation);
       }
     };
-  }, []);
-
-  useEffect(() => {
-    getBranchInfo()
-      .then((response) => {
-        console.log('Branch Info:', response);
-      })
-      .catch((error) => {
-        console.error('Error fetching branch info:', error);
-      });
   }, []);
 
   const handleDismissMessage = () => {
