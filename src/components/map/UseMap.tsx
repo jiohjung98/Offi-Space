@@ -4,6 +4,7 @@ import MapSearchBar from './MapSearchBar';
 import MapSearchResult from './MapSearchResult'; 
 import { getBranchInfo } from '@/api/map/getOffice';
 
+
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const markerRef = useRef<naver.maps.Marker | null>(null);
@@ -11,6 +12,7 @@ const UseMap: React.FC = () => {
   const [showMessage, setShowMessage] = useState(true);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [loading, setLoading] = useState(false);
+  
 
   useEffect(() => {
     let map: naver.maps.Map;
@@ -42,9 +44,7 @@ const UseMap: React.FC = () => {
               position.coords.latitude,
               position.coords.longitude
             );
-
             map.panTo(currentLocation, { duration: 500 });
-
             if (markerRef.current) {
               markerRef.current.setPosition(currentLocation);
               map.setZoom(16);
@@ -86,7 +86,6 @@ const UseMap: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // 페이지가 로드될 때 API 호출
     getBranchInfo()
       .then((response) => {
         console.log('Branch Info:', response);
