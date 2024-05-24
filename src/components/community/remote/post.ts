@@ -2,7 +2,7 @@ import axios from 'axios';
 import { WritePostType } from '../model/writePostType';
 
 interface getAllPostsType {
-  pageParam: string;
+  pageParam?: string;
   category: string;
 }
 

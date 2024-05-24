@@ -4,6 +4,7 @@ import PostItemImageLayout from './PostItemImageLayout';
 import { useRouter } from 'next/router';
 import { sliceText } from '@/utils/sliceTexts';
 import { postDataType } from '../model/postDataType';
+import { useEnumToCategory } from '../hooks/useEnumToCategory';
 
 const PostItem = ({ post }: { post: postDataType }) => {
   const router = useRouter();
@@ -35,7 +36,9 @@ const PostItem = ({ post }: { post: postDataType }) => {
           </div>
 
           {/* 유저직무 */}
-          <div className="text-xs text-gray-500">{post.writer.job}</div>
+          <div className="text-xs text-gray-500">
+            {useEnumToCategory(post.writer.job)}
+          </div>
         </div>
       </div>
 

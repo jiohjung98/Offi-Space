@@ -1,5 +1,5 @@
 export interface postDataType {
-  postId: number;
+  postId: string;
   title: string;
   content: string;
   image: string[];

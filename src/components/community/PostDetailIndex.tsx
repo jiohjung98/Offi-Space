@@ -2,31 +2,37 @@ import React from 'react';
 import ToBackComunity from './shared/ToBackComunity';
 import PostDetail from './shared/PostDetail';
 import CommentsLayout from './comments/CommentsLayout';
-import { Comment } from './mock/comments';
 import WriteCommentLayout from './comments/WriteCommentLayout';
 import { useModalStore } from '@/store/modal.store';
 import dynamic from 'next/dynamic';
-import { PostDetailDataType } from './model/postDetailType';
+import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+import { getPostDetail } from './remote/post';
 
 const DeleteModal = dynamic(() => import('./shared/modal/DeleteModal'), { ssr: false });
 
-interface PostDetailIndexProps {
-  postData: PostDetailDataType;
-  commentsData: Comment[];
-}
-
-const PostDetailIndex = ({ postData, commentsData }: PostDetailIndexProps) => {
+const PostDetailIndex = () => {
   const { open } = useModalStore();
+  const router = useRouter();
+  const { id } = router.query as { id: string };
+
+  const { data: postData } = useQuery(['post', id], () => getPostDetail(id), {
+    enabled: id != null
+  });
+
+  if (postData == null) {
+    return null;
+  }
 
   return (
     <div className="mx-4">
       <div className="h-[60px]" />
       <ToBackComunity />
-      <PostDetail postData={postData} />
+      <PostDetail postData={postData.data[0]} />
       {/* 구분선 */}
       <div className="w-full h-1 bg-gray-100" />
       {/* 댓글자리 */}
-      <CommentsLayout commentsData={commentsData} />
+      <CommentsLayout />
       {/* 댓글입력자리 */}
       <WriteCommentLayout />
       {open ? <DeleteModal /> : ''}

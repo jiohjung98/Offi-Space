@@ -31,6 +31,10 @@ const PostDetail = ({ postData }: PostDetailType) => {
     }
   );
 
+  if (postData == null) {
+    return null;
+  }
+
   return (
     <div className="mt-5 mb-8">
       {/* 태그자리 */}
