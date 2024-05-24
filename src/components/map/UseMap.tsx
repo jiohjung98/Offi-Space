@@ -97,7 +97,7 @@ const UseMap: React.FC = () => {
             <span>더 정확한 접속위치를 확인해보세요!</span>
             <button onClick={handleDismissMessage} className="ml-4">X</button>
           </div>
-          <Image src='/triangle1.svg' alt="Current Location" className='absolute bottom-[80px] left-[40px]' width={18} height={10} />
+          <Image src='/triangle.svg' alt="Current Location" className='absolute bottom-[80px] left-[40px]' width={18} height={10} />
         </>
       )}
       <MapSearchBar onFocus={() => setShowSearchResults(true)} />
