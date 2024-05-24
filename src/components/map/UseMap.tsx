@@ -14,6 +14,7 @@ const UseMap: React.FC = () => {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [branches, setBranches] = useState<Branch[]>([]);
+  const [map, setMap] = useState<naver.maps.Map | null>(null); 
 
   useEffect(() => {
     const initMap = () => {
@@ -23,7 +24,8 @@ const UseMap: React.FC = () => {
           center: initialCenter,
           zoom: 16,
         };
-        new naver.maps.Map(mapRef.current, mapOptions);
+        const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
+        setMap(mapInstance);  
       }
     };
 
@@ -47,14 +49,10 @@ const UseMap: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (mapRef.current && branches.length > 0) {
-      const map = new naver.maps.Map(mapRef.current, {
-        center: new naver.maps.LatLng(37.4979, 127.0276),
-        zoom: 16,
-      });
+    if (map && branches.length > 0) {
       setMarkers(map);
     }
-  }, [branches]);
+  }, [branches, map]);
 
   const setMarkers = (map: naver.maps.Map) => {
     markerRefs.current.forEach(marker => marker.setMap(null));
@@ -78,29 +76,24 @@ const UseMap: React.FC = () => {
   useEffect(() => {
     const handleCurrentLocation = () => {
       setLoading(true);
-      if (navigator.geolocation && mapRef.current) {
+      if (navigator.geolocation && map) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            if (mapRef.current) {
-              const map = new naver.maps.Map(mapRef.current, {
-                center: new naver.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                zoom: 16,
+            const currentLocation = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            map.panTo(currentLocation);
+            if (markerRef.current) {
+              markerRef.current.setPosition(currentLocation);
+            } else {
+              markerRef.current = new naver.maps.Marker({
+                position: currentLocation,
+                map: map,
+                icon: {
+                  url: '/MyLocation.png',
+                  size: new naver.maps.Size(48, 48),
+                  origin: new naver.maps.Point(0, 0),
+                  anchor: new naver.maps.Point(24, 24),
+                },
               });
-              if (markerRef.current) {
-                markerRef.current.setPosition(new naver.maps.LatLng(position.coords.latitude, position.coords.longitude));
-                map.setZoom(16);
-              } else {
-                markerRef.current = new naver.maps.Marker({
-                  position: new naver.maps.LatLng(position.coords.latitude, position.coords.longitude),
-                  map: map,
-                  icon: {
-                    url: '/MyLocation.png',
-                    size: new naver.maps.Size(48, 48),
-                    origin: new naver.maps.Point(0, 0),
-                    anchor: new naver.maps.Point(24, 24),
-                  },
-                });
-              }
             }
             setLoading(false);
           },
@@ -125,7 +118,7 @@ const UseMap: React.FC = () => {
         button.removeEventListener('click', handleCurrentLocation);
       }
     };
-  }, []);
+  }, [map]);
 
   const handleDismissMessage = () => {
     setShowMessage(false);
