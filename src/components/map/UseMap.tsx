@@ -145,6 +145,12 @@ const UseMap: React.FC = () => {
       )}
       <MapSearchBar onFocus={() => setShowSearchResults(true)} />
       {showSearchResults && <MapSearchResult onClose={() => setShowSearchResults(false)} />}
+      <OfficeModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        branchName={selectedBranch?.branchName || ''} 
+        branchAddress={selectedBranch?.branchAddress || ''} 
+      />
       <button
         id="current-location-button"
         className="absolute bottom-4 left-4 p-2 flex items-center justify-center"
@@ -159,12 +165,6 @@ const UseMap: React.FC = () => {
           <div className="loader"></div>
         </div>
       )}
-      <OfficeModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        branchName={selectedBranch?.branchName || ''} 
-        branchAddress={selectedBranch?.branchAddress || ''} 
-      />
     </div>
   );
 };
