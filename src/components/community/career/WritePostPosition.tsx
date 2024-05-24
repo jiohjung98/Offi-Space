@@ -10,7 +10,7 @@ interface WritePostPositionType {
 const WritePostPosition = ({ postData, setPostData }: WritePostPositionType) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="py-4 border-b border-gray-200">
+    <div className="py-4 border-b border-gray-200 mt-4">
       {/* 위에 부분 */}
       <div className="flex items-center">
         <div className="text-lg font-bold text-gray-900">직무 선택</div>

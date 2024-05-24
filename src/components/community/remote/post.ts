@@ -47,3 +47,22 @@ export const writePost = async (writePostData: WritePostType) => {
   //todo 에러핸들링 필요
   return dataString;
 };
+
+export const registerLike = async (postId: string) => {
+  const body = {
+    postId: postId
+  };
+  const { data } = await axios.post(`http://localhost:3000/api/community/like`, body);
+  const dataString = JSON.stringify(data);
+  //todo 에러핸들링 필요
+  return dataString;
+};
+
+export const cancelLike = async (postId: string) => {
+  const { data } = await axios.delete(
+    `http://localhost:3000/api/community/${postId}/like`
+  );
+  const dataString = JSON.stringify(data);
+  //todo 에러핸들링 필요
+  return dataString;
+};

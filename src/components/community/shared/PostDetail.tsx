@@ -2,9 +2,34 @@ import React from 'react';
 import { formatDate, formatTime } from '@/utils/invertFullTime';
 import { useModalStore } from '@/store/modal.store';
 import { PostDetailDataType } from '../model/postDetailType';
+import { useMutation, useQueryClient } from 'react-query';
+import { cancelLike, registerLike } from '../remote/post';
 
-const PostDetail = ({ postData }: { postData: PostDetailDataType }) => {
+interface PostDetailType {
+  postData: PostDetailDataType;
+}
+
+const PostDetail = ({ postData }: PostDetailType) => {
+  const queryClient = useQueryClient();
   const { setOpen, setDeleteId, setCategory } = useModalStore();
+
+  const { mutateAsync: registerLikeMutate } = useMutation(
+    (postId: string) => registerLike(postId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['post', postData.postId]);
+      }
+    }
+  );
+
+  const { mutateAsync: cancelLikeMutate } = useMutation(
+    (postId: string) => cancelLike(postId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['post', postData.postId]);
+      }
+    }
+  );
 
   return (
     <div className="mt-5 mb-8">
@@ -76,10 +101,20 @@ const PostDetail = ({ postData }: { postData: PostDetailDataType }) => {
       </div>
 
       {/* 좋아요 조회수 자리 */}
-      <div className="mt-7 flex items-center justify-center text-sm text-gray-800 gap-[37px]">
+      <div className=" mt-7 flex items-center justify-center text-sm text-gray-800 gap-[37px]">
         {/* 좋아요 */}
         {/* todo : 내가 좋아요 누른 글인지 분기처리, 좋아요눌렀으면 다시 누를때 취소, 안눌렀으면 좋아요 처리 */}
-        <div className="flex items-center justify-center gap-1">
+        <div
+          onClick={() => {
+            if (postData.isLiked) {
+              cancelLikeMutate(postData.postId);
+              console.log('실행1');
+            } else {
+              registerLikeMutate(postData.postId);
+              console.log('실행1');
+            }
+          }}
+          className="flex items-center justify-center gap-1 cursor-pointer">
           {postData.isLiked ? (
             <img src="/community/colorHeart.svg" alt="" />
           ) : (

@@ -24,7 +24,8 @@ const PostsLayout = () => {
       {
         getNextPageParam: (lastPage) => {
           return lastPage.hasNext ? lastPage.lastVisible : undefined;
-        }
+        },
+        enabled: !!newCategory
       }
     );
 

@@ -39,17 +39,14 @@ const WriteInterestPost = () => {
       <div className="h-[60px]" />
       <header className="flex justify-between items-center">
         <ToBackComunity />
-        {isValid ? (
-          <div
-            onClick={() => {
-              mutateAsync(postData);
-            }}
-            className="text-xl font-semibold leading-snug cursor-pointer">
-            등록
-          </div>
-        ) : (
-          <div className="text-xl font-semibold leading-snug text-gray-500">등록</div>
-        )}
+        <button
+          onClick={() => mutateAsync(postData)}
+          disabled={!isValid}
+          className={`h-10 px-3 py-2 rounded-md shrink-0 font-semibold text-xl
+          ${isValid === false ? 'text-gray-600' : 'text-white bg-space-purple'}
+          `}>
+          등록
+        </button>
       </header>
       <nav>
         <WritePostInterest postData={postData} setPostData={setPostData} />
