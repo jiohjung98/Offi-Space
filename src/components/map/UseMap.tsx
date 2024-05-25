@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import MapSearchBar from './MapSearchBar'; 
-import MapSearchResult from './MapSearchResult'; 
+import MapSearchBar from './MapSearchBar';
+import MapSearchResult from './MapSearchResult';
 import { getBranchInfo } from '@/api/map/getOffice';
 import { Branch } from '@/api/types/branch';
 import OfficeModal from './OfficeModal';
@@ -15,9 +15,11 @@ const UseMap: React.FC = () => {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [branches, setBranches] = useState<Branch[]>([]);
-  const [map, setMap] = useState<naver.maps.Map | null>(null); 
-  const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null); 
+  const [map, setMap] = useState<naver.maps.Map | null>(null);
+  const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredBranches, setFilteredBranches] = useState<Branch[]>([]);
 
   useEffect(() => {
     const initMap = () => {
@@ -28,7 +30,7 @@ const UseMap: React.FC = () => {
           zoom: 16,
         };
         const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
-        setMap(mapInstance);  
+        setMap(mapInstance);
       }
     };
 
@@ -56,6 +58,11 @@ const UseMap: React.FC = () => {
       setMarkers(map);
     }
   }, [branches, map]);
+
+  useEffect(() => {
+    const filtered = branches.filter(branch => branch.branchName.includes(searchQuery));
+    setFilteredBranches(filtered);
+  }, [searchQuery, branches]);
 
   const setMarkers = (map: naver.maps.Map) => {
     markerRefs.current.forEach(marker => marker.setMap(null));
@@ -131,6 +138,10 @@ const UseMap: React.FC = () => {
     setShowMessage(false);
   };
 
+  const handleSearchQueryChange = (query: string) => {
+    setSearchQuery(query);
+  };
+
   return (
     <div className="relative w-full h-full">
       <div ref={mapRef} className="w-full h-full" />
@@ -143,8 +154,13 @@ const UseMap: React.FC = () => {
           <Image src='/triangle.svg' alt="Current Location" className='absolute bottom-[80px] left-[40px]' width={18} height={10} />
         </>
       )}
-      <MapSearchBar onFocus={() => setShowSearchResults(true)} />
-      {showSearchResults && <MapSearchResult onClose={() => setShowSearchResults(false)} />}
+      <MapSearchBar onFocus={() => setShowSearchResults(true)} onChange={handleSearchQueryChange} />
+      {showSearchResults && (
+        <MapSearchResult
+          onClose={() => setShowSearchResults(false)}
+          results={filteredBranches}
+        />
+      )}
       <OfficeModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
