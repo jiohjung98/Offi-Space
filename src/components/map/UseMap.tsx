@@ -80,8 +80,7 @@ const UseMap: React.FC = () => {
         },
       });
       naver.maps.Event.addListener(marker, 'click', () => {
-        setSelectedBranch(branch);
-        setIsModalOpen(true);
+        handleMarkerClick(branch);
       });
       markerRefs.current.push(marker);
     });
