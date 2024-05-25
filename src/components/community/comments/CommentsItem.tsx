@@ -4,8 +4,8 @@ import { useModalStore } from '@/store/modal.store';
 import { CommentType } from '../model/commentType';
 import { useEnumToCategory } from '../hooks/useEnumToCategory';
 
-const CommentsItem = ({ comment }: { comment: CommentType }) => {
-  const { setOpen, setDeleteId, setCategory } = useModalStore();
+const CommentsItem = ({ comment, postId }: { comment: CommentType; postId: string }) => {
+  const { setOpen, setDeleteId, setCategory, setCommentId } = useModalStore();
   return (
     <div className="mt-4 mb-5">
       {/* 사진 닉네임 카테고리 삭제 자리 */}
@@ -29,8 +29,9 @@ const CommentsItem = ({ comment }: { comment: CommentType }) => {
               <div
                 onClick={() => {
                   setOpen(true);
-                  setDeleteId(comment.commentId);
+                  setDeleteId(postId);
                   setCategory('comment');
+                  setCommentId(comment.commentId);
                 }}
                 className="text-gray-500 text-sm font-normal underline cursor-pointer">
                 삭제

@@ -61,9 +61,10 @@ const CommentsLayout = () => {
   return (
     <div className="mb-[80px]">
       <div className="mt-5">댓글 수 {allComments?.length}</div>
+      {/* todo 댓글 없을때 아직 댓글이 없어요 표시 */}
       {allComments?.map((comment: CommentType, i) => (
         <Fragment key={i}>
-          <CommentsItem comment={comment} />
+          <CommentsItem comment={comment} postId={id} />
           {i < allComments.length - 1 && (
             <div className="w-full h-[2px] bg-gray-100 mr-12" />
           )}

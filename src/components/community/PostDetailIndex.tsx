@@ -34,7 +34,7 @@ const PostDetailIndex = () => {
       {/* 댓글자리 */}
       <CommentsLayout />
       {/* 댓글입력자리 */}
-      <WriteCommentLayout />
+      <WriteCommentLayout postId={id} />
       {open ? <DeleteModal /> : ''}
     </div>
   );

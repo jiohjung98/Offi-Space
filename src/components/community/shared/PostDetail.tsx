@@ -107,7 +107,6 @@ const PostDetail = ({ postData }: PostDetailType) => {
       {/* 좋아요 조회수 자리 */}
       <div className=" mt-7 flex items-center justify-center text-sm text-gray-800 gap-[37px]">
         {/* 좋아요 */}
-        {/* todo : 내가 좋아요 누른 글인지 분기처리, 좋아요눌렀으면 다시 누를때 취소, 안눌렀으면 좋아요 처리 */}
         <div
           onClick={() => {
             if (postData.isLiked) {

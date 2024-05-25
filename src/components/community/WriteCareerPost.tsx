@@ -15,7 +15,7 @@ const WriteCareerPost = () => {
   const member = useMember();
 
   const [postData, setPostData] = useState<WritePostType>({
-    category: useCareerDescription(member?.memberJob) as string, //todo 유저 첫번째 커리어 가져오기
+    category: useCareerDescription(member?.memberJob) as string,
     title: '',
     tag: tagWithCareer[0].title,
     content: ''
@@ -23,11 +23,14 @@ const WriteCareerPost = () => {
 
   const [isValid, setIsValid] = useState(false);
 
-  const { mutateAsync } = useMutation((postData: WritePostType) => writePost(postData), {
-    onSuccess: (data) => {
-      console.log(data);
+  const { mutateAsync } = useMutation(
+    async (postData: WritePostType) => await writePost(postData),
+    {
+      onSuccess: (data) => {
+        console.log(data);
+      }
     }
-  });
+  );
 
   useEffect(() => {
     const { category, tag, title, content } = postData;

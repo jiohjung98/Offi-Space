@@ -42,9 +42,33 @@ export const deletePost = async (id: string) => {
 };
 
 export const writePost = async (writePostData: WritePostType) => {
-  const { data } = await axios.post(`http://localhost:3000/api/community`, writePostData);
+  const formData = new FormData();
+
+  // JSON 데이터를 문자열로 변환하여 FormData에 추가
+  const savePostRequest = {
+    category: writePostData.category,
+    tag: writePostData.tag,
+    title: writePostData.title,
+    content: writePostData.content
+  };
+  formData.append(
+    'savePostRequest',
+    new Blob([JSON.stringify(savePostRequest)], { type: 'application/json' }),
+    'file'
+  );
+
+  // 이미지 파일이 있는 경우 FormData에 추가
+  if (writePostData.image) {
+    writePostData.image.forEach((image: File) => {
+      formData.append('images', image);
+    });
+  }
+  const { data } = await axios.post(`http://localhost:3000/api/community`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
   const dataString = JSON.stringify(data);
-  //todo 에러핸들링 필요
   return dataString;
 };
 
@@ -52,7 +76,11 @@ export const registerLike = async (postId: string) => {
   const body = {
     postId: postId
   };
-  const { data } = await axios.post(`http://localhost:3000/api/community/like`, body);
+  const { data } = await axios.post(`http://localhost:3000/api/community/like`, body, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
   const dataString = JSON.stringify(data);
   //todo 에러핸들링 필요
   return dataString;

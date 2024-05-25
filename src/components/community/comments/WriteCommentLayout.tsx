@@ -1,9 +1,20 @@
-import React, { useState, useRef, useEffect, ChangeEvent } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { user } from '../mock/user';
+import { useMutation } from 'react-query';
+import { postComment } from '../remote/comment';
 
-const WriteCommentLayout = () => {
+const WriteCommentLayout = ({ postId }: { postId: string }) => {
   const [commentValue, setCommentValue] = useState<string>('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const { mutateAsync } = useMutation(
+    async ({ postId, content }: { postId: string; content: string }) =>
+      await postComment({
+        postId: postId,
+        content: content
+      }),
+    {}
+  );
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -11,10 +22,6 @@ const WriteCommentLayout = () => {
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [commentValue]);
-
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setCommentValue(e.target.value);
-  };
 
   return (
     <div className="w-[393px] fixed bottom-0 bg-white flex items-center px-4 py-4 left-1/2 transform -translate-x-1/2">
@@ -27,13 +34,19 @@ const WriteCommentLayout = () => {
             onFocus={() => console.log('focuse')}
             ref={textareaRef}
             value={commentValue}
-            onChange={handleChange}
+            onChange={(e) => setCommentValue(e.target.value)}
             placeholder="댓글을 입력해주세요."
             className="w-full bg-gray-100 rounded-[10px] py-2 px-3 resize-none overflow-hidden"
             rows={1}
           />
         </div>
         <button
+          onClick={() =>
+            mutateAsync({
+              postId: postId,
+              content: commentValue
+            })
+          }
           disabled={commentValue === ''}
           className={`h-10 px-3 py-2 rounded-md border shrink-0 font-semibold
           ${commentValue === '' ? 'text-gray-600 border-gray-400' : 'text-white bg-space-purple'}

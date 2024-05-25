@@ -1,13 +1,15 @@
 import { useModalStore } from '@/store/modal.store';
 import React, { useRef } from 'react';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { deletePost } from '../../remote/post';
 import { useRouter } from 'next/router';
+import { deleteComment } from '../../remote/comment';
 
 const DeleteModal = () => {
   const router = useRouter();
-  const { deleteId, category, setOpen } = useModalStore();
+  const queryClient = useQueryClient();
+  const { deleteId, category, commentId, setOpen } = useModalStore();
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setOpen(false));
 
@@ -16,15 +18,21 @@ const DeleteModal = () => {
       if (category == 'post') {
         await deletePost(deleteId);
       }
-      // todo 댓글 삭제
-      // else{
-
-      // }
+      if (category == 'comment') {
+        await deleteComment({
+          postId: deleteId,
+          commentId: commentId as string
+        });
+      }
     },
     {
       onSuccess: () => {
         setOpen(false);
-        router.replace('/community');
+        if (category === 'post') {
+          router.replace('/community');
+        } else if (category === 'comment') {
+          queryClient.invalidateQueries(['AllComments', deleteId]);
+        }
       }
     }
   );
