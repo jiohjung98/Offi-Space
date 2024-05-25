@@ -138,6 +138,15 @@ const UseMap: React.FC = () => {
     setShowMessage(false);
   };
 
+  const handleMarkerClick = (branch: Branch) => {
+    const position = new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude);
+    map?.panTo(position);
+  
+    setSelectedBranch(branch); 
+    setIsModalOpen(true);
+  };
+  
+
   const handleSearchQueryChange = (query: string) => {
     setSearchQuery(query);
   };
@@ -157,9 +166,11 @@ const UseMap: React.FC = () => {
       <MapSearchBar onFocus={() => setShowSearchResults(true)} onChange={handleSearchQueryChange} />
       {showSearchResults && (
         <MapSearchResult
-          onClose={() => setShowSearchResults(false)}
-          results={filteredBranches}
-        />
+        onClose={() => setShowSearchResults(false)}
+        results={filteredBranches}
+        onMarkerClick={handleMarkerClick}
+      />
+      
       )}
       <OfficeModal 
         isOpen={isModalOpen} 

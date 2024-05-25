@@ -5,11 +5,17 @@ import Image from 'next/image';
 interface MapSearchResultProps {
   onClose: () => void;
   results: Branch[];
+  onMarkerClick: (branch: Branch) => void; 
 }
 
-const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results }) => {
+const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onMarkerClick }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const filteredResults = results.filter(branch => branch.branchName.includes(searchTerm));
+
+  const handleItemClick = (branch: Branch) => {
+    onMarkerClick(branch);
+    onClose(); 
+  };
 
   return (
     <div className="absolute top-0 left-0 w-full h-full bg-white" style={{ zIndex: '101' }}>
@@ -32,13 +38,13 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results }) =
         </button>
       </div>
       {searchTerm && (
-        <div className="px-4">
+        <div className="p-4">
           {filteredResults.length === 0 ? (
             <p className="text-gray-500">검색 결과가 없습니다.</p>
           ) : (
             <ul>
               {filteredResults.map(branch => (
-                <li key={branch.branchName} className="flex items-center p-4">
+                <li key={branch.branchName} className="flex items-center p-4" onClick={() => handleItemClick(branch)}>
                   <Image src="/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} />
                   <span className="ml-4">{branch.branchName}</span>
                 </li>
