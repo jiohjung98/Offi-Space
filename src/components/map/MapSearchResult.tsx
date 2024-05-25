@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Branch } from '@/api/types/branch';
+import Image from 'next/image';
 
 interface MapSearchResultProps {
   onClose: () => void;
@@ -31,13 +32,16 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results }) =
         </button>
       </div>
       {searchTerm && (
-        <div className="p-4">
+        <div className="px-4">
           {filteredResults.length === 0 ? (
             <p className="text-gray-500">검색 결과가 없습니다.</p>
           ) : (
             <ul>
               {filteredResults.map(branch => (
-                <li key={branch.branchName}>{branch.branchName}</li>
+                <li key={branch.branchName} className="flex items-center p-4">
+                  <Image src="/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} />
+                  <span className="ml-4">{branch.branchName}</span>
+                </li>
               ))}
             </ul>
           )}
