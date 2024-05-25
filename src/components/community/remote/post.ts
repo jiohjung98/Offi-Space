@@ -28,16 +28,16 @@ export const getAllPosts = async ({ pageParam, category }: getAllPostsType) => {
 };
 
 export const getPostDetail = async (id: string) => {
-  const { data } = await axios.get(`http://localhost:3000/api/community/${id}`);
-
-  return data;
+  try {
+    const { data } = await axios.get(`http://localhost:3000/api/community/${id}`);
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 export const deletePost = async (id: string) => {
   const { data } = await axios.delete(`http://localhost:3000/api/community/${id}`);
-
-  //todo 삭제 오류 에러헨들링
-
   return data;
 };
 
@@ -51,11 +51,10 @@ export const writePost = async (writePostData: WritePostType) => {
     title: writePostData.title,
     content: writePostData.content
   };
-  formData.append(
-    'savePostRequest',
-    new Blob([JSON.stringify(savePostRequest)], { type: 'application/json' }),
-    'file'
-  );
+  const jsonBlob = new Blob([JSON.stringify(savePostRequest)], {
+    type: 'application/json'
+  });
+  formData.append('savePostRequest', jsonBlob);
 
   // 이미지 파일이 있는 경우 FormData에 추가
   if (writePostData.image) {
@@ -68,8 +67,7 @@ export const writePost = async (writePostData: WritePostType) => {
       'Content-Type': 'multipart/form-data'
     }
   });
-  const dataString = JSON.stringify(data);
-  return dataString;
+  return data;
 };
 
 export const registerLike = async (postId: string) => {

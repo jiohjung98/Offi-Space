@@ -6,8 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(200).json(allPostData);
   }
   if (req.method === 'POST') {
-    const postData = req.body; // POST 요청의 body 데이터
-    console.log(postData);
-    return res.status(200).json(postData);
+    const result = await import('@/components/community/mock/registerPost.json');
+    return res.status(200).json(result);
   }
 }

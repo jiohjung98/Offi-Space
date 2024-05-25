@@ -111,10 +111,8 @@ const PostDetail = ({ postData }: PostDetailType) => {
           onClick={() => {
             if (postData.isLiked) {
               cancelLikeMutate(postData.postId);
-              console.log('실행1');
             } else {
               registerLikeMutate(postData.postId);
-              console.log('실행1');
             }
           }}
           className="flex items-center justify-center gap-1 cursor-pointer">

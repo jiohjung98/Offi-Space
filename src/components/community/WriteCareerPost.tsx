@@ -10,8 +10,10 @@ import { useMutation } from 'react-query';
 import { writePost } from './remote/post';
 import { useMember } from '@/stores/user';
 import { useCareerDescription } from './hooks/useCareerDesscription';
+import { useRouter } from 'next/router';
 
 const WriteCareerPost = () => {
+  const router = useRouter();
   const member = useMember();
 
   const [postData, setPostData] = useState<WritePostType>({
@@ -27,7 +29,7 @@ const WriteCareerPost = () => {
     async (postData: WritePostType) => await writePost(postData),
     {
       onSuccess: (data) => {
-        console.log(data);
+        router.replace(`/community/${data.data.postId}`);
       }
     }
   );

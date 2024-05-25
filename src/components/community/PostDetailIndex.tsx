@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { getPostDetail } from './remote/post';
+import ConfirmModal from './shared/modal/ConfirmModal';
 
 const DeleteModal = dynamic(() => import('./shared/modal/DeleteModal'), { ssr: false });
 
@@ -20,15 +21,15 @@ const PostDetailIndex = () => {
     enabled: id != null
   });
 
-  if (postData == null) {
-    return null;
+  if (postData?.status == 'FAIL') {
+    return <ConfirmModal />;
   }
 
   return (
     <div className="mx-4">
       <div className="h-[60px]" />
       <ToBackComunity />
-      <PostDetail postData={postData.data[0]} />
+      <PostDetail postData={postData?.data ? postData.data[0] : null} />
       {/* 구분선 */}
       <div className="w-full h-1 bg-gray-100" />
       {/* 댓글자리 */}
