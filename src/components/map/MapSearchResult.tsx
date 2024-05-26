@@ -29,7 +29,7 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onM
           onChange={e => setSearchTerm(e.target.value)}
         />
         <img
-          src="/Search.png"
+          src="/map/Search.png"
           alt="Search Icon"
           className="absolute left-7 top-1/2 transform -translate-y-1/2 w-5 h-5"
         />
@@ -45,7 +45,7 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onM
             <ul>
               {filteredResults.map(branch => (
                 <li key={branch.branchName} className="flex items-center p-4" onClick={() => handleItemClick(branch)}>
-                  <Image src="/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} />
+                  <Image src="/map/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} />
                   <span className="ml-4">{branch.branchName}</span>
                 </li>
               ))}

@@ -21,7 +21,7 @@ const MapSearchBar: React.FC<MapSearchBarProps> = ({ onFocus, onChange }) => {
           onChange={handleInputChange}
         />
         <img
-          src="/Search.png"
+          src="/map/Search.png"
           alt="Search Icon"
           className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
         />

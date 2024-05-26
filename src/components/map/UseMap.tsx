@@ -73,7 +73,7 @@ const UseMap: React.FC = () => {
         position: new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude),
         map: map,
         icon: {
-          url: '/OFficeActive.svg',
+          url: '/map/OFficeActive.svg',
           size: new naver.maps.Size(48, 48),
           origin: new naver.maps.Point(0, 0),
           anchor: new naver.maps.Point(24, 24),
@@ -159,7 +159,7 @@ const UseMap: React.FC = () => {
             <span>더 정확한 접속위치를 확인해보세요!</span>
             <button onClick={handleDismissMessage} className="ml-4">X</button>
           </div>
-          <Image src='/triangle.svg' alt="Current Location" className='absolute bottom-[80px] left-[40px]' width={18} height={10} />
+          <Image src='/map/triangle.svg' alt="Current Location" className='absolute bottom-[80px] left-[40px]' width={18} height={10} />
         </>
       )}
       <MapSearchBar onFocus={() => setShowSearchResults(true)} onChange={handleSearchQueryChange} />

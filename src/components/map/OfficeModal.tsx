@@ -40,7 +40,7 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
         <div className='flex'>
           <div className="flex-shrink-0 w-[88px] h-[88px] bg-gray-300 rounded-md">
             <Image 
-              src="/OfficeDefaultImg.png" 
+              src="/map/OfficeDefaultImg.png" 
               alt="Office" 
               width={88}
               height={88}
@@ -50,11 +50,11 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
           <div className='ml-4 flex-1'>
             <div className="text-xl font-semibold">{branchName}</div>
             <div className="flex items-start">
-              <Image src="/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} className="mt-[4px] mr-2" />
+              <Image src="/map/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} className="mt-[4px] mr-2" />
               <p className="text-sm break-words">{branchAddress}</p>
             </div>
             <div className="flex">
-              <Image src="/OfficeInfo.svg" alt="Location" width={12} height={12} className="mr-2" />
+              <Image src="/map/OfficeInfo.svg" alt="Location" width={12} height={12} className="mr-2" />
               <p className="text-sm break-words">회의실 43개 중 현재 22개 사용중</p>
             </div>
           </div>
