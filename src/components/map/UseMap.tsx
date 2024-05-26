@@ -10,7 +10,7 @@ const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const markerRef = useRef<naver.maps.Marker | null>(null);
   const markerRefs = useRef<naver.maps.Marker[]>([]);
-  const [imageSrc, setImageSrc] = useState('/MapLocation.png');
+  const [imageSrc, setImageSrc] = useState('/map/MapLocation.png');
   const [showMessage, setShowMessage] = useState(true);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [loading, setLoading] = useState(false);
