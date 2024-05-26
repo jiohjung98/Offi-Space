@@ -10,8 +10,10 @@ import { useMutation } from 'react-query';
 import { writePost } from './remote/post';
 import { useTagToEnum } from './hooks/useTagToEnum';
 import { useCategoryToEnum } from './hooks/useCategoryToEnum';
+import { useRouter } from 'next/router';
 
 const WriteInterestPost = () => {
+  const router = useRouter();
   const [postData, setPostData] = useState<WritePostType>({
     category: '자유게시판',
     title: '',
@@ -29,7 +31,7 @@ const WriteInterestPost = () => {
 
   const { mutateAsync } = useMutation((postData: WritePostType) => writePost(postData), {
     onSuccess: (data) => {
-      console.log(data);
+      router.replace(`/community/${data.data.postId}`);
     }
   });
 

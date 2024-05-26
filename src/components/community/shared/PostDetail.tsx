@@ -4,12 +4,15 @@ import { useModalStore } from '@/store/modal.store';
 import { PostDetailDataType } from '../model/postDetailType';
 import { useMutation, useQueryClient } from 'react-query';
 import { cancelLike, registerLike } from '../remote/post';
+import { useEnumToTag } from '../hooks/useEnumToTag';
+import { useEnumToCategory } from '../hooks/useEnumToCategory';
 
 interface PostDetailType {
   postData: PostDetailDataType;
 }
 
 const PostDetail = ({ postData }: PostDetailType) => {
+  console.log(postData);
   const queryClient = useQueryClient();
   const { setOpen, setDeleteId, setCategory } = useModalStore();
 
@@ -31,6 +34,9 @@ const PostDetail = ({ postData }: PostDetailType) => {
     }
   );
 
+  const tag = useEnumToTag(postData?.tag);
+  const category = useEnumToCategory(postData?.category);
+
   if (postData == null) {
     return null;
   }
@@ -39,7 +45,7 @@ const PostDetail = ({ postData }: PostDetailType) => {
     <div className="mt-5 mb-8">
       {/* 태그자리 */}
       <div className="px-2 py-1 text-center bg-gray-100 inline-flex rounded-3xl">
-        <span className="text-xs font-medium text-gray-700">{postData.tag}</span>
+        <span className="text-xs font-medium text-gray-700">{tag}</span>
       </div>
 
       {/* 사진 닉네임 카테고리 삭제 자리 */}
@@ -48,7 +54,7 @@ const PostDetail = ({ postData }: PostDetailType) => {
         {/* 유저 사진 */}
         <div className="w-[42px] h-[42px]">
           <img
-            src={`${postData.writer.profileImage}`}
+            src={`${postData.writer.profile}`}
             alt=""
             className="rounded-[50%] w-full h-full"
           />
@@ -73,7 +79,7 @@ const PostDetail = ({ postData }: PostDetailType) => {
           </div>
 
           {/* 유저직무 */}
-          <div className="text-xs text-gray-400">{postData.category}</div>
+          <div className="text-xs text-gray-400">{category}</div>
         </div>
       </div>
 
@@ -84,9 +90,9 @@ const PostDetail = ({ postData }: PostDetailType) => {
       <div className="mt-3">{postData.content}</div>
 
       {/* 사진자리 */}
-      {(postData.postImage?.length as number) > 0 && (
+      {(postData.images?.length as number) > 0 && (
         <div className="flex flex-col gap-2 mt-5">
-          {postData.postImage?.map((image, i) => (
+          {postData.images?.map((image, i) => (
             <div className="w-[360px] h-[280px]" key={i}>
               <img src={image} className="object-cover w-full h-full " />
             </div>

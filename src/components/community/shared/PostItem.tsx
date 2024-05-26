@@ -5,16 +5,18 @@ import { useRouter } from 'next/router';
 import { sliceText } from '@/utils/sliceTexts';
 import { postDataType } from '../model/postDataType';
 import { useEnumToCategory } from '../hooks/useEnumToCategory';
+import { useEnumToTag } from '../hooks/useEnumToTag';
 
 const PostItem = ({ post }: { post: postDataType }) => {
   const router = useRouter();
+  const tag = useEnumToTag(post?.tag);
   return (
     <div
       onClick={() => router.push(`/community/${post.postId}`)}
       className="my-6 cursor-pointer">
       {/* 태그자리 */}
       <div className="px-2 py-1 text-center bg-gray-200 inline-flex rounded-3xl">
-        <span className="text-xs font-medium text-gray-900">{post.tag}</span>
+        <span className="text-xs font-medium text-gray-900">{tag}</span>
       </div>
 
       {/* 글쓴 유저 자리 */}
@@ -51,8 +53,8 @@ const PostItem = ({ post }: { post: postDataType }) => {
       </div>
 
       {/* 글 사진 */}
-      {(post.image?.length as number) > 0 && (
-        <PostItemImageLayout postImage={post.image} />
+      {(post.images?.length as number) > 0 && (
+        <PostItemImageLayout postImage={post.images} />
       )}
 
       {/* 글 부가정보 */}
@@ -61,10 +63,10 @@ const PostItem = ({ post }: { post: postDataType }) => {
         <div className="flex items-center">
           {/* 일자 */}
           <div className="border-r border-neutral-300 pr-2">
-            {formatDate(post.createdAt)}
+            {formatDate(post.createdDate)}
           </div>
           {/* 시간 */}
-          <div className="pl-2">{formatTime(post.createdAt)}</div>
+          <div className="pl-2">{formatTime(post.createdDate)}</div>
         </div>
         <div className="flex gap-3">
           {/* 하트 */}

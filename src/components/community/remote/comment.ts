@@ -1,4 +1,6 @@
+import { getRequest } from '@/api/request';
 import axios from 'axios';
+import { CommentType } from '../model/commentType';
 
 interface getAllCommentsType {
   postId: string;
@@ -16,19 +18,16 @@ interface postCommentType {
 }
 
 export const getAllComments = async ({ postId, cursorId }: getAllCommentsType) => {
-  let url = `http://localhost:3000/api/community/${postId}/comments`;
-
-  if (cursorId != null) {
-    url += `?cursorId=${cursorId}`;
-  }
-
-  const { data } = await axios.get(url);
-  const lastVisible = data.data.content[data.data.content.length - 1].postId;
+  const { data } = await getRequest<CommentType>(
+    `posts/${postId}/comments${cursorId != null ? `?cursorId=${cursorId}` : ''}`
+  );
+  // const lastVisible = data.data.content[data.data.content.length - 1].postId;
 
   return {
-    content: data.data.content,
-    lastVisible,
-    hasNext: data.data.hasNext
+    // content: data.data.content,
+    // lastVisible,
+    // hasNext: data.data.hasNext
+    data
   };
 };
 

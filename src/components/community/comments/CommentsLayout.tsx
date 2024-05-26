@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useEffect, useRef } from 'react';
 import CommentsItem from './CommentsItem';
-import { CommentType } from '../model/commentType';
+import { CommentDataType } from '../model/commentType';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { getAllComments } from '../remote/comment';
@@ -31,47 +31,49 @@ const CommentsLayout = () => {
     }
   );
 
-  const fetchNext = useCallback(async () => {
-    const res = await fetchNextPage();
-    if (res.isError) {
-      console.log(res.error);
-    }
-  }, [fetchNextPage]);
+  console.log(commentsData);
 
-  useEffect(() => {
-    let timerId: NodeJS.Timeout | undefined;
+  // const fetchNext = useCallback(async () => {
+  //   const res = await fetchNextPage();
+  //   if (res.isError) {
+  //     console.log(res.error);
+  //   }
+  // }, [fetchNextPage]);
 
-    if (isPageEnd && hasNextPage) {
-      timerId = setTimeout(() => {
-        fetchNext();
-      }, 500);
-    }
+  // useEffect(() => {
+  //   let timerId: NodeJS.Timeout | undefined;
 
-    return () => clearTimeout(timerId);
-  }, [fetchNext, isPageEnd, hasNextPage]);
+  //   if (isPageEnd && hasNextPage) {
+  //     timerId = setTimeout(() => {
+  //       fetchNext();
+  //     }, 500);
+  //   }
 
-  if (commentsData == null) {
-    return null;
-  }
+  //   return () => clearTimeout(timerId);
+  // }, [fetchNext, isPageEnd, hasNextPage]);
 
-  const allComments = commentsData?.pages
-    ?.map(({ content }) => content)
-    .flat() as CommentType[];
+  // if (commentsData == null) {
+  //   return null;
+  // }
+
+  // const allComments = commentsData?.pages
+  //   ?.map(({ content }) => content)
+  //   .flat() as CommentDataType[];
 
   return (
     <div className="mb-[80px]">
-      <div className="mt-5">댓글 수 {allComments?.length}</div>
+      {/* <div className="mt-5">댓글 수 {allComments?.length}</div> */}
       {/* todo 댓글 없을때 아직 댓글이 없어요 표시 */}
-      {allComments?.map((comment: CommentType, i) => (
+      {/* {allComments?.map((comment: CommentDataType, i) => (
         <Fragment key={i}>
           <CommentsItem comment={comment} postId={id} />
           {i < allComments.length - 1 && (
             <div className="w-full h-[2px] bg-gray-100 mr-12" />
           )}
         </Fragment>
-      ))}
-      {(isFetching || isFetchingNextPage || hasNextPage) && <Loader />}
-      <div className="w-full touch-none" ref={ref} />
+      ))} */}
+      {/* {(isFetching || isFetchingNextPage || hasNextPage) && <Loader />}
+      <div className="w-full touch-none" ref={ref} /> */}
     </div>
   );
 };

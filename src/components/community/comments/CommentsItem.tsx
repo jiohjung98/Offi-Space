@@ -1,10 +1,16 @@
 import React from 'react';
 import { formatDate, formatTime } from '@/utils/invertFullTime';
 import { useModalStore } from '@/store/modal.store';
-import { CommentType } from '../model/commentType';
+import { CommentDataType } from '../model/commentType';
 import { useEnumToCategory } from '../hooks/useEnumToCategory';
 
-const CommentsItem = ({ comment, postId }: { comment: CommentType; postId: string }) => {
+const CommentsItem = ({
+  comment,
+  postId
+}: {
+  comment: CommentDataType;
+  postId: string;
+}) => {
   const { setOpen, setDeleteId, setCategory, setCommentId } = useModalStore();
   return (
     <div className="mt-4 mb-5">

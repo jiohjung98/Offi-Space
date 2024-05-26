@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { WritePostType } from '../model/writePostType';
 import { getCookie } from '@/utils/cookies';
+import { getRequest } from '@/api/request';
+import { PostDetailType } from '../model/postDetailType';
 
 interface getAllPostsType {
   pageParam?: string;
@@ -8,29 +10,33 @@ interface getAllPostsType {
 }
 
 export const getAllPosts = async ({ pageParam, category }: getAllPostsType) => {
-  let url = 'http://localhost:3000/api/community';
+  try {
+    let url = 'posts';
 
-  if (category && category !== 'all') {
-    url += `?category=${category}`;
+    if (category && category !== 'all') {
+      url += `?category=${category}`;
+    }
+    if (pageParam != null) {
+      const cursorId = pageParam;
+      url += `&cursorId=${cursorId}`;
+    }
+    const response = await getRequest<PostDetailType>(url);
+    const lastVisible =
+      response?.data?.content[response?.data?.content.length - 1].postId;
+
+    return {
+      content: response?.data?.content,
+      lastVisible,
+      hasNext: response?.data?.hasNext
+    };
+  } catch (error: any) {
+    return error.response.data;
   }
-  if (pageParam != null) {
-    const cursorId = pageParam;
-    url += `&cursorId=${cursorId}`;
-  }
-
-  const { data } = await axios.get(url);
-  const lastVisible = data.data.content[data.data.content.length - 1].postId;
-
-  return {
-    content: data.data.content,
-    lastVisible,
-    hasNext: data.data.hasNext
-  };
 };
 
 export const getPostDetail = async (id: string) => {
   try {
-    const { data } = await axios.get(`http://localhost:3000/api/community/${id}`);
+    const { data } = await getRequest<PostDetailType>(`posts/${id}`);
     return data;
   } catch (error: any) {
     return error.response.data;
@@ -43,7 +49,6 @@ export const deletePost = async (id: string) => {
 };
 
 export const writePost = async (writePostData: WritePostType) => {
-  console.log(writePostData);
   const token = getCookie('token');
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}posts`;
 
@@ -71,7 +76,6 @@ export const writePost = async (writePostData: WritePostType) => {
     const { data } = await axios.post(url, formData, {
       headers: {
         Authorization: `Bearer ${token}`
-        // 'Content-Type': 'multipart/form-data'는 자동으로 설정됩니다.
       }
     });
     return data;

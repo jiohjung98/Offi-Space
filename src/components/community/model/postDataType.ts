@@ -1,11 +1,13 @@
+import { ICommon } from '@/api/types/common';
+
 export interface postDataType {
   postId: string;
   title: string;
   content: string;
-  image: string[];
+  images: string[];
   category: string;
   tag: string;
-  createdAt: string;
+  createdDate: string;
   viewCount: number;
   likeCount: number;
   commentCount: number;
@@ -19,3 +21,5 @@ export interface Writer {
   job: string;
   nickname: string;
 }
+
+export type PostAllType = ICommon<postDataType | null>;

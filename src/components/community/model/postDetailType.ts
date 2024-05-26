@@ -1,16 +1,18 @@
+import { ICommon } from '@/api/types/common';
+
 export interface PostDetailDataType {
   postId: string;
   tag: string;
   category: string;
   title: string;
   content: string;
-  postImage: string[];
+  images: string[];
   createdDate: string;
   viewCount: number;
   likeCount: number;
   commentCount: number;
   writer: {
-    profileImage: string;
+    profile: string;
     userCategory: string;
     nickname: string;
   };
@@ -18,9 +20,9 @@ export interface PostDetailDataType {
   isLiked: boolean;
 }
 
-export interface PostDetailType {
-  status: string;
-  errorCode: string | null;
-  data: PostDetailDataType[];
-  message: string | null;
+interface PostType {
+  content: PostDetailDataType[];
+  hasNext: boolean;
 }
+
+export type PostDetailType = ICommon<PostType | null>;

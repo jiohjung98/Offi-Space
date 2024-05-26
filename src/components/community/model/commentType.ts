@@ -1,6 +1,8 @@
-export interface CommentType {
+import { ICommon } from '@/api/types/common';
+
+export interface CommentDataType {
   commentId: string;
-  content: string;
+  content: string | null;
   createdDate: string;
   writer: CommentWriter;
   isWriter: boolean;
@@ -11,3 +13,5 @@ export interface CommentWriter {
   job: string;
   nickname: string;
 }
+
+export type CommentType = ICommon<CommentDataType | null>;
