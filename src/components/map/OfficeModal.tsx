@@ -59,15 +59,15 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
             </div>
           </div>
         </div>
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-between pt-[25px]">
           <button 
-            className="flex w-[151px] bg-[#EDEBF8] text-[#3B268C] px-4 py-[6px] rounded-md justify-center items-center gap-2"
+            className="flex w-[163px] h-[36px] bg-[#EDEBF8] text-[#3B268C] px-4 py-[6px] rounded-md justify-center items-center gap-2"
             onClick={handleOfficeInfo}
           >
             상세보기
           </button>
           <button 
-            className="flex w-[151px] text-[#3B268C] px-[6px] py-[6px] rounded-md justify-center items-center gap-2 border border-[#3E2896]"
+            className="flex w-[163px] h-[36px] text-[#3B268C] px-[6px] py-[6px] rounded-md justify-center items-center gap-2 border border-[#3E2896]"
           >
             예약 바로가기
           </button>
