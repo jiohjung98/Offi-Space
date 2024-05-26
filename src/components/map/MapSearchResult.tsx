@@ -13,7 +13,13 @@ interface MapSearchResultProps {
 
 const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onMarkerClick, currentLatitude, currentLongitude }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const filteredResults = results.filter(branch => branch.branchName.includes(searchTerm));
+  const filteredResults = results
+    .filter(branch => branch.branchName.includes(searchTerm))
+    .sort((a, b) => {
+      const distanceA = calculateDistance(currentLatitude, currentLongitude, a.branchLatitude, a.branchLongitude);
+      const distanceB = calculateDistance(currentLatitude, currentLongitude, b.branchLatitude, b.branchLongitude);
+      return distanceA - distanceB;
+    });
 
   const handleItemClick = (branch: Branch) => {
     onMarkerClick(branch);
