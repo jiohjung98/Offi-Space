@@ -1,24 +1,37 @@
 import axios from 'axios';
 import { WritePostType } from '../model/writePostType';
 import { getCookie } from '@/utils/cookies';
-import { getRequest } from '@/api/request';
+import { deleteRequest, getRequest, postRequest } from '@/api/request';
 import { PostDetailType } from '../model/postDetailType';
+import { ICommon } from '@/api/types/common';
 
 interface getAllPostsType {
   pageParam?: string;
   category: string;
 }
 
+interface registerLikeType {
+  postId: string | number;
+}
+
+//게시글 전체 조회
 export const getAllPosts = async ({ pageParam, category }: getAllPostsType) => {
   try {
     let url = 'posts';
+    const params = [];
 
-    if (category && category !== 'all') {
-      url += `?category=${category}`;
+    if (category && category !== 'ALL') {
+      params.push(`category=${category}`);
+    } else if (category === 'ALL') {
+      params.push(`category=INTEREST`);
     }
+
     if (pageParam != null) {
-      const cursorId = pageParam;
-      url += `&cursorId=${cursorId}`;
+      params.push(`cursorId=${pageParam}`);
+    }
+
+    if (params.length > 0) {
+      url += `?${params.join('&')}`;
     }
     const response = await getRequest<PostDetailType>(url);
     const lastVisible =
@@ -34,6 +47,7 @@ export const getAllPosts = async ({ pageParam, category }: getAllPostsType) => {
   }
 };
 
+//게시글 상세조회
 export const getPostDetail = async (id: string) => {
   try {
     const { data } = await getRequest<PostDetailType>(`posts/${id}`);
@@ -43,11 +57,18 @@ export const getPostDetail = async (id: string) => {
   }
 };
 
+//게시글 삭제
 export const deletePost = async (id: string) => {
-  const { data } = await axios.delete(`http://localhost:3000/api/community/${id}`);
-  return data;
+  try {
+    const url = `posts/${id}`;
+    const { data } = await deleteRequest<ICommon<null>>(url);
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
+//게시글 등록
 export const writePost = async (writePostData: WritePostType) => {
   const token = getCookie('token');
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}posts`;
@@ -72,12 +93,16 @@ export const writePost = async (writePostData: WritePostType) => {
       formData.append('images', image);
     });
   }
+
   try {
+    //todo 여기서 안됨/////
+    alert(`${formData}`);
     const { data } = await axios.post(url, formData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
+    //////////////////
     return data;
   } catch (error) {
     console.error(
@@ -88,25 +113,24 @@ export const writePost = async (writePostData: WritePostType) => {
   }
 };
 
-export const registerLike = async (postId: string) => {
-  const body = {
-    postId: postId
-  };
-  const { data } = await axios.post(`http://localhost:3000/api/community/like`, body, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const dataString = JSON.stringify(data);
-  //todo 에러핸들링 필요
-  return dataString;
+//게시글 좋아요
+export const registerLike = async ({ postId }: registerLikeType) => {
+  try {
+    const res = postRequest<ICommon<null>, registerLikeType>('posts/like', {
+      postId
+    });
+    return res;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
+//좋아요 취소
 export const cancelLike = async (postId: string) => {
-  const { data } = await axios.delete(
-    `http://localhost:3000/api/community/${postId}/like`
-  );
-  const dataString = JSON.stringify(data);
-  //todo 에러핸들링 필요
-  return dataString;
+  try {
+    const res = deleteRequest<ICommon<null>>(`posts/${postId}/like`);
+    return res;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };

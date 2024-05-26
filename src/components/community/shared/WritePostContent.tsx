@@ -24,6 +24,7 @@ const WritePostContent = ({ postData, setPostData }: WritePostContentType) => {
         image: [...(prev.image ?? []), fileBlob]
       }));
     }
+    alert('파일 추가완료');
 
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
@@ -85,7 +86,11 @@ const WritePostContent = ({ postData, setPostData }: WritePostContentType) => {
           className="hidden"
           id="picture"
           accept="image/*"
-          onChange={(e) => e.target.files && fileChange(e.target.files[0])}
+          onChange={(e) => {
+            if (e.target.files && e.target.files.length > 0) {
+              fileChange(e.target.files[0]);
+            }
+          }}
         />
       </header>
       <main>

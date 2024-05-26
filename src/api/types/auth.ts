@@ -33,6 +33,7 @@ export interface IUserInfo {
   memberJob: string;
   memberNickName: string;
   memberSmsAgree: string;
+  imageUrl?: string;
 }
 
 export interface IWithdraw {

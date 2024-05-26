@@ -1,7 +1,7 @@
 import { ICommon } from '@/api/types/common';
 
 export interface postDataType {
-  postId: string;
+  postId: string | number;
   title: string;
   content: string;
   images: string[];

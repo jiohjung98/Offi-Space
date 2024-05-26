@@ -14,4 +14,9 @@ export interface CommentWriter {
   nickname: string;
 }
 
-export type CommentType = ICommon<CommentDataType | null>;
+export interface CommentAllType {
+  content: CommentDataType[];
+  hasNext: boolean;
+}
+
+export type CommentType = ICommon<CommentAllType | null>;

@@ -52,7 +52,7 @@ const PostsLayout = () => {
   return (
     <div className="mx-4 mt-10">
       {allPosts?.map((post: postDataType, i: number) => (
-        <Fragment key={post.postId}>
+        <Fragment key={post?.postId}>
           <PostItem post={post} />
           {i < allPosts?.length - 1 && <div className="w-full h-[2px] bg-gray-50" />}
         </Fragment>

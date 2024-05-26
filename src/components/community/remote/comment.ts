@@ -1,6 +1,7 @@
-import { getRequest } from '@/api/request';
+import { deleteRequest, getRequest, postRequest } from '@/api/request';
 import axios from 'axios';
 import { CommentType } from '../model/commentType';
+import { ICommon } from '@/api/types/common';
 
 interface getAllCommentsType {
   postId: string;
@@ -13,25 +14,36 @@ interface deleteCommentType {
 }
 
 interface postCommentType {
-  postId: string;
+  postId?: string;
   content: string;
 }
 
 export const getAllComments = async ({ postId, cursorId }: getAllCommentsType) => {
-  const { data } = await getRequest<CommentType>(
-    `posts/${postId}/comments${cursorId != null ? `?cursorId=${cursorId}` : ''}`
-  );
-  // const lastVisible = data.data.content[data.data.content.length - 1].postId;
-
-  return {
-    // content: data.data.content,
-    // lastVisible,
-    // hasNext: data.data.hasNext
-    data
-  };
+  try {
+    const response = await getRequest<CommentType>(
+      `posts/${postId}/comments${cursorId != null ? `?cursorId=${cursorId}` : ''}`
+    );
+    const lastComment = response?.data?.content?.[response?.data?.content.length - 1];
+    const lastVisible = lastComment ? lastComment.commentId : undefined;
+    return {
+      content: response?.data?.content,
+      lastVisible,
+      hasNext: response?.data?.hasNext
+    };
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 export const deleteComment = async ({ postId, commentId }: deleteCommentType) => {
+  try {
+    const url = `posts/${postId}/comments/${commentId}`;
+    const { data } = await deleteRequest<ICommon<null>>(url);
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+
   const { data } = await axios.delete(
     `http://localhost:3000/api/community/${postId}/comments/${commentId}`
   );
@@ -41,15 +53,15 @@ export const deleteComment = async ({ postId, commentId }: deleteCommentType) =>
 };
 
 export const postComment = async ({ postId, content }: postCommentType) => {
-  const { data } = await axios.post(
-    `http://localhost:3000/api/community/${postId}/comments`,
-    { content },
-    {
-      headers: {
-        'Content-Type': 'application/json'
+  try {
+    const response = await postRequest<ICommon<null>, postCommentType>(
+      `posts/${postId}/comments`,
+      {
+        content
       }
-    }
-  );
-
-  return data;
+    );
+    return response;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };

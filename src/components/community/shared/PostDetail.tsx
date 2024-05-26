@@ -12,15 +12,15 @@ interface PostDetailType {
 }
 
 const PostDetail = ({ postData }: PostDetailType) => {
-  console.log(postData);
   const queryClient = useQueryClient();
   const { setOpen, setDeleteId, setCategory } = useModalStore();
 
   const { mutateAsync: registerLikeMutate } = useMutation(
-    (postId: string) => registerLike(postId),
+    (postId: string) => registerLike({ postId }),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['post', postData.postId]);
+      onSuccess: (data) => {
+        console.log(data);
+        queryClient.invalidateQueries(['post', String(postData.postId)]);
       }
     }
   );
@@ -28,8 +28,9 @@ const PostDetail = ({ postData }: PostDetailType) => {
   const { mutateAsync: cancelLikeMutate } = useMutation(
     (postId: string) => cancelLike(postId),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['post', postData.postId]);
+      onSuccess: (data) => {
+        console.log(data);
+        queryClient.invalidateQueries(['post', String(postData.postId)]);
       }
     }
   );
@@ -69,7 +70,7 @@ const PostDetail = ({ postData }: PostDetailType) => {
               <div
                 onClick={() => {
                   setOpen(true);
-                  setDeleteId(postData.postId);
+                  setDeleteId(String(postData.postId));
                   setCategory('post');
                 }}
                 className="text-gray-500 text-sm font-normal underline cursor-pointer">
@@ -90,7 +91,7 @@ const PostDetail = ({ postData }: PostDetailType) => {
       <div className="mt-3">{postData.content}</div>
 
       {/* 사진자리 */}
-      {(postData.images?.length as number) > 0 && (
+      {(postData.images?.length as number) > 0 ? (
         <div className="flex flex-col gap-2 mt-5">
           {postData.images?.map((image, i) => (
             <div className="w-[360px] h-[280px]" key={i}>
@@ -98,6 +99,8 @@ const PostDetail = ({ postData }: PostDetailType) => {
             </div>
           ))}
         </div>
+      ) : (
+        <div className="h-[140px]" />
       )}
 
       {/* 시간자리 */}

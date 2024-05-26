@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { user } from '../mock/user';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { postComment } from '../remote/comment';
+import { useMember } from '@/stores/user';
 
 const WriteCommentLayout = ({ postId }: { postId: string }) => {
+  const queryClient = useQueryClient();
+  const { imageUrl } = useMember();
   const [commentValue, setCommentValue] = useState<string>('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -13,7 +15,13 @@ const WriteCommentLayout = ({ postId }: { postId: string }) => {
         postId: postId,
         content: content
       }),
-    {}
+    {
+      onSuccess: (data) => {
+        console.log(data);
+        setCommentValue('');
+        queryClient.invalidateQueries(['AllComments', String(postId)]);
+      }
+    }
   );
 
   useEffect(() => {
@@ -27,11 +35,10 @@ const WriteCommentLayout = ({ postId }: { postId: string }) => {
     <div className="w-[393px] fixed bottom-0 bg-white flex items-center px-4 py-4 left-1/2 transform -translate-x-1/2">
       <div className="flex gap-[13px] flex-1">
         <div>
-          <img src={user.userImg} alt="" className="w-[42px] h-[42px] rounded-full" />
+          <img src={imageUrl} alt="" className="w-[42px] h-[42px] rounded-full" />
         </div>
         <div className="flex-1">
           <textarea
-            onFocus={() => console.log('focuse')}
             ref={textareaRef}
             value={commentValue}
             onChange={(e) => setCommentValue(e.target.value)}

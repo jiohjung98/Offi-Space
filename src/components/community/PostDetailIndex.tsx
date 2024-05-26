@@ -29,11 +29,11 @@ const PostDetailIndex = () => {
     <div className="mx-4">
       <div className="h-[60px]" />
       <ToBackComunity />
-      <PostDetail postData={postData ? postData : null} />
+      <PostDetail postData={postData && postData} />
       {/* 구분선 */}
       <div className="w-full h-1 bg-gray-100" />
       {/* 댓글자리 */}
-      {/* <CommentsLayout /> */}
+      <CommentsLayout />
       {/* 댓글입력자리 */}
       <WriteCommentLayout postId={id} />
       {open ? <DeleteModal /> : ''}
