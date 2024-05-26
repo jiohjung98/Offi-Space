@@ -20,6 +20,8 @@ const UseMap: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredBranches, setFilteredBranches] = useState<Branch[]>([]);
+  const [currentLatitude, setCurrentLatitude] = useState<number>(37.4979);
+  const [currentLongitude, setCurrentLongitude] = useState<number>(127.0276);
 
   useEffect(() => {
     const initMap = () => {
@@ -92,7 +94,11 @@ const UseMap: React.FC = () => {
       if (navigator.geolocation && map) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            const currentLocation = new naver.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            const { latitude, longitude } = position.coords;
+            setCurrentLatitude(latitude); 
+            setCurrentLongitude(longitude); 
+
+            const currentLocation = new naver.maps.LatLng(latitude, longitude);
             map.panTo(currentLocation);
             if (markerRef.current) {
               markerRef.current.setPosition(currentLocation);
@@ -168,6 +174,8 @@ const UseMap: React.FC = () => {
           onClose={() => setShowSearchResults(false)}
           results={filteredBranches}
           onMarkerClick={handleMarkerClick}
+          currentLatitude={currentLatitude} 
+          currentLongitude={currentLongitude}
         />
       )}
       <OfficeModal 

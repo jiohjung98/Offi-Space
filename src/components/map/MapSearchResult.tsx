@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Branch } from '@/api/types/branch';
 import Image from 'next/image';
+import { calculateDistance } from '@/utils/calculateDistance';
 
 interface MapSearchResultProps {
   onClose: () => void;
   results: Branch[];
   onMarkerClick: (branch: Branch) => void; 
+  currentLatitude: number; 
+  currentLongitude: number;
 }
 
-const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onMarkerClick }) => {
+const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onMarkerClick, currentLatitude, currentLongitude }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const filteredResults = results.filter(branch => branch.branchName.includes(searchTerm));
 
@@ -47,6 +50,7 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onM
                 <li key={branch.branchName} className="flex items-center p-4" onClick={() => handleItemClick(branch)}>
                   <Image src="/map/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} />
                   <span className="ml-4">{branch.branchName}</span>
+                  <span className="ml-auto">{calculateDistance(currentLatitude, currentLongitude, branch.branchLatitude, branch.branchLongitude).toFixed(2)}m</span>
                 </li>
               ))}
             </ul>
