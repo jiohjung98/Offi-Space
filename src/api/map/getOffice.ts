@@ -1,16 +1,9 @@
-// import { getRequest } from '../request';
-// import { Branch } from '../types/branch';
-// import { ICommon } from '../types/common';
-
-// export const getBranchInfo = async () => {
-//     const response = await getRequest<ICommon<Branch[]>>('/branches');
-//     return response;
-// };
+const backendUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getBranchInfo = async () => {
     try {
         const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
-        const response = await fetch('https://joo-api.store/branches', {
+        const response = await fetch(`${backendUrl}/branches`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
