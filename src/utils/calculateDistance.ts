@@ -1,4 +1,4 @@
-export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
     const R = 6371e3; 
     const φ1 = lat1 * Math.PI / 180; 
     const φ2 = lat2 * Math.PI / 180;
@@ -12,5 +12,13 @@ export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2
 
     const d = R * c;
   
-  return d;
+    return d;
+};
+
+export const formatDistance = (distance: number): string => {
+    if (distance < 1000) {
+        return `${Math.round(distance)}m`;
+    } else {
+        return `${(distance / 1000).toFixed(2)}km`;
+    }
 };
