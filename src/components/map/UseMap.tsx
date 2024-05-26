@@ -184,15 +184,16 @@ const UseMap: React.FC = () => {
         branchName={selectedBranch?.branchName || ''} 
         branchAddress={selectedBranch?.branchAddress || ''} 
       />
-      <button
-        id="current-location-button"
-        className="absolute bottom-4 left-4 p-2 flex items-center justify-center"
-        onMouseEnter={() => setImageSrc('/MapLocationActive.png')}
-        onMouseLeave={() => setImageSrc('/MapLocation.png')}
-        onClick={() => setImageSrc('/MapLocationActive.png')}
+     <button
+      id="current-location-button"
+      className={`absolute ${isModalOpen ? 'bottom-[210px]' : 'bottom-4'} left-4 p-2 flex items-center justify-center`}
+      onMouseEnter={() => setImageSrc('/MapLocationActive.png')}
+      onMouseLeave={() => setImageSrc('/MapLocation.png')}
+      onClick={() => setImageSrc('/MapLocationActive.png')}
       >
-        <Image src={imageSrc} alt="Current Location" width={48} height={48} />
-      </button>
+      <Image src={imageSrc} alt="Current Location" width={48} height={48} />
+    </button>
+
       {loading && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="loader"></div>
