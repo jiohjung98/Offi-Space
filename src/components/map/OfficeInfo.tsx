@@ -68,8 +68,8 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName, branchAddress }) =>
         <div className="w-full h-px bg-neutral-200" />
         <div className="px-4 py-6">
         <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">편의시설</div>
-        <div className="grid grid-cols-4 gap-4">
-          <div className="flex flex-col items-center py-[10px]">
+        <div className="grid grid-cols-4 gap-4 py-[10px]">
+          <div className="flex flex-col items-center">
             <Image src="/map/LoungeImg.svg" alt="LoungeImg" width={12} height={16} className="w-[40px] h-[40px] my-auto"/>
             <p className="mt-2">라운지</p>
           </div>
