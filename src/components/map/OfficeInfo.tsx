@@ -20,12 +20,12 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName, branchAddress }) =>
   };
 
   return (
-    <div className="relative w-full h-full">
-      <div className="absolute top-0 left-0 right-0 bg-white z-50 shadow-md py-4 flex items-center">
+    <section className="relative w-full h-full">
+      <header className="absolute top-0 left-0 right-0 bg-white z-50 shadow-md py-4 flex items-center">
         <IoIosArrowRoundBack size={40} className='ml-[6px]' onClick={handleBackClick}/>
         <span className="text-lg font-semibold ml-[8px]">{branchName}</span>
         <div></div>
-      </div>
+      </header>
       <div className="pt-16">
           <Swiper
             slidesPerView={1}
@@ -44,7 +44,7 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName, branchAddress }) =>
             </SwiperSlide>
           </Swiper>
         </div>
-      <div className="">
+      <article className="">
         <div className='p-4'>
       <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">찾아오는길</div>
         <div className='flex py-[10px]'>
@@ -111,11 +111,11 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName, branchAddress }) =>
         <div className="px-4 py-6">
         <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">공지사항</div>
         </div>
-        <div className='w-full text-center py-[30px]'>
+        <footer className='w-full text-center py-[30px]'>
           <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold'>예약하기</button>
-        </div>
-      </div>
-    </div>
+        </footer>
+      </article>
+    </section>
   );
 };
 

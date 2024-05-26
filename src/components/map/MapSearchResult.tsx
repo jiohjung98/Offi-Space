@@ -18,7 +18,7 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onM
   };
 
   return (
-    <div className="absolute top-0 left-0 w-full h-full bg-white" style={{ zIndex: '101' }}>
+    <section className="absolute top-0 left-0 w-full h-full bg-white" style={{ zIndex: '101' }}>
       <div className="relative p-4">
         <input
           type="text"
@@ -53,7 +53,7 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onM
           )}
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

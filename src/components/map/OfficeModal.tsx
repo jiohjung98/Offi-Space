@@ -35,7 +35,7 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
   };
 
   return (
-    <div className="w-[373px] mx-auto fixed bottom-[20px] left-0 right-0 z-50">
+    <aside className="w-[373px] mx-auto fixed bottom-[20px] left-0 right-0 z-50">
       <div ref={modalRef} className="bg-white px-4 py-6 rounded-lg shadow-lg">
         <div className='flex'>
           <div className="flex-shrink-0 w-[88px] h-[88px] bg-gray-300 rounded-md">
@@ -48,7 +48,7 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
             />
           </div>
           <div className='ml-4 flex-1'>
-            <div className="text-xl font-semibold">{branchName}</div>
+            <h2 className="text-xl font-semibold">{branchName}</h2>
             <div className="flex items-start">
               <Image src="/map/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} className="mt-[4px] mr-2" />
               <p className="text-sm break-words">{branchAddress}</p>
@@ -73,7 +73,7 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
           </button>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 

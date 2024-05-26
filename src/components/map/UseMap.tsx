@@ -101,7 +101,7 @@ const UseMap: React.FC = () => {
                 position: currentLocation,
                 map: map,
                 icon: {
-                  url: '/MyLocation.png',
+                  url: '/map/MyLocation.png',
                   size: new naver.maps.Size(48, 48),
                   origin: new naver.maps.Point(0, 0),
                   anchor: new naver.maps.Point(24, 24),
@@ -151,7 +151,7 @@ const UseMap: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-full">
+    <section className="relative w-full h-full">
       <div ref={mapRef} className="w-full h-full" />
       {showMessage && (
         <>
@@ -165,11 +165,10 @@ const UseMap: React.FC = () => {
       <MapSearchBar onFocus={() => setShowSearchResults(true)} onChange={handleSearchQueryChange} />
       {showSearchResults && (
         <MapSearchResult
-        onClose={() => setShowSearchResults(false)}
-        results={filteredBranches}
-        onMarkerClick={handleMarkerClick}
-      />
-      
+          onClose={() => setShowSearchResults(false)}
+          results={filteredBranches}
+          onMarkerClick={handleMarkerClick}
+        />
       )}
       <OfficeModal 
         isOpen={isModalOpen} 
@@ -191,8 +190,8 @@ const UseMap: React.FC = () => {
           <div className="loader"></div>
         </div>
       )}
-    </div>
-  );
+    </section>
+  );  
 };
 
 export default UseMap;

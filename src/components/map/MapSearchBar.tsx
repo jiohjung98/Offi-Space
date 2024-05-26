@@ -11,7 +11,7 @@ const MapSearchBar: React.FC<MapSearchBarProps> = ({ onFocus, onChange }) => {
   };
 
   return (
-    <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-11/12 max-w-lg">
+    <section className="absolute top-4 left-1/2 transform -translate-x-1/2 w-11/12 max-w-lg">
       <div className="relative w-full">
         <input
           type="text"
@@ -26,7 +26,7 @@ const MapSearchBar: React.FC<MapSearchBarProps> = ({ onFocus, onChange }) => {
           className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
         />
       </div>
-    </div>
+    </section>
   );
 };
 
