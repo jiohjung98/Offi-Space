@@ -8,6 +8,8 @@ import WritePostContent from './shared/WritePostContent';
 import { WritePostType } from './model/writePostType';
 import { useMutation } from 'react-query';
 import { writePost } from './remote/post';
+import { useTagToEnum } from './hooks/useTagToEnum';
+import { useCategoryToEnum } from './hooks/useCategoryToEnum';
 
 const WriteInterestPost = () => {
   const [postData, setPostData] = useState<WritePostType>({
@@ -18,6 +20,12 @@ const WriteInterestPost = () => {
   });
 
   const [isValid, setIsValid] = useState(false);
+
+  const newPostData = {
+    ...postData,
+    tag: useTagToEnum(postData.tag) as string,
+    category: useCategoryToEnum(postData.category) as string
+  };
 
   const { mutateAsync } = useMutation((postData: WritePostType) => writePost(postData), {
     onSuccess: (data) => {
@@ -40,7 +48,7 @@ const WriteInterestPost = () => {
       <header className="flex justify-between items-center">
         <ToBackComunity />
         <button
-          onClick={() => mutateAsync(postData)}
+          onClick={() => mutateAsync(newPostData)}
           disabled={!isValid}
           className={`h-10 px-3 py-2 rounded-md shrink-0 font-semibold text-xl
           ${isValid === false ? 'text-gray-600' : 'text-white bg-space-purple'}

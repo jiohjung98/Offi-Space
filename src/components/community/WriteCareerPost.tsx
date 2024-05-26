@@ -10,10 +10,12 @@ import { useMutation } from 'react-query';
 import { writePost } from './remote/post';
 import { useMember } from '@/stores/user';
 import { useCareerDescription } from './hooks/useCareerDesscription';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
+import { useCategoryToEnum } from './hooks/useCategoryToEnum';
+import { useTagToEnum } from './hooks/useTagToEnum';
 
 const WriteCareerPost = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const member = useMember();
 
   const [postData, setPostData] = useState<WritePostType>({
@@ -23,13 +25,20 @@ const WriteCareerPost = () => {
     content: ''
   });
 
+  const newPostData = {
+    ...postData,
+    tag: useTagToEnum(postData.tag) as string,
+    category: useCategoryToEnum(postData.category) as string
+  };
+
   const [isValid, setIsValid] = useState(false);
 
   const { mutateAsync } = useMutation(
     async (postData: WritePostType) => await writePost(postData),
     {
       onSuccess: (data) => {
-        router.replace(`/community/${data.data.postId}`);
+        console.log(data);
+        // router.replace(`/community/${data.data.postId}`);
       }
     }
   );
@@ -49,7 +58,9 @@ const WriteCareerPost = () => {
       <header className="flex justify-between items-center">
         <ToBackComunity />
         <button
-          onClick={() => mutateAsync(postData)}
+          onClick={() => {
+            mutateAsync(newPostData);
+          }}
           disabled={!isValid}
           className={`h-10 px-3 py-2 rounded-md shrink-0 font-semibold text-xl
           ${isValid === false ? 'text-gray-600' : 'text-white bg-space-purple'}

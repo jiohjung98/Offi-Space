@@ -7,8 +7,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(200).json(allPostData);
   }
   if (req.method === 'POST') {
-    // console.log('글 등록 완료');
-    console.log(req.body);
-    // return res.status(200).json(postData);
+    console.log('글 등록 완료');
+    const postData = await import('@/components/community/mock/deletePostRes.json');
+    return res.status(200).json(postData);
   }
 }
