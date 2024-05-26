@@ -2,16 +2,7 @@ import React, { useState } from 'react';
 import { Branch } from '@/api/types/branch';
 import Image from 'next/image';
 import { calculateDistance, formatDistance } from '@/utils/calculateDistance';
-
-
-interface MapSearchResultProps {
-  onClose: () => void;
-  results: Branch[];
-  // eslint-disable-next-line no-unused-vars
-  onMarkerClick: (branch: Branch) => void; 
-  currentLatitude: number; 
-  currentLongitude: number;
-}
+import { MapSearchResultProps } from '@/api/types/branch';
 
 const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onMarkerClick, currentLatitude, currentLongitude }) => {
   const [searchTerm, setSearchTerm] = useState('');

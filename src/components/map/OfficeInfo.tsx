@@ -6,11 +6,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-
-interface OfficeInfoProps {
-  branchName: string;
-  branchAddress: string;
-}
+import { OfficeInfoProps } from '@/api/types/branch';
 
 const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName, branchAddress }) => {
   const router = useRouter();
