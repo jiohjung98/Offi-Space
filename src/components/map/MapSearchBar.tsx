@@ -2,7 +2,8 @@ import React from 'react';
 
 interface MapSearchBarProps {
   onFocus: () => void;
-  onChange: (query: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (value: string) => void
 }
 
 const MapSearchBar: React.FC<MapSearchBarProps> = ({ onFocus, onChange }) => {

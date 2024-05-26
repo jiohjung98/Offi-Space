@@ -7,6 +7,7 @@ import { calculateDistance, formatDistance } from '@/utils/calculateDistance';
 interface MapSearchResultProps {
   onClose: () => void;
   results: Branch[];
+  // eslint-disable-next-line no-unused-vars
   onMarkerClick: (branch: Branch) => void; 
   currentLatitude: number; 
   currentLongitude: number;

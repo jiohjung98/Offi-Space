@@ -59,6 +59,7 @@ const UseMap: React.FC = () => {
     if (map && branches.length > 0) {
       setMarkers(map);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [branches, map]);
 
   useEffect(() => {
@@ -187,9 +188,9 @@ const UseMap: React.FC = () => {
      <button
       id="current-location-button"
       className={`absolute ${isModalOpen ? 'bottom-[210px]' : 'bottom-4'} left-4 p-2 flex items-center justify-center`}
-      onMouseEnter={() => setImageSrc('/MapLocationActive.png')}
-      onMouseLeave={() => setImageSrc('/MapLocation.png')}
-      onClick={() => setImageSrc('/MapLocationActive.png')}
+      onMouseEnter={() => setImageSrc('/map/MapLocationActive.png')}
+      onMouseLeave={() => setImageSrc('/map/MapLocation.png')}
+      onClick={() => setImageSrc('/map/MapLocationActive.png')}
       >
       <Image src={imageSrc} alt="Current Location" width={48} height={48} />
     </button>
