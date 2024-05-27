@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 interface useCategoryStoreType {
   category: string;
+  /* eslint-disable no-unused-vars */
   setCategory: (payload: string) => void;
 }
 
