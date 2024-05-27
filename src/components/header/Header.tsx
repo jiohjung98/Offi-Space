@@ -1,6 +1,6 @@
 const Header = () => {
   return (
-    <header className="w-[393px] h-12 px-4 py-2 justify-center items-center gap-[176.35px] inline-flex mt-[40px]">
+    <header className="sticky top-0 w-[393px] h-12 px-4 py-1 justify-center items-center gap-[176.35px] inline-flex  bg-white z-[9999] ">
       <img className="w-[116.35px] h-8" src="/NavLogo.png" />
       <div className="justify-end items-center gap-6 inline-flex">
         <div className="w-[22px] h-[22px] relative">
