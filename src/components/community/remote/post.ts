@@ -95,13 +95,11 @@ export const writePost = async (writePostData: WritePostType) => {
   }
 
   try {
-    //todo 여기서 안됨/////
     const { data } = await axios.post(url, formData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     });
-    //////////////////
     return data;
   } catch (error) {
     console.error(

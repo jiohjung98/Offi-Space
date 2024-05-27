@@ -4,7 +4,6 @@ import React from 'react';
 import { useCurrentTalkStore } from '@/store/currentTalk.store';
 import InterestFilter from './interest/InterestFilter';
 import PostsLayout from './shared/PostsLayout';
-import MainContainer from '../shared/MainContainer';
 import WritePostButton from './shared/WritePostButton';
 import { useModalStore } from '@/store/modal.store';
 import CreateModal from './shared/modal/CreateModal';
@@ -22,13 +21,14 @@ const Communityindex = () => {
   const { open } = useModalStore();
   const { currentTalk } = useCurrentTalkStore();
   return (
-    <MainContainer>
+    <div className="mt-20">
       <CommunityHeader />
       {currentTalk === 'career' ? <PositionFilter /> : <InterestFilter />}
       <PostsLayout />
+      <div className="h-12" />
       <WritePostButton />
       {open ? <CreateModal /> : ''}
-    </MainContainer>
+    </div>
   );
 };
 

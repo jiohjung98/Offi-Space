@@ -50,7 +50,7 @@ const PostsLayout = () => {
   const allPosts = data?.pages?.map(({ content }) => content).flat();
 
   return (
-    <div className="mx-4 mt-10">
+    <div className="mx-4 mt-8 mb-16">
       {allPosts?.map((post: postDataType, i: number) => (
         <Fragment key={post?.postId}>
           <PostItem post={post} />
