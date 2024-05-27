@@ -26,6 +26,7 @@ const Communityindex = () => {
       <CommunityHeader />
       {currentTalk === 'career' ? <PositionFilter /> : <InterestFilter />}
       <PostsLayout />
+      <div className="h-12" />
       <WritePostButton />
       {open ? <CreateModal /> : ''}
     </MainContainer>
