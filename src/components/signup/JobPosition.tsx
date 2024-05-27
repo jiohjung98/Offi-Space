@@ -26,7 +26,6 @@ const JobPosition = ({ setJobModal, setSelectedJob, selectedJob }: JobPositionPr
   const handleClick = (title: string) => {
     setInitialPosition('');
     setSelectPosition(title);
-    setSelectedJob(title);
   };
 
   const handleSubmit = () => {

@@ -9,7 +9,7 @@ interface IMember {
   setmember: (payload: IUserInfo | undefined) => void;
 }
 
-const useMemberStore = create(
+export const useMemberStore = create(
   persist<IMember>(
     (set) => ({
       member: {
