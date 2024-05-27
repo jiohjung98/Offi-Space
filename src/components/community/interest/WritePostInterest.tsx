@@ -4,7 +4,7 @@ import { interestTag } from '@/constant/interestTag';
 
 interface WritePostInterestType {
   postData: Partial<WritePostType>;
-  setPostData: Dispatch<React.SetStateAction<Partial<WritePostType>>>;
+  setPostData: Dispatch<React.SetStateAction<WritePostType>>;
 }
 
 const WritePostInterest = ({ postData, setPostData }: WritePostInterestType) => {
