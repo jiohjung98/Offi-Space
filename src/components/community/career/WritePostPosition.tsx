@@ -1,16 +1,16 @@
 import { jobPosition } from '@/constant/jobPosition';
 import React, { Dispatch, useState } from 'react';
-import { writePostType } from '../mock/writePostType';
+import { WritePostType } from '../model/writePostType';
 
 interface WritePostPositionType {
-  postData: Partial<writePostType>;
-  setPostData: Dispatch<React.SetStateAction<Partial<writePostType>>>;
+  postData: Partial<WritePostType>;
+  setPostData: Dispatch<React.SetStateAction<WritePostType>>;
 }
 
 const WritePostPosition = ({ postData, setPostData }: WritePostPositionType) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="py-4 border-b border-gray-200">
+    <div className="py-4 border-b border-gray-200 mt-4">
       {/* 위에 부분 */}
       <div className="flex items-center">
         <div className="text-lg font-bold text-gray-900">직무 선택</div>

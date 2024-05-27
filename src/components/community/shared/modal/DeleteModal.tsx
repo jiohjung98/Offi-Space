@@ -1,12 +1,41 @@
 import { useModalStore } from '@/store/modal.store';
 import React, { useRef } from 'react';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
+import { useMutation, useQueryClient } from 'react-query';
+import { deletePost } from '../../remote/post';
+import { useRouter } from 'next/router';
+import { deleteComment } from '../../remote/comment';
 
 const DeleteModal = () => {
-  const { deleteId, category, setOpen } = useModalStore();
-  console.log(deleteId);
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { deleteId, category, commentId, setOpen } = useModalStore();
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setOpen(false));
+
+  const { mutateAsync } = useMutation(
+    async (deleteId: string) => {
+      if (category == 'post') {
+        await deletePost(deleteId);
+      }
+      if (category == 'comment') {
+        await deleteComment({
+          postId: deleteId,
+          commentId: commentId as string
+        });
+      }
+    },
+    {
+      onSuccess: () => {
+        setOpen(false);
+        if (category === 'post') {
+          router.replace('/community');
+        } else if (category === 'comment') {
+          queryClient.invalidateQueries(['AllComments', deleteId]);
+        }
+      }
+    }
+  );
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-30">
@@ -24,7 +53,13 @@ const DeleteModal = () => {
           </div>
 
           <div className="mt-7 flex border-t border-gray-300 font-semibold">
-            <div className="cursor-pointer text-space-purple flex-1 flex justify-center items-center px-[53px] py-[10px] border-r border-gray-300">
+            <div
+              onClick={() => {
+                if (deleteId) {
+                  mutateAsync(deleteId);
+                }
+              }}
+              className="cursor-pointer text-space-purple flex-1 flex justify-center items-center px-[53px] py-[10px] border-r border-gray-300">
               삭제
             </div>
             <div

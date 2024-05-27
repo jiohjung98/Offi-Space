@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { jobPosition as allPostion } from '@/constant/jobPosition';
 import { motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
-import { useCareerTalk } from '@/store/careerTalk.stroe';
+import { useCareerTalk } from '@/store/careerTalk.store';
 import { useCategoryStore } from '@/store/category.store';
 import PositionModalItem from './PositionModalItem';
 

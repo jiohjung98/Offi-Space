@@ -1,18 +1,18 @@
 export const tagWithCareer = [
   {
     title: '이력서 · 면접',
-    description: 'a'
+    description: 'INTERVIEW'
   },
   {
     title: '인사이트',
-    description: 'b'
+    description: 'INSIGHT'
   },
   {
     title: '이직 · 커리어',
-    description: 'c'
+    description: 'CAREER'
   },
   {
     title: '자유게시판',
-    description: 'd'
+    description: 'FREE'
   }
 ];

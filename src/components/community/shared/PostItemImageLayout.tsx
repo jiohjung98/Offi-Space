@@ -12,7 +12,7 @@ export default function PostItemImageLayout({
       <Swiper
         slidesPerView={'auto'}
         // centeredSlides={true}
-        spaceBetween={12}
+        spaceBetween={8}
         className="mySwiper mt-3">
         {postImage?.map((image, i) => (
           <SwiperSlide key={i} className="max-w-max z-1">
