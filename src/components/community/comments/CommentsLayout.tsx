@@ -1,3 +1,4 @@
+'use client';
 import React, { Fragment, useCallback, useEffect, useRef } from 'react';
 import CommentsItem from './CommentsItem';
 import { CommentDataType } from '../model/commentType';
@@ -12,7 +13,7 @@ const CommentsLayout = () => {
   const { id } = router.query as { id: string };
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObserver(ref, {});
-  const isPageEnd = !!pageRef?.isIntersecting;
+  const isPageEnd = pageRef?.isIntersecting ?? false;
 
   const {
     data: commentsData,
@@ -27,11 +28,9 @@ const CommentsLayout = () => {
       getNextPageParam: (lastPage) => {
         return lastPage.hasNext ? lastPage.lastVisible : undefined;
       },
-      enabled: id != null
+      enabled: !!id
     }
   );
-
-  console.log(isPageEnd);
 
   const fetchNext = useCallback(async () => {
     const res = await fetchNextPage();
@@ -77,8 +76,8 @@ const CommentsLayout = () => {
           아직 댓글이 없어요.
         </div>
       )}
-      <div className="w-full touch-none" ref={ref} />
       {(isFetching || isFetchingNextPage || hasNextPage) && <Loader />}
+      <div className="w-full touch-none" ref={ref} />
     </div>
   );
 };
