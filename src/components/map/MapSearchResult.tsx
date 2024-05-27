@@ -57,7 +57,7 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onM
               {filteredResults.map(branch => (
                 <li key={branch.branchName} className="flex items-center p-4" onClick={() => handleItemClick(branch)}>
                   <Image src="/map/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} />
-                  <span className="ml-4">{branch.branchName}</span>
+                  <span className="ml-4 cursor-pointer">{branch.branchName}</span>
                   <span className="ml-auto">{formatDistance(calculateDistance(currentLatitude, currentLongitude, branch.branchLatitude, branch.branchLongitude))}</span> 
                 </li>
               ))}
