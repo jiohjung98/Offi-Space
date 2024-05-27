@@ -7,7 +7,7 @@ const nextConfig = {
       '*'
     ]
   },
-  reactStrictMode: true
+  reactStrictMode: true,
   webpack: (config, { isServer }) => {
     if (isServer) {
       if (Array.isArray(config.resolve.alias))
