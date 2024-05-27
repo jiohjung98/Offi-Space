@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Branch } from '@/api/types/branch';
 import Image from 'next/image';
 import { calculateDistance, formatDistance } from '@/utils/calculateDistance';
@@ -6,6 +6,14 @@ import { MapSearchResultProps } from '@/api/types/branch';
 
 const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onMarkerClick, currentLatitude, currentLongitude }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   const filteredResults = results
     .filter(branch => branch.branchName.includes(searchTerm))
     .sort((a, b) => {
@@ -29,6 +37,7 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onM
           style={{ backgroundColor: '#F0F0F0' }}
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
+          ref={inputRef}
         />
         <img
           src="/map/Search.png"
