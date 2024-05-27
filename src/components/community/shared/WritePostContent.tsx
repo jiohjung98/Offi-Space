@@ -24,7 +24,6 @@ const WritePostContent = ({ postData, setPostData }: WritePostContentType) => {
         image: [...(prev.image ?? []), fileBlob]
       }));
     }
-    alert('파일 추가완료');
 
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);

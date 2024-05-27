@@ -37,6 +37,9 @@ const WriteCareerPost = () => {
     async (postData: WritePostType) => await writePost(postData),
     {
       onSuccess: (data) => {
+        if (data == null) {
+          alert('오류 발생');
+        }
         router.replace(`/community/${data.data.postId}`);
       }
     }
