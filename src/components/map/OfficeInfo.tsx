@@ -26,6 +26,7 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName, branchAddress }) =>
           <Swiper
             slidesPerView={1}
             loop={true}
+            spaceBetween={8}
             pagination={{ clickable: true }}
             modules={[Pagination]}
           >
