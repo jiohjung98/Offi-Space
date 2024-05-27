@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <footer>
-      <nav className="w-[393px] h-[97.02px] px-[25px] pt-[15px] pb-[35px] bg-white border-t border-stone-50 justify-between items-center inline-flex">
+      <nav className=" fixed bottom-0 w-[393px] h-[97.02px] px-[25px] bg-white border-t border-stone-50 justify-between items-center inline-flex z-[9999]">
         <Link href="/">
           <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
@@ -37,10 +37,10 @@ const Footer = () => {
             </div>
           </div>
         </Link>
-        <Link href="/">
+        <Link href="/map">
           <div className="h-[43.75px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px]  flex-col  justify-center items-center">
-              {filteredPathName === 'navigation' ? (
+              {filteredPathName === 'map' ? (
                 <img className="w-5 h-5  " src="/CheckedNavigation.svg" />
               ) : (
                 <img className="w-5 h-5 " src="/Navigation.svg" />
@@ -51,10 +51,10 @@ const Footer = () => {
             </div>
           </div>
         </Link>
-        <Link href="/">
+        <Link href="/community">
           <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
-              {filteredPathName === 'resoulvation' ? (
+              {filteredPathName === 'community' ? (
                 <img className="w-5 h-5 " src="/CheckedCommunity.svg" />
               ) : (
                 <img className="w-5 h-5 " src="/Community.svg" />
@@ -65,10 +65,10 @@ const Footer = () => {
             </div>
           </div>
         </Link>
-        <Link href="/">
+        <Link href="/mypage">
           <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
-              {filteredPathName === 'resoulvation' ? (
+              {filteredPathName === 'mypage' ? (
                 <img className="w-5 h-5 " src="/CheckedProfile.svg" />
               ) : (
                 <img className="w-5 h-5 " src="/Profile.svg" />
