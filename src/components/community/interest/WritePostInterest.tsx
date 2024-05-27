@@ -1,10 +1,10 @@
 import React, { Dispatch, useState } from 'react';
-import { writePostType } from '../mock/writePostType';
+import { WritePostType } from '../model/writePostType';
 import { interestTag } from '@/constant/interestTag';
 
 interface WritePostInterestType {
-  postData: Partial<writePostType>;
-  setPostData: Dispatch<React.SetStateAction<Partial<writePostType>>>;
+  postData: Partial<WritePostType>;
+  setPostData: Dispatch<React.SetStateAction<Partial<WritePostType>>>;
 }
 
 const WritePostInterest = ({ postData, setPostData }: WritePostInterestType) => {
