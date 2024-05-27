@@ -13,6 +13,7 @@ const SigninForm = () => {
   const {
     register,
     handleSubmit,
+    // setError,
     formState: { errors }
   } = useForm<ISignIn>();
 
@@ -20,7 +21,7 @@ const SigninForm = () => {
     signinmock();
   }, []);
 
-  const { mutate } = useLogin();
+  const { mutate, error } = useLogin();
 
   const FormSubmit = async (data: ISignIn) => {
     setIsError(false);
@@ -40,6 +41,14 @@ const SigninForm = () => {
     return () => clearTimeout(timeoutId);
   }, [isError]);
 
+  // {
+  //   error.length > 2
+  //     ? setError('password', {
+  //         type: 'manual',
+  //         message: '*일치하지 않습니다.'
+  //       })
+  //     : null;
+  // }
   return (
     <form
       onSubmit={handleSubmit((data) => FormSubmit(data))}
@@ -96,11 +105,11 @@ const SigninForm = () => {
           <div className="flex-grow flex">
             <input
               {...register('password', {
-                required: true,
-                pattern: {
-                  value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/,
-                  message: '8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.'
-                }
+                required: true
+                // pattern: {
+                //   value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/,
+                //   message: '8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.'
+                // }
               })}
               type="password"
               className="outline-none w-full"
@@ -120,10 +129,10 @@ const SigninForm = () => {
         <div className="h-4"></div>
       )}
 
-      {isError ? (
+      {error.length > 2 ? (
         <div
           className="mt-[16px] text-red-700 text-xs font-medium font-pretendard leading-tight"
-          style={{ display: isError ? 'block' : 'none' }}>
+          style={{ display: error ? 'block' : 'none' }}>
           *등록되지 않은 계정이거나 비밀번호가 올바르지 않습니다.
           <br />
           입력하신 내용을 다시 확인해주세요.

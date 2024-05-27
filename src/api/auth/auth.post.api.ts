@@ -89,9 +89,20 @@ export const phoneauthverify = async ({ phoneNumber, code }: IPhoneAuth) => {
 /* 로그아웃*/
 
 export const logout = async () => {
-  const response = await postRequest<null, null>('/logout');
+  const response = await postRequest<null, null>('logout');
 
   return response;
 };
 
 /* 토큰 리프레쉬*/
+
+/* 비밀번호 검증 */
+
+export const passwordverify = async ({ password }: { password: string }) => {
+  const response = await postRequest<ICommon<null>, { password: string }>(
+    'members/password/verify',
+    { password }
+  );
+
+  return response;
+};

@@ -64,3 +64,16 @@ export const jobPosition = [
     description: 'ETC'
   }
 ];
+
+export interface IJobPosition {
+  title: string;
+  description: string;
+}
+
+export const getTitleFromDescription = (
+  job: IJobPosition[],
+  description: string
+): string | null => {
+  const position = job.find((pos) => pos.description === description);
+  return position ? position.title : null;
+};

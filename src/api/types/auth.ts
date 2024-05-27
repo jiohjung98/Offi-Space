@@ -58,6 +58,11 @@ export interface IToken {
 export interface ITokenRefresh {
   // 아직 타입 안들어옴
 }
+
+export interface IPasswordChage {
+  currentPassword: string;
+  newPassword: string;
+}
 export type FindPassword = Pick<ISignUp, 'password'>;
 export type ChangePassword = Pick<ISignUp, 'password'>;
 export type UserInfoType = ICommon<IUserInfo>;
