@@ -10,7 +10,7 @@ export default function Profile() {
 
   //api나오면 zustand 로직으로 수정
   const [fileUrl, setFileUrl] = useState<string | null>(null);
-  const [contact] = useState('010-1234-5678');
+  // const [contact] = useState('010-1234-5678');
 
   const member = useMember();
   const job = getTitleFromDescription(jobPosition, member.memberJob);
@@ -136,7 +136,7 @@ export default function Profile() {
               연락처
             </label>
             <div className="w-full h-12 px-4 py-2 bg-stone-50 rounded-lg border border-neutral-300 flex items-center">
-              <span className="text-neutral-400 text-sm">{contact}</span>
+              <span className="text-neutral-400 text-sm">{member.memberPhone}</span>
             </div>
           </div>
         </form>

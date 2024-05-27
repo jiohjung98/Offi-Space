@@ -34,6 +34,8 @@ export interface IUserInfo {
   memberNickName: string;
   memberSmsAgree: string;
   imageUrl?: string;
+  memberPhone: string;
+  companyName: string;
 }
 
 export interface IWithdraw {

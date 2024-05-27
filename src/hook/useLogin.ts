@@ -10,7 +10,7 @@ const useLogin = () => {
   const [error, setError] = useState('');
   const onSuccess = (data: UserLoginType) => {
     const { accessToken } = data.data;
-    const cookieOptions = { path: '/', maxAge: 60 * 15 };
+    const cookieOptions = { path: '/', maxAge: 600000 * 15 };
 
     setCookie('token', accessToken, cookieOptions);
 

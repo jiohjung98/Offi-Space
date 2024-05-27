@@ -17,7 +17,9 @@ export const useMemberStore = create(
         memberName: '',
         memberNickName: '',
         memberJob: '',
-        memberSmsAgree: ''
+        memberSmsAgree: '',
+        memberPhone: '',
+        companyName: ''
       },
       setmember: (payload: IUserInfo | undefined) =>
         set((state) => ({
