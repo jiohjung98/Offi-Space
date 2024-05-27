@@ -10,7 +10,7 @@ const CreateModal = () => {
   useOnClickOutside(ref, () => setOpen(false));
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-30">
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">
       <div
         ref={ref}
         className="z-50 w-[393px] bg-white absolute left-1/2 bottom-0 transform -translate-x-1/2 rounded-t-2xl">
