@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 interface useInterestTalkType {
   initialTag: string;
+  /* eslint-disable no-unused-vars */
   setTag: (payload: string) => void;
 }
 

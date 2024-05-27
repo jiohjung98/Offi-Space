@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 interface useCareerTalkType {
   modalOpen: boolean;
+  /* eslint-disable no-unused-vars */
   setModal: (payload: boolean) => void;
   initialPosition: string;
   setPosition: (payload: string) => void;
