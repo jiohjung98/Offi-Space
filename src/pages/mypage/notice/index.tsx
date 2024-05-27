@@ -19,14 +19,14 @@ const NoticePage = () => {
         <div className="w-full  flex flex-col justify-center items-center">
           <div className="w-full flex-1 flex flex-col items-center overflow-y-auto">
             <div
-              className="w-[361px] border-t border-b border-neutral-300 py-3"
+              className="w-[361px] border-t  border-neutral-300 py-3"
               onClick={() => toggleNotice('notice')}>
               <div className="flex justify-between items-center">
                 <div className="text-black/opacity-20 text-sm font-semibold leading-[21px] tracking-tight">
                   [안내] 5/13 (월) 02~03 커뮤니티 서비스 점검
                 </div>
                 <img
-                  className="w-[23px] h-[34px] mr-[6px]"
+                  className="w-[23px] h-[34px] mr-[6px] cursor-pointer "
                   src={
                     openNotice === 'notice'
                       ? '/mypage/notice/UpArrow.svg'
@@ -40,7 +40,7 @@ const NoticePage = () => {
               </div>
             </div>
             {openNotice === 'notice' && (
-              <div className="w-[341px] text-neutral-400 text-sm font-medium leading-tight py-3 bg-stone-50 border-t border-b border-neutral-300">
+              <div className="w-[361px] text-neutral-400 text-sm font-medium px-[12px] border-t leading-tight py-3 bg-stone-50  border-neutral-300">
                 안녕하세요.
                 <br />
                 Offispace 커뮤니티 서비스팀입니다.
@@ -67,14 +67,14 @@ const NoticePage = () => {
             )}
 
             <div
-              className="w-[361px] border-t border-b border-neutral-300 py-3"
+              className="w-[361px] border-t  border-neutral-300 py-3"
               onClick={() => toggleNotice('update1')}>
               <div className="flex justify-between items-center">
                 <div className="text-black/opacity-20 text-sm font-semibold leading-[21px] tracking-tight">
                   [업데이트 내역] 1.0.2 업데이트
                 </div>
                 <img
-                  className="w-[23px] h-[34px] mr-[6px]"
+                  className="w-[23px] h-[34px] mr-[6px] cursor-pointer"
                   src={
                     openNotice === 'update1'
                       ? '/mypage/notice/UpArrow.svg'
@@ -88,7 +88,7 @@ const NoticePage = () => {
               </div>
             </div>
             {openNotice === 'update1' && (
-              <div className="w-[341px] text-neutral-400 text-sm font-medium leading-tight py-3 bg-stone-50 border-t border-b border-neutral-300">
+              <div className="w-[361px] text-neutral-400 text-sm font-medium px-[12px] border-t leading-tight py-3 bg-stone-50  border-neutral-300">
                 안녕하세요.
                 <br />
                 Offispace 서비스팀입니다.
@@ -118,7 +118,7 @@ const NoticePage = () => {
                   [업데이트 내역] 1.0.3 업데이트
                 </div>
                 <img
-                  className="w-[23px] h-[34px] mr-[6px]"
+                  className="w-[23px] h-[34px] mr-[6px] cursor-pointer"
                   src={
                     openNotice === 'update2'
                       ? '/mypage/notice/UpArrow.svg'
@@ -132,7 +132,7 @@ const NoticePage = () => {
               </div>
             </div>
             {openNotice === 'update2' && (
-              <div className="w-[341px] text-neutral-400 text-sm font-medium leading-tight py-3 bg-stone-50 border-t border-b border-neutral-300">
+              <div className="w-[361px] text-neutral-400 text-sm font-medium px-[12px] leading-tight py-3 bg-stone-50  border-b border-neutral-300">
                 안녕하세요.
                 <br />
                 Offispace 서비스팀입니다.
