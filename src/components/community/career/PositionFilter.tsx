@@ -1,4 +1,4 @@
-import { useCareerTalk } from '@/store/careerTalk.store';
+import { useCareerTalk } from '@/store/careerTalk.store';
 import { useCategoryStore } from '@/store/category.store';
 import React, { useEffect } from 'react';
 
