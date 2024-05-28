@@ -35,10 +35,10 @@ const UseMap: React.FC = () => {
         const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
         setMap(mapInstance);
 
-        // 지도 클릭 시 선택된 마커를 초기화
         naver.maps.Event.addListener(mapInstance, 'click', () => {
           setSelectedMarker(null);
-          setMarkers(mapInstance);  // 마커를 다시 설정하여 크기를 초기화
+          setIsModalOpen(false);
+          setMarkers(mapInstance); 
         });
       }
     };
@@ -174,16 +174,25 @@ const UseMap: React.FC = () => {
     setSearchQuery(query);
   };
 
+  const handleCurrentLocationClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setIsModalOpen(false);
+    const button = document.getElementById('current-location-button');
+    if (button) {
+      button.click();
+    }
+  };
+
   return (
     <section className="relative w-full h-full">
       <div ref={mapRef} className="w-full h-full" />
       {showMessage && (
         <>
-          <div className="absolute bottom-[110px] left-4 bg-white px-3 py-3.5 shadow-lg flex items-center">
+          <div className={`absolute ${isModalOpen ? 'bottom-[285px]' : 'bottom-[110px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center`}>
             <span>더 정확한 접속위치를 확인해보세요!</span>
             <button onClick={handleDismissMessage} className="ml-4">X</button>
           </div>
-          <Image src='/map/triangle.svg' alt="Current Location" className='absolute bottom-[100px] left-[40px]' width={18} height={10} />
+          <Image src='/map/triangle.svg' alt="Current Location" className={`absolute ${isModalOpen ? 'bottom-[275px]' : 'bottom-[100px]'} left-[40px]`} width={18} height={10} />
         </>
       )}
       <MapSearchBar onFocus={() => setShowSearchResults(true)} onChange={handleSearchQueryChange} />
@@ -207,7 +216,7 @@ const UseMap: React.FC = () => {
         className={`absolute ${isModalOpen ? 'bottom-[210px]' : 'bottom-[35px]'} left-4 p-2 flex items-center justify-center`}
         onMouseEnter={() => setImageSrc('/map/MapLocationActive.png')}
         onMouseLeave={() => setImageSrc('/map/MapLocation.png')}
-        onClick={() => setImageSrc('/map/MapLocationActive.png')}
+        onClick={handleCurrentLocationClick}
       >
         <Image src={imageSrc} alt="Current Location" width={48} height={48} />
       </button>
