@@ -4,7 +4,7 @@ import React from 'react';
 const GuidePage = () => {
   return (
     <div className="w-full max-w-md mx-auto bg-white flex flex-col gap-8">
-      <div className="mt-[40px] ml-[10px] mb-[2px]">
+      <div className=" mt-[40px] ml-[20px] mb-[2px]">
         <BackArrow width="40px" height="24px" name="이용 가이드" />
       </div>
 

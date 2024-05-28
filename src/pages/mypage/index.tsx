@@ -5,6 +5,8 @@ import LogoutModal from '@/components/modal/logoutModal';
 import { useState } from 'react';
 import useLoggedOut from '@/hook/useLoggedOut';
 import SuccessModal from '@/components/modal/successModal';
+import Footer from '@/components/footer/Footer';
+
 const MyPage = () => {
   const member = useMember();
   const job = getTitleFromDescription(jobPosition, member.memberJob);
@@ -25,8 +27,9 @@ const MyPage = () => {
   };
 
   return (
-    <div className="w-full   flex items-center justify-center">
-      <div className="w-full max-w-md flex flex-col items-center justify-center mt-[102px]">
+    <div className=" max-w-[393px]  mx-auto relative">
+      <Footer />
+      <div className="w-full max-w-md flex flex-col items-center justify-center mt-[102px] relative">
         <div className="flex flex-col justify-center items-center">
           <div>
             <img src="/mypage/ProfileImage.svg" />
