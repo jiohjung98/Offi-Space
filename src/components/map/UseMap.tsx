@@ -34,14 +34,15 @@ const UseMap: React.FC = () => {
         };
         const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
         setMap(mapInstance);
-
+    
         naver.maps.Event.addListener(mapInstance, 'click', () => {
           setSelectedMarker(null);
           setIsModalOpen(false);
-          setMarkers(mapInstance); 
         });
+        setMarkers(mapInstance);
       }
     };
+    
 
     if (typeof window !== 'undefined' && window.naver) {
       initMap();
