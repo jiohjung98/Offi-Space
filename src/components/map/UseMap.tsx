@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import MapSearchBar from './MapSearchBar';
@@ -67,14 +68,12 @@ const UseMap: React.FC = () => {
     if (map && branches.length > 0) {
       setMarkers(map);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [branches, map]);
 
   useEffect(() => {
     if (map) {
       setMarkers(map);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMarker]);
 
   useEffect(() => {
