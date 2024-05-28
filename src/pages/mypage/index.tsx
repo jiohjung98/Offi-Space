@@ -148,7 +148,7 @@ const MyPage = () => {
         )}
         {successModal && <SuccessModal />}
         <Link href={'/mypage/withdraw'}>
-          <div className="w-[361px] h-[33px] pb-3 flex justify-start items-start gap-3.5">
+          <div className="w-[361px] h-[33px] pb-3 flex justify-start items-start gap-3.5 mb-[77px]">
             <div className="text-center text-neutral-800 text-sm font-bold font-['Pretendard'] leading-[21px]">
               회원탈퇴
             </div>
