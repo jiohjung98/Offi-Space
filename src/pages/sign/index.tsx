@@ -1,3 +1,4 @@
+import { Test } from '@/components/pwa/Test';
 import MainContainer from '@/components/shared/MainContainer';
 import SignInButton from '@/components/shared/sign/SignInButton';
 import SignUpButton from '@/components/shared/sign/SignUpButton';
@@ -37,6 +38,7 @@ const SignHomePage = () => {
           </span>
         </Link>
       </div>
+      {Test()}
     </MainContainer>
   );
 };

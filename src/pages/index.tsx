@@ -5,7 +5,6 @@ import { useMember, useSetMember } from '@/stores/user';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
-
 // const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {

@@ -1,6 +1,9 @@
 import initMocks from '@/mocks';
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === 'enable') {
+if (
+  process.env.NEXT_PUBLIC_API_MOCKING === 'enable' &&
+  process.env.NODE_ENV === 'development'
+) {
   initMocks();
 }
 

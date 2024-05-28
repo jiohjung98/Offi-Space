@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+import withPWA from 'next-pwa';
+
 const nextConfig = {
   images: {
     domains: [
@@ -19,7 +21,12 @@ const nextConfig = {
       else config.resolve.alias['msw/node'] = false;
     }
     return config;
-  }
+  },
+  pwa: withPWA({
+    dest: 'public',
+    register: true,
+    skipWaiting: true
+  })
 };
 
 export default nextConfig;
