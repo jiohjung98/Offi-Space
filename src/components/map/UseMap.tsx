@@ -189,7 +189,7 @@ const UseMap: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full h-full">
+    <section className="relative w-full h-screen">
       <div ref={mapRef} className="w-full h-full" />
       {showMessage && (
         <>
