@@ -3,7 +3,7 @@ const backendUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export const getBranchInfo = async () => {
     try {
         const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
-        const response = await fetch(`${backendUrl}/branches`, {
+        const response = await fetch(`${backendUrl}branches`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

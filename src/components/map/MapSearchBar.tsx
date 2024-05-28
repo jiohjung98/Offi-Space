@@ -1,10 +1,5 @@
 import React from 'react';
-
-interface MapSearchBarProps {
-  onFocus: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onChange: (value: string) => void
-}
+import { MapSearchBarProps } from '@/api/types/branch';
 
 const MapSearchBar: React.FC<MapSearchBarProps> = ({ onFocus, onChange }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,6 +15,7 @@ const MapSearchBar: React.FC<MapSearchBarProps> = ({ onFocus, onChange }) => {
           className="w-full p-3 shadow-lg rounded-lg pl-10"
           onFocus={onFocus}
           onChange={handleInputChange}
+          readOnly
         />
         <img
           src="/map/Search.png"

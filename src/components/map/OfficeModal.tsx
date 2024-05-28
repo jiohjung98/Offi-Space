@@ -9,21 +9,31 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      const currentLocationButton = document.getElementById('current-location-button');
+      const currentLocationText = document.getElementById('current-location-text');
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node) &&
+        currentLocationButton &&
+        !currentLocationButton.contains(event.target as Node) &&
+        currentLocationText &&
+        !currentLocationText.contains(event.target as Node)
+      ) {
         onClose();
       }
     };
-
+  
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-
+  
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen, onClose]);
+  
 
   if (!isOpen) return null;
 

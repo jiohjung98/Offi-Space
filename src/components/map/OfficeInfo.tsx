@@ -26,6 +26,7 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName, branchAddress }) =>
           <Swiper
             slidesPerView={1}
             loop={true}
+            spaceBetween={8}
             pagination={{ clickable: true }}
             modules={[Pagination]}
           >
@@ -53,7 +54,7 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName, branchAddress }) =>
         </div>
         <div className='flex py-[10px]'>
         <Image src="/map/OfficeParkImg.svg" className='mb-auto pt-[3px]' alt="OfficeParkImg" width={12} height={16} />
-        <p className="text-sm text-gray-600 ml-[8px]">{branchAddress}</p>
+        <p className="text-sm text-gray-600 ml-[8px]">출차 전 2층 데스크에서 1시간 무료 적용,<br/>이후 10분당 800원 비용 발생</p>
         </div> 
         </div>
         <div className="w-full h-1 bg-neutral-200" />
