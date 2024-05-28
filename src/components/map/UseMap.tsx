@@ -157,10 +157,6 @@ const UseMap: React.FC = () => {
     };
   }, [map]);
 
-  const handleDismissMessage = () => {
-    setShowMessage(false);
-  };
-
   const handleMarkerClick = (branch: Branch) => {
     const position = new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude);
     map?.panTo(position);
@@ -183,6 +179,15 @@ const UseMap: React.FC = () => {
     }
   };
 
+  const handleCurrentLocationTextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setShowMessage(false);
+    const button = document.getElementById('current-location-text');
+    if (button) {
+      button.click();
+    }
+  };
+
   return (
     <section className="relative w-full h-full">
       <div ref={mapRef} className="w-full h-full" />
@@ -190,7 +195,7 @@ const UseMap: React.FC = () => {
         <>
           <div className={`absolute ${isModalOpen ? 'bottom-[285px]' : 'bottom-[110px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center`}>
             <span>더 정확한 접속위치를 확인해보세요!</span>
-            <button onClick={handleDismissMessage} className="ml-4">X</button>
+            <button id="current-location-text" onClick={handleCurrentLocationTextClick} className="ml-4">X</button>
           </div>
           <Image src='/map/triangle.svg' alt="Current Location" className={`absolute ${isModalOpen ? 'bottom-[275px]' : 'bottom-[100px]'} left-[40px]`} width={18} height={10} />
         </>
