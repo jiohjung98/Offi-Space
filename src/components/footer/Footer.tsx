@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 const Footer = () => {
   const pathName = usePathname();
   const filteredPathName = deleteFirstWord(pathName);
+  console.log(filteredPathName);
 
   return (
     <footer>
@@ -12,7 +13,7 @@ const Footer = () => {
         <Link href="/">
           <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
-              {filteredPathName === ' ' ? (
+              {filteredPathName === '' ? (
                 <img className="w-5 h-5 " src="/CheckedHome.svg" />
               ) : (
                 <img className="w-5 h-5 " src="/Home.svg" />

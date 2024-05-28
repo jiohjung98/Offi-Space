@@ -1,5 +1,5 @@
 import { useCareerDescription } from '@/components/community/hooks/useCareerDesscription';
-import { useMemberStore } from '@/stores/user';
+import { useMemberStore } from '@/store/user';
 import { create } from 'zustand';
 
 interface useCareerTalkType {

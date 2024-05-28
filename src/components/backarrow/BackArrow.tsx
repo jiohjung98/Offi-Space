@@ -12,12 +12,12 @@ export const BackArrow = ({ width, height, name }: BackArrowProps) => {
         <img
           src="/mypage/passwordchange/BackArrow.svg"
           alt="Back"
-          className="mb-10 cursor-pointer mt-[50px]"
+          className="cursor-pointer"
           width={width}
           height={height}
         />
       </Link>
-      <div className=" mt-2  ml-3 text-center text-black text-lg font-bold font-['Pretendard'] ">
+      <div className="ml-3 text-center text-black text-lg font-bold font-['Pretendard'] ">
         {name}
       </div>
     </div>

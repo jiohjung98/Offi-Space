@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { postComment } from '../remote/comment';
-import { useMember } from '@/stores/user';
+import { useMember } from '@/store/user';
 
 const WriteCommentLayout = ({ postId }: { postId: string }) => {
   const queryClient = useQueryClient();

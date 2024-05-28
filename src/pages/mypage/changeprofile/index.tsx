@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useMember } from '@/stores/user';
+import { useMember } from '@/store/user';
 import { getTitleFromDescription, jobPosition } from '@/constant/jobPosition';
 import { BackArrow } from '@/components/backarrow/BackArrow';
 // import { useQuery } from 'react-query'; // Uncomment when useQuery is available

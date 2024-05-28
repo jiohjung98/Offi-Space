@@ -1,5 +1,5 @@
 import { jobPosition, getTitleFromDescription } from '@/constant/jobPosition';
-import { useMember } from '@/stores/user';
+import { useMember } from '@/store/user';
 import Link from 'next/link';
 import LogoutModal from '@/components/modal/logoutModal';
 import { useState } from 'react';
@@ -29,7 +29,7 @@ const MyPage = () => {
   return (
     <div className=" max-w-[393px]  mx-auto relative">
       <Footer />
-      <div className="w-full max-w-md flex flex-col items-center justify-center mt-[102px] relative">
+      <div className="w-full max-w-md flex flex-col items-center justify-center mt-[82px] relative">
         <div className="flex flex-col justify-center items-center">
           <div>
             <img src="/mypage/ProfileImage.svg" />
@@ -136,7 +136,7 @@ const MyPage = () => {
 
         <div className="w-full h-[13px] bg-stone-50 mt-[24px] mb-[24px]" />
 
-        <div className="w-[361px] h-[33px] pb-3 flex justify-start items-start gap-3.5">
+        <div className="w-[361px] h-[33px] pb-3 flex justify-start items-start gap-4">
           <div
             onClick={() => setModalVisible(true)}
             className=" cursor-pointer text-center text-neutral-800 text-sm font-bold font-['Pretendard'] leading-[21px]">
@@ -148,7 +148,7 @@ const MyPage = () => {
         )}
         {successModal && <SuccessModal />}
         <Link href={'/mypage/withdraw'}>
-          <div className="w-[361px] h-[33px] pb-3 flex justify-start items-start gap-3.5 mb-[77px]">
+          <div className="w-[361px] h-[33px] pb-5 flex justify-start items-start gap-3.5 mb-[80px]">
             <div className="text-center text-neutral-800 text-sm font-bold font-['Pretendard'] leading-[21px]">
               회원탈퇴
             </div>

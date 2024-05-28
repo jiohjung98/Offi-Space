@@ -8,7 +8,7 @@ import WritePostContent from './shared/WritePostContent';
 import { WritePostType } from './model/writePostType';
 import { useMutation } from 'react-query';
 import { writePost } from './remote/post';
-import { useMember } from '@/stores/user';
+import { useMember } from '@/store/user';
 import { useCareerDescription } from './hooks/useCareerDesscription';
 import { useRouter } from 'next/router';
 import { useCategoryToEnum } from './hooks/useCategoryToEnum';
