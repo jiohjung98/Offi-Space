@@ -35,9 +35,10 @@ const UseMap: React.FC = () => {
         const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
         setMap(mapInstance);
 
+        // 지도 클릭 시 선택된 마커를 초기화
         naver.maps.Event.addListener(mapInstance, 'click', () => {
           setSelectedMarker(null);
-          setMarkers(mapInstance); 
+          setMarkers(mapInstance);  // 마커를 다시 설정하여 크기를 초기화
         });
       }
     };
@@ -90,7 +91,7 @@ const UseMap: React.FC = () => {
         position: new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude),
         map: map,
         icon: {
-          url: '/map/OfficeActive.svg',
+          url: isSelected || selectedMarker === null ? '/map/OfficeActive.svg' : '/map/OfficeInActive.svg',
           size: new naver.maps.Size(48, 48),
           scaledSize: new naver.maps.Size(isSelected ? 60 : 48, isSelected ? 60 : 48),
           origin: new naver.maps.Point(0, 0),
