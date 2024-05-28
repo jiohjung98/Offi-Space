@@ -21,8 +21,8 @@ const WritePostTitle = ({ postData, setPostData }: WritePostTitleType) => {
   }, [debouncedTitle, setPostData]);
 
   return (
-    <div className="flex border-b border-gray-200 items-center py-4 gap-3">
-      <div className="text-lg font-bold text-gray-900">제목</div>
+    <div className="flex border-b border-gray-200 items-center py-4 gap-4">
+      <div className="text-lg font-bold text-gray-900 max-w-max">제목</div>
       <input
         type="text"
         placeholder="제목을 입력해주세요"
