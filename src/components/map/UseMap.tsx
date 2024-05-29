@@ -193,11 +193,11 @@ const UseMap: React.FC = () => {
       <div ref={mapRef} className="w-full h-full" />
       {showMessage && (
         <>
-          <div className={`absolute ${isModalOpen ? 'bottom-[285px]' : 'bottom-[110px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center`}>
+          <div className={`absolute ${isModalOpen ? 'bottom-[355px]' : 'bottom-[180px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center`}>
             <span>더 정확한 접속위치를 확인해보세요!</span>
             <button id="current-location-text" onClick={handleCurrentLocationTextClick} className="ml-4">X</button>
           </div>
-          <Image src='/map/triangle.svg' alt="Current Location" className={`absolute ${isModalOpen ? 'bottom-[275px]' : 'bottom-[100px]'} left-[40px]`} width={18} height={10} />
+          <Image src='/map/triangle.svg' alt="Current Location" className={`absolute ${isModalOpen ? 'bottom-[345px]' : 'bottom-[170px]'} left-[40px]`} width={18} height={10} />
         </>
       )}
       <MapSearchBar onFocus={() => setShowSearchResults(true)} onChange={handleSearchQueryChange} />
@@ -218,7 +218,7 @@ const UseMap: React.FC = () => {
       />
       <button
         id="current-location-button"
-        className={`absolute ${isModalOpen ? 'bottom-[210px]' : 'bottom-[35px]'} left-4 p-2 flex items-center justify-center`}
+        className={`absolute ${isModalOpen ? 'bottom-[280px]' : 'bottom-[105px]'} left-4 p-2 flex items-center justify-center`}
         onMouseEnter={() => setImageSrc('/map/MapLocationActive.png')}
         onMouseLeave={() => setImageSrc('/map/MapLocation.png')}
         onClick={handleCurrentLocationClick}
