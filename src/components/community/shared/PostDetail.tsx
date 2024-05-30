@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { cancelLike, registerLike } from '../remote/post';
 import { useEnumToTag } from '../hooks/useEnumToTag';
 import { useEnumToCategory } from '../hooks/useEnumToCategory';
+import Image from 'next/image';
 
 interface PostDetailType {
   postData: PostDetailDataType;
@@ -54,10 +55,13 @@ const PostDetail = ({ postData }: PostDetailType) => {
       <div className="mt-5 flex items-center gap-[13px]">
         {/* 유저 사진 */}
         <div className="w-[42px] h-[42px]">
-          <img
+          <Image
             src={`${postData.writer.profile}`}
-            alt=""
+            alt="image"
             className="rounded-[50%] w-full h-full"
+            width={42}
+            height={42}
+            quality={75}
           />
         </div>
 
@@ -95,7 +99,15 @@ const PostDetail = ({ postData }: PostDetailType) => {
         <div className="flex flex-col gap-2 mt-5">
           {postData.images?.map((image, i) => (
             <div className="w-[360px] h-[280px]" key={i}>
-              <img src={image} className="object-scale-down w-full h-full " />
+              <Image
+                width={360}
+                height={280}
+                alt="image"
+                quality={75}
+                src={image}
+                priority
+                className="object-cover w-full h-full "
+              />
             </div>
           ))}
         </div>

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { postComment } from '../remote/comment';
 import { useMember } from '@/store/user';
+import Image from 'next/image';
 
 const WriteCommentLayout = ({ postId }: { postId: string }) => {
   const queryClient = useQueryClient();
@@ -35,7 +36,14 @@ const WriteCommentLayout = ({ postId }: { postId: string }) => {
     <div className="w-[393px] fixed bottom-0 bg-white flex items-center px-4 py-4 left-1/2 transform -translate-x-1/2">
       <div className="flex gap-[13px] flex-1">
         <div>
-          <img src={imageUrl} alt="" className="w-[42px] h-[42px] rounded-full" />
+          <Image
+            src={imageUrl as string}
+            alt="image"
+            className="w-[42px] h-[42px] rounded-full"
+            width={42}
+            height={42}
+            quality={75}
+          />
         </div>
         <div className="flex-1">
           <textarea
