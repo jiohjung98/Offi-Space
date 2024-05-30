@@ -14,7 +14,7 @@ const useSendPush = () => {
       data: {
         title,
         body,
-        image: '/public/icons/manifest/icon-192x192.png',
+        image: '/public/Logo512.png',
         click_action
       },
       token
