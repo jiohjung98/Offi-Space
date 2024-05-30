@@ -24,6 +24,6 @@
       "@store/*": ["src/store/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.mjs", "types", "public/firebase-messaging-sw.js", "src/firebase/firebasedb.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.mjs", "types", "public/sw.js", "src/firebase/firebasedb.js"],
   "exclude": ["node_modules"]
 }
