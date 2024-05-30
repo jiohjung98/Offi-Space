@@ -1,7 +1,7 @@
 import { sendFCMNotification } from '@/components/pwa/PushSend';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-export const sendFCMHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+const sendFCMHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { message } = req.body;
     await sendFCMNotification(message)
@@ -11,3 +11,5 @@ export const sendFCMHandler = async (req: NextApiRequest, res: NextApiResponse) 
     res.status(405).end();
   }
 };
+
+export default sendFCMHandler;

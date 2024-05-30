@@ -43,7 +43,12 @@ const SignHomePage = () => {
       <div>
         <button
           onClick={() => {
-            sendPush;
+            sendPush({
+              title: `알림테스트`,
+              body: `바디 알림`,
+              token: '',
+              click_action: '/'
+            });
           }}>
           fcm 테스트
         </button>
