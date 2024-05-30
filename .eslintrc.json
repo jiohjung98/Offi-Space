@@ -2,7 +2,8 @@
   "root": true,
   "env": {
     "browser": true,
-    "es2020": true
+    "es2020": true,
+    "worker": true // 서비스 워커 환경 추가
   },
   "extends": [
     "eslint:recommended",
@@ -24,5 +25,11 @@
 
    "no-unused-vars": "warn",
   "react/jsx-pascal-case": "warn"
+  },
+  "globals": {
+    "importScripts": "readonly", 
+    "firebase": "readonly", 
+    "clients": "readonly"  
   }
+
 }
