@@ -7,13 +7,18 @@
   "description": "My awesome Progressive Web App!",
   "icons": [
     {
-      "src": "/termsCheck.png",
-      "sizes": "192x192",
+      "src": "/Logo256.png",
+      "sizes": "256x256",
       "type": "image/png"
     },
     {
-      "src": "/termsCheck.png",
+      "src": "/Logo512.png",
       "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/Logo1024.png",
+      "sizes": "1024x1024",
       "type": "image/png"
     }
   ]

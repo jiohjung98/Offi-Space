@@ -4,8 +4,9 @@ import SignInButton from '@/components/shared/sign/SignInButton';
 import SignUpButton from '@/components/shared/sign/SignUpButton';
 
 import Link from 'next/link';
-
+import useSendPush from '@/components/pwa/UseSendPush';
 const SignHomePage = () => {
+  const sendPush = useSendPush();
   return (
     <MainContainer>
       <div className="flex flex-col justify-center items-center gap-[39px] h-[470px]">
@@ -39,6 +40,14 @@ const SignHomePage = () => {
         </Link>
       </div>
       {Test()}
+      <div>
+        <button
+          onClick={() => {
+            sendPush;
+          }}>
+          fcm 테스트
+        </button>
+      </div>
     </MainContainer>
   );
 };
