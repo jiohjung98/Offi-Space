@@ -98,12 +98,10 @@ const PostDetail = ({ postData }: PostDetailType) => {
       {(postData.images?.length as number) > 0 ? (
         <div className="flex flex-col gap-2 mt-5">
           {postData.images?.map((image, i) => (
-            <div className="w-[360px] h-[280px] relative" key={i}>
+            <div className="w-[360px] h-[280px]" key={i}>
               <Image
-                // width={360}
-                // height={280}
-                fill
-                sizes="360px"
+                width={360}
+                height={280}
                 alt="image"
                 quality={75}
                 src={image}
