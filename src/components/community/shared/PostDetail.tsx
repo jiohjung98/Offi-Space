@@ -58,6 +58,7 @@ const PostDetail = ({ postData }: PostDetailType) => {
           <Image
             src={`${postData.writer.profile}`}
             alt="image"
+            priority={true}
             className="rounded-[50%] w-full h-full"
             width={42}
             height={42}

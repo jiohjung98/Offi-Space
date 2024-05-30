@@ -10,7 +10,7 @@ const PostItemImageItem = ({ image, count }: { image: string; count: number }) =
         height={180}
         className="rounded-sm object-cover w-full h-full"
         alt="image"
-        priority
+        priority={true}
         quality={75}
       />
     </div>
