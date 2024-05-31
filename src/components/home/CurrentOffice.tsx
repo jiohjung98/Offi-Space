@@ -37,7 +37,7 @@ const CurrentOffice = () => {
             <img src="/home/location.svg" alt="" />
           </div>
           <div className="text-white text-lg underline font-medium cursor-pointer" onClick={handleSearchClick}>
-            {selectedBranch ? selectedBranch.branchName : 'ㅌㅌ'}
+            {selectedBranch ? selectedBranch.branchName : '지점을 설정해주세요'}
           </div>
         </div>
       </div>
