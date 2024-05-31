@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -8,9 +8,9 @@ import { Pagination } from 'swiper/modules';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { OfficeInfoProps } from '@/api/types/branch';
 import { subwayLineColors, subwayLineAbbreviations } from '@/constant/station';
-import OfficeNotice from './OfficeNotice';
+import BranchOffice from './BranchOffice';
 
-const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
+const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const router = useRouter();
 
   const address = router.query.address as string;
@@ -18,9 +18,41 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const roadFromStation = router.query.roadFromStation as string;
   const stationToBranch = router.query.stationToBranch as string;
 
+  useEffect(() => {
+    if (address && branchPhoneNumber && roadFromStation && stationToBranch) {
+      localStorage.setItem('branchInfo', JSON.stringify({
+        branchName,
+        address,
+        branchPhoneNumber,
+        roadFromStation,
+        stationToBranch
+      }));
+    }
+  }, [address, branchPhoneNumber, roadFromStation, stationToBranch]);
+
+  useEffect(() => {
+    if (!address || !branchPhoneNumber || !roadFromStation || !stationToBranch) {
+      const savedBranchInfo = localStorage.getItem('branchInfo');
+      if (savedBranchInfo) {
+        const { branchName, address, branchPhoneNumber, roadFromStation, stationToBranch } = JSON.parse(savedBranchInfo);
+        router.replace({
+          pathname: router.pathname,
+          query: {
+            name: branchName,
+            address,
+            branchPhoneNumber,
+            roadFromStation,
+            stationToBranch
+          }
+        }, undefined, { shallow: true });
+      }
+    }
+  }, []);
+
   const handleBackClick = () => {
     router.push('/map');
   };
+
 
   return (
     <section className="w-full h-full">
@@ -104,23 +136,23 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
               <p className="mt-2">무인택배</p>
             </div>
             <div className="flex flex-col items-center">
-              <Image src="/map/PhoneBooseImg.svg" alt="PhoneBooseImg" width={12} height={16} className="w-[40px] h-[40px my-auto"/>
+              <Image src="/map/PhoneBooseImg.svg" alt="PhoneBooseImg" width={12} height={16} className="w-[40px] h-[40px] my-auto"/>
               <p className="mt-2">폰부스</p>
             </div>
             <div className="flex flex-col items-center">
-              <Image src="/map/PrinterImg.svg" alt="PrinterImg" width={12} height={16} className="w-[40px] h-[40px my-auto"/>
+              <Image src="/map/PrinterImg.svg" alt="PrinterImg" width={12} height={16} className="w-[40px] h-[40px] my-auto"/>
               <p className="mt-2">복합기</p>
             </div>
             <div className="flex flex-col items-center">
-              <Image src="/map/SnackBarImg.svg" alt="SnackBarImg" width={12} height={16} className="w-[40px] h-[40px my-auto"/>
+              <Image src="/map/SnackBarImg.svg" alt="SnackBarImg" width={12} height={16} className="w-[40px] h-[40px] my-auto"/>
               <p className="mt-2">스낵바</p>
             </div>
             <div className="flex flex-col items-center">
-              <Image src="/map/SuppliesImg.svg" alt="SuppliesImg" width={12} height={16} className="w-[40px] h-[40px my-auto"/>
+              <Image src="/map/SuppliesImg.svg" alt="SuppliesImg" width={12} height={16} className="w-[40px] h-[40px] my-auto"/>
               <p className="mt-2">사무용품</p>
             </div>
             <div className="flex flex-col items-center">
-              <Image src="/map/CoffeeImg.svg" alt="CoffeeImg" width={12} height={16} className="w-[40px] h-[40px my-auto"/>
+              <Image src="/map/CoffeeImg.svg" alt="CoffeeImg" width={12} height={16} className="w-[40px] h-[40px] my-auto"/>
               <p className="mt-2">무제한 커피</p>
             </div>
           </div>
@@ -129,7 +161,7 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         <div className="px-4 py-6">
           <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
-        <OfficeNotice branchName={branchName}/>
+        <BranchOffice branchName={branchName}/>
         <footer className='w-full text-center py-[30px]'>
           <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold'>예약하기</button>
         </footer>
@@ -138,4 +170,4 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   );
 };
 
-export default OfficeInfo;
+export default BranchInfo;

@@ -6,7 +6,7 @@ interface OfficeNoticeProps {
   branchName: string;
 }
 
-const OfficeNotice: React.FC<OfficeNoticeProps> = ({ branchName }) => {
+const BranchOffice: React.FC<OfficeNoticeProps> = ({ branchName }) => {
     const [randomNotices, setRandomNotices] = useState<{ title: string; content: string }[]>([]);
     const [expandedNotice, setExpandedNotice] = useState<{ [key: string]: boolean }>({});
     const [currentDate, setCurrentDate] = useState<string>('');
@@ -93,4 +93,4 @@ const OfficeNotice: React.FC<OfficeNoticeProps> = ({ branchName }) => {
     );
 };
 
-export default OfficeNotice;
+export default BranchOffice;

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 
 
-const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branchAddress }) => {
+const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branchAddress }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -48,6 +48,7 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
       router.push({
         pathname: `/branches/${encodeURIComponent(branchName)}`,
         query: { 
+          name: branchName, 
           address: officeInfo.branchAddress,
           branchPhoneNumber: officeInfo.branchPhoneNumber,
           roadFromStation: officeInfo.roadFromStation,
@@ -102,4 +103,4 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
   );
 };
 
-export default OfficeModal;
+export default BranchModal;

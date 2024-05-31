@@ -5,7 +5,7 @@ import MapSearchBar from './MapSearchBar';
 import MapSearchResult from './MapSearchResult';
 import { getBranchInfo } from '@/api/map/getOffice';
 import { Branch } from '@/api/types/branch';
-import OfficeModal from './OfficeModal';
+import BranchModal from './BranchModal';
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -210,7 +210,7 @@ const UseMap: React.FC = () => {
           currentLongitude={currentLongitude}
         />
       )}
-      <OfficeModal
+      <BranchModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         branchName={selectedBranch?.branchName || ''}
