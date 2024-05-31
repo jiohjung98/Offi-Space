@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchModal from './SearchModal';
 import SelectOfficeMap from './SelectOfficeMap';
 import { Branch } from '@/api/types/branch';
@@ -6,17 +6,27 @@ import { useBranchStore } from '@/store/branch.store';
 
 const CurrentOffice = () => {
   const [showSearchModal, setShowSearchModal] = useState(false);
+  const [showSelectOfficeMap, setShowSelectOfficeMap] = useState(false);
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
 
   const handleBranchSelect = (branch: Branch) => {
     setSelectedBranch(branch);
     setShowSearchModal(false);
+    setShowSelectOfficeMap(true);
   };
 
   const handleSearchClick = () => {
     setShowSearchModal(true);
   };
+
+  const handleCloseSelectOfficeMap = () => {
+    setShowSelectOfficeMap(false);
+  };
+
+  useEffect(() => {
+    console.log('Selected Branch Updated:', selectedBranch);
+  }, [selectedBranch]);
 
   return (
     <>
@@ -32,7 +42,9 @@ const CurrentOffice = () => {
         </div>
       </div>
       {showSearchModal && <SearchModal onClose={() => setShowSearchModal(false)} onBranchSelect={handleBranchSelect} />}
-      {selectedBranch && <SelectOfficeMap branch={selectedBranch} onClose={() => setSelectedBranch(null)} />}
+      {showSelectOfficeMap && selectedBranch && (
+        <SelectOfficeMap branch={selectedBranch} onClose={handleCloseSelectOfficeMap} />
+      )}
     </>
   );
 };

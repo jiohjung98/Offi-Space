@@ -34,7 +34,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ onClose, onBranchSelect }) =>
 
   const handleItemClick = (branch: Branch) => {
     setSelectedBranch(branch);
-    onBranchSelect(branch); 
+    onBranchSelect(branch);
   };
 
   return (
