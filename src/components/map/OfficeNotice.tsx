@@ -8,6 +8,15 @@ interface OfficeNoticeProps {
 const OfficeNotice: React.FC<OfficeNoticeProps> = ({ branchName }) => {
     const [randomNotices, setRandomNotices] = useState<{ title: string; content: string }[]>([]);
     const [expandedNotice, setExpandedNotice] = useState<{ [key: string]: boolean }>({});
+    const [currentDate, setCurrentDate] = useState<string>('');
+
+    const getCurrentDate = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      setCurrentDate(`${year}.${month}.${day}`);
+    };
     
     const hashCode = (str: string): number => {
       let hash = 0;
@@ -25,6 +34,7 @@ const OfficeNotice: React.FC<OfficeNoticeProps> = ({ branchName }) => {
     };
     
     useEffect(() => {
+      getCurrentDate();
       const seed = hashCode(branchName);
       const urgentNotices = notices.filter(notice => notice.type === '긴급');
       const generalNotices = notices.filter(notice => notice.type === '일반');
@@ -47,13 +57,16 @@ const OfficeNotice: React.FC<OfficeNoticeProps> = ({ branchName }) => {
     return (
       <div className="px-4 pb-4">
         {randomNotices.map((notice, index) => (
-          <div key={index} className="mb-[15px]">
+          <div key={index} className="mb-[12px]">
             <div className="flex justify-between items-center py-[10px]">
-              <div className="pl-[20px] text-black/opacity-20 text-sm font-semibold font-['Pretendard'] leading-tight tracking-tight cursor-pointer" onClick={() => toggleExpand(notice.title)}>
+              <div className='flex flex-col pl-[20px]'>
+              <div className="text-black/opacity-20 text-sm font-semibold font-['Pretendard'] leading-tight tracking-tight cursor-pointer" onClick={() => toggleExpand(notice.title)}>
                 {notice.title} 
               </div>
+              <div className="mt-[5px] text-zinc-400 text-xs font-normal font-['Pretendard'] tracking-tight">{currentDate}</div>
+              </div>
               <img
-                className="w-[20px] h-4 cursor-pointer mr-[20px]"
+                className="w-[20px] h-4 cursor-pointer mr-[20px] mb-auto"
                 src={
                   expandedNotice[notice.title]
                     ? '/mypage/notice/UpArrow.svg'
@@ -64,7 +77,7 @@ const OfficeNotice: React.FC<OfficeNoticeProps> = ({ branchName }) => {
               />
             </div>
             {expandedNotice[notice.title] && (
-              <div className="text-neutral-400 text-sm font-medium px-[20px] border-t border-b leading-tight py-3 bg-stone-50  border-neutral-300 mt-[15px]">{notice.content}</div>
+              <div className="text-neutral-400 text-sm font-medium px-[20px] border-t border-b leading-tight py-3 bg-stone-50  border-neutral-300 mt-[12px]">{notice.content}</div>
             )}
           </div>
         ))}
