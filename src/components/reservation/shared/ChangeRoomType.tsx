@@ -7,7 +7,7 @@ interface SelectRoomTypeInterface {
 
 const ChangeRoomType = ({ currentRoom, setCurrentRoom }: SelectRoomTypeInterface) => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center mx-4">
       <div
         onClick={() => setCurrentRoom('meeting')}
         className={`
