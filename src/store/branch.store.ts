@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { create } from 'zustand';
 import { Branch } from '@/api/types/branch';
 import { persist } from 'zustand/middleware';

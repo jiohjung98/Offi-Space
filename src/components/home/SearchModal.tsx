@@ -6,6 +6,7 @@ import SelectOfficeMap from './SelectOfficeMap';
 
 interface SearchModalProps {
   onClose: () => void;
+  // eslint-disable-next-line no-unused-vars
   onBranchSelect: (branch: Branch) => void;
 }
 
