@@ -1,7 +1,7 @@
 import React from 'react';
 
 const FocuszoneIndex = () => {
-  return <div>asdasd</div>;
+  return <div></div>;
 };
 
 export default FocuszoneIndex;
