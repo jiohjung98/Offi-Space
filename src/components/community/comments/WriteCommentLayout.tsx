@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 const WriteCommentLayout = ({ postId }: { postId: string }) => {
   const queryClient = useQueryClient();
-  const { imageUrl } = useMember();
+  const { imageUrl } = useMember() as { imageUrl: string };
   const [commentValue, setCommentValue] = useState<string>('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -37,7 +37,7 @@ const WriteCommentLayout = ({ postId }: { postId: string }) => {
       <div className="flex gap-[13px] flex-1">
         <div>
           <Image
-            src={imageUrl as string}
+            src={imageUrl}
             alt="image"
             className="w-[42px] h-[42px] rounded-full"
             width={42}
