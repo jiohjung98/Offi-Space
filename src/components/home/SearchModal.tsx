@@ -17,6 +17,12 @@ const SearchModal: React.FC<SearchModalProps> = ({ onClose, onBranchSelect }) =>
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getBranchInfo();
