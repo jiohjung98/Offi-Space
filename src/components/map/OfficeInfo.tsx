@@ -8,6 +8,7 @@ import { Pagination } from 'swiper/modules';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { OfficeInfoProps } from '@/api/types/branch';
 import { subwayLineColors, subwayLineAbbreviations } from '@/constant/station';
+import OfficeNotice from './OfficeNotice';
 
 const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const router = useRouter();
@@ -126,8 +127,9 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         </div>
         <div className="w-full h-px bg-neutral-200" />
         <div className="px-4 py-6">
-          <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">공지사항</div>
+          <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
+        <OfficeNotice branchName={branchName}/>
         <footer className='w-full text-center py-[30px]'>
           <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold'>예약하기</button>
         </footer>
