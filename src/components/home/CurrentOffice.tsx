@@ -1,28 +1,50 @@
-'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import SearchModal from './SearchModal';
+import SelectOfficeMap from './SelectOfficeMap';
+import { Branch } from '@/api/types/branch';
+import { useBranchStore } from '@/store/branch.store';
 
 const CurrentOffice = () => {
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [showSelectOfficeMap, setShowSelectOfficeMap] = useState(false);
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
+  const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
+
+  const handleBranchSelect = (branch: Branch) => {
+    setSelectedBranch(branch);
+    setShowSearchModal(false);
+    setShowSelectOfficeMap(true);
+  };
+
+  const handleSearchClick = () => {
+    setShowSearchModal(true);
+  };
+
+  const handleCloseSelectOfficeMap = () => {
+    setShowSelectOfficeMap(false);
+  };
+
+  useEffect(() => {
+    console.log('Selected Branch Updated:', selectedBranch);
+  }, [selectedBranch]);
+
   return (
     <>
-      <div className="flex items-center  gap-[10px] mt-6 relative">
+      <div className="flex items-center gap-[10px] mt-6 relative">
         <div className="text-white text-lg font-extralight">지금 이용중인 곳은</div>
         <div className="flex items-center justify-center gap-1">
           <div>
             <img src="/home/location.svg" alt="" />
           </div>
-          <div className="text-white text-lg underline font-medium">강남1호점</div>
-
-          {/* 현재 선택 지점과 이용중인 지점이 다를 때 */}
-          {/* <div className="absolute right-[80px] top-[25px] z-50">
-            <div className="ml-4">
-              <img src="/home/isRight.svg" alt="" />
-            </div>
-            <div className="bg-space-purple-dark-active text-white text-sm font-normal p-2 rounded">
-              이 지점이 맞나요?
-            </div>
-          </div> */}
+          <div className="text-white text-lg underline font-medium cursor-pointer" onClick={handleSearchClick}>
+            {selectedBranch ? selectedBranch.branchName : '지점을 설정해주세요'}
+          </div>
         </div>
       </div>
+      {showSearchModal && <SearchModal onClose={() => setShowSearchModal(false)} onBranchSelect={handleBranchSelect} />}
+      {showSelectOfficeMap && selectedBranch && (
+        <SelectOfficeMap branch={selectedBranch} onClose={handleCloseSelectOfficeMap} />
+      )}
     </>
   );
 };
