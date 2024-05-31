@@ -6,6 +6,7 @@ const nextConfig = {
     domains: [
       'bzbz-file-bucket.s3.ap-northeast-2.amazonaws.com',
       'userimage.bucket.s3.ap-northeast-2.amazonaws.com',
+      'sabujak-image-bucket.s3.ap-northeast-2.amazonaws.com',
       '*'
     ]
   },

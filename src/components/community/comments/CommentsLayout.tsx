@@ -2,15 +2,12 @@
 import React, { Fragment, useCallback, useEffect, useRef } from 'react';
 import CommentsItem from './CommentsItem';
 import { CommentDataType } from '../model/commentType';
-import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { getAllComments } from '../remote/comment';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
 import Loader from '../shared/Loader';
 
-const CommentsLayout = () => {
-  const router = useRouter();
-  const { id } = router.query as { id: string };
+const CommentsLayout = ({ postId }: { postId: string }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = pageRef?.isIntersecting ?? false;
@@ -22,13 +19,13 @@ const CommentsLayout = () => {
     isFetching,
     isFetchingNextPage
   } = useInfiniteQuery(
-    ['AllComments', id],
-    ({ pageParam }) => getAllComments({ postId: id, cursorId: pageParam }),
+    ['AllComments', postId],
+    ({ pageParam }) => getAllComments({ postId: postId, cursorId: pageParam }),
     {
       getNextPageParam: (lastPage) => {
         return lastPage.hasNext ? lastPage.lastVisible : undefined;
       },
-      enabled: !!id
+      enabled: !!postId
     }
   );
 
@@ -65,7 +62,7 @@ const CommentsLayout = () => {
       {allComments?.length > 0 ? (
         allComments?.map((comment: CommentDataType, i) => (
           <Fragment key={i}>
-            <CommentsItem comment={comment} postId={id} />
+            <CommentsItem comment={comment} postId={comment.commentId} />
             {i < allComments.length - 1 && (
               <div className="w-full h-[2px] bg-gray-100 mr-12" />
             )}

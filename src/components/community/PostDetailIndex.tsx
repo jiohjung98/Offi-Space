@@ -33,7 +33,7 @@ const PostDetailIndex = () => {
       {/* 구분선 */}
       <div className="w-full h-1 bg-gray-100" />
       {/* 댓글자리 */}
-      <CommentsLayout />
+      <CommentsLayout postId={id} />
       {/* 댓글입력자리 */}
       <WriteCommentLayout postId={id} />
       {open ? <DeleteModal /> : ''}
