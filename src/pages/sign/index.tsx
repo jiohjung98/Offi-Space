@@ -5,8 +5,28 @@ import SignUpButton from '@/components/shared/sign/SignUpButton';
 
 import Link from 'next/link';
 import useSendPush from '@/components/pwa/UseSendPush';
+import { getTokenHandler } from '@/components/pwa/Fcm';
+import { useEffect, useState } from 'react';
 const SignHomePage = () => {
+  const [FcmToken, setFcmToken] = useState('');
   const sendPush = useSendPush();
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const token = await getTokenHandler();
+        if (typeof token === 'string') {
+          setFcmToken(token);
+        }
+      } catch (error) {
+        console.error('Failed to get FCM token:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
+  console.log(FcmToken);
   return (
     <MainContainer>
       <div className="flex flex-col justify-center items-center gap-[39px] h-[470px]">
@@ -46,7 +66,7 @@ const SignHomePage = () => {
             sendPush({
               title: `알림테스트`,
               body: `바디 알림`,
-              token: '',
+              token: FcmToken,
               click_action: '/'
             });
           }}>
