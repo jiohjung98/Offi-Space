@@ -7,14 +7,15 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { OfficeInfoProps } from '@/api/types/branch';
+import { subwayLineColors, subwayLineAbbreviations } from '@/constant/station';
 
 const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const router = useRouter();
 
-  const { address, branchPhoneNumber, roadFromStation, stationToBranch } = router.query;
-
-  console.log(address);
-  console.log(branchPhoneNumber);
+  const address = router.query.address as string;
+  const branchPhoneNumber = router.query.branchPhoneNumber as string;
+  const roadFromStation = router.query.roadFromStation as string;
+  const stationToBranch = router.query.stationToBranch as string;
 
   const handleBackClick = () => {
     router.push('/map');
@@ -53,9 +54,23 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           <div className='flex py-[10px]'>
             <Image src="/map/OfficeLocationSmall1.svg" className='mb-auto pt-[3px]' alt="OfficeLocationSmall" width={12} height={16} />
             <div className='flex flex-col'>
-            <p className="text-sm text-gray-600 ml-[8px] mb-[5px]">{address}</p>
-            <p className="text-sm text-gray-600 ml-[8px]">{stationToBranch}</p>
-            <p className="text-sm text-gray-600 ml-[8px]">{roadFromStation}</p>
+              <p className="text-sm text-gray-600 ml-[8px] mb-[5px]">{address}</p>
+              <div className='flex ml-[8px] space-x-[4px] items-center'>
+                {stationToBranch && stationToBranch.split(',').map((line) => {
+                  const trimmedLine = line.trim();
+                  const abbreviation = subwayLineAbbreviations[trimmedLine] || trimmedLine;
+                  return (
+                    <div
+                      key={trimmedLine}
+                      className="w-[16px] h-[16px] flex items-center justify-center rounded-full text-white font-bold"
+                      style={{ backgroundColor: subwayLineColors[trimmedLine], fontSize: '12px' }}
+                    >
+                      {abbreviation}
+                    </div>
+                  );
+                })}
+                <p className="text-sm text-gray-600 ml-[8px]">{roadFromStation}</p>
+              </div>
             </div>
           </div>
           <div className='flex py-[10px]'>
@@ -70,11 +85,6 @@ const OfficeInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         <div className="w-full h-1 bg-neutral-200" />
         <div className="px-4 py-6">
           <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">공용 공간 리스트</div>
-          {/* <ul>
-            {stationToBranch && stationToBranch.split(',').map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul> */}
         </div>
         <div className="w-full h-px bg-neutral-200" />
         <div className="px-4 py-6">
