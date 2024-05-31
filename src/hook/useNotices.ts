@@ -21,6 +21,7 @@ const seededRandom = (seed: number) => {
 export const useNotices = () => {
   const [randomNotices, setRandomNotices] = useState<Notice[]>([]);
   const [urgentNoticeTitle, setUrgentNoticeTitle] = useState<string | null>(null);
+  const [urgentNoticeContent, setUrgentNoticeContent] = useState<string | null>(null);
   const [expandedNotice, setExpandedNotice] = useState<{ [key: string]: boolean }>({});
   const [currentDate, setCurrentDate] = useState<string>('');
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
@@ -50,6 +51,7 @@ export const useNotices = () => {
 
     setRandomNotices(combinedNotices);
     setUrgentNoticeTitle(randomUrgentNotice ? randomUrgentNotice.title : null);
+    setUrgentNoticeContent(randomUrgentNotice ? randomUrgentNotice.content : null);
 
   }, [selectedBranch]);
 
@@ -60,5 +62,5 @@ export const useNotices = () => {
     }));
   };
 
-  return { randomNotices, urgentNoticeTitle, expandedNotice, toggleExpand, currentDate };
+  return { randomNotices, urgentNoticeTitle, urgentNoticeContent, expandedNotice, toggleExpand, currentDate };
 };
