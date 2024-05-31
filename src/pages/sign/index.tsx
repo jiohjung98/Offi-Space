@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 const SignHomePage = () => {
   const [FcmToken, setFcmToken] = useState('');
   const sendPush = useSendPush();
-
+  //
   useEffect(() => {
     const fetchToken = async () => {
       try {
