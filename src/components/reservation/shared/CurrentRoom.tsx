@@ -9,7 +9,7 @@ const CurrentRoom = () => {
       {/* todo : div 클릭시 지오님이 만드신 지점 설정으로 이동되게 부탁드립니다 */}
       <div
         onClick={() => {}}
-        className="py-5 flex items-center gap-[7px] cursor-pointer max-w-max">
+        className="py-5 flex items-center gap-[7px] cursor-pointer max-w-max mx-4">
         <div>
           <img src="/reservation/location.svg" alt="" />
         </div>
