@@ -8,7 +8,7 @@ function useLoggedOut() {
 
   const logout = (redirectPath = '/sign') => {
     router.push(redirectPath);
-    removeCookie('token', { path: '/sign' });
+    removeCookie('token');
     query.clear();
   };
 
