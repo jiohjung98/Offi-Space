@@ -1,32 +1,62 @@
 import React from 'react';
 
-const FirstColSeat = () => {
+interface FirstColSeatType {
+  selectedSeat: string | null;
+  handleSeatClick: (seatId: string) => void;
+}
+
+const FirstColSeat = ({ selectedSeat, handleSeatClick }: FirstColSeatType) => {
   return (
     <div>
       {/* 첫번째 줄 */}
       <div className="border-r-[1.5px] border-l-[1.5px] border-t-[1.5px] border-gray-500 w-full h-10 flex">
-        <div className="ml-[86px] border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full">
-          <div className="flex items-center justify-center rounded-md  h-full w-8 bg-space-purple-light text-xs font-medium text-space-black ">
+        <div className="ml-[86px] border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full cursor-pointer">
+          <div
+            id="1"
+            onClick={() => handleSeatClick('1')}
+            className={`
+            ${selectedSeat === '1' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
             1
           </div>
         </div>
         <div className="border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full">
-          <div className="flex items-center justify-center rounded-md  h-full w-8 bg-space-purple-light text-xs font-medium text-space-black ">
+          <div
+            id="2"
+            onClick={() => handleSeatClick('2')}
+            className={`
+            ${selectedSeat === '2' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
             2
           </div>
         </div>
         <div className="border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full">
-          <div className="flex items-center justify-center rounded-md  h-full w-8 bg-space-purple-light text-xs font-medium text-space-black ">
+          <div
+            id="3"
+            onClick={() => handleSeatClick('3')}
+            className={`
+            ${selectedSeat === '3' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
             3
           </div>
         </div>
         <div className="border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full">
-          <div className="flex items-center justify-center rounded-md  h-full w-8 bg-space-purple-light text-xs font-medium text-space-black ">
+          <div
+            onClick={() => handleSeatClick('4')}
+            id="4"
+            className={`
+            ${selectedSeat === '4' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
             4
           </div>
         </div>
         <div className="border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full">
-          <div className="flex items-center justify-center rounded-md  h-full w-8 bg-space-purple-light text-xs font-medium text-space-black ">
+          <div
+            onClick={() => handleSeatClick('5')}
+            id="5"
+            className={`
+            ${selectedSeat === '5' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
             5
           </div>
         </div>
