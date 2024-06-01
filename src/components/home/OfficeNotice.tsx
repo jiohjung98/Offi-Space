@@ -35,9 +35,11 @@ const OfficeNotice: React.FC = () => {
         <div className="fixed w-full inset-0 flex items-center justify-center z-50">
           <div className="fixed inset-0 bg-black opacity-50" onClick={handleModalClose}></div>
           <div className="bg-white p-6 rounded shadow-lg z-50 max-w-[393px] mx-[20px] px-[20px]">
-            <h2 className="text-xl font-semibold mb-4">긴급 공지</h2>
+            <h2 className="text-center text-xl font-semibold mb-4">긴급 공지</h2>
             <p>{urgentNoticeContent}</p>
-            <button onClick={handleModalClose} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">닫기</button>
+            <div className='w-full'>
+            <button onClick={handleModalClose} className="flex mx-auto mt-4 w-[163px] h-[36px] bg-[#EDEBF8] text-[#3B268C] px-4 py-[6px] rounded-md justify-center items-center">닫기</button>
+            </div>
           </div>
         </div>
       )}
