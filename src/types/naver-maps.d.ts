@@ -12,6 +12,7 @@ declare namespace naver.maps {
     }
   
     class Marker {
+      setIcon: any;
       constructor(options: MarkerOptions);
       setMap(map: Map | null): void;
       setPosition(latlng: LatLng): void;
