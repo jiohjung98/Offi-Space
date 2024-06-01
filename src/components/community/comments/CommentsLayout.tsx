@@ -62,7 +62,7 @@ const CommentsLayout = ({ postId }: { postId: string }) => {
       {allComments?.length > 0 ? (
         allComments?.map((comment: CommentDataType, i) => (
           <Fragment key={i}>
-            <CommentsItem comment={comment} postId={comment.commentId} />
+            <CommentsItem comment={comment} postId={postId} />
             {i < allComments.length - 1 && (
               <div className="w-full h-[2px] bg-gray-100 mr-12" />
             )}
