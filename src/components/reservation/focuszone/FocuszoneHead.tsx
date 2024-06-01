@@ -23,10 +23,11 @@ const FocuszoneHead = () => {
       </div>
       <div
         // todo : 새로고침 눌렀을 때 실시간 좌석 현황 다시 받아오기
-        onClick={() => setCurrentTime(format(new Date(), 'HH:mm'))}
-        className="flex items-center gap-[10px] cursor-pointer">
+        className="flex items-center gap-[10px]">
         <div className="text-gray-600 text-sm font-normal">{currentTime} 기준</div>
-        <div>
+        <div
+          className="cursor-pointer"
+          onClick={() => setCurrentTime(format(new Date(), 'HH:mm'))}>
           <img src="reservation/focus_refresh.svg" alt="" />
         </div>
       </div>
