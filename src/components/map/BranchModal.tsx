@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { ModalProps } from '@/api/types/branch';
 import { useRouter } from 'next/router';
+import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 
-const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branchAddress }) => {
+
+const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branchAddress }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -37,11 +39,25 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
 
   if (!isOpen) return null;
 
-  const handleOfficeInfo = () => {
-    router.push({
-      pathname: `/branches/${encodeURIComponent(branchName)}`,
-      query: { address: branchAddress },
-    });
+
+  const handleOfficeInfo = async () => {
+    try {
+      const data = await getSelectedOfficeInfo(branchName); 
+      const officeInfo = data.data; 
+      console.log(officeInfo);
+      router.push({
+        pathname: `/branches/${encodeURIComponent(branchName)}`,
+        query: { 
+          name: branchName, 
+          address: officeInfo.branchAddress,
+          branchPhoneNumber: officeInfo.branchPhoneNumber,
+          roadFromStation: officeInfo.roadFromStation,
+          stationToBranch: officeInfo.stationToBranch.join(',')
+        }
+      }, `/branches/${encodeURIComponent(branchName)}`);
+    } catch (error) {
+      console.error('Error fetching office info:', error);
+    }
   };
 
   return (
@@ -87,4 +103,4 @@ const OfficeModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
   );
 };
 
-export default OfficeModal;
+export default BranchModal;

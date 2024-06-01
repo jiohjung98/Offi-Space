@@ -5,7 +5,7 @@ import MapSearchBar from './MapSearchBar';
 import MapSearchResult from './MapSearchResult';
 import { getBranchInfo } from '@/api/map/getOffice';
 import { Branch } from '@/api/types/branch';
-import OfficeModal from './OfficeModal';
+import BranchModal from './BranchModal';
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -35,15 +35,16 @@ const UseMap: React.FC = () => {
         };
         const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
         setMap(mapInstance);
-    
+
         naver.maps.Event.addListener(mapInstance, 'click', () => {
           setSelectedMarker(null);
           setIsModalOpen(false);
+          resetMarkers();
         });
+
         setMarkers(mapInstance);
       }
     };
-    
 
     if (typeof window !== 'undefined' && window.naver) {
       initMap();
@@ -71,80 +72,118 @@ const UseMap: React.FC = () => {
   }, [branches, map]);
 
   useEffect(() => {
-    if (map) {
-      setMarkers(map);
-    }
-  }, [selectedMarker]);
-
-  useEffect(() => {
     const filtered = branches.filter(branch => branch.branchName.includes(searchQuery));
     setFilteredBranches(filtered);
   }, [searchQuery, branches]);
+
+  useEffect(() => {
+    if (selectedMarker !== null) {
+      updateMarkers();
+    }
+  }, [selectedMarker]);
 
   const setMarkers = (map: naver.maps.Map) => {
     Object.values(markerRefs.current).forEach(marker => marker.setMap(null));
     markerRefs.current = {};
 
     branches.forEach((branch) => {
-      const isSelected = selectedMarker === branch.branchName;
       const marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude),
         map: map,
         icon: {
-          url: isSelected || selectedMarker === null ? '/map/OfficeActive.svg' : '/map/OfficeInActive.svg',
+          url: '/map/OfficeInActive.svg',
           size: new naver.maps.Size(48, 48),
-          scaledSize: new naver.maps.Size(isSelected ? 60 : 48, isSelected ? 60 : 48),
+          scaledSize: new naver.maps.Size(48, 48),
           origin: new naver.maps.Point(0, 0),
           anchor: new naver.maps.Point(24, 24),
         },
       });
+
       naver.maps.Event.addListener(marker, 'click', () => {
         handleMarkerClick(branch);
       });
+
       markerRefs.current[branch.branchName] = marker;
     });
   };
 
-  useEffect(() => {
-    const handleCurrentLocation = () => {
-      setLoading(true);
-      if (navigator.geolocation && map) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setCurrentLatitude(latitude);
-            setCurrentLongitude(longitude);
+  const updateMarkers = () => {
+    Object.values(markerRefs.current).forEach(marker => {
+      marker.setIcon({
+        url: '/map/OfficeInActive.svg',
+        size: new naver.maps.Size(48, 48),
+        scaledSize: new naver.maps.Size(48, 48),
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(24, 24),
+      });
+    });
 
-            const currentLocation = new naver.maps.LatLng(latitude, longitude);
-            map.panTo(currentLocation);
-            if (markerRef.current) {
-              markerRef.current.setPosition(currentLocation);
-            } else {
-              markerRef.current = new naver.maps.Marker({
-                position: currentLocation,
-                map: map,
-                icon: {
-                  url: '/map/MyLocation.png',
-                  size: new naver.maps.Size(48, 48),
-                  scaledSize: new naver.maps.Size(48, 48),
-                  origin: new naver.maps.Point(0, 0),
-                  anchor: new naver.maps.Point(24, 24),
-                },
-              });
-            }
-            setLoading(false);
-          },
-          (error) => {
-            console.error('Error getting current location:', error);
-            setLoading(false);
-          }
-        );
-      } else {
-        alert('Geolocation is not supported by this browser.');
-        setLoading(false);
+    if (selectedMarker) {
+      const selectedMarkerRef = markerRefs.current[selectedMarker];
+      if (selectedMarkerRef) {
+        selectedMarkerRef.setIcon({
+          url: '/map/OfficeActive.svg',
+          size: new naver.maps.Size(60, 60),
+          scaledSize: new naver.maps.Size(60, 60),
+          origin: new naver.maps.Point(0, 0),
+          anchor: new naver.maps.Point(30, 30),
+        });
       }
-    };
+    }
+  };
 
+  const resetMarkers = () => {
+    Object.values(markerRefs.current).forEach(marker => {
+      marker.setIcon({
+        url: '/map/OfficeInActive.svg',
+        size: new naver.maps.Size(48, 48),
+        scaledSize: new naver.maps.Size(48, 48),
+        origin: new naver.maps.Point(0, 0),
+        anchor: new naver.maps.Point(24, 24),
+      });
+    });
+  };
+
+  const handleCurrentLocation = () => {
+    setLoading(true);
+    if (navigator.geolocation && map) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentLatitude(latitude);
+          setCurrentLongitude(longitude);
+
+          const currentLocation = new naver.maps.LatLng(latitude, longitude);
+          map.panTo(currentLocation);
+          if (markerRef.current) {
+            markerRef.current.setPosition(currentLocation);
+          } else {
+            markerRef.current = new naver.maps.Marker({
+              position: currentLocation,
+              map: map,
+              icon: {
+                url: '/map/MyLocation.png',
+                size: new naver.maps.Size(48, 48),
+                scaledSize: new naver.maps.Size(48, 48),
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(24, 24),
+              },
+            });
+          }
+          setLoading(false);
+        },
+        (error) => {
+          console.error('Error getting current location:', error);
+          setLoading(false);
+        }
+      );
+    } else {
+      alert('Geolocation is not supported by this browser.');
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     const button = document.getElementById('current-location-button');
     if (button) {
       button.addEventListener('click', handleCurrentLocation);
@@ -210,7 +249,7 @@ const UseMap: React.FC = () => {
           currentLongitude={currentLongitude}
         />
       )}
-      <OfficeModal
+      <BranchModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         branchName={selectedBranch?.branchName || ''}
