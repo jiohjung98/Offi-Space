@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { Dispatch, useState } from 'react';
 import FirstColSeat from './selectSeatCol/FirstColSeat';
 import SecondColSeat from './selectSeatCol/SecondColSeat';
 import ThirdColSeat from './selectSeatCol/ThirdColSeat';
 import SeatInfo from './SeatInfo';
 import SelectSeatBtn from './SelectSeatBtn';
 
-const SelectSeatLayout = () => {
+interface SelectSeatLayoutType {
+  setModalOpen: Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SelectSeatLayout = ({ setModalOpen }: SelectSeatLayoutType) => {
+  // focusTodo : 받아온 예약 데이터에 따라 배치표에 표시하기
   const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
 
   const handleSeatClick = (seatId: string) => {
@@ -23,7 +28,7 @@ const SelectSeatLayout = () => {
         <ThirdColSeat selectedSeat={selectedSeat} handleSeatClick={handleSeatClick} />
       </div>
       <SeatInfo />
-      <SelectSeatBtn selectedSeat={selectedSeat} />
+      <SelectSeatBtn selectedSeat={selectedSeat} setModalOpen={setModalOpen} />
     </div>
   );
 };

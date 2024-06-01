@@ -22,7 +22,7 @@ const FocuszoneHead = () => {
         <span className="text-space-black">좌석 현황</span>
       </div>
       <div
-        // todo : 새로고침 눌렀을 때 실시간 좌석 현황 다시 받아오기
+        // focusTodo : 새로고침 누르면 예약 좌석 다시 받아오기
         className="flex items-center gap-[10px]">
         <div className="text-gray-600 text-sm font-normal">{currentTime} 기준</div>
         <div

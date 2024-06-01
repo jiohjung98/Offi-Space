@@ -30,7 +30,7 @@ const SelectSeatNav = () => {
         </div>
       </div>
       <div>
-        {/* todo : 새로고침 눌렀을 때 실시간 좌석 현황 다시 받아오기 */}
+        {/* focusTodo : 새로고침 누르면 다시 해당 오피스 예약 데이터 다시 받아오기 */}
         <div className="flex items-center gap-[10px]">
           <div className="text-gray-600 text-sm font-normal">{currentTime} 기준</div>
           <div

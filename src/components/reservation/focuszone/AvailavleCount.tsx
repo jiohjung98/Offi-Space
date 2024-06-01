@@ -1,6 +1,7 @@
 import React from 'react';
 
 const AvailavleCount = () => {
+  // focusTodo : 받아온 예약 데이터에 따라 표시하기
   return (
     <div
       style={{
