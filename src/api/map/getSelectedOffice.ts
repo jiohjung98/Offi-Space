@@ -1,6 +1,6 @@
 import { SelectedBranch } from '@/api/types/branch';
 
-export const getSelectedOfficeInfo = async (name: string): Promise<SelectedBranch> => {
+export const getSelectedOfficeInfo = async (name: string): Promise<{ data: SelectedBranch }> => {
   try {
     const backendUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
@@ -15,7 +15,7 @@ export const getSelectedOfficeInfo = async (name: string): Promise<SelectedBranc
     if (!response.ok) {
       throw new Error('Failed to fetch branch information');
     }
-    const data: SelectedBranch = await response.json();
+    const data: { data: SelectedBranch } = await response.json();
     return data;
   } catch (error) {
     console.error('Error fetching branch info:', error);
