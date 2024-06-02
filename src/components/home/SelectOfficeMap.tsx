@@ -45,7 +45,7 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
   }, [branch]);
 
   return (
-    <div className="fixed inset-0 bg-white z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-white z-50 flex items-center justify-center z-[9999]">
       <div ref={mapRef} className="w-[393px] mx-auto h-full" />
       <div className="absolute top-4 right-4">
         <aside className="w-[373px] mx-auto fixed bottom-[85px] left-0 right-0 z-50">

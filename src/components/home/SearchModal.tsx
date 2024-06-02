@@ -45,7 +45,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ onClose, onBranchSelect }) =>
   };
 
   return (
-    <div className='fixed inset-0 flex justify-center items-center'>
+    <div className='fixed inset-0 flex justify-center items-center z-[9999]'>
       <section className="w-[393px] mx-auto h-full bg-white" style={{ zIndex: '101' }}>
         <div className="relative p-4">
           <input
