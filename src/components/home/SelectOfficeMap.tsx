@@ -46,9 +46,10 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
 
   return (
     <div className="fixed inset-0 bg-white z-50 flex items-center justify-center z-[9999]">
-      <div ref={mapRef} className="w-[393px] mx-auto h-full" />
+      <div ref={mapRef} className="w-[393px] mx-auto h-full">
+      </div>
       <div className="absolute top-4 right-4">
-        <aside className="w-[373px] mx-auto fixed bottom-[85px] left-0 right-0 z-50">
+        <aside className="w-[373px] mx-auto fixed bottom-[30px] left-0 right-0 z-50">
           <div className="bg-white px-4 py-6 rounded-lg shadow-lg">
             <div className='flex'>
               <div className="flex-shrink-0 w-[88px] h-[88px] bg-gray-300 rounded-md">
@@ -84,12 +85,6 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
             </div>
           </div>
         </aside>
-        <button 
-          onClick={onClose} 
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white text-black flex items-center justify-center"
-        >
-          X
-        </button>
       </div>
     </div>
   );
