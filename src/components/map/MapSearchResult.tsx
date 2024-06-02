@@ -7,6 +7,7 @@ import { MapSearchResultProps } from '@/api/types/branch';
 const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onMarkerClick, currentLatitude, currentLongitude }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const [locationSet, setLocationSet] = useState(false);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -14,17 +15,24 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onM
     }
   }, []);
 
+  useEffect(() => {
+    setLocationSet(currentLatitude !== 37.4979 || currentLongitude !== 127.0276);
+  }, [currentLatitude, currentLongitude]);
+
   const filteredResults = results
     .filter(branch => branch.branchName.includes(searchTerm))
     .sort((a, b) => {
-      const distanceA = calculateDistance(currentLatitude, currentLongitude, a.branchLatitude, a.branchLongitude);
-      const distanceB = calculateDistance(currentLatitude, currentLongitude, b.branchLatitude, b.branchLongitude);
-      return distanceA - distanceB;
+      if (locationSet) {
+        const distanceA = calculateDistance(currentLatitude, currentLongitude, a.branchLatitude, a.branchLongitude);
+        const distanceB = calculateDistance(currentLatitude, currentLongitude, b.branchLatitude, b.branchLongitude);
+        return distanceA - distanceB;
+      }
+      return 0;
     });
 
   const handleItemClick = (branch: Branch) => {
     onMarkerClick(branch);
-    onClose(); 
+    onClose();
   };
 
   return (
@@ -58,7 +66,11 @@ const MapSearchResult: React.FC<MapSearchResultProps> = ({ onClose, results, onM
                 <li key={branch.branchName} className="flex items-center p-4" onClick={() => handleItemClick(branch)}>
                   <Image src="/map/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} />
                   <span className="ml-4 cursor-pointer">{branch.branchName}</span>
-                  <span className="ml-auto">{formatDistance(calculateDistance(currentLatitude, currentLongitude, branch.branchLatitude, branch.branchLongitude))}</span> 
+                  {locationSet && (
+                    <span className="ml-auto">
+                      {formatDistance(calculateDistance(currentLatitude, currentLongitude, branch.branchLatitude, branch.branchLongitude))}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>

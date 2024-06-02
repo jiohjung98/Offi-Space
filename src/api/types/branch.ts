@@ -30,3 +30,14 @@ export interface OfficeInfoProps {
     branchName: string;
     branchAddress: string;
 }
+
+export interface SelectedBranch {
+    branchName: string;
+    branchAddress: string;
+    branchLatitude: number;
+    branchLongitude: number;
+    branchPhoneNumber: string;
+    roadFromStation: string;
+    stationToBranch: string[];
+}
+  
