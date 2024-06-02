@@ -77,7 +77,7 @@ const MeetingRoomIndex = () => {
         <div className="text-lg font-bold">{currentTime}</div>
         <div className="text-lg font-bold">인원 수 ▼</div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4">
 
         {meetingRooms.map((room) => (
           <div key={room.meetingRoomId} className="border rounded-lg overflow-hidden bg-white text-center">
