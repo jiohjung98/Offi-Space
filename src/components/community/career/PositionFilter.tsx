@@ -10,10 +10,6 @@ const PositionFilter = () => {
     setCategory(initialPosition);
   }, [initialPosition, setCategory]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [initialPosition]);
-
   return (
     <div
       onClick={() => setModal(true)}

@@ -1,11 +1,18 @@
 import deleteFirstWord from '@/utils/deleteFirtstWord';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 const Footer = () => {
+  const router = useRouter();
   const pathName = usePathname();
   const filteredPathName = deleteFirstWord(pathName);
-  console.log(filteredPathName);
+
+  const handleCommunityClick = () => {
+    sessionStorage.removeItem('scrollPosition');
+    sessionStorage.removeItem('savedData');
+    router.push('/community');
+  };
 
   return (
     <footer>
@@ -52,7 +59,8 @@ const Footer = () => {
             </div>
           </div>
         </Link>
-        <Link href="/community">
+        {/* 기존 링크 */}
+        {/* <Link href="/community">
           <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
               {filteredPathName === 'community' ? (
@@ -65,7 +73,22 @@ const Footer = () => {
               커뮤니티
             </div>
           </div>
-        </Link>
+        </Link> */}
+        {/* session data 제거해야 하므로 아래 방식으로 변경 */}
+        <div
+          onClick={handleCommunityClick}
+          className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
+          <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
+            {filteredPathName === 'community' ? (
+              <img className="w-5 h-5 " src="/CheckedCommunity.svg" alt="community" />
+            ) : (
+              <img className="w-5 h-5 " src="/Community.svg" alt="community" />
+            )}
+          </div>
+          <div className="text-center text-black text-xs font-normal font-['Pretendard']">
+            커뮤니티
+          </div>
+        </div>
         <Link href="/mypage">
           <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
