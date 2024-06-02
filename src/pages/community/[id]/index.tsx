@@ -15,6 +15,7 @@ const CommunityDetailPage = () => {
 
 export default CommunityDetailPage;
 
+// eslint-disable-next-line react-refresh/only-export-components
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { query, req } = context;
   const { cookie } = req.headers;
@@ -23,19 +24,27 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   if (token !== '') {
     const client = new QueryClient();
-    await client.prefetchQuery(['post', postId], async () => {
-      const { data } = await axios.get(`https://joo-api.store/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+    try {
+      await client.prefetchQuery(['post', postId], async () => {
+        const { data } = await axios.get(`https://joo-api.store/posts/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        return data.data;
       });
-      return data.data;
-    });
-    return {
-      props: {
-        dehydratedState: JSON.parse(JSON.stringify(dehydrate(client)))
-      }
-    };
+      return {
+        props: {
+          dehydratedState: JSON.parse(JSON.stringify(dehydrate(client)))
+        }
+      };
+    } catch (error) {
+      return {
+        props: {
+          error: 'Failed to fetch post data'
+        }
+      };
+    }
   }
 
   return {

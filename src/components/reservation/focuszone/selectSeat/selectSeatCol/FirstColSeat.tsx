@@ -2,6 +2,7 @@ import React from 'react';
 
 interface FirstColSeatType {
   selectedSeat: string | null;
+  // eslint-disable-next-line no-unused-vars
   handleSeatClick: (seatId: string) => void;
 }
 
