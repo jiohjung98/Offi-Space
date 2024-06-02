@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CurrentRoom from './shared/CurrentRoom';
 import ChangeRoomType from './shared/ChangeRoomType';
 import FocuszoneIndex from './focuszone/FocuszoneIndex';
+import MeetingRoomIndex from './meetingRoom/MeetingRoomIndex';
 
 const ReservationIndex = () => {
   const [currentRoom, setCurrentRoom] = useState('meeting');
@@ -20,7 +21,7 @@ const ReservationIndex = () => {
 
       {/* 룸 타입에 따른 예약  */}
       <section>
-        {currentRoom === 'meeting' ? <></> : null}
+        {currentRoom === 'meeting' ? <MeetingRoomIndex/> : null}
         {currentRoom === 'recharging' ? <></> : null}
         {currentRoom === 'focus' ? <FocuszoneIndex /> : null}
       </section>
