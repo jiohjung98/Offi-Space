@@ -7,7 +7,16 @@ import "react-datepicker/dist/react-datepicker.css";
 interface DatePickerModalProps {
   showModal: boolean;
   setShowModal: (show: boolean) => void;
-  onConfirm: (startDate: Date, endDate: Date) => void;
+  onConfirm: (
+    startDate: Date,
+    endDate: Date,
+    options: {
+      meetingRoomTypes: ('MINI' | 'STANDARD' | 'MEDIUM' | 'STATE')[];
+      projectorExists: boolean;
+      canVideoConference: boolean;
+      isPrivate: boolean;
+    }
+  ) => void;
   initialStartTime: Date;
   initialEndTime: Date;
 }
@@ -17,6 +26,10 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
   const [startTime, setStartTime] = useState<string>(initialStartTime.toTimeString().substr(0, 5));
   const [endTime, setEndTime] = useState<string>(initialEndTime.toTimeString().substr(0, 5));
   const [minStartTime, setMinStartTime] = useState<string>('09:00');
+  const [meetingRoomTypes, setMeetingRoomTypes] = useState<('MINI' | 'STANDARD' | 'MEDIUM' | 'STATE')[]>(['MINI', 'STANDARD', 'MEDIUM', 'STATE']);
+  const [projectorExists, setProjectorExists] = useState<boolean>(false);
+  const [canVideoConference, setCanVideoConference] = useState<boolean>(false);
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   useEffect(() => {
     if (startDate.toDateString() === new Date().toDateString()) {
@@ -55,8 +68,16 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
     endDateTime.setHours(endHour);
     endDateTime.setMinutes(endMinute);
 
-    onConfirm(startDateTime, endDateTime);
+    onConfirm(startDateTime, endDateTime, { meetingRoomTypes, projectorExists, canVideoConference, isPrivate });
     setShowModal(false);
+  };
+
+  const handleTypeChange = (type: 'MINI' | 'STANDARD' | 'MEDIUM' | 'STATE') => {
+    setMeetingRoomTypes((prevTypes) => 
+      prevTypes.includes(type) 
+        ? prevTypes.filter((t) => t !== type) 
+        : [...prevTypes, type]
+    );
   };
 
   const startTimeOptions = [];
@@ -116,6 +137,50 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
                 <option key={time} value={time}>{time}</option>
               ))}
             </select>
+          </div>
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2">회의실 유형</label>
+          <div className="grid grid-cols-2 gap-2">
+            {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
+              <label key={type} className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={meetingRoomTypes.includes(type)}
+                  onChange={() => handleTypeChange(type)}
+                />
+                <span className="ml-2">{type}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2">옵션</label>
+          <div className="flex flex-col space-y-2">
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={projectorExists}
+                onChange={() => setProjectorExists((prev) => !prev)}
+              />
+              <span className="ml-2">프로젝터</span>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={canVideoConference}
+                onChange={() => setCanVideoConference((prev) => !prev)}
+              />
+              <span className="ml-2">화상 회의 가능</span>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={isPrivate}
+                onChange={() => setIsPrivate((prev) => !prev)}
+              />
+              <span className="ml-2">프라이빗</span>
+            </label>
           </div>
         </div>
         <div className="flex justify-end space-x-2">

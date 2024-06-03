@@ -87,7 +87,16 @@ const MeetingRoomIndex: React.FC = () => {
     }
   }, [params]);
 
-  const handleConfirm = (startDate: Date, endDate: Date) => {
+  const handleConfirm = (
+    startDate: Date,
+    endDate: Date,
+    options: {
+      meetingRoomTypes: ('MINI' | 'STANDARD' | 'MEDIUM' | 'STATE')[];
+      projectorExists: boolean;
+      canVideoConference: boolean;
+      isPrivate: boolean;
+    }
+  ) => {
     const formattedStartAt = formatDateToCustomString(startDate);
     const formattedEndAt = formatDateToCustomString(endDate);
     setCurrentTime(formatDisplayDate(startDate, endDate));
@@ -96,6 +105,10 @@ const MeetingRoomIndex: React.FC = () => {
       ...params!,
       startAt: formattedStartAt,
       endAt: formattedEndAt,
+      meetingRoomTypes: options.meetingRoomTypes,
+      projectorExists: options.projectorExists,
+      canVideoConference: options.canVideoConference,
+      isPrivate: options.isPrivate,
     };
     setParams(newParams);
     setStartTime(startDate);
@@ -105,32 +118,45 @@ const MeetingRoomIndex: React.FC = () => {
   return (
     <div className="p-4 h-screen">
       <div className="flex justify-between items-center mb-4">
-      <div className="w-52 h-[33px] px-3 py-2 bg-violet-100 rounded justify-start gap-3 inline-flex cursor-pointer" onClick={() => setShowModal(true)}>
-        <Image src={'/calendar.svg'} width={14} height={14} alt='calendar' className='mr-[6px]'/>
-        <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{currentTime}</div>
-        <Image src={'/bottomArrow.svg'} width={11} height={11} alt='bottomArrow' className='ml-auto mr-[2px]'/>
-      </div>
-        <div className="text-lg font-bold">인원 수 ▼</div>
+        <div
+          className="w-52 h-[33px] px-3 py-2 bg-violet-100 rounded justify-start gap-3 inline-flex cursor-pointer"
+          onClick={() => setShowModal(true)}
+        >
+          <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
+          <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{currentTime}</div>
+          <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
+        </div>
+        <div className="text-lg font-bold"></div>
       </div>
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
       <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
         {meetingRooms.map((room) => (
           <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center">
             <div className="rounded">
-              <Image src={room.meetingRoomImage || '/meetingRoomImg.svg'} width={175} height={124} alt={room.meetingRoomName} className="object-cover rounded" />
+              <Image
+                src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+                width={175}
+                height={124}
+                alt={room.meetingRoomName}
+                className="object-cover rounded"
+              />
             </div>
             <div className="flex flex-col">
-              <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">{room.meetingRoomName}</div>
-              <div className='flex mt-[4px] items-center'>
-                <Image src={'/floor.svg'} width={14} height={14} alt='floor' className='mr-[6px]'/>
-                <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">{room.meetingRoomFloor}층</div>
-                <Image src={'/capacity.svg'} width={14} height={14} alt='capacity' className='mr-[6px]'/>
+              <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+                {room.meetingRoomName}
+              </div>
+              <div className="flex mt-[4px] items-center">
+                <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                  {room.meetingRoomFloor}층
+                </div>
+                <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
                 <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
               </div>
             </div>
           </div>
         ))}
-        <div className='h-[100px]'></div>
+        <div className="h-[100px]"></div>
       </div>
       {startTime && endTime && (
         <DatePickerModal
