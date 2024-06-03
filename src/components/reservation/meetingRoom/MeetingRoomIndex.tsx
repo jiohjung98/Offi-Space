@@ -89,6 +89,13 @@ const MeetingRoomIndex: React.FC = () => {
     }
   }, [params]);
 
+  const roomTypeMap: { [key: string]: string } = {
+    'MINI': '미니(1-4인)',
+    'STANDARD': '스탠다드(5-8인)',
+    'MEDIUM': '미디움(9-12인)',
+    'STATE': '스테이트(13-15인)',
+  };
+
   const handleConfirm = (
     startDate: Date,
     endDate: Date,
@@ -117,15 +124,19 @@ const MeetingRoomIndex: React.FC = () => {
     setEndTime(endDate);
 
     const selectedCount = options.meetingRoomTypes.length;
-    const displayTypes = selectedCount > 1 ? `${options.meetingRoomTypes[0]}외 ${selectedCount - 1}` : options.meetingRoomTypes[0];
+    const displayTypes = selectedCount > 1 
+      ? `${roomTypeMap[options.meetingRoomTypes[0]]}외 ${selectedCount - 1}` 
+      : roomTypeMap[options.meetingRoomTypes[0]];
     setSelectedMeetingRoomTypes(displayTypes);
 
     const equipmentArray = [];
     if (options.projectorExists) equipmentArray.push('프로젝터');
-    if (options.canVideoConference) equipmentArray.push('화상 회의 가능');
+    if (options.canVideoConference) equipmentArray.push('화상 회의');
     if (options.isPrivate) equipmentArray.push('프라이빗');
     const selectedEquipCount = equipmentArray.length;
-    const displayEquipment = selectedEquipCount > 1 ? `${equipmentArray[0]}외 ${selectedEquipCount - 1}` : (equipmentArray[0] || '비품');
+    const displayEquipment = selectedEquipCount > 1 
+      ? `${equipmentArray[0]} 외 ${selectedEquipCount - 1}` 
+      : (equipmentArray[0] || '비품');
     setSelectedEquipment(displayEquipment);
   };
 
@@ -133,7 +144,7 @@ const MeetingRoomIndex: React.FC = () => {
     <div className="p-4 h-screen">
       <div className="flex mb-4 overflow-x-auto whitespace-nowrap">
         <div
-          className="flex-none w-[200px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer"
+          className="flex-none w-[190px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer"
           onClick={() => setShowModal(true)}
         >
           <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
@@ -141,14 +152,14 @@ const MeetingRoomIndex: React.FC = () => {
           <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
         </div>
         <div
-          className="flex-none w-[130px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
+          className={`flex-none h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2 ${selectedMeetingRoomTypes === '인원 수' ? 'w-[110px]' : 'w-[170px]'}`}
         >
           <Image src={'/people.svg'} width={14} height={14} alt="people" className="mr-[6px]" />
           <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedMeetingRoomTypes}</div>
           <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
         </div>
         <div
-          className="flex-none w-[130px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
+          className={`flex-none h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2 ${selectedEquipment === '비품' ? 'w-[100px]' : 'w-[150px]'}`}
         >
           <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
           <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedEquipment}</div>

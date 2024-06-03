@@ -179,7 +179,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
                 checked={canVideoConference}
                 onChange={() => setCanVideoConference((prev) => !prev)}
               />
-              <span className="ml-2">화상 회의 가능</span>
+              <span className="ml-2">화상 회의</span>
             </label>
             <label className="flex items-center">
               <input
