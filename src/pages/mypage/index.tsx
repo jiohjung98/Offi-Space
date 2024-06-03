@@ -122,7 +122,19 @@ const MyPage = () => {
           </div>
         </div>
 
-        <div className="w-[361px] h-9 pb-3 flex justify-start items-center gap-[268px]">
+        <div
+          className="w-[361px] h-9 pb-3 flex justify-start items-center gap-[268px] cursor-pointer"
+          onClick={() => {
+            Notification.requestPermission().then((permission) => {
+              if (permission !== 'granted') {
+                // 푸시 거부됐을 때 처리할 내용
+                console.log('푸시 거부됨');
+              } else {
+                // 푸시 승인됐을 때 처리할 내용
+                console.log('푸시 승인됨');
+              }
+            });
+          }}>
           <div className="h-6 flex justify-start items-start gap-3.5">
             <div className="w-[360px] flex justify-between">
               <div className="text-center text-black/opacity-20 text-base font-normal font-['Pretendard'] leading-normal">

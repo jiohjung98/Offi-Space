@@ -1,10 +1,10 @@
 {
-  "name": "Effispace",
-  "short_name": "Effispace",
+  "name": "Offispace",
+  "short_name": "Offispace",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "description": "Effispace",
+  "description": "거점공유 플랫폼 오피스페이스",
   "icons": [
     {
       "src": "/icons/Logo256.png",
