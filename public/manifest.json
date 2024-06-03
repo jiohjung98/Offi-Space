@@ -2,7 +2,7 @@
   "name": "Effispace",
   "short_name": "Effispace",
   "start_url": "/",
-  "display": "minimal-ui",
+  "display": "browser",
   "background_color": "#ffffff",
   "description": "My awesome Progressive Web App!",
   "icons": [
