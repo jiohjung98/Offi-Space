@@ -9,12 +9,11 @@ const SelectSeatNav = () => {
 
   const queryClient = useQueryClient();
 
-  //todo branchId 받아오기
-  const currentBranchId = '1';
-
   const handleRefresh = () => {
-    queryClient.invalidateQueries(['seatInfo', currentBranchId]);
-    setCurrentTime(format(new Date(), 'HH:mm'));
+    if (selectedBranch?.branchId) {
+      queryClient.invalidateQueries(['seatInfo', selectedBranch?.branchId]);
+      setCurrentTime(format(new Date(), 'HH:mm'));
+    }
   };
 
   useEffect(() => {

@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useQueryClient } from 'react-query';
+import { useBranchStore } from '@/store/branch.store';
 
 const FocuszoneHead = () => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const queryClient = useQueryClient();
-
-  //todo branchId 받아오기
-  const currentBranchId = '1';
+  const { branchId } = useBranchStore((state) => state.selectedBranch) as {
+    branchId: number;
+  };
 
   const handleRefresh = () => {
-    queryClient.invalidateQueries(['availableCount', currentBranchId]);
-    setCurrentTime(format(new Date(), 'HH:mm'));
+    if (branchId) {
+      queryClient.invalidateQueries(['availableCount', branchId]);
+      setCurrentTime(format(new Date(), 'HH:mm'));
+    }
   };
 
   useEffect(() => {

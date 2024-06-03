@@ -77,7 +77,7 @@ const Footer = () => {
         {/* session data 제거해야 하므로 아래 방식으로 변경 */}
         <div
           onClick={handleCommunityClick}
-          className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
+          className="cursor-pointer h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
           <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
             {filteredPathName === 'community' ? (
               <img className="w-5 h-5 " src="/CheckedCommunity.svg" alt="community" />

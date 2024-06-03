@@ -4,11 +4,19 @@ import SelectSeatNav from './SelectSeatNav';
 import SelectSeatLayout from './SelectSeatLayout';
 import ConfirmModal from './ConfirmModal';
 import CheckModal from './CheckModal';
+import { useBranchStore } from '@/store/branch.store';
 
 const SelectSeatIndex = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [checkModal, setCheckModal] = useState(false);
   const [modalDeskId, setModalDeskId] = useState<number | null>(null); //check모달에서 쓰일 deskId
+
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
+  const branchId = selectedBranch?.branchId;
+
+  if (!branchId) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="mx-4 mb-[100px]">
@@ -23,6 +31,7 @@ const SelectSeatIndex = () => {
           setModalOpen={setModalOpen}
           setCheckModal={setCheckModal}
           setModalDeskId={setModalDeskId}
+          branchId={branchId}
         />
       </section>
       {modalOpen ? <ConfirmModal setModalOpen={setModalOpen} /> : null}

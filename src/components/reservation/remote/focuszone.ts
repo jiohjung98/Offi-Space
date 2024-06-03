@@ -6,7 +6,7 @@ interface reservationFocusReqType {
   focusDeskId: number;
 }
 
-export const getFocuszoneSeatInfo = async (branchId: string) => {
+export const getFocuszoneSeatInfo = async (branchId: number) => {
   try {
     const { data } = await getRequest<FocusInfoType>(`spaces/focus-zone/${branchId}`);
     return data;
@@ -15,7 +15,7 @@ export const getFocuszoneSeatInfo = async (branchId: string) => {
   }
 };
 
-export const getFocuszoneSeatCount = async (branchId: string) => {
+export const getFocuszoneSeatCount = async (branchId: number) => {
   try {
     const { data } = await getRequest<FocusSeatCountType>(
       `spaces/focus-zone/${branchId}/available-seat-count`

@@ -15,9 +15,11 @@ interface SelectSeatLayoutType {
   setModalOpen: Dispatch<React.SetStateAction<boolean>>;
   setModalDeskId: Dispatch<React.SetStateAction<number | null>>;
   setCheckModal: Dispatch<React.SetStateAction<boolean>>;
+  branchId: number;
 }
 
 const SelectSeatLayout = ({
+  branchId,
   setModalOpen,
   setModalDeskId,
   setCheckModal
@@ -25,14 +27,11 @@ const SelectSeatLayout = ({
   const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
   const [currentDeskId, setCurrentDeskId] = useState<number | null>(null);
 
-  //todo : 현재 지점 id로 받아오기
-  const currentBranchId = '1';
-
   const { data: allSeatInfo } = useQuery(
-    ['seatInfo', currentBranchId],
-    () => getFocuszoneSeatInfo(currentBranchId),
+    ['seatInfo', branchId],
+    () => getFocuszoneSeatInfo(branchId),
     {
-      enabled: !!currentBranchId
+      enabled: !!branchId
     }
   );
 

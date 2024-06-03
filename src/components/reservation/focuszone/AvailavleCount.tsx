@@ -1,15 +1,18 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { getFocuszoneSeatCount } from '../remote/focuszone';
+import { useBranchStore } from '@/store/branch.store';
 
 const AvailavleCount = () => {
-  //todo branchId 받아오기
-  const currentBranchId = '1';
+  const { branchId } = useBranchStore((state) => state.selectedBranch) as {
+    branchId: number;
+  };
+
   const { data } = useQuery(
-    ['availableCount', currentBranchId],
-    () => getFocuszoneSeatCount(currentBranchId),
+    ['availableCount', branchId],
+    () => getFocuszoneSeatCount(branchId),
     {
-      enabled: !!currentBranchId
+      enabled: !!branchId
     }
   );
 
