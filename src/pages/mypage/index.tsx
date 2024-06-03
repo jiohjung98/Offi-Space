@@ -125,26 +125,15 @@ const MyPage = () => {
         <div
           className="w-[361px] h-9 pb-3 flex justify-start items-center gap-[268px] cursor-pointer"
           onClick={() => {
-            if (Notification.permission === 'default') {
-              Notification.requestPermission().then((permission) => {
-                if (permission === 'granted') {
-                  console.log('푸시 승인됨');
-                  // 승인된 후 처리할 내용
-                } else if (permission === 'denied') {
-                  console.log('푸시 거부됨');
-                  alert(
-                    '알림 권한이 거부되었습니다. 설정에서 알림 권한을 변경해 주세요.'
-                  );
-                }
-              });
-            } else if (Notification.permission === 'denied') {
-              alert(
-                '알림 권한이 거부되었습니다. 브라우저 설정에서 알림 권한을 변경해 주세요.'
-              );
-            } else {
-              console.log('푸시 승인됨');
-              // 이미 승인된 경우 처리할 내용
-            }
+            Notification.requestPermission().then((permission) => {
+              if (permission !== 'granted') {
+                // 푸시 거부됐을 때 처리할 내용
+                console.log('푸시 거부됨');
+              } else {
+                // 푸시 승인됐을 때 처리할 내용
+                console.log('푸시 승인됨');
+              }
+            });
           }}>
           <div className="h-6 flex justify-start items-start gap-3.5">
             <div className="w-[360px] flex justify-between">
