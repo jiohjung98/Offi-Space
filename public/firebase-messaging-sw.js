@@ -40,7 +40,7 @@ self.addEventListener('notificationclick', function (event) {
   event.notification.close();
 
   // 이동할 url
-  const urlToOpen = event.notification.data.click_action;
+  const urlToOpen = event.notification.data.targetUrl;
 
   // 클라이언트에 해당 사이트가 열려 있는지 체크
   const promiseChain = clients
