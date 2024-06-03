@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePickerWheel from './WheelPicker';
+import Image from 'next/image';
 
 interface DatePickerModalProps {
   showModal: boolean;
@@ -93,7 +94,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
     }
   }
 
-  for (let hour = 9; hour <= 24; hour++) { 
+  for (let hour = 0; hour <= 24; hour++) {
     for (const minute of [0, 30]) {
       const timeString = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
       if (timeString > startTime && timeString <= '24:00') {
@@ -101,9 +102,40 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
       }
     }
   }
-  
 
+  const resetFilters = () => {
+    setStartDate(initialStartTime);
+    setStartTime(initialStartTime.toTimeString().substr(0, 5));
+    setEndTime(initialEndTime.toTimeString().substr(0, 5));
+    setMinStartTime('09:00');
+    setSelectedMeetingRoomTypes([]);
+    setProjectorExists(false);
+    setCanVideoConference(false);
+    setIsPrivate(false);
+
+    const newStartTimeOptions = [];
+    const newEndTimeOptions = [];
+
+    for (let hour = 9; hour <= 23; hour++) {
+      for (const minute of [0, 30]) {
+        const timeString = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+        if (timeString >= '09:00') {
+          newStartTimeOptions.push(timeString);
+        }
+      }
+    }
+
+    for (let hour = 9; hour <= 24; hour++) { 
+      for (const minute of [0, 30]) {
+        const timeString = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+        if (timeString > '09:00' && timeString <= '24:00') {
+          newEndTimeOptions.push(timeString);
+        }
+      }
+    }
+  };
   if (!showModal) return null;
+
   return (
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
     <div className="bg-black bg-opacity-50 absolute inset-0"></div>
@@ -192,13 +224,25 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
             </label>
           </div>
         </div>
-        <div className="flex justify-end space-x-2">
-          <button className="bg-blue-500 text-white rounded px-4 py-2" onClick={handleConfirm}>확인</button>
-          <button className="bg-gray-300 rounded px-4 py-2" onClick={() => setShowModal(false)}>취소</button>
+        <div className="flex justify-between pt-[25px]">
+          <div className='flex w-[160px] h-[36px] justify-center items-center cursor-pointer' onClick={resetFilters}>
+        <Image src={'/filter.svg'} width={14} height={14} alt="calendar" className="mr-[8px]" />
+          <div 
+            className="text-[#3B268C] py-[6px] rounded-md justify-center items-center gap-2"
+          >
+            필터 초기화
+          </div>
+          </div>
+          <button 
+            className="flex w-[160px] h-[36px] text-[#3B268C] px-[6px] py-[6px] rounded-md justify-center items-center border border-[#3E2896] mr-[25px]"
+            onClick={handleConfirm}
+          >
+            확인
+          </button>
         </div>
       </div>
     </div>
   );
 }  
-export default DatePickerModal;
 
+export default DatePickerModal;
