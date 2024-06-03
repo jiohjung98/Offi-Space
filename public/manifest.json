@@ -1,6 +1,6 @@
 {
-  "name": "My PWA",
-  "short_name": "PWA",
+  "name": "Effispace",
+  "short_name": "Effispace",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
