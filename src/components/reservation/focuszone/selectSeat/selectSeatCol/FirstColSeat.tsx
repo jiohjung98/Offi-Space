@@ -1,63 +1,115 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import { FocusSeatData } from '@/components/reservation/model/focusInfo';
+import React, { useEffect, useState } from 'react';
 
 interface FirstColSeatType {
   selectedSeat: string | null;
-  // eslint-disable-next-line no-unused-vars
   handleSeatClick: (seatId: string) => void;
+  allSeatInfo: FocusSeatData[];
 }
 
-const FirstColSeat = ({ selectedSeat, handleSeatClick }: FirstColSeatType) => {
+const FirstColSeat = ({
+  selectedSeat,
+  handleSeatClick,
+  allSeatInfo
+}: FirstColSeatType) => {
+  const renderedSeat = () => {
+    const firstCol = ['1', '2', '3', '4', '5'];
+    const selectedNum: { [key: string]: FocusSeatData }[] = [];
+    firstCol.forEach((col) => {
+      const matchingSeat = allSeatInfo?.find(
+        (seat) => seat.focusDeskNumber.toString() === col
+      );
+      if (matchingSeat) {
+        selectedNum.push({ [col]: matchingSeat });
+      }
+    });
+    return selectedNum;
+  };
+
+  const [seatInfo, setSeatInfo] = useState<{ [key: string]: FocusSeatData }[]>([]);
+
+  useEffect(() => {
+    setSeatInfo(renderedSeat());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allSeatInfo]);
+
   return (
     <div>
       {/* 첫번째 줄 */}
       <div className="border-r-[1.5px] border-l-[1.5px] border-t-[1.5px] border-gray-500 w-full h-10 flex">
         <div className="ml-[86px] border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full cursor-pointer">
           <div
-            id="1"
-            onClick={() => handleSeatClick('1')}
+            onClick={() => {
+              if (seatInfo[0]?.canReserve) {
+                handleSeatClick('1');
+              } else {
+                return;
+              }
+            }}
             className={`
-            ${selectedSeat === '1' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
-            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
+    ${seatInfo[0]?.canReserve ? (selectedSeat === '1' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
+    flex items-center justify-center rounded-md h-full w-8 text-xs font-medium cursor-pointer`}>
             1
           </div>
         </div>
         <div className="border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full">
           <div
-            id="2"
-            onClick={() => handleSeatClick('2')}
+            onClick={() => {
+              if (seatInfo[1]?.canReserve) {
+                handleSeatClick('2');
+              } else {
+                return;
+              }
+            }}
             className={`
-            ${selectedSeat === '2' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
-            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
+    ${seatInfo[1]?.canReserve ? (selectedSeat === '2' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
+    flex items-center justify-center rounded-md h-full w-8 text-xs font-medium cursor-pointer`}>
             2
           </div>
         </div>
         <div className="border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full">
           <div
-            id="3"
-            onClick={() => handleSeatClick('3')}
+            onClick={() => {
+              if (seatInfo[2]?.canReserve) {
+                handleSeatClick('3');
+              } else {
+                return;
+              }
+            }}
             className={`
-            ${selectedSeat === '3' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
-            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
+    ${seatInfo[2]?.canReserve ? (selectedSeat === '3' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
+    flex items-center justify-center rounded-md h-full w-8 text-xs font-medium cursor-pointer`}>
             3
           </div>
         </div>
         <div className="border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full">
           <div
-            onClick={() => handleSeatClick('4')}
-            id="4"
+            onClick={() => {
+              if (seatInfo[3]?.canReserve) {
+                handleSeatClick('4');
+              } else {
+                return;
+              }
+            }}
             className={`
-            ${selectedSeat === '4' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
-            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
+    ${seatInfo[3]?.canReserve ? (selectedSeat === '4' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
+    flex items-center justify-center rounded-md h-full w-8 text-xs font-medium cursor-pointer`}>
             4
           </div>
         </div>
         <div className="border-l-[1.5px] border-gray-500 pt-[5px] px-[11px] h-full">
           <div
-            onClick={() => handleSeatClick('5')}
-            id="5"
+            onClick={() => {
+              if (seatInfo[4]?.canReserve) {
+                handleSeatClick('5');
+              } else {
+                return;
+              }
+            }}
             className={`
-            ${selectedSeat === '5' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
-            flex items-center justify-center rounded-md  h-full w-8 text-xs font-medium cursor-pointer`}>
+    ${seatInfo[4]?.canReserve ? (selectedSeat === '5' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
+    flex items-center justify-center rounded-md h-full w-8 text-xs font-medium cursor-pointer`}>
             5
           </div>
         </div>

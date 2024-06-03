@@ -1,12 +1,38 @@
-import React from 'react';
+import { FocusSeatData } from '@/components/reservation/model/focusInfo';
+import React, { useEffect, useState } from 'react';
 
 interface ThirdColSeatType {
   selectedSeat: string | null;
   // eslint-disable-next-line no-unused-vars
   handleSeatClick: (seatId: string) => void;
+  allSeatInfo: FocusSeatData[];
 }
 
-const ThirdColSeat = ({ selectedSeat, handleSeatClick }: ThirdColSeatType) => {
+const ThirdColSeat = ({
+  selectedSeat,
+  handleSeatClick,
+  allSeatInfo
+}: ThirdColSeatType) => {
+  const renderedSeat = () => {
+    const firstCol = ['9', '10', '11', '17', '18', '12', '13', '14', '19', '20'];
+    const selectedNum: { [key: string]: FocusSeatData }[] = [];
+    firstCol.forEach((col) => {
+      const matchingSeat = allSeatInfo?.find(
+        (seat) => seat.focusDeskNumber.toString() === col
+      );
+      if (matchingSeat) {
+        selectedNum.push({ [col]: matchingSeat });
+      }
+    });
+    return selectedNum;
+  };
+
+  const [seatInfo, setSeatInfo] = useState<{ [key: string]: FocusSeatData }[]>([]);
+
+  useEffect(() => {
+    setSeatInfo(renderedSeat());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allSeatInfo]);
   return (
     <div>
       {/* 첫번째 줄 */}
@@ -15,30 +41,45 @@ const ThirdColSeat = ({ selectedSeat, handleSeatClick }: ThirdColSeatType) => {
         <div className="flex">
           <div className="border-b-[1.5px] border-gray-500 ">
             <div
-              onClick={() => handleSeatClick('9')}
-              id="9"
+              onClick={() => {
+                if (seatInfo[0]?.canReserve) {
+                  handleSeatClick('9');
+                } else {
+                  return;
+                }
+              }}
               className={`
-              ${selectedSeat === '9' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+              ${seatInfo[0]?.canReserve ? (selectedSeat === '9' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
               w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
               9
             </div>
           </div>
           <div className="border-b-[1.5px] border-l-[1.5px] border-gray-500 ">
             <div
-              onClick={() => handleSeatClick('10')}
-              id="10"
+              onClick={() => {
+                if (seatInfo[1]?.canReserve) {
+                  handleSeatClick('10');
+                } else {
+                  return;
+                }
+              }}
               className={`
-              ${selectedSeat === '10' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+              ${seatInfo[1]?.canReserve ? (selectedSeat === '10' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
               w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
               10
             </div>
           </div>
           <div className="border-b-[1.5px] border-l-[1.5px] border-gray-500 ">
             <div
-              onClick={() => handleSeatClick('11')}
-              id="11"
+              onClick={() => {
+                if (seatInfo[2]?.canReserve) {
+                  handleSeatClick('11');
+                } else {
+                  return;
+                }
+              }}
               className={`
-              ${selectedSeat === '11' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+              ${seatInfo[2]?.canReserve ? (selectedSeat === '11' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
               w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
               11
             </div>
@@ -48,20 +89,30 @@ const ThirdColSeat = ({ selectedSeat, handleSeatClick }: ThirdColSeatType) => {
         <div className="flex">
           <div className="border-l-[1.5px] border-t-[1.5px] border-r-[1.5px] border-gray-500">
             <div
-              onClick={() => handleSeatClick('17')}
-              id="17"
+              onClick={() => {
+                if (seatInfo[3]?.canReserve) {
+                  handleSeatClick('17');
+                } else {
+                  return;
+                }
+              }}
               className={`
-              ${selectedSeat === '17' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+              ${seatInfo[3]?.canReserve ? (selectedSeat === '17' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
               w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
               17
             </div>
           </div>
           <div className="border-b-[1.5px] border-gray-500">
             <div
-              onClick={() => handleSeatClick('18')}
-              id="18"
+              onClick={() => {
+                if (seatInfo[4]?.canReserve) {
+                  handleSeatClick('18');
+                } else {
+                  return;
+                }
+              }}
               className={`
-              ${selectedSeat === '18' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+              ${seatInfo[4]?.canReserve ? (selectedSeat === '18' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
               w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
               18
             </div>
@@ -75,10 +126,15 @@ const ThirdColSeat = ({ selectedSeat, handleSeatClick }: ThirdColSeatType) => {
         <div className="flex">
           <div className=" border-gray-500 ">
             <div
-              onClick={() => handleSeatClick('12')}
-              id="12"
+              onClick={() => {
+                if (seatInfo[5]?.canReserve) {
+                  handleSeatClick('12');
+                } else {
+                  return;
+                }
+              }}
               className={`
-              ${selectedSeat === '12' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+              ${seatInfo[5]?.canReserve ? (selectedSeat === '12' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
               w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
               12
             </div>
@@ -86,11 +142,16 @@ const ThirdColSeat = ({ selectedSeat, handleSeatClick }: ThirdColSeatType) => {
           <div className="flex flex-col">
             <div className="border-l-[1.5px] border-gray-500">
               <div
-                onClick={() => handleSeatClick('13')}
-                id="13"
+                onClick={() => {
+                  if (seatInfo[6]?.canReserve) {
+                    handleSeatClick('13');
+                  } else {
+                    return;
+                  }
+                }}
                 className={`
-              ${selectedSeat === '13' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
-              w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
+                ${seatInfo[6]?.canReserve ? (selectedSeat === '13' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
+                w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
                 13
               </div>
             </div>
@@ -99,10 +160,15 @@ const ThirdColSeat = ({ selectedSeat, handleSeatClick }: ThirdColSeatType) => {
           <div className="flex flex-col">
             <div className="border-l-[1.5px] border-gray-500">
               <div
-                onClick={() => handleSeatClick('14')}
-                id="14"
+                onClick={() => {
+                  if (seatInfo[7]?.canReserve) {
+                    handleSeatClick('14');
+                  } else {
+                    return;
+                  }
+                }}
                 className={`
-              ${selectedSeat === '14' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+              ${seatInfo[7]?.canReserve ? (selectedSeat === '14' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
               w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
                 14
               </div>
@@ -114,20 +180,30 @@ const ThirdColSeat = ({ selectedSeat, handleSeatClick }: ThirdColSeatType) => {
         <div className="flex mt-[44px]">
           <div className="border-l-[1.5px] border-t-[1.5px] border-r-[1.5px] border-gray-500">
             <div
-              onClick={() => handleSeatClick('19')}
-              id="19"
+              onClick={() => {
+                if (seatInfo[8]?.canReserve) {
+                  handleSeatClick('19');
+                } else {
+                  return;
+                }
+              }}
               className={`
-              ${selectedSeat === '19' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+              ${seatInfo[8]?.canReserve ? (selectedSeat === '19' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
               w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
               19
             </div>
           </div>
           <div className="border-b-[1.5px] border-gray-500">
             <div
-              onClick={() => handleSeatClick('20')}
-              id="20"
+              onClick={() => {
+                if (seatInfo[9]?.canReserve) {
+                  handleSeatClick('20');
+                } else {
+                  return;
+                }
+              }}
               className={`
-              ${selectedSeat === '20' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black'}
+              ${seatInfo[9]?.canReserve ? (selectedSeat === '20' ? 'bg-space-purple text-white' : 'bg-space-purple-light text-space-black') : 'bg-gray-500 text-gray-200'}
               w-8 h-8 flex items-center rounded-md justify-center mx-[13px] my-[6px]  text-xs font-medium cursor-pointer`}>
               20
             </div>
