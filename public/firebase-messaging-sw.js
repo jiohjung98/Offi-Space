@@ -7,14 +7,17 @@ firebase.initializeApp({
   projectId: 'sabujak-56c99',
   storageBucket: 'sabujak-56c99.appspot.com',
   messagingSenderId: '791652948273',
-  appId: '1:791652948273:web:374b4b68ef709669a2b810'
+  appId: '1:791652948273:web:7899ddf709d181bca2b810'
 });
 
 // 푸시 내용을 처리해서 알림으로 띄운다.
 self.addEventListener('push', function (event) {
   if (event.data) {
+    console.log(event.data.json().data);
+    console.log(event.data.json().notification.body);
+    console.log(event.data.json().notification);
     // 알림 메세지일 경우엔 event.data.json().notification;
-    const data = event.data.json().data;
+    const data = event.data.json().notification;
     const options = {
       body: data.body,
       icon: data.image,
