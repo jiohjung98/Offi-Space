@@ -3,6 +3,7 @@ import { getMeetingRooms } from '@/api/reservation/getMeetingRoom';
 import { GetMeetingRoomsParams, MeetingRoom } from '@/api/types/room';
 import { useBranchStore } from '@/store/branch.store';
 import Image from 'next/image';
+import DatePickerModal from './DatePickerModal';
 
 const formatDateToCustomString = (date: Date): string => {
   const year = date.getFullYear();
@@ -13,11 +14,24 @@ const formatDateToCustomString = (date: Date): string => {
   return `${year}-${month}-${day}T${hours}:${minutes}:00`;
 };
 
-const MeetingRoomIndex = () => {
+const formatDisplayDate = (startDate: Date, endDate: Date): string => {
+  const month = String(startDate.getMonth() + 1).padStart(2, '0');
+  const day = String(startDate.getDate()).padStart(2, '0');
+  const startHours = String(startDate.getHours()).padStart(2, '0');
+  const startMinutes = String(startDate.getMinutes()).padStart(2, '0');
+  const endHours = String(endDate.getHours()).padStart(2, '0');
+  const endMinutes = String(endDate.getMinutes()).padStart(2, '0');
+  return `${month}.${day} ${startHours}:${startMinutes}~${endHours}:${endMinutes}`;
+};
+
+const MeetingRoomIndex: React.FC = () => {
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const [params, setParams] = useState<GetMeetingRoomsParams | null>(null);
   const [meetingRooms, setMeetingRooms] = useState<MeetingRoom[]>([]);
   const [currentTime, setCurrentTime] = useState<string>('');
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [endTime, setEndTime] = useState<Date | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (!selectedBranch) return;
@@ -31,12 +45,14 @@ const MeetingRoomIndex = () => {
       startAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 30, 0);
     }
 
-    const endAt: Date = new Date(startAt.getTime() + 60 * 60 * 1000);
+    const endAt = new Date(startAt.getTime() + 60 * 60 * 1000);
+
+    setStartTime(startAt);
+    setEndTime(endAt);
+    setCurrentTime(formatDisplayDate(startAt, endAt));
 
     const formattedStartAt = formatDateToCustomString(startAt);
     const formattedEndAt = formatDateToCustomString(endAt);
-
-    setCurrentTime(formattedStartAt);
 
     const initialParams: GetMeetingRoomsParams = {
       startAt: formattedStartAt,
@@ -71,12 +87,29 @@ const MeetingRoomIndex = () => {
     }
   }, [params]);
 
+  const handleConfirm = (startDate: Date, endDate: Date) => {
+    const formattedStartAt = formatDateToCustomString(startDate);
+    const formattedEndAt = formatDateToCustomString(endDate);
+    setCurrentTime(formatDisplayDate(startDate, endDate));
+
+    const newParams: GetMeetingRoomsParams = {
+      ...params!,
+      startAt: formattedStartAt,
+      endAt: formattedEndAt,
+    };
+    setParams(newParams);
+    setStartTime(startDate);
+    setEndTime(endDate);
+  };
+
   return (
     <div className="p-4 h-screen">
       <div className="flex justify-between items-center mb-4">
-        <div className="text-lg font-bold">{currentTime}</div>
+        
+        <div className="text-lg font-bold" onClick={() => setShowModal(true)}>{currentTime}</div>
         <div className="text-lg font-bold">인원 수 ▼</div>
       </div>
+      <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
       <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
         {meetingRooms.map((room) => (
           <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center">
@@ -96,6 +129,15 @@ const MeetingRoomIndex = () => {
         ))}
         <div className='h-[100px]'></div>
       </div>
+      {startTime && endTime && (
+        <DatePickerModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          onConfirm={handleConfirm}
+          initialStartTime={startTime}
+          initialEndTime={endTime}
+        />
+      )}
     </div>
   );
 };
