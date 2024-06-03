@@ -32,6 +32,8 @@ const MeetingRoomIndex: React.FC = () => {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [selectedMeetingRoomTypes, setSelectedMeetingRoomTypes] = useState<string>('인원 수');
+  const [selectedEquipment, setSelectedEquipment] = useState<string>('비품');
 
   useEffect(() => {
     if (!selectedBranch) return;
@@ -113,21 +115,37 @@ const MeetingRoomIndex: React.FC = () => {
     setParams(newParams);
     setStartTime(startDate);
     setEndTime(endDate);
+
+    setSelectedMeetingRoomTypes(options.meetingRoomTypes.join(', '));
+    const equipmentArray = [];
+    if (options.projectorExists) equipmentArray.push('프로젝터');
+    if (options.canVideoConference) equipmentArray.push('화상 회의 가능');
+    if (options.isPrivate) equipmentArray.push('프라이빗');
+    setSelectedEquipment(equipmentArray.length > 0 ? equipmentArray.join(', ') : '비품');
   };
 
   return (
     <div className="p-4 h-screen">
-      <div className="flex justify-between items-center mb-4">
-        <div
-          className="w-52 h-[33px] px-3 py-2 bg-violet-100 rounded justify-start gap-3 inline-flex cursor-pointer"
-          onClick={() => setShowModal(true)}
-        >
-          <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
-          <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{currentTime}</div>
-          <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
-        </div>
-        <div className="text-lg font-bold"></div>
+      <div className="flex mb-4 overflow-x-auto whitespace-nowrap">
+      <div
+        className="flex-none w-[200px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer"
+        onClick={() => setShowModal(true)}
+      >
+        <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
+        <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{currentTime}</div>
+        <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
       </div>
+      <div
+        className="flex-none w-[200px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
+      >
+        <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedMeetingRoomTypes}</div>
+      </div>
+      <div
+        className="flex-none w-[200px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
+      >
+        <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedEquipment}</div>
+      </div>
+    </div>
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
       <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
         {meetingRooms.map((room) => (
@@ -159,13 +177,13 @@ const MeetingRoomIndex: React.FC = () => {
         <div className="h-[100px]"></div>
       </div>
       {startTime && endTime && (
-        <DatePickerModal
-          showModal={showModal}
-          setShowModal={setShowModal}
-          onConfirm={handleConfirm}
-          initialStartTime={startTime}
-          initialEndTime={endTime}
-        />
+      <DatePickerModal
+      showModal={showModal}
+      setShowModal={setShowModal}
+      onConfirm={handleConfirm}
+      initialStartTime={startTime}
+      initialEndTime={endTime}
+      />
       )}
     </div>
   );
