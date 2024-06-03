@@ -1,24 +1,10 @@
-import { getRequest } from '@/api/request';
-import axios from 'axios';
-import { FocusInfoType, FocusSeatCountType } from '../model/focusInfo';
+import { getRequest, postRequest } from '@/api/request';
+import { CheckDeskIdType, FocusInfoType, FocusSeatCountType } from '../model/focusInfo';
+import { ICommon } from '@/api/types/common';
 
-interface focuszoneRequestType {
-  branch: string;
-  seat: string;
+interface reservationFocusReqType {
+  focusDeskId: number;
 }
-
-export const focuszoneRequest = async ({ branch, seat }: focuszoneRequestType) => {
-  try {
-    const body = {
-      branch: branch,
-      seat: seat
-    };
-    const data = axios.post('http://localhost:3000/api/reservation', body);
-    return data;
-  } catch (error: any) {
-    return error.response.data;
-  }
-};
 
 export const getFocuszoneSeatInfo = async (branchId: string) => {
   try {
@@ -35,6 +21,31 @@ export const getFocuszoneSeatCount = async (branchId: string) => {
       `spaces/focus-zone/${branchId}/available-seat-count`
     );
     return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};
+
+export const checkDeskId = async (deskId: number) => {
+  try {
+    const { data } = await getRequest<CheckDeskIdType>(
+      `reservations/focus-desks/check-overlap/${deskId}`
+    );
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};
+
+export const reservationFocus = async (deskId: number) => {
+  try {
+    const response = await postRequest<ICommon<null>, reservationFocusReqType>(
+      `reservations/focus-desks`,
+      {
+        focusDeskId: deskId
+      }
+    );
+    return response;
   } catch (error: any) {
     return error.response.data;
   }

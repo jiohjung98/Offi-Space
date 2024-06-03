@@ -12,5 +12,10 @@ export interface FocusSeatCount {
   reservedSeatCount: number;
 }
 
+export interface CheckDeskIdDataType {
+  alreadyUsing: boolean;
+}
+
 export type FocusInfoType = ICommon<FocusSeatData[] | null>;
 export type FocusSeatCountType = ICommon<FocusSeatCount[] | null>;
+export type CheckDeskIdType = ICommon<CheckDeskIdDataType | null>;

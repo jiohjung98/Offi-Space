@@ -11,6 +11,7 @@ const FocuszoneHead = () => {
 
   const handleRefresh = () => {
     queryClient.invalidateQueries(['availableCount', currentBranchId]);
+    setCurrentTime(format(new Date(), 'HH:mm'));
   };
 
   useEffect(() => {
@@ -31,11 +32,9 @@ const FocuszoneHead = () => {
         <span className="text-space-purple font-bold">실시간 </span>
         <span className="text-space-black">좌석 현황</span>
       </div>
-      <div onClick={handleRefresh} className="flex items-center gap-[10px]">
+      <div className="flex items-center gap-[10px]">
         <div className="text-gray-600 text-sm font-normal">{currentTime} 기준</div>
-        <div
-          className="cursor-pointer"
-          onClick={() => setCurrentTime(format(new Date(), 'HH:mm'))}>
+        <div className="cursor-pointer" onClick={handleRefresh}>
           <img src="reservation/focus_refresh.svg" alt="" />
         </div>
       </div>

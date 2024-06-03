@@ -1,30 +1,17 @@
-import React, { Dispatch } from 'react';
-import { useMutation } from 'react-query';
-import { focuszoneRequest } from '../../remote/focuszone';
-import { useBranchStore } from '@/store/branch.store';
+/* eslint-disable no-unused-vars */
+import React from 'react';
 
 interface SelectSeatBtnType {
   selectedSeat: string | null;
-  setModalOpen: Dispatch<React.SetStateAction<boolean>>;
+  currentDeskId: number | null;
+  mutateAsync: (deskId: number) => Promise<void>;
 }
 
-const SelectSeatBtn = ({ selectedSeat, setModalOpen }: SelectSeatBtnType) => {
-  const selectedBranch = useBranchStore((state) => state.selectedBranch);
-  // focusTodo : 확정누르면 예약 하기
-
-  const { mutateAsync } = useMutation(
-    (seatId: string) =>
-      focuszoneRequest({
-        branch: selectedBranch?.branchName as string,
-        seat: seatId
-      }),
-    {
-      onSuccess: () => {
-        setModalOpen(true);
-      }
-    }
-  );
-
+const SelectSeatBtn = ({
+  selectedSeat,
+  currentDeskId,
+  mutateAsync
+}: SelectSeatBtnType) => {
   return (
     <div className="mt-6">
       {selectedSeat ? (
@@ -38,7 +25,11 @@ const SelectSeatBtn = ({ selectedSeat, setModalOpen }: SelectSeatBtnType) => {
             입니다.
           </div>
           <div
-            onClick={() => mutateAsync(selectedSeat)}
+            onClick={() => {
+              if (currentDeskId) {
+                mutateAsync(currentDeskId);
+              }
+            }}
             className="cursor-pointer mt-[30px] w-full py-[13px] rounded-lg bg-space-purple flex items-center justify-center font-normal text-[15px] text-white">
             예약 확정
           </div>

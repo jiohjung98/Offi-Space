@@ -1,10 +1,16 @@
+/* eslint-disable no-unused-vars */
 import { FocusSeatData } from '@/components/reservation/model/focusInfo';
 import React, { useEffect, useState } from 'react';
 
 interface ThirdColSeatType {
   selectedSeat: string | null;
-  // eslint-disable-next-line no-unused-vars
-  handleSeatClick: (seatId: string) => void;
+  handleSeatClick: ({
+    deskId,
+    deskNumber
+  }: {
+    deskId: number;
+    deskNumber: string;
+  }) => void;
   allSeatInfo: FocusSeatData[];
 }
 
@@ -15,19 +21,19 @@ const ThirdColSeat = ({
 }: ThirdColSeatType) => {
   const renderedSeat = () => {
     const firstCol = ['9', '10', '11', '17', '18', '12', '13', '14', '19', '20'];
-    const selectedNum: { [key: string]: FocusSeatData }[] = [];
+    const selectedNum: FocusSeatData[] = [];
     firstCol.forEach((col) => {
       const matchingSeat = allSeatInfo?.find(
         (seat) => seat.focusDeskNumber.toString() === col
       );
       if (matchingSeat) {
-        selectedNum.push({ [col]: matchingSeat });
+        selectedNum.push(matchingSeat);
       }
     });
     return selectedNum;
   };
 
-  const [seatInfo, setSeatInfo] = useState<{ [key: string]: FocusSeatData }[]>([]);
+  const [seatInfo, setSeatInfo] = useState<FocusSeatData[]>([]);
 
   useEffect(() => {
     setSeatInfo(renderedSeat());
@@ -43,7 +49,10 @@ const ThirdColSeat = ({
             <div
               onClick={() => {
                 if (seatInfo[0]?.canReserve) {
-                  handleSeatClick('9');
+                  handleSeatClick({
+                    deskId: seatInfo[0]?.focusDeskId,
+                    deskNumber: '9'
+                  });
                 } else {
                   return;
                 }
@@ -58,7 +67,10 @@ const ThirdColSeat = ({
             <div
               onClick={() => {
                 if (seatInfo[1]?.canReserve) {
-                  handleSeatClick('10');
+                  handleSeatClick({
+                    deskId: seatInfo[1]?.focusDeskId,
+                    deskNumber: '10'
+                  });
                 } else {
                   return;
                 }
@@ -73,7 +85,10 @@ const ThirdColSeat = ({
             <div
               onClick={() => {
                 if (seatInfo[2]?.canReserve) {
-                  handleSeatClick('11');
+                  handleSeatClick({
+                    deskId: seatInfo[2]?.focusDeskId,
+                    deskNumber: '11'
+                  });
                 } else {
                   return;
                 }
@@ -91,7 +106,10 @@ const ThirdColSeat = ({
             <div
               onClick={() => {
                 if (seatInfo[3]?.canReserve) {
-                  handleSeatClick('17');
+                  handleSeatClick({
+                    deskId: seatInfo[3]?.focusDeskId,
+                    deskNumber: '17'
+                  });
                 } else {
                   return;
                 }
@@ -106,7 +124,10 @@ const ThirdColSeat = ({
             <div
               onClick={() => {
                 if (seatInfo[4]?.canReserve) {
-                  handleSeatClick('18');
+                  handleSeatClick({
+                    deskId: seatInfo[4]?.focusDeskId,
+                    deskNumber: '18'
+                  });
                 } else {
                   return;
                 }
@@ -128,7 +149,10 @@ const ThirdColSeat = ({
             <div
               onClick={() => {
                 if (seatInfo[5]?.canReserve) {
-                  handleSeatClick('12');
+                  handleSeatClick({
+                    deskId: seatInfo[5]?.focusDeskId,
+                    deskNumber: '12'
+                  });
                 } else {
                   return;
                 }
@@ -144,7 +168,10 @@ const ThirdColSeat = ({
               <div
                 onClick={() => {
                   if (seatInfo[6]?.canReserve) {
-                    handleSeatClick('13');
+                    handleSeatClick({
+                      deskId: seatInfo[6]?.focusDeskId,
+                      deskNumber: '13'
+                    });
                   } else {
                     return;
                   }
@@ -162,7 +189,10 @@ const ThirdColSeat = ({
               <div
                 onClick={() => {
                   if (seatInfo[7]?.canReserve) {
-                    handleSeatClick('14');
+                    handleSeatClick({
+                      deskId: seatInfo[7]?.focusDeskId,
+                      deskNumber: '14'
+                    });
                   } else {
                     return;
                   }
@@ -182,7 +212,10 @@ const ThirdColSeat = ({
             <div
               onClick={() => {
                 if (seatInfo[8]?.canReserve) {
-                  handleSeatClick('19');
+                  handleSeatClick({
+                    deskId: seatInfo[8]?.focusDeskId,
+                    deskNumber: '19'
+                  });
                 } else {
                   return;
                 }
@@ -197,7 +230,10 @@ const ThirdColSeat = ({
             <div
               onClick={() => {
                 if (seatInfo[9]?.canReserve) {
-                  handleSeatClick('20');
+                  handleSeatClick({
+                    deskId: seatInfo[9]?.focusDeskId,
+                    deskNumber: '20'
+                  });
                 } else {
                   return;
                 }

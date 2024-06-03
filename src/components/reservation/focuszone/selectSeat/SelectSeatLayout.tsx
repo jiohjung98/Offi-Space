@@ -4,17 +4,30 @@ import SecondColSeat from './selectSeatCol/SecondColSeat';
 import ThirdColSeat from './selectSeatCol/ThirdColSeat';
 import SeatInfo from './SeatInfo';
 import SelectSeatBtn from './SelectSeatBtn';
-import { useQuery } from 'react-query';
-import { getFocuszoneSeatInfo } from '../../remote/focuszone';
+import { useMutation, useQuery } from 'react-query';
+import {
+  checkDeskId,
+  getFocuszoneSeatInfo,
+  reservationFocus
+} from '../../remote/focuszone';
 
 interface SelectSeatLayoutType {
   setModalOpen: Dispatch<React.SetStateAction<boolean>>;
+  setModalDeskId: Dispatch<React.SetStateAction<number | null>>;
+  setCheckModal: Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SelectSeatLayout = ({ setModalOpen }: SelectSeatLayoutType) => {
-  // focusTodo : 받아온 예약 데이터에 따라 배치표에 표시하기
+const SelectSeatLayout = ({
+  setModalOpen,
+  setModalDeskId,
+  setCheckModal
+}: SelectSeatLayoutType) => {
   const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
+  const [currentDeskId, setCurrentDeskId] = useState<number | null>(null);
+
+  //todo : 현재 지점 id로 받아오기
   const currentBranchId = '1';
+
   const { data: allSeatInfo } = useQuery(
     ['seatInfo', currentBranchId],
     () => getFocuszoneSeatInfo(currentBranchId),
@@ -23,14 +36,38 @@ const SelectSeatLayout = ({ setModalOpen }: SelectSeatLayoutType) => {
     }
   );
 
-  const handleSeatClick = (seatId: string) => {
-    console.log('asdasd');
-    if (selectedSeat === seatId) {
-      setSelectedSeat(null); // 선택된 좌석을 다시 클릭하면 선택 해제
+  const { mutateAsync } = useMutation(
+    async (deskId: number) => reservationFocus(deskId),
+    {
+      onSuccess: () => {
+        setModalOpen(true);
+      }
+    }
+  );
+
+  const handleSeatClick = async ({
+    deskId, //좌석 Id
+    deskNumber // 좌석 번호
+  }: {
+    deskId: number;
+    deskNumber: string;
+  }) => {
+    const { alreadyUsing } = await checkDeskId(deskId);
+    if (!alreadyUsing) {
+      //예약한 좌석 없을 때
+      if (selectedSeat === deskNumber) {
+        setSelectedSeat(null); // 선택된 좌석을 다시 클릭하면 선택 해제
+        setCurrentDeskId(null);
+      } else {
+        setSelectedSeat(deskNumber); // 새로운 좌석 선택
+        setCurrentDeskId(deskId);
+      }
     } else {
-      setSelectedSeat(seatId); // 새로운 좌석 선택
+      setModalDeskId(deskId);
+      setCheckModal(true);
     }
   };
+
   return (
     <div>
       <div className="mt-8 bg-gray-50">
@@ -51,7 +88,11 @@ const SelectSeatLayout = ({ setModalOpen }: SelectSeatLayoutType) => {
         />
       </div>
       <SeatInfo />
-      <SelectSeatBtn selectedSeat={selectedSeat} setModalOpen={setModalOpen} />
+      <SelectSeatBtn
+        selectedSeat={selectedSeat}
+        currentDeskId={currentDeskId}
+        mutateAsync={mutateAsync}
+      />
     </div>
   );
 };

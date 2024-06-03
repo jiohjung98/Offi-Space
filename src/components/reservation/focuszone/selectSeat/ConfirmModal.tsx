@@ -9,7 +9,7 @@ const ConfirmModal = ({ setModalOpen }: ConfirmModalType) => {
   const router = useRouter();
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-30">
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">
       <div className="z-50 w-[281px] bg-white absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl">
         <div className="flex items-center justify-center mt-[25px]">
           <img src="/reservation/focuszonconfirm.svg" alt="" />
@@ -20,13 +20,7 @@ const ConfirmModal = ({ setModalOpen }: ConfirmModalType) => {
         <div className="text-[15px] font-normal text-gray-900 flex items-center justify-center mt-1">
           예약 내역을 확인해주세요.
         </div>
-        <div
-          onClick={() => {
-            setModalOpen(false);
-            router.replace('/');
-            // focusTodo : 확인 누르면 어디 페이지로 갈것인지 정해야함
-          }}
-          className="mt-[28px] border-t py-[10px] flex items-center justify-center border-gray-300 cursor-pointer text-lg font-semibold text-space-purple">
+        <div className="mt-[28px] border-t py-[10px] flex items-center justify-center border-gray-300 cursor-pointer text-lg font-semibold text-space-purple">
           확인
         </div>
       </div>
