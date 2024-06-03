@@ -105,8 +105,11 @@ const MeetingRoomIndex: React.FC = () => {
   return (
     <div className="p-4 h-screen">
       <div className="flex justify-between items-center mb-4">
-        
-        <div className="text-lg font-bold" onClick={() => setShowModal(true)}>{currentTime}</div>
+      <div className="w-52 h-[33px] px-3 py-2 bg-violet-100 rounded justify-start gap-3 inline-flex cursor-pointer" onClick={() => setShowModal(true)}>
+        <Image src={'/calendar.svg'} width={14} height={14} alt='calendar' className='mr-[6px]'/>
+        <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{currentTime}</div>
+        <Image src={'/bottomArrow.svg'} width={11} height={11} alt='bottomArrow' className='ml-auto mr-[2px]'/>
+      </div>
         <div className="text-lg font-bold">인원 수 ▼</div>
       </div>
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
