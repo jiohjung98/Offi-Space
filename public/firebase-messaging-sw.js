@@ -14,16 +14,18 @@ firebase.initializeApp({
 self.addEventListener('push', function (event) {
   if (event.data) {
     console.log(event.data.json().data);
-    console.log(event.data.json().notification.body);
     console.log(event.data.json().notification);
+
     // 알림 메세지일 경우엔 event.data.json().notification;
+    const url = event.data.json().data;
     const data = event.data.json().notification;
     const options = {
       body: data.body,
       icon: data.image,
       image: data.image,
       data: {
-        click_action: data.click_action
+        click_action: data.click_action,
+        targetUrl: url.targetUrl
       }
     };
 
@@ -41,7 +43,7 @@ self.addEventListener('notificationclick', function (event) {
 
   // 이동할 url
   const urlToOpen = event.notification.data.targetUrl;
-
+  console.log(urlToOpen);
   // 클라이언트에 해당 사이트가 열려 있는지 체크
   const promiseChain = clients
     .matchAll({
