@@ -102,16 +102,15 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
   }
 
   if (!showModal) return null;
-
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg w-96 p-6">
+    <div className="fixed inset-0 flex items-end justify-center z-[9999]">
+    <div className="bg-black bg-opacity-50 absolute inset-0"></div>
+    <div className="bg-white rounded-lg w-[full] h-[676px] p-6 absolute bottom-0 overflow-y-auto">
       <div className="mb-4 flex justify-between items-center">
-          <h2 className="text-lg font-semibold">일정</h2>
+        <h2 className="text-lg font-semibold">일정</h2>
           <div>{`${startDate.getFullYear()}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime} ~ ${endTime}`}</div>
         </div>
         <div className="mb-4">
-          <label className="block mb-2">날짜 선택</label>
           <div className='w-full'>
             <DatePicker
               selected={startDate}
@@ -140,8 +139,8 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
           </div>
         </div>
         <div className="mb-4">
-          <label className="block mb-2">회의실 유형</label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] mb-[15px]">인원</div>
+          <div className="flex flex-col">
             {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
               <label key={type} className="flex items-center">
                 <input
@@ -149,13 +148,13 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
                   checked={selectedMeetingRoomTypes.includes(type)}
                   onChange={() => handleTypeChange(type)}
                 />
-                <span className="ml-2">{type}</span>
+                <span className="ml-2">{type === 'MINI' ? '미니(1-4인)' : type === 'STANDARD' ? '스탠다드(5-8인)': type === 'MEDIUM' ? '미디움(9-12인)' : type === 'STATE' ? '스테이트(13-15인)' : type}</span>
               </label>
             ))}
           </div>
         </div>
         <div className="mb-4">
-          <label className="block mb-2">옵션</label>
+          <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] mb-[15px]">비품</div>
           <div className="flex flex-col space-y-2">
             <label className="flex items-center">
               <input
@@ -190,7 +189,6 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
       </div>
     </div>
   );
-};
-
+}  
 export default DatePickerModal;
 
