@@ -136,14 +136,18 @@ const MeetingRoomIndex: React.FC = () => {
         <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
       </div>
       <div
-        className="flex-none w-[200px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
+        className="flex-none w-[130px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
       >
+        <Image src={'/people.svg'} width={14} height={14} alt="people" className="mr-[6px]" />
         <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedMeetingRoomTypes}</div>
+        <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
       </div>
       <div
-        className="flex-none w-[200px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
+        className="flex-none w-[130px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
       >
+         <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
         <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedEquipment}</div>
+        <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
       </div>
     </div>
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
