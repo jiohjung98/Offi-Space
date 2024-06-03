@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import DatePickerWheel from './WheelPicker';
 
 interface DatePickerModalProps {
   showModal: boolean;
@@ -92,14 +93,15 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
     }
   }
 
-  for (let hour = 9; hour <= 24; hour++) {
+  for (let hour = 9; hour <= 24; hour++) { 
     for (const minute of [0, 30]) {
       const timeString = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-      if (timeString > startTime) {
+      if (timeString > startTime && timeString <= '24:00') {
         endTimeOptions.push(timeString);
       }
     }
   }
+  
 
   if (!showModal) return null;
   return (
@@ -112,7 +114,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
         <div className="text-indigo-700 text-lg font-bold font-['Pretendard'] justify-center items-center">{`${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime.replace(':', '.')} ~ ${endTime.replace(':', '.')}`}</div>
       </div>
     </div>
-      <div className="mb-4">
+      <div className="">
         <div className='w-full'>
           <DatePicker
             selected={startDate}
@@ -125,24 +127,23 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
         </div>
       </div>
         <div className="mb-4">
-          <label className="block mb-2">시간 선택</label>
-          <div className="flex items-center space-x-2">
-            <select className="border rounded p-2" value={startTime} onChange={e => setStartTime(e.target.value)}>
-              {startTimeOptions.map(time => (
-                <option key={time} value={time}>{time}</option>
-              ))}
-            </select>
-            <span>~</span>
-            <select className="border rounded p-2" value={endTime} onChange={e => setEndTime(e.target.value)}>
-              {endTimeOptions.map(time => (
-                <option key={time} value={time}>{time}</option>
-              ))}
-            </select>
+          <div className="flex items-center">
+            <DatePickerWheel
+              items={startTimeOptions.map(time => ({ value: time, label: time }))}
+              value={startTime}
+              onChange={setStartTime}
+            />
+        <span className='h-[50px] my-auto leading-[50px]' style={{ backgroundColor: 'rgba(237, 235, 248, 0.85)' }}>부터</span>
+            <DatePickerWheel
+              items={endTimeOptions.map(time => ({ value: time, label: time }))}
+              value={endTime}
+              onChange={setEndTime}
+            />
           </div>
         </div>
         <div className="mb-4">
           <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] mb-[15px]">인원</div>
-          <div className="flex flex-col">
+          <div className="flex flex-col space-y-2">
             {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
               <label key={type} className="flex items-center">
                <input
@@ -171,7 +172,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
                 checked={projectorExists}
                 onChange={() => setProjectorExists((prev) => !prev)}
               />
-              <span className="ml-2">프로젝터</span>
+              <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">프로젝터</span>
             </label>
             <label className="flex items-center">
               <input
@@ -179,7 +180,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
                 checked={canVideoConference}
                 onChange={() => setCanVideoConference((prev) => !prev)}
               />
-              <span className="ml-2">화상장비</span>
+              <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">화상장비</span>
             </label>
             <label className="flex items-center">
               <input
@@ -187,7 +188,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
                 checked={isPrivate}
                 onChange={() => setIsPrivate((prev) => !prev)}
               />
-              <span className="ml-2">프라이빗</span>
+              <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">프라이빗</span>
             </label>
           </div>
         </div>
