@@ -38,7 +38,7 @@ const SignHomePage = () => {
     fetchToken();
   }, []);
 
-  // console.log(FcmToken);
+  console.log(FcmToken);
   return (
     <MainContainer>
       <div className="flex flex-col justify-center items-center gap-[39px] h-[470px]">
