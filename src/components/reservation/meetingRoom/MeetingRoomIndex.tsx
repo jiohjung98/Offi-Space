@@ -116,40 +116,45 @@ const MeetingRoomIndex: React.FC = () => {
     setStartTime(startDate);
     setEndTime(endDate);
 
-    setSelectedMeetingRoomTypes(options.meetingRoomTypes.join(', '));
+    const selectedCount = options.meetingRoomTypes.length;
+    const displayTypes = selectedCount > 1 ? `${options.meetingRoomTypes[0]}외 ${selectedCount - 1}` : options.meetingRoomTypes[0];
+    setSelectedMeetingRoomTypes(displayTypes);
+
     const equipmentArray = [];
     if (options.projectorExists) equipmentArray.push('프로젝터');
     if (options.canVideoConference) equipmentArray.push('화상 회의 가능');
     if (options.isPrivate) equipmentArray.push('프라이빗');
-    setSelectedEquipment(equipmentArray.length > 0 ? equipmentArray.join(', ') : '비품');
+    const selectedEquipCount = equipmentArray.length;
+    const displayEquipment = selectedEquipCount > 1 ? `${equipmentArray[0]}외 ${selectedEquipCount - 1}` : (equipmentArray[0] || '비품');
+    setSelectedEquipment(displayEquipment);
   };
 
   return (
     <div className="p-4 h-screen">
       <div className="flex mb-4 overflow-x-auto whitespace-nowrap">
-      <div
-        className="flex-none w-[200px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer"
-        onClick={() => setShowModal(true)}
-      >
-        <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
-        <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{currentTime}</div>
-        <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
+        <div
+          className="flex-none w-[200px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer"
+          onClick={() => setShowModal(true)}
+        >
+          <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
+          <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{currentTime}</div>
+          <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
+        </div>
+        <div
+          className="flex-none w-[130px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
+        >
+          <Image src={'/people.svg'} width={14} height={14} alt="people" className="mr-[6px]" />
+          <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedMeetingRoomTypes}</div>
+          <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
+        </div>
+        <div
+          className="flex-none w-[130px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
+        >
+          <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
+          <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedEquipment}</div>
+          <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
+        </div>
       </div>
-      <div
-        className="flex-none w-[130px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
-      >
-        <Image src={'/people.svg'} width={14} height={14} alt="people" className="mr-[6px]" />
-        <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedMeetingRoomTypes}</div>
-        <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
-      </div>
-      <div
-        className="flex-none w-[130px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2"
-      >
-         <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
-        <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedEquipment}</div>
-        <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
-      </div>
-    </div>
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
       <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
         {meetingRooms.map((room) => (
@@ -181,13 +186,13 @@ const MeetingRoomIndex: React.FC = () => {
         <div className="h-[100px]"></div>
       </div>
       {startTime && endTime && (
-      <DatePickerModal
-      showModal={showModal}
-      setShowModal={setShowModal}
-      onConfirm={handleConfirm}
-      initialStartTime={startTime}
-      initialEndTime={endTime}
-      />
+        <DatePickerModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          onConfirm={handleConfirm}
+          initialStartTime={startTime}
+          initialEndTime={endTime}
+        />
       )}
     </div>
   );
