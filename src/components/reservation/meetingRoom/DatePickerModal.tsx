@@ -26,7 +26,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
   const [startTime, setStartTime] = useState<string>(initialStartTime.toTimeString().substr(0, 5));
   const [endTime, setEndTime] = useState<string>(initialEndTime.toTimeString().substr(0, 5));
   const [minStartTime, setMinStartTime] = useState<string>('09:00');
-  const [meetingRoomTypes, setMeetingRoomTypes] = useState<('MINI' | 'STANDARD' | 'MEDIUM' | 'STATE')[]>(['MINI', 'STANDARD', 'MEDIUM', 'STATE']);
+  const [selectedMeetingRoomTypes, setSelectedMeetingRoomTypes] = useState<('MINI' | 'STANDARD' | 'MEDIUM' | 'STATE')[]>([]);
   const [projectorExists, setProjectorExists] = useState<boolean>(false);
   const [canVideoConference, setCanVideoConference] = useState<boolean>(false);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
@@ -68,12 +68,12 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
     endDateTime.setHours(endHour);
     endDateTime.setMinutes(endMinute);
 
-    onConfirm(startDateTime, endDateTime, { meetingRoomTypes, projectorExists, canVideoConference, isPrivate });
+    onConfirm(startDateTime, endDateTime, { meetingRoomTypes: selectedMeetingRoomTypes.length === 0 ? ['MINI', 'STANDARD', 'MEDIUM', 'STATE'] : selectedMeetingRoomTypes, projectorExists, canVideoConference, isPrivate });
     setShowModal(false);
   };
 
   const handleTypeChange = (type: 'MINI' | 'STANDARD' | 'MEDIUM' | 'STATE') => {
-    setMeetingRoomTypes((prevTypes) => 
+    setSelectedMeetingRoomTypes((prevTypes) => 
       prevTypes.includes(type) 
         ? prevTypes.filter((t) => t !== type) 
         : [...prevTypes, type]
@@ -106,7 +106,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg w-96 p-6">
-        <div className="mb-4 flex justify-between items-center">
+      <div className="mb-4 flex justify-between items-center">
           <h2 className="text-lg font-semibold">일정</h2>
           <div>{`${startDate.getFullYear()}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime} ~ ${endTime}`}</div>
         </div>
@@ -146,7 +146,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
               <label key={type} className="flex items-center">
                 <input
                   type="checkbox"
-                  checked={meetingRoomTypes.includes(type)}
+                  checked={selectedMeetingRoomTypes.includes(type)}
                   onChange={() => handleTypeChange(type)}
                 />
                 <span className="ml-2">{type}</span>
@@ -193,3 +193,4 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
 };
 
 export default DatePickerModal;
+
