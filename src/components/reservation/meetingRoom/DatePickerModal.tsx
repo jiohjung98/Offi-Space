@@ -106,22 +106,24 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
     <div className="bg-black bg-opacity-50 absolute inset-0"></div>
     <div className="bg-white rounded-lg w-[full] h-[676px] p-6 absolute bottom-0 overflow-y-auto">
-      <div className="mb-4 flex justify-between items-center">
-        <h2 className="text-lg font-semibold">일정</h2>
-          <div>{`${startDate.getFullYear()}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime} ~ ${endTime}`}</div>
+    <div className="mb-4 flex">
+      <h2 className="text-lg font-semibold">일정</h2>
+      <div className='flex w-[294px] justify-center items-center'>
+        <div className="text-indigo-700 text-lg font-bold font-['Pretendard'] justify-center items-center">{`${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime.replace(':', '.')} ~ ${endTime.replace(':', '.')}`}</div>
+      </div>
+    </div>
+      <div className="mb-4">
+        <div className='w-full'>
+          <DatePicker
+            selected={startDate}
+            onChange={(date: Date | null) => setStartDate(date || new Date())}
+            dateFormat="yyyy.MM.dd"
+            inline
+            className="mx-auto"
+            minDate={new Date()}
+          />
         </div>
-        <div className="mb-4">
-          <div className='w-full'>
-            <DatePicker
-              selected={startDate}
-              onChange={(date: Date | null) => setStartDate(date || new Date())}
-              dateFormat="yyyy.MM.dd"
-              inline
-              className="mx-auto"
-              minDate={new Date()}
-            />
-          </div>
-        </div>
+      </div>
         <div className="mb-4">
           <label className="block mb-2">시간 선택</label>
           <div className="flex items-center space-x-2">
@@ -143,12 +145,19 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
           <div className="flex flex-col">
             {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
               <label key={type} className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={selectedMeetingRoomTypes.includes(type)}
-                  onChange={() => handleTypeChange(type)}
-                />
-                <span className="ml-2">{type === 'MINI' ? '미니(1-4인)' : type === 'STANDARD' ? '스탠다드(5-8인)': type === 'MEDIUM' ? '미디움(9-12인)' : type === 'STATE' ? '스테이트(13-15인)' : type}</span>
+               <input
+                type="checkbox"
+                id="check1"
+                checked={selectedMeetingRoomTypes.includes(type)}
+                onChange={() => handleTypeChange(type)}
+                className={`appearance-none border-none w-6 h-6 rounded ${
+                  selectedMeetingRoomTypes.includes(type) 
+                    ? 'bg-violet-100' 
+                    : 'bg-zinc-100'
+                  }`}
+                > 
+                </input>
+                <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">{type === 'MINI' ? '미니(1-4인)' : type === 'STANDARD' ? '스탠다드(5-8인)': type === 'MEDIUM' ? '미디움(9-12인)' : type === 'STATE' ? '스테이트(13-15인)' : type}</span>
               </label>
             ))}
           </div>
