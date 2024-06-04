@@ -1,15 +1,17 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { Dispatch } from 'react';
 
 interface SelectSeatBtnType {
   selectedSeat: string | null;
   currentDeskId: number | null;
+  setSelectedSeat: Dispatch<React.SetStateAction<string | null>>;
   mutateAsync: (deskId: number) => Promise<void>;
 }
 
 const SelectSeatBtn = ({
   selectedSeat,
   currentDeskId,
+  setSelectedSeat,
   mutateAsync
 }: SelectSeatBtnType) => {
   return (
@@ -27,6 +29,7 @@ const SelectSeatBtn = ({
           <div
             onClick={() => {
               if (currentDeskId) {
+                setSelectedSeat(null);
                 mutateAsync(currentDeskId);
               }
             }}

@@ -15,6 +15,7 @@ interface SelectSeatLayoutType {
   setModalOpen: Dispatch<React.SetStateAction<boolean>>;
   setModalDeskId: Dispatch<React.SetStateAction<number | null>>;
   setCheckModal: Dispatch<React.SetStateAction<boolean>>;
+  setModalDeskNumber: Dispatch<React.SetStateAction<string | null>>;
   branchId: number;
 }
 
@@ -22,7 +23,8 @@ const SelectSeatLayout = ({
   branchId,
   setModalOpen,
   setModalDeskId,
-  setCheckModal
+  setCheckModal,
+  setModalDeskNumber
 }: SelectSeatLayoutType) => {
   const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
   const [currentDeskId, setCurrentDeskId] = useState<number | null>(null);
@@ -34,6 +36,8 @@ const SelectSeatLayout = ({
       enabled: !!branchId
     }
   );
+
+  console.log(allSeatInfo);
 
   const { mutateAsync } = useMutation(
     async (deskId: number) => reservationFocus(deskId),
@@ -57,12 +61,15 @@ const SelectSeatLayout = ({
       if (selectedSeat === deskNumber) {
         setSelectedSeat(null); // 선택된 좌석을 다시 클릭하면 선택 해제
         setCurrentDeskId(null);
+        setModalDeskNumber(null);
       } else {
         setSelectedSeat(deskNumber); // 새로운 좌석 선택
         setCurrentDeskId(deskId);
+        setModalDeskNumber(deskNumber);
       }
     } else {
       setModalDeskId(deskId);
+      setModalDeskNumber(deskNumber);
       setCheckModal(true);
     }
   };
@@ -90,6 +97,7 @@ const SelectSeatLayout = ({
       <SelectSeatBtn
         selectedSeat={selectedSeat}
         currentDeskId={currentDeskId}
+        setSelectedSeat={setSelectedSeat}
         mutateAsync={mutateAsync}
       />
     </div>
