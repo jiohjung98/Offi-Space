@@ -24,6 +24,39 @@ const formatDisplayDate = (startDate: Date, endDate: Date): string => {
   return `${month}.${day} ${startHours}:${startMinutes}~${endHours}:${endMinutes}`;
 };
 
+const setInitialDateTime = (): [Date, Date, string] => {
+  const now = new Date();
+  let startAt: Date;
+
+  if (now.getMinutes() > 30) {
+    startAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0);
+  } else {
+    startAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 30, 0);
+  }
+
+  const endAt = new Date(startAt.getTime() + 60 * 60 * 1000);
+  const currentTime = formatDisplayDate(startAt, endAt);
+
+  return [startAt, endAt, currentTime];
+};
+
+const setInitialParams = (startAt: Date, endAt: Date, branchName: string): GetMeetingRoomsParams => {
+  const formattedStartAt = formatDateToCustomString(startAt);
+  const formattedEndAt = formatDateToCustomString(endAt);
+
+  return {
+    startAt: formattedStartAt,
+    endAt: formattedEndAt,
+    branchName: branchName,
+    meetingRoomTypes: ['MINI', 'STANDARD', 'MEDIUM', 'STATE'],
+    projectorExists: false,
+    canVideoConference: false,
+    isPrivate: false,
+    sortTarget: 'roomCapacity',
+    sortDirection: 'ASC',
+  };
+};
+
 const MeetingRoomIndex: React.FC = () => {
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const [params, setParams] = useState<GetMeetingRoomsParams | null>(null);
@@ -38,36 +71,12 @@ const MeetingRoomIndex: React.FC = () => {
   useEffect(() => {
     if (!selectedBranch) return;
 
-    const now = new Date();
-    let startAt: Date;
-
-    if (now.getMinutes() > 30) {
-      startAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0);
-    } else {
-      startAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 30, 0);
-    }
-
-    const endAt = new Date(startAt.getTime() + 60 * 60 * 1000);
-
+    const [startAt, endAt, currentTime] = setInitialDateTime();
     setStartTime(startAt);
     setEndTime(endAt);
-    setCurrentTime(formatDisplayDate(startAt, endAt));
+    setCurrentTime(currentTime);
 
-    const formattedStartAt = formatDateToCustomString(startAt);
-    const formattedEndAt = formatDateToCustomString(endAt);
-
-    const initialParams: GetMeetingRoomsParams = {
-      startAt: formattedStartAt,
-      endAt: formattedEndAt,
-      branchName: selectedBranch.branchName,
-      meetingRoomTypes: ['MINI', 'STANDARD', 'MEDIUM', 'STATE'],
-      projectorExists: false,
-      canVideoConference: false,
-      isPrivate: false,
-      sortTarget: 'roomCapacity',
-      sortDirection: 'ASC',
-    };
-
+    const initialParams = setInitialParams(startAt, endAt, selectedBranch.branchName);
     setParams(initialParams);
   }, [selectedBranch]);
 
@@ -140,8 +149,25 @@ const MeetingRoomIndex: React.FC = () => {
     setSelectedEquipment(displayEquipment);
   };
 
+  const handleReset = () => {
+    const [startAt, endAt, currentTime] = setInitialDateTime();
+    setStartTime(startAt);
+    setEndTime(endAt);
+    setCurrentTime(currentTime);
+
+    setSelectedMeetingRoomTypes('인원 수');
+    setSelectedEquipment('비품');
+    
+    const initialParams = setInitialParams(startAt, endAt, selectedBranch!.branchName);
+    setParams(initialParams);
+  };
+  
+
   return (
     <div className="p-4 h-screen">
+      <div className='relative'>
+        <Image src={'/resetwithbg.svg'} width={45} height={45} alt="reset" className="absolute right-0" onClick={handleReset} />
+      </div>
       <div className="flex mb-4 overflow-x-auto whitespace-nowrap">
         <div
           className="flex-none w-[190px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer"
@@ -160,7 +186,7 @@ const MeetingRoomIndex: React.FC = () => {
           <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
         </div>
         <div
-          className={`flex-none h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2 ${selectedEquipment === '비품' ? 'w-[100px]' : 'w-[150px]'}`}
+          className={`flex-none h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2 mr-[50px] ${selectedEquipment === '비품' ? 'w-[100px]' : 'w-[150px]'}`}
           onClick={() => setShowModal(true)}
         >
           <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
