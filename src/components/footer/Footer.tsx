@@ -9,9 +9,9 @@ const Footer = () => {
 
   return (
     <footer>
-      <nav className=" fixed  bottom-0 w-[393px] h-[77.02px] px-[25px] bg-white border-t border-stone-50 justify-between items-center inline-flex z-[999]">
+      <nav className=" fixed  mx-[auto] bottom-0 w-[393px]  xs:w-[378px]  h-[77.02px] px-[25px] bg-white border-t border-stone-50 justify-between items-center inline-flex z-[15]">
         <Link href="/">
-          <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
+          <div className="  h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
               {filteredPathName === '' ? (
                 <img className="w-5 h-5 " src="/CheckedHome.svg" alt="home" />
