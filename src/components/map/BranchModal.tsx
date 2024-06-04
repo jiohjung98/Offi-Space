@@ -3,11 +3,14 @@ import Image from 'next/image';
 import { ModalProps } from '@/api/types/branch';
 import { useRouter } from 'next/router';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
+import { useBranchStore } from '@/store/branch.store';
 
 
 const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branchAddress }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const { setSelectedBranch } = useBranchStore();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -60,6 +63,18 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
     }
   };
 
+  const handleGoToReservation = async () => {
+    try {
+      const data = await getSelectedOfficeInfo(branchName); 
+      if (data.data) {
+        setSelectedBranch(data.data); 
+        router.push('/reservation/');
+      }
+    } catch (error) {
+      console.error('Error updating selected branch:', error);
+    }
+  };
+
   return (
     <aside className="w-[373px] mx-auto fixed bottom-[85px] left-0 right-0 z-50">
       <div ref={modalRef} className="bg-white px-4 py-6 rounded-lg shadow-lg">
@@ -94,6 +109,7 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
           </button>
           <button 
             className="flex w-[163px] h-[36px] text-[#3B268C] px-[6px] py-[6px] rounded-md justify-center items-center gap-2 border border-[#3E2896]"
+            onClick={handleGoToReservation}
           >
             예약 바로가기
           </button>
