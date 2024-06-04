@@ -147,7 +147,12 @@ const MeetingRoomInfo = () => {
                     onClick={() => setShowModal(true)}
                 >
                     <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
-                    <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedTimeRange}</div>
+                    <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">
+                        {selectedTimeRange ? (
+                            `${selectedTimeRange}`
+                        ) : (
+                            '시간을 선택해주세요'
+                        )}</div>
                     <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
                 </div>
             </div>
