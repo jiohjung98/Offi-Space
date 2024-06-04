@@ -79,10 +79,12 @@ body {
 
 .react-datepicker__navigation--next {
   right: 80px !important;
+  top: 3px !important;
 }
 
 .react-datepicker__navigation--previous {
   left: 80px !important;
+  top: 3px !important;
 }
 
 .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
@@ -93,6 +95,10 @@ body {
 .react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range {
   border-radius: 1rem !important;
   background-color: #4E32BB !important;
+}
+
+.react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected, .react-datepicker__year-text--keyboard-selected {
+  background-color: #EDEBF8 !important;
 }
 
 input[type="checkbox"]{

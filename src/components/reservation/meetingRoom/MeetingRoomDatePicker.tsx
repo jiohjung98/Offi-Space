@@ -95,7 +95,7 @@ const MeetingRoomDatePickerModal: React.FC<MeetingRoomDatePickerModalProps> = ({
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
       <div className="bg-white rounded-lg h-[630px] p-6 absolute bottom-0">
-        <div className="pb-4 flex">
+        <div className="flex">
           <div className='absolute'>
         <h2 className="text-lg font-semibold relative z-[9999] ml-[5px]">일정</h2>
         </div>

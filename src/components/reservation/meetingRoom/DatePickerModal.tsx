@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePickerWheel from './WheelPicker';
-import Image from 'next/image';
 
 interface DatePickerModalProps {
   showModal: boolean;
@@ -104,31 +103,33 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
   }
 
   const resetFilters = () => {
-    setSelectedMeetingRoomTypes([]);
-    setProjectorExists(false);
-    setCanVideoConference(false);
-    setIsPrivate(false);
+    // setSelectedMeetingRoomTypes([]);
+    // setProjectorExists(false);
+    // setCanVideoConference(false);
+    // setIsPrivate(false);
   
-    setEndTime(startTime);
+    // setEndTime(startTime);
 
-    const formattedStartTime = `${String(initialStartTime.getHours()).padStart(2, '0')}:${String(initialStartTime.getMinutes()).padStart(2, '0')}`;
-    const formattedEndTime = `${String(initialEndTime.getHours()).padStart(2, '0')}:${String(initialEndTime.getMinutes()).padStart(2, '0')}`;
+    // const formattedStartTime = `${String(initialStartTime.getHours()).padStart(2, '0')}:${String(initialStartTime.getMinutes()).padStart(2, '0')}`;
+    // const formattedEndTime = `${String(initialEndTime.getHours()).padStart(2, '0')}:${String(initialEndTime.getMinutes()).padStart(2, '0')}`;
   
-    setMinStartTime(formattedStartTime); 
-    setStartTime(formattedStartTime); 
-    setEndTime(formattedEndTime); 
+    // setMinStartTime(formattedStartTime); 
+    // setStartTime(formattedStartTime); 
+    // setEndTime(formattedEndTime); 
+    setShowModal(false)
   };
   
-
   if (!showModal) return null;
 
   return (
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-      <div className="bg-white rounded-lg w-[full] h-[full] p-6 absolute bottom-0 overflow-y-auto">
-        <div className="mb-4 flex">
-          <h2 className="text-lg font-semibold">일정</h2>
-          <div className='flex w-[294px] justify-center items-center'>
+      <div className="bg-white rounded-lg w-[full] h-[750px] p-6 absolute bottom-0 overflow-y-auto">
+        <div className="flex">
+        <div className='absolute'>
+          <h2 className="text-lg font-semibold relative z-[9999] ml-[5px]">일정</h2>
+        </div>
+          <div className='flex mx-auto justify-center items-center'>
             <div className="text-indigo-700 text-lg font-bold font-['Pretendard'] justify-center items-center">{`${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime.replace(':', '.')} ~ ${endTime.replace(':', '.')}`}</div>
           </div>
         </div>
@@ -144,7 +145,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
             />
           </div>
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           <div className="flex items-center w-full">
             <DatePickerWheel
               items={startTimeOptions.map(time => ({ value: time, label: time }))}
@@ -160,63 +161,63 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
           </div>
         </div>
         <div className="mb-4">
-          <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] mb-[15px]">인원</div>
-          <div className="flex flex-col space-y-2">
+          <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] mb-[5px]">인원</div>
+          <div className="grid grid-cols-2 gap-2">
             {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
-              <label key={type} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id="check1"
-                  checked={selectedMeetingRoomTypes.includes(type)}
-                  onChange={() => handleTypeChange(type)}
-                  className={`appearance-none border-none w-6 h-6 rounded ${
-                    selectedMeetingRoomTypes.includes(type) 
-                      ? 'bg-violet-100' 
-                      : 'bg-zinc-100'
-                    }`}
-                > 
-                </input>
-                <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">{type === 'MINI' ? '미니(1-4인)' : type === 'STANDARD' ? '스탠다드(5-8인)': type === 'MEDIUM' ? '미디움(9-12인)' : type === 'STATE' ? '스테이트(13-15인)' : type}</span>
-              </label>
+                <label key={type} className="flex items-center">
+                    <input
+                        type="checkbox"
+                        id="check1"
+                        checked={selectedMeetingRoomTypes.includes(type)}
+                        onChange={() => handleTypeChange(type)}
+                        className={`appearance-none border-none w-6 h-6 rounded ${
+                            selectedMeetingRoomTypes.includes(type) 
+                            ? 'bg-violet-100' 
+                            : 'bg-zinc-100'
+                        }`}
+                    />
+                    <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
+                        {type === 'MINI' ? '미니(1-4인)' : type === 'STANDARD' ? '스탠다드(5-8인)' : type === 'MEDIUM' ? '미디움(9-12인)' : type === 'STATE' ? '스테이트(13-15인)' : type}
+                    </span>
+                </label>
             ))}
-          </div>
         </div>
-        <div className="mb-4">
-          <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] mb-[15px]">비품</div>
-          <div className="flex flex-col space-y-2">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={projectorExists}
-                onChange={() => setProjectorExists((prev) => !prev)}
-              />
-              <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">프로젝터</span>
-            </label>
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={canVideoConference}
-                onChange={() => setCanVideoConference((prev) => !prev)}
-              />
-              <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">화상장비</span>
-            </label>
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={isPrivate}
-                onChange={() => setIsPrivate((prev) => !prev)}
-              />
-              <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">프라이빗</span>
-            </label>
-          </div>
         </div>
-        <div className="flex justify-between pt-[25px]">
+        <div className="">
+          <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] mb-[5px]">비품</div>
+          <div className="grid grid-cols-3 gap-2">
+            <label className="flex items-center">
+                <input
+                    type="checkbox"
+                    checked={projectorExists}
+                    onChange={() => setProjectorExists((prev) => !prev)}
+                />
+                <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">프로젝터</span>
+            </label>
+            <label className="flex items-center">
+                <input
+                    type="checkbox"
+                    checked={canVideoConference}
+                    onChange={() => setCanVideoConference((prev) => !prev)}
+                />
+                <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">화상장비</span>
+            </label>
+            <label className="flex items-center">
+                <input
+                    type="checkbox"
+                    checked={isPrivate}
+                    onChange={() => setIsPrivate((prev) => !prev)}
+                />
+                <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">프라이빗</span>
+            </label>
+        </div>
+        </div>
+        <div className="flex justify-between pt-[20px]">
           <div className='flex w-[160px] h-[36px] justify-center items-center cursor-pointer' onClick={resetFilters}>
-            <Image src={'/filter.svg'} width={14} height={14} alt="calendar" className="mr-[8px]" />
             <div 
               className="text-[#3B268C] py-[6px] rounded-md justify-center items-center gap-2"
             >
-              필터 초기화
+              취소
             </div>
           </div>
           <button 
