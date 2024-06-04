@@ -41,3 +41,10 @@ export interface SelectedBranch {
     stationToBranch: string[];
 }
   
+export interface BranchAvailable {
+    id: number,
+    branchName: string,
+    branchAddress: string,
+    branchTotalMeetingRoomCount: number,
+    branchActiveMeetingRoomCount: number
+}

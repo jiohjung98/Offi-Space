@@ -6,6 +6,7 @@ import MapSearchResult from './MapSearchResult';
 import { getBranchInfo } from '@/api/map/getOffice';
 import { Branch } from '@/api/types/branch';
 import BranchModal from './BranchModal';
+import { getOfficeAvailable } from '@/api/map/getOfficeAvailable';
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -196,6 +197,17 @@ const UseMap: React.FC = () => {
     };
   }, [map]);
 
+  const handleOfficeAvailable = async (branch: Branch) => {
+    try {
+      const data = await getOfficeAvailable(branch.branchName); 
+      if (data.data) {
+        console.log(data);
+      }
+    } catch (error) {
+      console.error('Error updating selected branch:', error);
+    }
+  };
+
   const handleMarkerClick = (branch: Branch) => {
     const position = new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude);
     map?.panTo(position);
@@ -203,6 +215,7 @@ const UseMap: React.FC = () => {
     setSelectedBranch(branch);
     setIsModalOpen(true);
     setSelectedMarker(branch.branchName);
+    handleOfficeAvailable(branch);
   };
 
   const handleSearchQueryChange = (query: string) => {
