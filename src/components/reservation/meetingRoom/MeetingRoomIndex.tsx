@@ -4,6 +4,7 @@ import { GetMeetingRoomsParams, MeetingRoom } from '@/api/types/room';
 import { useBranchStore } from '@/store/branch.store';
 import Image from 'next/image';
 import DatePickerModal from './DatePickerModal';
+import Link from 'next/link';
 
 const formatDateToCustomString = (date: Date): string => {
   const year = date.getFullYear();
@@ -201,6 +202,7 @@ const MeetingRoomIndex: React.FC = () => {
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
       <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
         {meetingRooms.map((room) => (
+          <Link key={room.meetingRoomId} href={`/meetingRoom/${room.meetingRoomId}`} passHref>
           <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center">
             <div className="rounded">
               <Image
@@ -225,6 +227,7 @@ const MeetingRoomIndex: React.FC = () => {
               </div>
             </div>
           </div>
+          </Link>
         ))}
         <div className="h-[100px]"></div>
       </div>
