@@ -17,3 +17,10 @@ export interface MeetingRoom {
     sortTarget?: 'roomCapacity' | 'roomFloor';
     sortDirection?: 'ASC' | 'DESC';
   }
+
+  export interface MeetingRoomInfo extends MeetingRoom {
+    equipments: string[];
+    branchId: string;
+    branchName: string;
+  }
+  

@@ -1,6 +1,6 @@
-import { MeetingRoom } from '../types/room';
+import { MeetingRoomInfo } from '../types/room';
 
-export const getMeetingRoomInfo = async (meetingRoomId: string): Promise<MeetingRoom> => {
+export const getMeetingRoomInfo = async (meetingRoomId: string): Promise<MeetingRoomInfo> => {
   const backendUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const url = `${backendUrl}spaces/meeting-rooms/${meetingRoomId}`;
 
@@ -23,7 +23,8 @@ export const getMeetingRoomInfo = async (meetingRoomId: string): Promise<Meeting
     throw new Error(`Error fetching meeting room info: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
-  const data: { status: string; errorCode: string | null; data: MeetingRoom } = await response.json();
+  const data: { status: string; errorCode: string | null; data: MeetingRoomInfo } = await response.json();
+  console.log(data);
 
   if (data.status !== 'SUCCESS') {
     throw new Error(`API Error: ${data.errorCode}`);

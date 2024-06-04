@@ -202,7 +202,7 @@ const MeetingRoomIndex: React.FC = () => {
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
       <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
         {meetingRooms.map((room) => (
-          <Link key={room.meetingRoomId} href={`/meetingRoom/${room.meetingRoomId}`} passHref>
+          <Link key={room.meetingRoomId} href={`/reservation/${room.meetingRoomId}`} passHref>
           <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center">
             <div className="rounded">
               <Image
