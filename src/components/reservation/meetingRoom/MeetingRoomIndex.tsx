@@ -178,7 +178,7 @@ const MeetingRoomIndex: React.FC = () => {
           <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
         </div>
         <div
-          className={`flex-none h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2 ${selectedMeetingRoomTypes === '인원 수' ? 'w-[110px]' : 'w-[170px]'}`}
+          className={`flex-none h-[33px] px-3 py-2 rounded inline-flex cursor-pointer ml-2 ${selectedMeetingRoomTypes === '인원 수' ? 'w-[110px] bg-white border border-neutral-300' : 'w-[170px] bg-violet-100'}`}
           onClick={() => setShowModal(true)}
         >
           <Image src={'/people.svg'} width={14} height={14} alt="people" className="mr-[6px]" />
@@ -186,7 +186,7 @@ const MeetingRoomIndex: React.FC = () => {
           <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
         </div>
         <div
-          className={`flex-none h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer ml-2 mr-[50px] ${selectedEquipment === '비품' ? 'w-[100px]' : 'w-[150px]'}`}
+          className={`flex-none h-[33px] px-3 py-2 rounded inline-flex cursor-pointer ml-2 mr-[50px] ${selectedEquipment === '비품' ? 'w-[100px] bg-white border border-neutral-300' : 'w-[150px] bg-violet-100'}`}
           onClick={() => setShowModal(true)}
         >
           <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
