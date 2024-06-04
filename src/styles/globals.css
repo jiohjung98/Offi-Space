@@ -64,13 +64,14 @@ body {
 }
 
 .react-datepicker__month-container {
-  /* width: 384px !important; */
+  width: 100% !important;
   margin-right: auto !important;
   margin-left: auto !important;
+  float: none !important;
 }
 
 .react-datepicker {
-  width: 350px !important;
+  width: 100% !important;
   margin-right: auto !important;
   margin-left: auto !important;
   border: none !important;
@@ -142,7 +143,7 @@ input[id="check1"]:checked {
 }
 
 .items {
-  width: 150px;
+  width: 45%;
   height: 100%;
   padding: 50% 0;
   margin: 0;
