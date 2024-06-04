@@ -106,6 +106,7 @@ const MeetingRoomInfo = () => {
         <div>
             <div className="px-4 mt-[20px]">
                 <IoIosArrowRoundBack size={40} className="mr-auto" onClick={handleBackClick} />
+                </div>
                 <Image
                     src={meetingRoom.meetingRoomImage || '/meetingRoomSqaure.svg'}
                     width={393}
@@ -113,6 +114,7 @@ const MeetingRoomInfo = () => {
                     alt='meetingRoomImage'
                     className="object-cover"
                 />
+                <div className='px-4'>
                 <div className="flex w-full items-center mt-[24px]">
                     <div className="text-black/opacity-20 text-lg font-medium font-['Pretendard']">
                         {meetingRoom.branchName}
@@ -138,7 +140,7 @@ const MeetingRoomInfo = () => {
                             {meetingRoom.equipments.join(', ')}
                         </div>
                     </div>
-                </div>
+            </div>
             </div>
             <div className="w-[full] mt-[32px] h-1 bg-neutral-200" />
             <div className="px-4 mt-4">
