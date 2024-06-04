@@ -4,7 +4,7 @@ import { GetMeetingRoomsParams, MeetingRoom } from '@/api/types/room';
 import { useBranchStore } from '@/store/branch.store';
 import Image from 'next/image';
 import DatePickerModal from './DatePickerModal';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const formatDateToCustomString = (date: Date): string => {
   const year = date.getFullYear();
@@ -162,8 +162,16 @@ const MeetingRoomIndex: React.FC = () => {
     const initialParams = setInitialParams(startAt, endAt, selectedBranch!.branchName);
     setParams(initialParams);
   };
-  
 
+  const router = useRouter();
+
+  const handleRoomClick = (roomId: number) => {
+    const formattedCurrentTime = encodeURIComponent(currentTime); 
+    router.push(`/reservation/${roomId}?startTime=${formattedCurrentTime}`);
+    console.log(formattedCurrentTime);
+    console.log(currentTime);
+  };
+  
   return (
     <div className="p-4 h-screen">
       <div className='relative'>
@@ -201,34 +209,32 @@ const MeetingRoomIndex: React.FC = () => {
       </div>
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
       <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
-        {meetingRooms.map((room) => (
-          <Link key={room.meetingRoomId} href={`/reservation/${room.meetingRoomId}`} passHref>
-          <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center">
-            <div className="rounded">
-              <Image
-                src={room.meetingRoomImage || '/meetingRoomImg.svg'}
-                width={175}
-                height={124}
-                alt={room.meetingRoomName}
-                className="object-cover rounded"
-              />
+      {meetingRooms.map((room) => (
+        <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
+          <div className="rounded">
+            <Image
+              src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+              width={175}
+              height={124}
+              alt={room.meetingRoomName}
+              className="object-cover rounded"
+            />
+          </div>
+          <div className="flex flex-col">
+            <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+              {room.meetingRoomName}
             </div>
-            <div className="flex flex-col">
-              <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
-                {room.meetingRoomName}
+            <div className="flex mt-[4px] items-center">
+              <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+              <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                {room.meetingRoomFloor}층
               </div>
-              <div className="flex mt-[4px] items-center">
-                <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-                <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
-                  {room.meetingRoomFloor}층
-                </div>
-                <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-                <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
-              </div>
+              <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+              <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
             </div>
           </div>
-          </Link>
-        ))}
+        </div>
+      ))}
         <div className="h-[100px]"></div>
       </div>
       {startTime && endTime && (
