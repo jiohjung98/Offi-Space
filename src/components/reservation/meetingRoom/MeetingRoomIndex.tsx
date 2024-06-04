@@ -166,8 +166,13 @@ const MeetingRoomIndex: React.FC = () => {
   const router = useRouter();
 
   const handleRoomClick = (roomId: number) => {
-    const formattedCurrentTime = encodeURIComponent(currentTime); 
-    router.push(`/reservation/${roomId}?startTime=${formattedCurrentTime}`);
+    const formattedCurrentTime = currentTime; 
+    router.push({
+      pathname: `/reservation/${roomId}`,
+      query: { 
+        startTime: formattedCurrentTime 
+      }
+    }, `/reservation/${roomId}`);
     console.log(formattedCurrentTime);
     console.log(currentTime);
   };

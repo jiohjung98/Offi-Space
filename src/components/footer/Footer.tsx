@@ -23,7 +23,7 @@ const Footer = () => {
             </div>
           </div>
         </Link>
-        <Link href="reservation">
+        <Link href="/reservation">
           <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
               {filteredPathName === 'reservation' ? (

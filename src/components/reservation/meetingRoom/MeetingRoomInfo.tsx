@@ -19,7 +19,9 @@ const MeetingRoomInfo = () => {
     const selectedBranch = useBranchStore((state) => state.selectedBranch);
 
     const router = useRouter();
-    const { meetingRoomId, startTime } = router.query;
+    const getTimes = router.query.startTime as string;
+    console.log(getTimes);
+    const { meetingRoomId } = router.query;
 
     const handleBackClick = () => {
         router.back();
@@ -40,8 +42,8 @@ const MeetingRoomInfo = () => {
     }, [meetingRoomId]);
 
     useEffect(() => {
-        if (startTime) {
-            const [date, time] = (startTime as string).split(' ');
+        if (getTimes) {
+            const [date, time] = (getTimes as string).split(' ');
             const [month, day] = date.split('.');
             const [start, end] = time.split('~');
             const [startHour, startMinute] = start.split(':');
@@ -53,9 +55,9 @@ const MeetingRoomInfo = () => {
 
             setInitialStartTime(initialStartDate);
             setInitialEndTime(initialEndDate);
-            setSelectedTimeRange(`${startTime}`); 
+            setSelectedTimeRange(`${getTimes}`); 
         }
-    }, [startTime]);
+    }, [getTimes]);
 
     const handleConfirm = (startDate: Date, endDate: Date) => {
         const formattedStartDate = `${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')}`;
