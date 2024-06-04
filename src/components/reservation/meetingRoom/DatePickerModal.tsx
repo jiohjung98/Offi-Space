@@ -27,7 +27,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
   const [startDate, setStartDate] = useState<Date>(initialStartTime);
   const [startTime, setStartTime] = useState<string>(initialStartTime.toTimeString().substr(0, 5));
   const [endTime, setEndTime] = useState<string>(initialEndTime.toTimeString().substr(0, 5));
-  const [minStartTime, setMinStartTime] = useState<string>('09:00');
+  const [minStartTime, setMinStartTime] = useState<string>('00:00');
   const [selectedMeetingRoomTypes, setSelectedMeetingRoomTypes] = useState<('MINI' | 'STANDARD' | 'MEDIUM' | 'STATE')[]>([]);
   const [projectorExists, setProjectorExists] = useState<boolean>(false);
   const [canVideoConference, setCanVideoConference] = useState<boolean>(false);
@@ -46,7 +46,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
         setEndTime(add60Minutes(formattedTime));
       }
     } else {
-      setMinStartTime('09:00');
+      setMinStartTime('00:00');
     }
   }, [startDate]);
 
@@ -85,7 +85,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
   const startTimeOptions = [];
   const endTimeOptions = [];
 
-  for (let hour = 9; hour <= 23; hour++) {
+  for (let hour = 0; hour <= 23; hour++) {
     for (const minute of [0, 30]) {
       const timeString = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
       if (timeString >= minStartTime) {
@@ -104,68 +104,54 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
   }
 
   const resetFilters = () => {
-    setStartDate(initialStartTime);
-    setStartTime(initialStartTime.toTimeString().substr(0, 5));
-    setEndTime(initialEndTime.toTimeString().substr(0, 5));
-    setMinStartTime('09:00');
     setSelectedMeetingRoomTypes([]);
     setProjectorExists(false);
     setCanVideoConference(false);
     setIsPrivate(false);
+  
+    setEndTime(startTime);
 
-    const newStartTimeOptions = [];
-    const newEndTimeOptions = [];
-
-    for (let hour = 9; hour <= 23; hour++) {
-      for (const minute of [0, 30]) {
-        const timeString = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-        if (timeString >= '09:00') {
-          newStartTimeOptions.push(timeString);
-        }
-      }
-    }
-
-    for (let hour = 9; hour <= 24; hour++) { 
-      for (const minute of [0, 30]) {
-        const timeString = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-        if (timeString > '09:00' && timeString <= '24:00') {
-          newEndTimeOptions.push(timeString);
-        }
-      }
-    }
+    const formattedStartTime = `${String(initialStartTime.getHours()).padStart(2, '0')}:${String(initialStartTime.getMinutes()).padStart(2, '0')}`;
+    const formattedEndTime = `${String(initialEndTime.getHours()).padStart(2, '0')}:${String(initialEndTime.getMinutes()).padStart(2, '0')}`;
+  
+    setMinStartTime(formattedStartTime); 
+    setStartTime(formattedStartTime); 
+    setEndTime(formattedEndTime); 
   };
+  
+
   if (!showModal) return null;
 
   return (
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
-    <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-    <div className="bg-white rounded-lg w-[full] h-[676px] p-6 absolute bottom-0 overflow-y-auto">
-    <div className="mb-4 flex">
-      <h2 className="text-lg font-semibold">일정</h2>
-      <div className='flex w-[294px] justify-center items-center'>
-        <div className="text-indigo-700 text-lg font-bold font-['Pretendard'] justify-center items-center">{`${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime.replace(':', '.')} ~ ${endTime.replace(':', '.')}`}</div>
-      </div>
-    </div>
-      <div className="">
-        <div className='w-full'>
-          <DatePicker
-            selected={startDate}
-            onChange={(date: Date | null) => setStartDate(date || new Date())}
-            dateFormat="yyyy.MM.dd"
-            inline
-            className="mx-auto"
-            minDate={new Date()}
-          />
+      <div className="bg-black bg-opacity-50 absolute inset-0"></div>
+      <div className="bg-white rounded-lg w-[full] h-[full] p-6 absolute bottom-0 overflow-y-auto">
+        <div className="mb-4 flex">
+          <h2 className="text-lg font-semibold">일정</h2>
+          <div className='flex w-[294px] justify-center items-center'>
+            <div className="text-indigo-700 text-lg font-bold font-['Pretendard'] justify-center items-center">{`${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime.replace(':', '.')} ~ ${endTime.replace(':', '.')}`}</div>
+          </div>
         </div>
-      </div>
+        <div className="">
+          <div className='w-full'>
+            <DatePicker
+              selected={startDate}
+              onChange={(date: Date | null) => setStartDate(date || new Date())}
+              dateFormat="yyyy.MM.dd"
+              inline
+              className="mx-auto"
+              minDate={new Date()}
+            />
+          </div>
+        </div>
         <div className="mb-4">
-          <div className="flex items-center">
+          <div className="flex items-center w-full">
             <DatePickerWheel
               items={startTimeOptions.map(time => ({ value: time, label: time }))}
               value={startTime}
               onChange={setStartTime}
             />
-        <span className='h-[50px] my-auto leading-[50px]' style={{ backgroundColor: 'rgba(237, 235, 248, 0.85)' }}>부터</span>
+            <span className='h-[50px] my-auto leading-[50px]' style={{ backgroundColor: 'rgba(237, 235, 248, 0.85)' }}>부터</span>
             <DatePickerWheel
               items={endTimeOptions.map(time => ({ value: time, label: time }))}
               value={endTime}
@@ -178,16 +164,16 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
           <div className="flex flex-col space-y-2">
             {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
               <label key={type} className="flex items-center">
-               <input
-                type="checkbox"
-                id="check1"
-                checked={selectedMeetingRoomTypes.includes(type)}
-                onChange={() => handleTypeChange(type)}
-                className={`appearance-none border-none w-6 h-6 rounded ${
-                  selectedMeetingRoomTypes.includes(type) 
-                    ? 'bg-violet-100' 
-                    : 'bg-zinc-100'
-                  }`}
+                <input
+                  type="checkbox"
+                  id="check1"
+                  checked={selectedMeetingRoomTypes.includes(type)}
+                  onChange={() => handleTypeChange(type)}
+                  className={`appearance-none border-none w-6 h-6 rounded ${
+                    selectedMeetingRoomTypes.includes(type) 
+                      ? 'bg-violet-100' 
+                      : 'bg-zinc-100'
+                    }`}
                 > 
                 </input>
                 <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">{type === 'MINI' ? '미니(1-4인)' : type === 'STANDARD' ? '스탠다드(5-8인)': type === 'MEDIUM' ? '미디움(9-12인)' : type === 'STATE' ? '스테이트(13-15인)' : type}</span>
@@ -226,12 +212,12 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
         </div>
         <div className="flex justify-between pt-[25px]">
           <div className='flex w-[160px] h-[36px] justify-center items-center cursor-pointer' onClick={resetFilters}>
-        <Image src={'/filter.svg'} width={14} height={14} alt="calendar" className="mr-[8px]" />
-          <div 
-            className="text-[#3B268C] py-[6px] rounded-md justify-center items-center gap-2"
-          >
-            필터 초기화
-          </div>
+            <Image src={'/filter.svg'} width={14} height={14} alt="calendar" className="mr-[8px]" />
+            <div 
+              className="text-[#3B268C] py-[6px] rounded-md justify-center items-center gap-2"
+            >
+              필터 초기화
+            </div>
           </div>
           <button 
             className="flex w-[160px] h-[36px] text-[#3B268C] px-[6px] py-[6px] rounded-md justify-center items-center border border-[#3E2896] mr-[25px]"

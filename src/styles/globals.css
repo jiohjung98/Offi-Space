@@ -126,6 +126,7 @@ input[id="check1"]:checked {
   position: relative;
 }
 
+
 .container::after {
   position: absolute;
   content: "";
@@ -141,14 +142,17 @@ input[id="check1"]:checked {
 }
 
 .items {
+  width: 150px;
   height: 100%;
   padding: 50% 0;
   margin: 0;
+  text-align: center;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 
 .items::-webkit-scrollbar {
   display: none;
@@ -163,5 +167,7 @@ input[id="check1"]:checked {
 }
 
 .item div {
+  width: 150px;
   display: inline-block;
+  text-align: center;
 }
