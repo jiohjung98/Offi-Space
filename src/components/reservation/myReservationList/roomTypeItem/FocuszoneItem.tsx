@@ -2,7 +2,7 @@ import React from 'react';
 
 const FocuszoneItem = () => {
   return (
-    <div className="py-4 px-[26px] flex flex-col gap-2 border-b border-gray-300">
+    <div className="py-4 px-[26px] flex flex-col gap-1 border-b border-gray-300 cursor-pointer">
       {/* 고정 */}
       <div className="text-space-black text-md font-semibold">포커스존</div>
 

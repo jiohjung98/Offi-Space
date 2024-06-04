@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback } from 'react';
 
 const MeetingRoomItem = () => {
   const profileArr: string[] = [
+    '/reservation/mockProfile.jpg',
+    '/reservation/mockProfile.jpg',
     '/reservation/mockProfile.jpg',
     '/reservation/mockProfile.jpg',
     '/reservation/mockProfile.jpg',
@@ -11,7 +14,7 @@ const MeetingRoomItem = () => {
   const renderUserImg = useCallback(() => {
     if (profileArr.length <= 3) {
       return (
-        <div className="flex -space-x-4 rtl:space-x-reverse">
+        <div className="flex -space-x-3 rtl:space-x-reverse">
           {profileArr.map((userImg: string) => (
             <img
               className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
@@ -23,7 +26,7 @@ const MeetingRoomItem = () => {
       );
     } else {
       return (
-        <div className="flex -space-x-4 rtl:space-x-reverse">
+        <div className="flex -space-x-3 rtl:space-x-reverse">
           {profileArr.slice(0, 3).map((userImg: string, i) => (
             <img
               key={i}
@@ -32,8 +35,19 @@ const MeetingRoomItem = () => {
               alt="userimg"
             />
           ))}
-          <div className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-500 border-2 border-white rounded-full">
+          {/* <div className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-500 border-2 border-white rounded-full">
             +{profileArr.length - 3}
+          </div> */}
+          <div className="relative">
+            <img
+              className=" w-10 h-10 border-2 border-white rounded-full brightness-50 opacity-80 "
+              src={profileArr[3]}
+              alt="userimg"
+            />
+            <div className="absolute z-[100] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white font-bold">
+              {' '}
+              +{profileArr.length - 3}
+            </div>
           </div>
         </div>
       );
@@ -41,7 +55,7 @@ const MeetingRoomItem = () => {
   }, []);
 
   return (
-    <div className="border-b border-gray-300 py-4 ">
+    <div className="border-b border-gray-300 py-4 cursor-pointer">
       <div className="mx-4 flex items-center justify-between">
         {/* 고정 */}
         <div className="flex gap-2 items-center">

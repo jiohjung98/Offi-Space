@@ -37,8 +37,6 @@ const SelectSeatLayout = ({
     }
   );
 
-  console.log(allSeatInfo);
-
   const { mutateAsync } = useMutation(
     async (deskId: number) => reservationFocus(deskId),
     {
