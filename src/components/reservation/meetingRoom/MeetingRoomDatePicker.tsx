@@ -92,13 +92,15 @@ const MeetingRoomDatePickerModal: React.FC<MeetingRoomDatePickerModalProps> = ({
   if (!showModal) return null;
 
   return (
-    <div className="w-[100%] fixed inset-0 flex items-end justify-center z-[9999]">
+    <div className="fixed inset-0 flex items-end justify-center z-[9999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-      <div className="bg-white rounded-lg w-[100%] h-[full] p-6 absolute bottom-0 overflow-y-auto">
-        <div className="mb-4 flex">
-          <h2 className="text-lg font-semibold">일정</h2>
-          <div className='flex w-[294px] justify-center items-center'>
-            <div className="text-indigo-700 text-lg font-bold font-['Pretendard'] justify-center items-center">{`${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime.replace(':', '.')} ~ ${endTime.replace(':', '.')}`}</div>
+      <div className="bg-white rounded-lg h-[630px] p-6 absolute bottom-0">
+        <div className="pb-4 flex">
+          <div className='absolute'>
+        <h2 className="text-lg font-semibold relative z-[9999] ml-[5px]">일정</h2>
+        </div>
+          <div className='flex mx-auto justify-center items-center'>
+            <div className="text-indigo-700 text-lg font-bold font-['Pretendard'] justify-center items-center z-[9999] mt-[1px]">{`${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')} ${startTime.replace(':', '.')} ~ ${endTime.replace(':', '.')}`}</div>
           </div>
         </div>
         <div className="">

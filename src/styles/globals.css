@@ -143,7 +143,6 @@ input[id="check1"]:checked {
 }
 
 .items {
-  width: 45%;
   height: 100%;
   padding: 50% 0;
   margin: 0;
