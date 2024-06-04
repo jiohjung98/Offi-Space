@@ -1,8 +1,18 @@
+'use client';
+import { useReservationStore } from '@/store/reservationModal.store';
 import React from 'react';
 
 const FocuszoneItem = () => {
+  const { setOpen, setReservationId, setIsMeeting } = useReservationStore();
   return (
-    <div className="py-4 px-[26px] flex flex-col gap-1 border-b border-gray-300 cursor-pointer">
+    <div
+      onClick={() => {
+        setOpen(true);
+        setIsMeeting(false);
+        //todo 임의로 1로 넣음
+        setReservationId('1');
+      }}
+      className="py-4 px-[26px] flex flex-col gap-1 border-b border-gray-300 cursor-pointer">
       {/* 고정 */}
       <div className="text-space-black text-md font-semibold">포커스존</div>
 

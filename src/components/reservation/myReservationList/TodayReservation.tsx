@@ -4,14 +4,18 @@ import MeetingRoomItem from './roomTypeItem/MeetingRoomItem';
 import RechargingItem from './roomTypeItem/RechargingItem';
 
 const TodayReservation = () => {
-  // todo 전체 예약 내역에서 오늘 예약만 빼올것인지, 오늘 예약 api로 받아올것인지
-  // todo 포커스존, 미팅룸, 리차징룸 구분해서
   return (
+    // 예약된 내역이 있을 때
     <div>
       <FocuszoneItem />
       <MeetingRoomItem />
       <RechargingItem />
     </div>
+    // 예약된 내역이 없을 때
+    // <div className="border-b border-gray-300 mx-4 py-12 flex flex-col items-center justify-center text-base font-medium text-gray-500">
+    //   <div>예약된 일정이 없습니다.</div>
+    //   <div>다양한 공간을 예약해 보세요!</div>
+    // </div>
   );
 };
 

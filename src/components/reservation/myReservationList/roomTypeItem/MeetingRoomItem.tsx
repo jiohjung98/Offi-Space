@@ -1,7 +1,10 @@
+'use client';
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useReservationStore } from '@/store/reservationModal.store';
 import React, { useCallback } from 'react';
 
 const MeetingRoomItem = () => {
+  const { setOpen, setReservationId, setIsMeeting } = useReservationStore();
   const profileArr: string[] = [
     '/reservation/mockProfile.jpg',
     '/reservation/mockProfile.jpg',
@@ -35,9 +38,6 @@ const MeetingRoomItem = () => {
               alt="userimg"
             />
           ))}
-          {/* <div className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-500 border-2 border-white rounded-full">
-            +{profileArr.length - 3}
-          </div> */}
           <div className="relative">
             <img
               className=" w-10 h-10 border-2 border-white rounded-full brightness-50 opacity-80 "
@@ -55,7 +55,14 @@ const MeetingRoomItem = () => {
   }, []);
 
   return (
-    <div className="border-b border-gray-300 py-4 cursor-pointer">
+    <div
+      onClick={() => {
+        setOpen(true);
+        setIsMeeting(true);
+        //todo 임의로 1로 넣음
+        setReservationId('1');
+      }}
+      className="border-b border-gray-300 py-4 cursor-pointer">
       <div className="mx-4 flex items-center justify-between">
         {/* 고정 */}
         <div className="flex gap-2 items-center">
