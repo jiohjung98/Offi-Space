@@ -131,15 +131,15 @@ const MeetingRoomDatePickerModal: React.FC<MeetingRoomDatePickerModalProps> = ({
           </div>
         </div>
         <div className="flex justify-between pt-[25px]">
-          <div className='flex w-[160px] h-[36px] justify-center items-center cursor-pointer' onClick={resetFilters}>
+          <div className='flex w-[150px] h-[36px] bg-[#EDEBF8] rounded-md justify-center items-center cursor-pointer' onClick={resetFilters}>
             <div 
-              className="text-[#3B268C] py-[6px] rounded-md justify-center items-center gap-2"
+              className="text-[#3B268C] py-[6px] justify-center items-center gap-2"
             >
               취소
             </div>
           </div>
           <button 
-            className="flex w-[160px] h-[36px] text-[#3B268C] px-[6px] py-[6px] rounded-md justify-center items-center border border-[#3E2896] mr-[25px]"
+            className="flex w-[150px] h-[36px] text-[#3B268C] px-[6px] py-[6px] rounded-md justify-center items-center border border-[#3E2896] mr-[20px]"
             onClick={handleConfirm}
           >
             확인
