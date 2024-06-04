@@ -235,8 +235,8 @@ const MeetingRoomIndex: React.FC = () => {
           </div>
         </div>
       ))}
-        <div className="h-[100px]"></div>
       </div>
+      <div className="h-[100px]"></div>
       {startTime && endTime && (
         <DatePickerModal
           showModal={showModal}

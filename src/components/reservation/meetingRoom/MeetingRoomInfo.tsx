@@ -22,7 +22,7 @@ const MeetingRoomInfo = () => {
     const { meetingRoomId, startTime } = router.query;
 
     const handleBackClick = () => {
-        router.push('/reservation');
+        router.back();
     };
 
     useEffect(() => {

@@ -8,7 +8,7 @@ const ReservationIndex = () => {
   const [currentRoom, setCurrentRoom] = useState('meeting');
 
   return (
-    <div className="mt-[80px] mb-100px] ">
+    <div className="mt-[80px] mb-[100px] ">
       {/* 현재 지정된 오피스 */}
       <header>
         <CurrentRoom />

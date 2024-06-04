@@ -51,9 +51,8 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   }, []);
 
   const handleBackClick = () => {
-    router.push('/map');
+    router.back();
   };
-
 
   return (
     <section className="w-full h-full">
