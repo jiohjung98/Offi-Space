@@ -11,7 +11,6 @@ export default function Profile() {
 
   //api나오면 zustand 로직으로 수정
   const [fileUrl, setFileUrl] = useState<string | null>(null);
-  // const [contact] = useState('010-1234-5678');
 
   const member = useMember();
   const job = getTitleFromDescription(jobPosition, member.memberJob);
@@ -34,7 +33,7 @@ export default function Profile() {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       const formData = new FormData();
-      formData.append('images', file);
+      formData.append('image', file);
       console.log(formData);
       memberimage(formData);
 
@@ -89,6 +88,7 @@ export default function Profile() {
                   id="fileInput"
                   type="file"
                   className="hidden"
+                  accept="image/*"
                   onChange={handleFileChange}
                 />
               </label>
