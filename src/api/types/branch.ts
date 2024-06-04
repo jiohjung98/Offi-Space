@@ -11,6 +11,8 @@ export interface ModalProps {
     onClose: () => void;
     branchName: string;
     branchAddress: string;
+    branchActiveMeetingRoomCount: number;
+    branchTotalMeetingRoomCount: number;
 }
 
 export interface MapSearchBarProps {

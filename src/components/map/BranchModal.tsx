@@ -6,7 +6,7 @@ import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 import { useBranchStore } from '@/store/branch.store';
 
 
-const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branchAddress }) => {
+const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branchAddress, branchActiveMeetingRoomCount, branchTotalMeetingRoomCount }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -96,7 +96,7 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
             </div>
             <div className="flex">
               <Image src="/map/OfficeInfo.svg" alt="Location" width={12} height={12} className="mr-2" />
-              <p className="text-sm break-words">회의실 43개 중 현재 22개 사용중</p>
+              <p className="text-sm break-words">회의실 {branchTotalMeetingRoomCount}개 중 현재 {branchActiveMeetingRoomCount}개 사용중</p>
             </div>
           </div>
         </div>

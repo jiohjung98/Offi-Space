@@ -25,6 +25,8 @@ const UseMap: React.FC = () => {
   const [currentLatitude, setCurrentLatitude] = useState<number>(37.4979);
   const [currentLongitude, setCurrentLongitude] = useState<number>(127.0276);
   const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
+  const [branchCount, SetBranchCount] = useState(0);
+  const [canBranchCount, SetCanBranchCount] = useState(0);
 
   useEffect(() => {
     const initMap = () => {
@@ -201,6 +203,8 @@ const UseMap: React.FC = () => {
     try {
       const data = await getOfficeAvailable(branch.branchName); 
       if (data.data) {
+        SetBranchCount(data.data.branchTotalMeetingRoomCount);
+        SetCanBranchCount(data.data.branchActiveMeetingRoomCount);
         console.log(data);
       }
     } catch (error) {
@@ -266,7 +270,9 @@ const UseMap: React.FC = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         branchName={selectedBranch?.branchName || ''}
-        branchAddress={selectedBranch?.branchAddress || ''}
+        branchAddress={selectedBranch?.branchAddress || ''} 
+        branchActiveMeetingRoomCount={canBranchCount} 
+        branchTotalMeetingRoomCount={branchCount}        
       />
       <button
         id="current-location-button"
