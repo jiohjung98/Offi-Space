@@ -5,6 +5,8 @@ import { MeetingRoomInfo as MeetingRoomInfoType } from "@/api/types/room";
 import Image from "next/image";
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import MeetingRoomDatePickerModal from './MeetingRoomDatePicker';
+import { useBranchStore } from '@/store/branch.store';
+import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 
 const MeetingRoomInfo = () => {
     const [meetingRoom, setMeetingRoom] = useState<MeetingRoomInfoType | null>(null);
@@ -14,6 +16,7 @@ const MeetingRoomInfo = () => {
     const [initialStartTime, setInitialStartTime] = useState<Date>(new Date());
     const [initialEndTime, setInitialEndTime] = useState<Date>(new Date());
     const [selectedTimeRange, setSelectedTimeRange] = useState<string | null>(null); 
+    const selectedBranch = useBranchStore((state) => state.selectedBranch);
 
     const router = useRouter();
     const { meetingRoomId, startTime } = router.query;
@@ -63,6 +66,26 @@ const MeetingRoomInfo = () => {
         setShowModal(false); 
     };
 
+    const handleOfficeInfo = async () => {
+        try {
+          const data = await getSelectedOfficeInfo(selectedBranch!.branchName); 
+          const officeInfo = data.data; 
+          console.log(officeInfo);
+          router.push({
+            pathname: `/branches/${encodeURIComponent(selectedBranch!.branchName)}`,
+            query: { 
+              name: selectedBranch!.branchName, 
+              address: officeInfo.branchAddress,
+              branchPhoneNumber: officeInfo.branchPhoneNumber,
+              roadFromStation: officeInfo.roadFromStation,
+              stationToBranch: officeInfo.stationToBranch.join(',')
+            }
+          }, `/branches/${encodeURIComponent(selectedBranch!.branchName)}`);
+        } catch (error) {
+          console.error('Error fetching office info:', error);
+        }
+      };
+
     if (loading) {
         return <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="loader"></div>
@@ -92,7 +115,10 @@ const MeetingRoomInfo = () => {
                     <div className="text-black/opacity-20 text-lg font-medium font-['Pretendard']">
                         {meetingRoom.branchName}
                     </div>
-                    <div className="ml-auto mr-[10px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px]">지점 상세보기</div>
+                    <div className="ml-auto flex" onClick={handleOfficeInfo}>
+                    <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px]">지점 상세보기</div>
+                    <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
+                    </div>
                 </div>
                 <div className="flex flex-col w-full mt-[24px]">
                     <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard']">{meetingRoom.meetingRoomName}</div>
