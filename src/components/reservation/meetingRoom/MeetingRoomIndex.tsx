@@ -68,6 +68,8 @@ const MeetingRoomIndex: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedMeetingRoomTypes, setSelectedMeetingRoomTypes] = useState<string>('인원 수');
   const [selectedEquipment, setSelectedEquipment] = useState<string>('비품');
+  const [sortTarget, setSortTarget] = useState<'roomCapacity' | 'roomFloor'>('roomCapacity');
+  const [sortDirection, setSortDirection] = useState<'ASC' | 'DESC'>('ASC');
 
   useEffect(() => {
     if (!selectedBranch) return;
@@ -98,6 +100,9 @@ const MeetingRoomIndex: React.FC = () => {
       console.log(params);
     }
   }, [params]);
+
+  useEffect(() => {
+  }, [meetingRooms]);
 
   const roomTypeMap: { [key: string]: string } = {
     'MINI': '미니(1-4인)',
@@ -176,6 +181,18 @@ const MeetingRoomIndex: React.FC = () => {
     console.log(formattedCurrentTime);
     console.log(currentTime);
   };
+
+  const handleSortToggle = (target: 'roomCapacity' | 'roomFloor', direction: 'ASC' | 'DESC') => {
+    setSortTarget(target);
+    setSortDirection(direction);
+
+    const updatedParams = {
+      ...params!,
+      sortTarget: target,
+      sortDirection: direction,
+    };
+    setParams(updatedParams);
+  };
   
   return (
     <div className="p-4 h-screen">
@@ -213,33 +230,147 @@ const MeetingRoomIndex: React.FC = () => {
       <div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">가능</div>
       </div>
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
-      <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
-      {meetingRooms.map((room) => (
-        <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
-          <div className="rounded">
-            <Image
-              src={room.meetingRoomImage || '/meetingRoomImg.svg'}
-              width={175}
-              height={124}
-              alt={room.meetingRoomName}
-              className="object-cover rounded"
-            />
-          </div>
-          <div className="flex flex-col">
-            <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
-              {room.meetingRoomName}
-            </div>
-            <div className="flex mt-[4px] items-center">
-              <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-              <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
-                {room.meetingRoomFloor}층
+      <div className="flex mb-2">
+      <div className="text-neutral-700 text-base font-semibold mr-4">정렬:</div>
+      <button
+        className={`text-sm mr-2 ${sortTarget === 'roomCapacity' && sortDirection === 'ASC' ? 'text-indigo-700' : 'text-gray-500'}`}
+        onClick={() => handleSortToggle('roomCapacity', 'ASC')}
+      >
+        낮은 인원 순
+      </button>
+      <button
+        className={`text-sm mr-2 ${sortTarget === 'roomCapacity' && sortDirection === 'DESC' ? 'text-indigo-700' : 'text-gray-500'}`}
+        onClick={() => handleSortToggle('roomCapacity', 'DESC')}
+      >
+        높은 인원 순
+      </button>
+      <button
+        className={`text-sm mr-2 ${sortTarget === 'roomFloor' && sortDirection === 'ASC' ? 'text-indigo-700' : 'text-gray-500'}`}
+        onClick={() => handleSortToggle('roomFloor', 'ASC')}
+      >
+        낮은 층 수
+      </button>
+      <button
+        className={`text-sm mr-2 ${sortTarget === 'roomFloor' && sortDirection === 'DESC' ? 'text-indigo-700' : 'text-gray-500'}`}
+        onClick={() => handleSortToggle('roomFloor', 'DESC')}
+      >
+        높은 층 수
+      </button>
+    </div>
+    <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
+        {sortTarget === 'roomCapacity' ? (
+          sortDirection === 'ASC' ? (
+            meetingRooms.map((room) => (
+              <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
+                <div className="rounded">
+                  <Image
+                    src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+                    width={175}
+                    height={124}
+                    alt={room.meetingRoomName}
+                    className="object-cover rounded"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+                    {room.meetingRoomName}
+                  </div>
+                  <div className="flex mt-[4px] items-center">
+                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                      {room.meetingRoomFloor}층
+                    </div>
+                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
+                  </div>
+                </div>
               </div>
-              <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-              <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
-            </div>
-          </div>
-        </div>
-      ))}
+            ))
+          ) : (
+            [...meetingRooms].reverse().map((room) => (
+              <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
+                <div className="rounded">
+                  <Image
+                    src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+                    width={175}
+                    height={124}
+                    alt={room.meetingRoomName}
+                    className="object-cover rounded"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+                    {room.meetingRoomName}
+                  </div>
+                  <div className="flex mt-[4px] items-center">
+                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                      {room.meetingRoomFloor}층
+                    </div>
+                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )
+        ) : (
+          sortDirection === 'ASC' ? (
+            meetingRooms.map((room) => (
+              <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
+                <div className="rounded">
+                  <Image
+                    src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+                    width={175}
+                    height={124}
+                    alt={room.meetingRoomName}
+                    className="object-cover rounded"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+                    {room.meetingRoomName}
+                  </div>
+                  <div className="flex mt-[4px] items-center">
+                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                      {room.meetingRoomFloor}층
+                    </div>
+                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            [...meetingRooms].reverse().map((room) => (
+              <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
+                <div className="rounded">
+                  <Image
+                    src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+                    width={175}
+                    height={124}
+                    alt={room.meetingRoomName}
+                    className="object-cover rounded"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+                    {room.meetingRoomName}
+                  </div>
+                  <div className="flex mt-[4px] items-center">
+                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                      {room.meetingRoomFloor}층
+                    </div>
+                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )
+        )}
       </div>
       <div className="h-[100px]"></div>
       {startTime && endTime && (
