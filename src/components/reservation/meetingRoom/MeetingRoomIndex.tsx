@@ -70,6 +70,8 @@ const MeetingRoomIndex: React.FC = () => {
   const [selectedEquipment, setSelectedEquipment] = useState<string>('비품');
   const [sortTarget, setSortTarget] = useState<'roomCapacity' | 'roomFloor'>('roomCapacity');
   const [sortDirection, setSortDirection] = useState<'ASC' | 'DESC'>('ASC');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedSortOption, setSelectedSortOption] = useState('낮은 인원 순'); 
 
   useEffect(() => {
     if (!selectedBranch) return;
@@ -182,11 +184,15 @@ const MeetingRoomIndex: React.FC = () => {
     console.log(currentTime);
   };
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const handleSortToggle = (target: 'roomCapacity' | 'roomFloor', direction: 'ASC' | 'DESC') => {
     setSortTarget(target);
     setSortDirection(direction);
-    setDropdownOpen(false);
+    setDropdownOpen(false); 
+    if (target === 'roomCapacity') {
+      setSelectedSortOption(direction === 'ASC' ? '낮은 인원 순' : '높은 인원 순');
+    } else {
+      setSelectedSortOption(direction === 'ASC' ? '낮은 층 수' : '높은 층 수');
+    }
   };
   
   return (
@@ -224,20 +230,20 @@ const MeetingRoomIndex: React.FC = () => {
       <div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div>
       <div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">가능</div>
       </div>
-      <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
-      <div className="flex mb-2">
-      <div className="text-neutral-700 text-base font-semibold mr-4">정렬:</div>
+      <div className="flex mb-2 w-full items-center">
+      <div className="">총 {meetingRooms.length}개의 공간</div>
+      <div className="ml-auto">
         <div className="relative inline-block text-left">
           <div>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
               type="button"
-              className={`inline-flex justify-center w-full rounded-md px-4 py-2 bg-white text-sm font-medium text-gray-700 border border-gray-300 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100`}
+              className={`inline-flex justify-center w-full rounded-md px-4 py-2 bg-white text-sm font-medium text-gray-700 border-none hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100`}
               id="options-menu"
               aria-haspopup="true"
               aria-expanded="true"
             >
-              Options
+              {selectedSortOption} 
               <svg
                 className="-mr-1 ml-2 h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
@@ -247,7 +253,7 @@ const MeetingRoomIndex: React.FC = () => {
               >
                 <path
                   fillRule="evenodd"
-                  d="M10 12a2 2 0 100-4 2 2 0 000 4z"
+                  d="M5.293 8.293a1 1 0 011.414-1.414L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 01-.001-1.414z"
                   clipRule="evenodd"
                 />
               </svg>
@@ -255,7 +261,7 @@ const MeetingRoomIndex: React.FC = () => {
           </div>
           {dropdownOpen && (
             <div
-              className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5`}
+              className={`origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5`}
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="options-menu"
@@ -293,6 +299,7 @@ const MeetingRoomIndex: React.FC = () => {
             </div>
           )}
         </div>
+     </div>
      </div>
     <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
         {sortTarget === 'roomCapacity' ? (
