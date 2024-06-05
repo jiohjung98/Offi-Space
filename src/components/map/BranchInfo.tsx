@@ -10,12 +10,12 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 import { OfficeInfoProps } from '@/api/types/branch';
 import { subwayLineColors, subwayLineAbbreviations } from '@/constant/station';
 import BranchOffice from './BranchOffice';
-import { useBranchStore } from '@/store/branch.store';
+import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 
 const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const router = useRouter();
-  const { setSelectedBranch } = useBranchStore();
+  const { setReservedBranch } = useBranchStore2();
 
   const address = router.query.address as string;
   const branchPhoneNumber = router.query.branchPhoneNumber as string;
@@ -57,7 +57,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
     try {
       const data = await getSelectedOfficeInfo(branchName); 
       if (data.data) {
-        setSelectedBranch(data.data); 
+        setReservedBranch(data.data); 
         router.push('/reservation/');
       }
     } catch (error) {

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useBranchStore } from '@/store/branch.store';
-import SearchModal from '@/components/home/SearchModal';
-import SelectOfficeMap from '@/components/home/SelectOfficeMap';
+import { useBranchStore2 } from '@/store/reserve.store';
+import SharedSearchModal from './SharedSearchModal';
+import SharedSelectOffice from './SharedSelectOffice';
 import { Branch } from '@/api/types/branch';
 
 const CurrentRoom = () => {
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showSelectOfficeMap, setShowSelectOfficeMap] = useState(false);
-  const selectedBranch = useBranchStore((state) => state.selectedBranch);
-  const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
+  const selectedBranch = useBranchStore2((state) => state.reservedBranch);
+  const setSelectedBranch = useBranchStore2((state) => state.setReservedBranch);
 
   const handleBranchSelect = (branch: Branch) => {
     setSelectedBranch(branch);
@@ -43,9 +44,9 @@ const CurrentRoom = () => {
           <img src="/reservation/toBottom.svg" alt="dropdown icon" />
         </div>
       </div>
-      {showSearchModal && <SearchModal onClose={() => setShowSearchModal(false)} onBranchSelect={handleBranchSelect} />}
+      {showSearchModal && <SharedSearchModal onClose={() => setShowSearchModal(false)} onBranchSelect={handleBranchSelect} />}
       {showSelectOfficeMap && selectedBranch && (
-        <SelectOfficeMap branch={selectedBranch} onClose={handleCloseSelectOfficeMap} />
+        <SharedSelectOffice branch={selectedBranch} onClose={handleCloseSelectOfficeMap} />
       )}
     </>
   );

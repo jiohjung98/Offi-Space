@@ -3,14 +3,14 @@ import Image from 'next/image';
 import { ModalProps } from '@/api/types/branch';
 import { useRouter } from 'next/router';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
-import { useBranchStore } from '@/store/branch.store';
+import { useBranchStore2 } from '@/store/reserve.store';
 
 
 const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branchAddress, branchActiveMeetingRoomCount, branchTotalMeetingRoomCount }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const { setSelectedBranch } = useBranchStore();
+  const { setReservedBranch } = useBranchStore2();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -67,7 +67,7 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
     try {
       const data = await getSelectedOfficeInfo(branchName); 
       if (data.data) {
-        setSelectedBranch(data.data); 
+        setReservedBranch(data.data); 
         router.push('/reservation/');
       }
     } catch (error) {
