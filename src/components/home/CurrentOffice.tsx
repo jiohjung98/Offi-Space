@@ -11,7 +11,7 @@ const CurrentOffice = () => {
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
 
   const handleBranchSelect = (branch: Branch) => {
-    setSelectedBranch(branch);
+    setSelectedBranch(branch, Date.now());
     setShowSearchModal(false);
     setShowSelectOfficeMap(true);
   };

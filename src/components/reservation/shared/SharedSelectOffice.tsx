@@ -13,7 +13,7 @@ const SharedSelectOffice: React.FC<SharedSelectOfficeProps> = ({ branch, onClose
   const setSelectedBranch = useBranchStore2((state) => state.setReservedBranch);
 
   const handleBranchSelection = () => {
-    setSelectedBranch(branch);
+    setSelectedBranch(branch, Date.now());
     onClose();
   };
 

@@ -57,7 +57,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
     try {
       const data = await getSelectedOfficeInfo(branchName); 
       if (data.data) {
-        setReservedBranch(data.data); 
+        setReservedBranch(data.data, Date.now());
         router.push('/reservation/');
       }
     } catch (error) {

@@ -13,7 +13,7 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
 
   const handleBranchSelection = () => {
-    setSelectedBranch(branch);
+    setSelectedBranch(branch, Date.now())
     onClose();
   };
 

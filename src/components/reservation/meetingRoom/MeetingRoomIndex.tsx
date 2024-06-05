@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getMeetingRooms } from '@/api/reservation/getMeetingRoom';
 import { GetMeetingRoomsParams, MeetingRoom } from '@/api/types/room';
-import { useBranchStore } from '@/store/branch.store';
+import { useBranchStore2 } from '@/store/reserve.store';
 import Image from 'next/image';
 import DatePickerModal from './DatePickerModal';
 import { useRouter } from 'next/router';
@@ -59,7 +59,7 @@ const setInitialParams = (startAt: Date, endAt: Date, branchName: string): GetMe
 };
 
 const MeetingRoomIndex: React.FC = () => {
-  const selectedBranch = useBranchStore((state) => state.selectedBranch);
+  const selectedBranch = useBranchStore2((state) => state.reservedBranch);
   const [params, setParams] = useState<GetMeetingRoomsParams | null>(null);
   const [meetingRooms, setMeetingRooms] = useState<MeetingRoom[]>([]);
   const [currentTime, setCurrentTime] = useState<string>('');

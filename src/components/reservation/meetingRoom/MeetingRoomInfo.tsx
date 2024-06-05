@@ -5,7 +5,7 @@ import { MeetingRoomInfo as MeetingRoomInfoType } from "@/api/types/room";
 import Image from "next/image";
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import MeetingRoomDatePickerModal from './MeetingRoomDatePicker';
-import { useBranchStore } from '@/store/branch.store';
+import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 
 const MeetingRoomInfo = () => {
@@ -16,7 +16,7 @@ const MeetingRoomInfo = () => {
     const [initialStartTime, setInitialStartTime] = useState<Date>(new Date());
     const [initialEndTime, setInitialEndTime] = useState<Date>(new Date());
     const [selectedTimeRange, setSelectedTimeRange] = useState<string | null>(null); 
-    const selectedBranch = useBranchStore((state) => state.selectedBranch);
+    const selectedBranch = useBranchStore2((state) => state.reservedBranch);
 
     const router = useRouter();
     const getTimes = router.query.startTime as string;
