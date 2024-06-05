@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Branch } from '@/api/types/branch';
 import Image from 'next/image';
 import { useBranchStore } from '@/store/branch.store';
+import { getOfficeAvailable } from '@/api/map/getOfficeAvailable';
 
 interface SelectOfficeMapProps {
   branch: Branch;
@@ -11,11 +12,30 @@ interface SelectOfficeMapProps {
 const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
+  const [branchCount, SetBranchCount] = useState(0);
+  const [canBranchCount, SetCanBranchCount] = useState(0);
+
+  const handleOfficeAvailable = async (branch: Branch) => {
+    try {
+      const data = await getOfficeAvailable(branch.branchName); 
+      if (data.data) {
+        SetBranchCount(data.data.branchTotalMeetingRoomCount);
+        SetCanBranchCount(data.data.branchActiveMeetingRoomCount);
+        console.log(data);
+      }
+    } catch (error) {
+      console.error('Error updating selected branch:', error);
+    }
+  };
 
   const handleBranchSelection = () => {
     setSelectedBranch(branch, Date.now())
     onClose();
   };
+
+  useEffect(() => {
+    handleOfficeAvailable(branch); 
+  }, []);
 
   useEffect(() => {
     const { naver } = window;
@@ -71,7 +91,7 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
                 )}
                 <div className="flex">
                   <Image src="/map/OfficeInfo.svg" alt="Location" width={12} height={12} className="mr-2" />
-                  <p className="text-sm break-words">회의실 43개 중 현재 22개 사용중</p>
+                  <p className="text-sm break-words">회의실 {branchCount}개 중 현재 {canBranchCount}개 사용중</p>
                 </div>
               </div>
             </div>
