@@ -5,7 +5,7 @@ const GuidePage = () => {
   return (
     <div className="w-full max-w-md mx-auto bg-white flex flex-col gap-8">
       <div className=" mt-[40px] ml-[20px] mb-[2px]">
-        <BackArrow width="40px" height="24px" name="이용 가이드" />
+        <BackArrow width="40px" height="24px" name="이용 가이드" link="/mypage" />
       </div>
 
       <div className="px-4 ">

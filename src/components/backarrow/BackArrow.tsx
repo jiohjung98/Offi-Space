@@ -4,11 +4,12 @@ interface BackArrowProps {
   width: string;
   height: string;
   name?: string;
+  link: string;
 }
-export const BackArrow = ({ width, height, name }: BackArrowProps) => {
+export const BackArrow = ({ width, height, name, link }: BackArrowProps) => {
   return (
     <div className="h-[48px] flex flex-row justify-start items-center">
-      <Link href="/mypage">
+      <Link href={`/${link}`}>
         <img
           src="/mypage/passwordchange/BackArrow.svg"
           alt="Back"

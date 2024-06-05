@@ -124,7 +124,7 @@ const InquiryPage = () => {
   return (
     <div className=" max-w-[393px]  mx-auto relative">
       <div className="mt-[20px] ml-[10px] ">
-        <BackArrow width="40px" height="24px" name="1:1 문의" />
+        <BackArrow width="40px" height="24px" name="1:1 문의" link="/mypage" />
       </div>
       <div className="w-full h-[900px] bg-white flex flex-col justify-between items-center">
         <div className="w-full flex justify-center items-center border-b border-neutral-200 mt-[13px]">
