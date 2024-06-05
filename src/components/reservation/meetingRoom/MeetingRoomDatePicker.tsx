@@ -88,6 +88,13 @@ const MeetingRoomDatePickerModal: React.FC<MeetingRoomDatePickerModalProps> = ({
     setShowModal(false)
   };
   
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden'; 
+    } else {
+      document.body.style.overflow = 'auto'; 
+    }
+  }, [showModal]);
 
   if (!showModal) return null;
 
