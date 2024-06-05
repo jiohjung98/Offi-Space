@@ -177,11 +177,15 @@ const MeetingRoomIndex: React.FC = () => {
     router.push({
       pathname: `/reservation/${roomId}`,
       query: { 
-        startTime: formattedCurrentTime 
+        startTime: formattedCurrentTime,
+        startedAt: params?.startAt,
+        endedAt: params?.endAt
       }
     }, `/reservation/${roomId}`);
     console.log(formattedCurrentTime);
     console.log(currentTime);
+    console.log(params?.startAt);
+    console.log(params?.endAt);
   };
 
   const handleSortToggle = (target: 'roomCapacity' | 'roomFloor', direction: 'ASC' | 'DESC') => {

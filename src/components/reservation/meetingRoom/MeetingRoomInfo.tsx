@@ -7,6 +7,8 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 import MeetingRoomDatePickerModal from './MeetingRoomDatePicker';
 import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
+import { Reserve } from '@/api/types/reserve';
+import { reserveMeetingRoom } from '@/api/reservation/reserveMeetingRoom';
 
 const MeetingRoomInfo = () => {
     const [meetingRoom, setMeetingRoom] = useState<MeetingRoomInfoType | null>(null);
@@ -27,7 +29,12 @@ const MeetingRoomInfo = () => {
 
     const router = useRouter();
     const getTimes = router.query.startTime as string;
-    console.log(getTimes);
+    const startsTime = router.query.startedAt as string;
+    const endsTIme = router.query.endedAt as string;
+    
+    const formattedStartTime = `${startsTime}.220Z`;
+    const formattedEndTime = `${endsTIme}.220Z`;
+
     const { meetingRoomId } = router.query;
 
     const handleBackClick = () => {
@@ -72,6 +79,7 @@ const MeetingRoomInfo = () => {
         const formattedEndTime = `${String(endDate.getHours()).padStart(2, '0')}:${String(endDate.getMinutes()).padStart(2, '0')}`;
 
         setSelectedTimeRange(`${formattedStartDate} ${formattedStartTime}~${formattedEndTime}`);
+
         setShowModal(false); 
     };
 
@@ -93,6 +101,24 @@ const MeetingRoomInfo = () => {
         } catch (error) {
             console.error('Error fetching office info:', error);
         }
+    };
+
+    const handleReseve = () => {   
+        const reservation: Reserve = {
+            reservationName: eventName,
+            meetingRoomId: meetingRoom!.meetingRoomId, 
+            startAt: formattedStartTime, 
+            endAt: formattedEndTime,
+            memberIds: [] 
+        };
+    
+        reserveMeetingRoom(reservation)
+            .then(() => {
+                console.log('Meeting room reserved successfully');
+            })
+            .catch(error => {
+                console.error('Error reserving meeting room:', error);
+            });
     };
 
     if (loading) {
@@ -184,6 +210,10 @@ const MeetingRoomInfo = () => {
                     <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
                 </div>
             </div>
+            <footer className='w-full text-center py-[30px] fixed bottom-[70px] left-0 right-0'>
+    <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
+</footer>
+
             {showModal && (
                 <MeetingRoomDatePickerModal
                     showModal={showModal}
