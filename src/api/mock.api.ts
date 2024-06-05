@@ -18,3 +18,13 @@ export const questiongetmock = async () => {
   const response = await axios.get(`/question`);
   return response;
 };
+
+export const resoulvationgetmock = async () => {
+  const response = await axios.get(`/notification/resoulvation`);
+  return response;
+};
+
+export const communitygetmock = async () => {
+  const response = await axios.get(`/notification/community`);
+  return response;
+};
