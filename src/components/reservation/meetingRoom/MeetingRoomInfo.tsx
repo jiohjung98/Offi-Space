@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { getMeetingRoomInfo } from '@/api/reservation/getMeetingRoomInfo';
 import { MeetingRoomInfo as MeetingRoomInfoType } from "@/api/types/room";
@@ -16,6 +16,13 @@ const MeetingRoomInfo = () => {
     const [initialStartTime, setInitialStartTime] = useState<Date>(new Date());
     const [initialEndTime, setInitialEndTime] = useState<Date>(new Date());
     const [selectedTimeRange, setSelectedTimeRange] = useState<string | null>(null); 
+    const [eventName, setEventName] = useState('');
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const handleImageClick = () => {
+        inputRef.current?.focus();
+    };
+
     const selectedBranch = useBranchStore2((state) => state.reservedBranch);
 
     const router = useRouter();
@@ -70,23 +77,23 @@ const MeetingRoomInfo = () => {
 
     const handleOfficeInfo = async () => {
         try {
-          const data = await getSelectedOfficeInfo(selectedBranch!.branchName); 
-          const officeInfo = data.data; 
-          console.log(officeInfo);
-          router.push({
-            pathname: `/branches/${encodeURIComponent(selectedBranch!.branchName)}`,
-            query: { 
-              name: selectedBranch!.branchName, 
-              address: officeInfo.branchAddress,
-              branchPhoneNumber: officeInfo.branchPhoneNumber,
-              roadFromStation: officeInfo.roadFromStation,
-              stationToBranch: officeInfo.stationToBranch.join(',')
-            }
-          }, `/branches/${encodeURIComponent(selectedBranch!.branchName)}`);
+            const data = await getSelectedOfficeInfo(selectedBranch!.branchName); 
+            const officeInfo = data.data; 
+            console.log(officeInfo);
+            router.push({
+                pathname: `/branches/${encodeURIComponent(selectedBranch!.branchName)}`,
+                query: { 
+                    name: selectedBranch!.branchName, 
+                    address: officeInfo.branchAddress,
+                    branchPhoneNumber: officeInfo.branchPhoneNumber,
+                    roadFromStation: officeInfo.roadFromStation,
+                    stationToBranch: officeInfo.stationToBranch.join(',')
+                }
+            }, `/branches/${encodeURIComponent(selectedBranch!.branchName)}`);
         } catch (error) {
-          console.error('Error fetching office info:', error);
+            console.error('Error fetching office info:', error);
         }
-      };
+    };
 
     if (loading) {
         return <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -106,22 +113,22 @@ const MeetingRoomInfo = () => {
         <div>
             <div className="px-4 mt-[20px]">
                 <IoIosArrowRoundBack size={40} className="mr-auto" onClick={handleBackClick} />
-                </div>
-                <Image
-                    src={meetingRoom.meetingRoomImage || '/meetingRoomSqaure.svg'}
-                    width={393}
-                    height={124}
-                    alt='meetingRoomImage'
-                    className="object-cover"
-                />
-                <div className='px-4'>
+            </div>
+            <Image
+                src={meetingRoom.meetingRoomImage || '/meetingRoomSqaure.svg'}
+                width={393}
+                height={124}
+                alt='meetingRoomImage'
+                className="object-cover"
+            />
+            <div className='px-4'>
                 <div className="flex w-full items-center mt-[24px]">
                     <div className="text-black/opacity-20 text-lg font-medium font-['Pretendard']">
                         {meetingRoom.branchName}
                     </div>
                     <div className="ml-auto flex" onClick={handleOfficeInfo}>
-                    <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px]">지점 상세보기</div>
-                    <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
+                        <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px]">지점 상세보기</div>
+                        <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
                     </div>
                 </div>
                 <div className="flex flex-col w-full mt-[24px]">
@@ -140,21 +147,40 @@ const MeetingRoomInfo = () => {
                             {meetingRoom.equipments.join(', ')}
                         </div>
                     </div>
-            </div>
+                </div>
             </div>
             <div className="w-[full] mt-[32px] h-1 bg-neutral-200" />
+            <div className="px-4 py-2">
+            <div className="flex-none w-full h-[50px] py-2 flex items-center cursor-pointer" onClick={() => console.log("Edit clicked")}>
+                <input
+                    type="text"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    ref={inputRef}
+                    className="w-full h-full outline-none bg-transparent"
+                    placeholder="일정명을 입력해주세요."
+                />
+                <Image
+                    src={'/pencil.svg'}
+                    width={14}
+                    height={14}
+                    alt="edit"
+                    className="ml-2"
+                    onClick={handleImageClick}
+                />
+            </div>
+            </div>
+            <div className="w-[full] h-0.5 bg-neutral-200" />
             <div className="px-4 mt-4">
-                <div
-                    className="flex-none w-[190px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer"
-                    onClick={() => setShowModal(true)}
-                >
+                <div className="flex-none w-[190px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer">
                     <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
                     <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">
                         {selectedTimeRange ? (
                             `${selectedTimeRange}`
                         ) : (
                             '시간을 선택해주세요'
-                        )}</div>
+                        )}
+                    </div>
                     <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
                 </div>
             </div>
