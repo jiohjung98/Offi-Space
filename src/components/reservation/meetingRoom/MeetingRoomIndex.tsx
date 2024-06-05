@@ -182,16 +182,11 @@ const MeetingRoomIndex: React.FC = () => {
     console.log(currentTime);
   };
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const handleSortToggle = (target: 'roomCapacity' | 'roomFloor', direction: 'ASC' | 'DESC') => {
     setSortTarget(target);
     setSortDirection(direction);
-
-    const updatedParams = {
-      ...params!,
-      sortTarget: target,
-      sortDirection: direction,
-    };
-    setParams(updatedParams);
+    setDropdownOpen(false);
   };
   
   return (
@@ -232,31 +227,73 @@ const MeetingRoomIndex: React.FC = () => {
       <div className="mb-4">총 {meetingRooms.length}개의 공간</div>
       <div className="flex mb-2">
       <div className="text-neutral-700 text-base font-semibold mr-4">정렬:</div>
-      <button
-        className={`text-sm mr-2 ${sortTarget === 'roomCapacity' && sortDirection === 'ASC' ? 'text-indigo-700' : 'text-gray-500'}`}
-        onClick={() => handleSortToggle('roomCapacity', 'ASC')}
-      >
-        낮은 인원 순
-      </button>
-      <button
-        className={`text-sm mr-2 ${sortTarget === 'roomCapacity' && sortDirection === 'DESC' ? 'text-indigo-700' : 'text-gray-500'}`}
-        onClick={() => handleSortToggle('roomCapacity', 'DESC')}
-      >
-        높은 인원 순
-      </button>
-      <button
-        className={`text-sm mr-2 ${sortTarget === 'roomFloor' && sortDirection === 'ASC' ? 'text-indigo-700' : 'text-gray-500'}`}
-        onClick={() => handleSortToggle('roomFloor', 'ASC')}
-      >
-        낮은 층 수
-      </button>
-      <button
-        className={`text-sm mr-2 ${sortTarget === 'roomFloor' && sortDirection === 'DESC' ? 'text-indigo-700' : 'text-gray-500'}`}
-        onClick={() => handleSortToggle('roomFloor', 'DESC')}
-      >
-        높은 층 수
-      </button>
-    </div>
+        <div className="relative inline-block text-left">
+          <div>
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              type="button"
+              className={`inline-flex justify-center w-full rounded-md px-4 py-2 bg-white text-sm font-medium text-gray-700 border border-gray-300 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100`}
+              id="options-menu"
+              aria-haspopup="true"
+              aria-expanded="true"
+            >
+              Options
+              <svg
+                className="-mr-1 ml-2 h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 12a2 2 0 100-4 2 2 0 000 4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+          {dropdownOpen && (
+            <div
+              className={`origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5`}
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="options-menu"
+            >
+              <div className="py-1" role="none">
+                <button
+                  onClick={() => handleSortToggle('roomCapacity', 'ASC')}
+                  className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${sortTarget === 'roomCapacity' && sortDirection === 'ASC' ? 'text-indigo-700' : ''}`}
+                  role="menuitem"
+                >
+                  낮은 인원 순
+                </button>
+                <button
+                  onClick={() => handleSortToggle('roomCapacity', 'DESC')}
+                  className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${sortTarget === 'roomCapacity' && sortDirection === 'DESC' ? 'text-indigo-700' : ''}`}
+                  role="menuitem"
+                >
+                  높은 인원 순
+                </button>
+                <button
+                  onClick={() => handleSortToggle('roomFloor', 'ASC')}
+                  className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${sortTarget === 'roomFloor' && sortDirection === 'ASC' ? 'text-indigo-700' : ''}`}
+                  role="menuitem"
+                >
+                  낮은 층 수
+                </button>
+                <button
+                  onClick={() => handleSortToggle('roomFloor', 'DESC')}
+                  className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${sortTarget === 'roomFloor' && sortDirection === 'DESC' ? 'text-indigo-700' : ''}`}
+                  role="menuitem"
+                >
+                  높은 층 수
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+     </div>
     <div className="grid grid-cols-2 gap-x-[11px] gap-y-[24px]">
         {sortTarget === 'roomCapacity' ? (
           sortDirection === 'ASC' ? (
