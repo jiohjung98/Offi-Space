@@ -150,6 +150,32 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
               inline
               className="mx-auto"
               minDate={new Date()}
+              renderCustomHeader={({
+                date,
+                decreaseMonth,
+                increaseMonth,
+                prevMonthButtonDisabled,
+                nextMonthButtonDisabled
+              }) => (
+                <div className='w-full text-center'>
+                <div className="flex mx-auto items-center justify-center px-2 py-1">
+                <button className='mr-[15px]' onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+                  {prevMonthButtonDisabled ? (
+                    <img src="leftArrow.svg" alt="Left Arrow" />
+                  ) : (
+                    <img src="leftDisableArrow.svg" alt="Disabled Left Arrow" />
+                  )}
+                </button>
+                  <div className='text-black/opacity-20 text-base font-semibold leading-normal'>
+                    {date.getFullYear()}. {String(date.getMonth() + 1).padStart(2, '0')}
+                  </div>
+                  <button className='ml-[15px]' onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+                    <img src="rightArrow.svg" alt="Right Arrow" />
+                  </button>
+                </div>
+              </div>
+              
+              )}
             />
           </div>
         </div>

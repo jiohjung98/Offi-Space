@@ -63,6 +63,10 @@ body {
   border: none !important;
 }
 
+.react-datepicker__month {
+  margin: none !important;
+}
+
 .react-datepicker__month-container {
   width: 100% !important;
   margin-right: auto !important;
