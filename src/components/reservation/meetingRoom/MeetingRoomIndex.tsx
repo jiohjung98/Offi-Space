@@ -73,7 +73,7 @@ const MeetingRoomIndex: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedSortOption, setSelectedSortOption] = useState('낮은 인원 순'); 
   const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState<React.ReactNode>(null);
 
   useEffect(() => {
     if (!selectedBranch) return;
@@ -100,7 +100,12 @@ const MeetingRoomIndex: React.FC = () => {
       console.log(response);
 
       if (toastType == 'OVERLAPPING_MEETING_ROOM_EXISTS') {
-        setToastMessage('해당 시간에 미팅룸 일정이 있습니다. 다른 시간으로 예약해보세요.');
+        setToastMessage(
+          <div className='flex text-white text-sm font-normal items-center h-full'>
+              <Image src='/reserveAlert.svg' width={30} height={30} alt="Reserve Alert" style={{ marginRight: '8px',  }} />
+              해당 시간에 미팅룸 일정이 있습니다.<br/>다른 시간으로 예약해보세요.
+          </div>
+      );
         setShowToast(true);
         setTimeout(() => {
           setShowToast(false);
@@ -451,7 +456,7 @@ const MeetingRoomIndex: React.FC = () => {
         />
       )}
       {showToast && (
-        <div className="fixed bottom-[100px] left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded">
+        <div className="fixed bottom-[100px] w-[303px] left-1/2 transform -translate-x-1/2 h-[68px] opacity-90 bg-neutral-700 px-4 py-2 rounded-[40px]">
           {toastMessage}
         </div>
       )}
