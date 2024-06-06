@@ -23,6 +23,14 @@ const MeetingRoomInfo = () => {
     const [showReservationModal, setShowReservationModal] = useState(false); 
     const inputRef = useRef<HTMLInputElement | null>(null);
 
+    const [storedGetTime, setStoredGetTime] = useState('');
+    const [storedStartTime, setStoredStartTime] = useState('');
+    const [storedEndTime, setStoredEndTime] = useState('');
+    const [storedMeetingRoomId, setStoredMeetingRoomId] = useState('');
+    const [formattedGetTime, setFormattedGetTime] = useState('');
+    const [formattedStartTime, setFormattedStartTime] = useState('');
+    const [formattedEndTime, setFormattedEndTime] = useState('');
+    
     const handleImageClick = () => {
         inputRef.current?.focus();
     };
@@ -30,14 +38,60 @@ const MeetingRoomInfo = () => {
     const selectedBranch = useBranchStore2((state) => state.reservedBranch);
 
     const router = useRouter();
-    const getTimes = router.query.startTime as string;
-    const startsTime = router.query.startedAt as string;
-    const endsTIme = router.query.endedAt as string;
-    
-    const formattedStartTime = `${startsTime}.220Z`;
-    const formattedEndTime = `${endsTIme}.220Z`;
 
     const { meetingRoomId } = router.query;
+
+
+    useEffect(() => {
+        const getTimes = router.query.startTime as string;
+        const startsTime = router.query.startedAt as string;
+        const endsTime = router.query.endedAt as string;
+        const { meetingRoomId } = router.query;
+
+        if (getTimes && startsTime && endsTime && meetingRoomId) {
+            // 쿼리로 가져온 값이 있으면 로컬 스토리지에 저장
+            localStorage.setItem('getAt', getTimes);
+            localStorage.setItem('startedAt', startsTime);
+            localStorage.setItem('endedAt', endsTime);
+            localStorage.setItem('meetingRoomId', meetingRoomId as string);
+
+            setStoredGetTime(getTimes);
+            setStoredStartTime(startsTime);
+            setStoredEndTime(endsTime);
+            setStoredMeetingRoomId(meetingRoomId as string);
+        } else {
+            // 쿼리로 가져온 값이 없으면 로컬 스토리지에서 값 불러오기
+            const savedGetTime = localStorage.getItem('getAt');
+            const savedStartTime = localStorage.getItem('startedAt');
+            const savedEndTime = localStorage.getItem('endedAt');
+            const savedMeetingRoomId = localStorage.getItem('meetingRoomId');
+
+            if (savedGetTime && savedStartTime && savedEndTime && savedMeetingRoomId) {
+                setStoredGetTime(savedGetTime);
+                setStoredStartTime(savedStartTime);
+                setStoredEndTime(savedEndTime);
+                setStoredMeetingRoomId(savedMeetingRoomId);
+            }
+        }
+    }, [router.query]);
+
+    useEffect(() => {
+        console.log('Stored Get Time:', storedGetTime);
+        console.log('Stored Start Time:', storedStartTime);
+        console.log('Stored End Time:', storedEndTime);
+        console.log('Stored Meeting Room ID:', storedMeetingRoomId);
+
+        const formattedStart = `${storedStartTime}.220Z`;
+        const formattedEnd = `${storedEndTime}.220Z`;
+
+        setFormattedStartTime(formattedStart);
+        setFormattedEndTime(formattedEnd);
+        setFormattedGetTime(storedGetTime);
+
+    
+        console.log('Formatted Start Time:', formattedStart);
+        console.log('Formatted End Time:', formattedEnd);
+    }, [storedGetTime, storedStartTime, storedEndTime, storedMeetingRoomId]);
 
     const handleBackClick = () => {
         router.back();
@@ -58,8 +112,8 @@ const MeetingRoomInfo = () => {
     }, [meetingRoomId]);
 
     useEffect(() => {
-        if (getTimes) {
-            const [date, time] = (getTimes as string).split(' ');
+        if (formattedGetTime) {
+            const [date, time] = (formattedGetTime as string).split(' ');
             const [month, day] = date.split('.');
             const [start, end] = time.split('~');
             const [startHour, startMinute] = start.split(':');
@@ -71,9 +125,9 @@ const MeetingRoomInfo = () => {
 
             setInitialStartTime(initialStartDate);
             setInitialEndTime(initialEndDate);
-            setSelectedTimeRange(`${getTimes}`); 
+            setSelectedTimeRange(`${formattedGetTime}`); 
         }
-    }, [getTimes]);
+    }, [formattedGetTime]);
 
     const handleConfirm = (startDate: Date, endDate: Date) => {
         const formattedStartDate = `${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')}`;
@@ -137,6 +191,7 @@ const MeetingRoomInfo = () => {
     if (!meetingRoom) {
         return <div>No meeting room data</div>;
     }
+
 
     return (
         <div>
@@ -228,7 +283,7 @@ const MeetingRoomInfo = () => {
             <ReservationModal
                 isVisible={showReservationModal}
                 eventName={eventName}
-                getTimes={getTimes}
+                getTimes={formattedGetTime}
                 selectedBranch={meetingRoom.branchName}
                 meetingRoomName={meetingRoom.meetingRoomName}
             />
