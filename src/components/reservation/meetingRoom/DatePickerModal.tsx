@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import DatePickerWheel from './WheelPicker';
+import { ko } from 'date-fns/locale';
 
 interface DatePickerModalProps {
   showModal: boolean;
@@ -150,6 +151,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
               inline
               className="mx-auto"
               minDate={new Date()}
+              locale={ko} 
               renderCustomHeader={({
                 date,
                 decreaseMonth,
