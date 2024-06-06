@@ -18,10 +18,9 @@
 //   return response.data;
 // };
 
+import { GetMeetingRoomsParams, MeetingRoomsResponse } from '../types/room';
 
-import { GetMeetingRoomsParams, MeetingRoom } from '../types/room';
-
-export const getMeetingRooms = async (params: GetMeetingRoomsParams): Promise<MeetingRoom[]> => {
+export const getMeetingRooms = async (params: GetMeetingRoomsParams): Promise<MeetingRoomsResponse> => {
   const backendUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const url = new URL(`${backendUrl}spaces/meeting-rooms`);
 
@@ -53,7 +52,7 @@ export const getMeetingRooms = async (params: GetMeetingRoomsParams): Promise<Me
     throw new Error(`Error fetching meeting rooms: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
-  const data: { status: string; errorCode: string | null; data: MeetingRoom[] } = await response.json();
+  const data: { status: string; errorCode: string | null; data: MeetingRoomsResponse } = await response.json();
 
   if (data.status !== 'SUCCESS') {
     throw new Error(`API Error: ${data.errorCode}`);

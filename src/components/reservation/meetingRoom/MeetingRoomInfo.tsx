@@ -226,10 +226,8 @@ const MeetingRoomInfo = () => {
                     initialEndTime={initialEndTime}
                 />
             )}
-
             <ReservationModal
                 isVisible={showReservationModal}
-                onClose={() => setShowReservationModal(false)}
                 eventName={eventName}
                 getTimes={getTimes}
                 selectedBranch={meetingRoom.branchName}

@@ -24,3 +24,7 @@ export interface MeetingRoom {
     branchName: string;
   }
   
+  export interface MeetingRoomsResponse {
+      meetingRoomForListList: MeetingRoom[];
+      toastType: string;
+  }

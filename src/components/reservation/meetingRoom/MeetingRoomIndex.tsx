@@ -87,15 +87,20 @@ const MeetingRoomIndex: React.FC = () => {
 
   const fetchMeetingRooms = async (params: GetMeetingRoomsParams) => {
     try {
-      const rooms = await getMeetingRooms(params);
+      const response = await getMeetingRooms(params);
+      const rooms = response.meetingRoomForListList;
+      // const toastType = response.toastType;
+  
       rooms.sort((a, b) => a.meetingRoomCapacity - b.meetingRoomCapacity || a.meetingRoomId - b.meetingRoomId);
+  
       setMeetingRooms(rooms);
       console.log(rooms);
+      console.log(response);
     } catch (error) {
       console.error('Error fetching meeting rooms:', error);
     }
   };
-
+  
   useEffect(() => {
     if (params) {
       fetchMeetingRooms(params);
