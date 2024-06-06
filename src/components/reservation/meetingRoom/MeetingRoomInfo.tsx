@@ -117,7 +117,7 @@ const MeetingRoomInfo = () => {
         reserveMeetingRoom(reservation)
             .then(() => {
                 console.log('Meeting room reserved successfully');
-                setShowReservationModal(true); // Show the reservation modal on success
+                setShowReservationModal(true); 
             })
             .catch(error => {
                 console.error('Error reserving meeting room:', error);
@@ -214,9 +214,8 @@ const MeetingRoomInfo = () => {
                 </div>
             </div>
             <footer className='w-full text-center py-[30px] fixed bottom-[70px] left-0 right-0'>
-    <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
-</footer>
-
+                <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
+            </footer>
             {showModal && (
                 <MeetingRoomDatePickerModal
                     showModal={showModal}

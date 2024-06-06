@@ -72,6 +72,8 @@ const MeetingRoomIndex: React.FC = () => {
   const [sortDirection, setSortDirection] = useState<'ASC' | 'DESC'>('ASC');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedSortOption, setSelectedSortOption] = useState('낮은 인원 순'); 
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     if (!selectedBranch) return;
@@ -89,13 +91,21 @@ const MeetingRoomIndex: React.FC = () => {
     try {
       const response = await getMeetingRooms(params);
       const rooms = response.meetingRoomForListList;
-      // const toastType = response.toastType;
+      const toastType = response.toastType;
   
       rooms.sort((a, b) => a.meetingRoomCapacity - b.meetingRoomCapacity || a.meetingRoomId - b.meetingRoomId);
   
       setMeetingRooms(rooms);
       console.log(rooms);
       console.log(response);
+
+      if (toastType == 'OVERLAPPING_MEETING_ROOM_EXISTS') {
+        setToastMessage('해당 시간에 미팅룸 일정이 있습니다. 다른 시간으로 예약해보세요.');
+        setShowToast(true);
+        setTimeout(() => {
+          setShowToast(false);
+        }, 20000);
+      }
     } catch (error) {
       console.error('Error fetching meeting rooms:', error);
     }
@@ -435,6 +445,11 @@ const MeetingRoomIndex: React.FC = () => {
           initialEndTime={endTime}
         />
       )}
+      {showToast && (
+      <div className="fixed bottom-[100px] left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded">
+        {toastMessage}
+      </div>
+    )}
     </div>
   );
 };
