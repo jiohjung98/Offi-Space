@@ -106,6 +106,11 @@ const MeetingRoomIndex: React.FC = () => {
           setShowToast(false);
         }, 20000);
       }
+
+      if (toastType === null ) {
+        setShowToast(false);
+      }
+
     } catch (error) {
       console.error('Error fetching meeting rooms:', error);
     }
