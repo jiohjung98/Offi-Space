@@ -4,8 +4,8 @@ interface useReservationType {
   open: boolean;
   /* eslint-disable no-unused-vars */
   setOpen: (payload: boolean) => void;
-  reservationId: string | number | null;
-  setReservationId: (payload: string) => void;
+  reservationId: number | null;
+  setReservationId: (payload: number) => void;
   isMeeting: boolean;
   setIsMeeting: (payload: boolean) => void;
 }
@@ -18,7 +18,7 @@ export const useReservationStore = create<useReservationType>((set) => ({
     set(() => ({
       open: payload
     })),
-  setReservationId: (payload: string | number) =>
+  setReservationId: (payload: number) =>
     set(() => ({
       reservationId: payload
     })),

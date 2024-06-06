@@ -20,7 +20,7 @@ const FRDetailModal = () => {
         <div className="mx-[30px]">
           <div className="mt-[30px] text-space-black text-lg font-bold">포커스존</div>
           <div className="mt-8 flex gap-2 ">
-            <div className="mt-1">
+            <div className="mt-[6px]">
               <img src="/reservation/modaltime.svg" alt="" />
             </div>
             <div>
