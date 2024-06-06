@@ -133,7 +133,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
   return (
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-      <div className="bg-white rounded-t-2xl w-[full] h-[750px] p-6 absolute bottom-0 overflow-y-auto">
+      <div className="bg-white rounded-t-2xl w-[full] h-[full] p-6 absolute bottom-0 overflow-y-auto">
         <div className="flex">
         <div className='absolute'>
           <h2 className="text-lg font-semibold relative z-[9999] ml-[5px]">일정</h2>
@@ -248,7 +248,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({ showModal, setShowMod
             </label>
         </div>
         </div>
-        <div className="flex justify-between pt-[20px]">
+        <div className="flex justify-between pt-[30px]">
           <div className='flex w-[150px] h-[36px] bg-[#EDEBF8] rounded-md justify-center items-center cursor-pointer' onClick={resetFilters}>
             <div 
               className="text-[#3B268C] py-[6px] justify-center items-center gap-2"
