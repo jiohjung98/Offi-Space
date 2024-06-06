@@ -9,6 +9,7 @@ import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 import { Reserve } from '@/api/types/reserve';
 import { reserveMeetingRoom } from '@/api/reservation/reserveMeetingRoom';
+import ReservationModal from './ReservationModal'; 
 
 const MeetingRoomInfo = () => {
     const [meetingRoom, setMeetingRoom] = useState<MeetingRoomInfoType | null>(null);
@@ -19,6 +20,7 @@ const MeetingRoomInfo = () => {
     const [initialEndTime, setInitialEndTime] = useState<Date>(new Date());
     const [selectedTimeRange, setSelectedTimeRange] = useState<string | null>(null); 
     const [eventName, setEventName] = useState('');
+    const [showReservationModal, setShowReservationModal] = useState(false); 
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const handleImageClick = () => {
@@ -115,6 +117,7 @@ const MeetingRoomInfo = () => {
         reserveMeetingRoom(reservation)
             .then(() => {
                 console.log('Meeting room reserved successfully');
+                setShowReservationModal(true); // Show the reservation modal on success
             })
             .catch(error => {
                 console.error('Error reserving meeting room:', error);
@@ -223,6 +226,15 @@ const MeetingRoomInfo = () => {
                     initialEndTime={initialEndTime}
                 />
             )}
+
+            <ReservationModal
+                isVisible={showReservationModal}
+                onClose={() => setShowReservationModal(false)}
+                eventName={eventName}
+                getTimes={getTimes}
+                selectedBranch={meetingRoom.branchName}
+                meetingRoomName={meetingRoom.meetingRoomName}
+            />
         </div>
     );
 };

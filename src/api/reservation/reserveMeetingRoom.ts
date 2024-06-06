@@ -19,6 +19,8 @@ export const reserveMeetingRoom = async (reservation: Reserve): Promise<void> =>
     body: JSON.stringify(reservation)
   });
 
+  console.log(response);
+
   if (!response.ok) {
     const errorText = await response.text();
     throw new Error(`Error reserving meeting room: ${response.status} ${response.statusText} - ${errorText}`);
