@@ -2,14 +2,24 @@
 import useOnClickOutside from '@/components/community/hooks/useOnClickOutside';
 import { useReservationStore } from '@/store/reservationModal.store';
 import React, { useRef } from 'react';
+import { useQuery } from 'react-query';
 
 const FRDetailModal = () => {
-  const { setOpen, reservationId } = useReservationStore();
-  console.log(reservationId);
+  const { setOpen, reservationId, setDeleteOpen } = useReservationStore();
+
+  const { data } = useQuery(
+    ['reservationDetail', reservationId],
+    () => {
+      //변경필요
+      console.log('asdasd');
+    },
+    {
+      enabled: !!reservationId
+    }
+  );
+
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setOpen(false));
-
-  //todo reservationId 이용해서 상세데이터 query 날리기
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">
@@ -42,7 +52,12 @@ const FRDetailModal = () => {
               </div>
             </div>
           </div>
-          <div className="cursor-pointer rounded-xl border-2 border-space-purple my-8 py-[13px] flex items-center justify-center text-space-purple text-semibold text-lg ">
+          <div
+            onClick={() => {
+              setOpen(false);
+              setDeleteOpen(true);
+            }}
+            className="cursor-pointer rounded-xl border-2 border-space-purple my-8 py-[13px] flex items-center justify-center text-space-purple font-semibold text-lg ">
             이용 종료
           </div>
         </div>

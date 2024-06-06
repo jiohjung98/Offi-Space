@@ -6,9 +6,10 @@ import TodayReservation from './TodayReservation';
 import { useReservationStore } from '@/store/reservationModal.store';
 import FRDetailModal from './FRDetailModal';
 import MeetingDetailModal from './MeetingDetailModal';
+import ReservationDeleteModal from './ReservationDeleteModal';
 
 const MyReservationListIndex = () => {
-  const { open, reservationId, isMeeting } = useReservationStore();
+  const { open, reservationId, isMeeting, deleteOpen } = useReservationStore();
   return (
     <div className="mb-[100px] ">
       <header>
@@ -20,8 +21,10 @@ const MyReservationListIndex = () => {
       <section>
         <TodayReservation />
       </section>
+
       {open && reservationId !== null && isMeeting == false && <FRDetailModal />}
       {open && reservationId !== null && isMeeting == true && <MeetingDetailModal />}
+      {deleteOpen && reservationId !== null && <ReservationDeleteModal />}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import RechargingItem from './roomTypeItem/RechargingItem';
 import { useQuery } from 'react-query';
 import { getTodayReservationList } from '../remote/myreservation';
 import { todayListData } from '../model/myreservation';
+import MockItem from './roomTypeItem/MockItem';
 
 const TodayReservation = () => {
   const { data } = useQuery(['todayReservationList'], () => getTodayReservationList());
@@ -22,13 +23,14 @@ const TodayReservation = () => {
     <div>
       {data?.map((item: todayListData) => {
         if (item.spaceType == 'MEETINGROOM') {
-          return <MeetingRoomItem />;
+          return <MeetingRoomItem roomData={item} />;
         } else if (item.spaceType == 'FOCUSDESK') {
           return <FocuszoneItem roomData={item} />;
         } else {
-          return <RechargingItem />;
+          return <RechargingItem roomData={item} />;
         }
       })}
+      <MockItem />
     </div>
   );
 };
