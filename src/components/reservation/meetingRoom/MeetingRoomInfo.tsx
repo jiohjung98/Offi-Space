@@ -20,6 +20,7 @@ const MeetingRoomInfo = () => {
     const [eventName, setEventName] = useState('');
     const [showReservationModal, setShowReservationModal] = useState(false); 
     const [searchTerm, setSearchTerm] = useState('');
+    const [showSearch, setShowSearch] = useState(false); 
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [storedGetTime, setStoredGetTime] = useState('');
@@ -32,8 +33,8 @@ const MeetingRoomInfo = () => {
 
     const [inviteableMembers, setInviteableMembers] = useState<Member[]>([]);
     const [nonInviteableMembers, setNonInviteableMembers] = useState<Member[]>([]);
+    const [addedMembers, setAddedMembers] = useState<Member[]>([]);
 
-    
     const handleImageClick = () => {
         inputRef.current?.focus();
     };
@@ -48,7 +49,6 @@ const MeetingRoomInfo = () => {
         ? selectedBranch
         : reservedBranch;
   
-
     const router = useRouter();
 
     const { meetingRoomId } = router.query;
@@ -137,7 +137,7 @@ const MeetingRoomInfo = () => {
             meetingRoomId: meetingRoom!.meetingRoomId, 
             startAt: formattedStartTime, 
             endAt: formattedEndTime,
-            memberIds: [] 
+            memberIds: addedMembers.map(member => Number(member.memberId))
         };
     
         reserveMeetingRoom(reservation)
@@ -167,7 +167,16 @@ const MeetingRoomInfo = () => {
           setNonInviteableMembers([]);
         }
       };
-      
+    
+    const handleAddMember = (member: Member) => {
+        setAddedMembers([...addedMembers, member]);
+        setInviteableMembers(inviteableMembers.filter(m => m.memberId !== member.memberId));
+    };
+
+    const handleRemoveMember = (member: Member) => {
+        setAddedMembers(addedMembers.filter(m => m.memberId !== member.memberId));
+        setInviteableMembers([...inviteableMembers, member]);
+    };
 
     if (loading) {
         return <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -258,32 +267,66 @@ const MeetingRoomInfo = () => {
                 </div>
             </div>
             <div className="w-[full] h-0.5 bg-neutral-200" />
-            <div className="px-4">
-            <input
-                type="text"
-                value={searchTerm}
-                onChange={handleSearch}
-                className="w-full h-10 px-2 py-1 outline-none border border-gray-300 rounded"
-                placeholder="멤버 검색"
-            />
-            {(inviteableMembers.length > 0 || nonInviteableMembers.length > 0) && (
-                <ul className="mt-2 border border-gray-300 rounded">
-                {inviteableMembers.map((member) => (
-                    <li key={member.memberId} className="p-2 border-b border-gray-200 last:border-0 flex items-center">
-                    <Image src={member.imageUrl} width={24} height={24} alt="member image" className="mr-2 rounded-full" />
-                    <span>{member.memberName} ({member.memberEmail})</span>
-                    <button className="ml-auto text-indigo-700">+</button>
-                    </li>
-                ))}
-                {nonInviteableMembers.map((member) => (
-                    <li key={member.memberId} className="p-2 border-b border-gray-200 last:border-0 flex items-center opacity-50">
-                    <Image src={member.imageUrl} width={24} height={24} alt="member image" className="mr-2 rounded-full" />
-                    <span>{member.memberName} ({member.memberEmail})</span>
-                    <button className="ml-auto text-gray-400" disabled>+</button>
-                    </li>
-                ))}
-                </ul>
-            )}
+            <div className="px-4 mt-[24px]">
+                <div className='flex justify-between items-center cursor-pointer' onClick={() => setShowSearch(!showSearch)}>
+                    <div className="text-black/opacity-20 text-base font-bold font-['Pretendard']">
+                        참석 멤버
+                    </div>
+                    {showSearch ? (
+                        <Image src={'/reservation/topArrow.svg'} width={14} height={7} alt="arrow" className="" />
+                    ) : (
+                        <Image src={'/reservation/bottomArrow.svg'} width={14} height={7} alt="arrow" className="" />
+                    )}
+                </div>
+                {showSearch && (
+                    <>
+                    {addedMembers.length > 0 && (
+                        <div className="mt-4">
+                            {addedMembers.map(member => (
+                                <div key={member.memberId} className="flex items-center mb-2">
+                                    <Image src={member.imageUrl} width={24} height={24} alt="member image" className="mr-2 rounded-full" />
+                                    <span>{member.memberName} ({member.memberEmail})</span>
+                                    <button className="ml-auto text-red-500" onClick={() => handleRemoveMember(member)}>-</button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    <div className="relative w-full mt-[20px]">
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                            className="w-full h-10 pl-10 py-1 outline-none border border-gray-300 rounded placeholder-gray-400"
+                            placeholder="참석자의 이메일 또는 이름을 검색하세요."
+                        />
+                        <img src="/map/Search.png" alt="search" className="absolute left-3 top-2.5 w-5 h-5" />
+                    </div>
+                        {(inviteableMembers.length > 0 || nonInviteableMembers.length > 0) && (
+                            <ul className="mt-2">
+                                {inviteableMembers.map((member) => (
+                                    <li key={member.memberId} className="p-2 flex items-center">
+                                        <Image src={member.imageUrl} width={32} height={32} alt="member image" className="mr-2 rounded-full" />
+                                        <div className="flex flex-col">
+                                            <span>{member.memberName}</span>
+                                            <span className="text-sm text-gray-500">{member.memberEmail}</span>
+                                        </div>
+                                        <button className="ml-auto p-2 bg-indigo-500 text-white rounded-full" onClick={() => handleAddMember(member)}>+</button>
+                                    </li>
+                                ))}
+                                {nonInviteableMembers.map((member) => (
+                                    <li key={member.memberId} className="p-2 flex items-center opacity-50">
+                                        <Image src={member.imageUrl} width={32} height={32} alt="member image" className="mr-2 rounded-full" />
+                                        <div className="flex flex-col">
+                                            <span>{member.memberName}</span>
+                                            <span className="text-sm text-gray-500">{member.memberEmail}</span>
+                                        </div>
+                                        <button className="ml-auto p-2 bg-gray-300 text-gray-500 rounded-full" disabled>+</button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </>
+                )}
             </div>
             <footer className='w-full text-center py-[30px] mb-[50px] left-0 right-0'>
                 <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
