@@ -8,7 +8,6 @@ export interface Reserve {
 
 export interface ReservationModalProps {
     isVisible: boolean;
-    onClose: () => void;
     eventName: string;
     getTimes: string;
     selectedBranch: string;
