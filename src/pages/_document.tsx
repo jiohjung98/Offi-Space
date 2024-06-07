@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="ko">
       <Head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon16.png" />
       </Head>
       <body>
         <Main />
