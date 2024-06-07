@@ -67,7 +67,7 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
     try {
       const data = await getSelectedOfficeInfo(branchName); 
       if (data.data) {
-        setReservedBranch(data.data, Date.now());
+        setReservedBranch(data?.data, Date.now());
         router.push('/reservation/');
       }
     } catch (error) {

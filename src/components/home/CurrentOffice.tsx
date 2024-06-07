@@ -3,12 +3,26 @@ import SearchModal from './SearchModal';
 import SelectOfficeMap from './SelectOfficeMap';
 import { Branch } from '@/api/types/branch';
 import { useBranchStore } from '@/store/branch.store';
+// import { getBranchInfo } from '@/api/map/getOffice';
 
 const CurrentOffice = () => {
+  // const [branches, setBranches] = useState<Branch[]>([]);
+  // const [searchQuery, setSearchQuery] = useState('');
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showSelectOfficeMap, setShowSelectOfficeMap] = useState(false);
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
+
+  // useEffect(() => {
+  //   getBranchInfo()
+  //     .then((response) => {
+  //       console.log('Branch Info:', response);
+  //       setBranches(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching branch info:', error);
+  //     });
+  // }, []);
 
   const handleBranchSelect = (branch: Branch) => {
     setSelectedBranch(branch, Date.now());
