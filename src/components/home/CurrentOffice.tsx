@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import SearchModal from './SearchModal';
 import SelectOfficeMap from './SelectOfficeMap';
@@ -9,6 +10,27 @@ const CurrentOffice = () => {
   const [showSelectOfficeMap, setShowSelectOfficeMap] = useState(false);
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  const initialBranch: Branch = {
+    branchId: 27,
+    branchName: '강남1호점',
+    branchAddress: '서울 강남구 강남대로 382 메리츠타워 17, 18층 (메인라운지 17층)',
+    branchLatitude: 37.4971261,
+    branchLongitude: 127.0287132,
+  };
+
+  useEffect(() => {
+    setIsHydrated(true);
+
+    if (!selectedBranch) {
+      setSelectedBranch(initialBranch, Date.now());
+    }
+  }, [selectedBranch, setSelectedBranch]);
+
+  useEffect(() => {
+    console.log('Current selectedBranch:', selectedBranch);
+  }, [selectedBranch]);
 
   const handleBranchSelect = (branch: Branch) => {
     setSelectedBranch(branch, Date.now());
@@ -24,9 +46,9 @@ const CurrentOffice = () => {
     setShowSelectOfficeMap(false);
   };
 
-  useEffect(() => {
-    console.log('Selected Branch Updated:', selectedBranch);
-  }, [selectedBranch]);
+  if (!isHydrated) {
+    return null;
+  }
 
   return (
     <>
@@ -37,7 +59,7 @@ const CurrentOffice = () => {
             <img src="/home/location.svg" alt="" />
           </div>
           <div className="text-white text-lg underline font-medium cursor-pointer" onClick={handleSearchClick}>
-            {selectedBranch ? selectedBranch.branchName : '지점을 설정해주세요'}
+            {selectedBranch?.branchName}
           </div>
         </div>
       </div>

@@ -81,9 +81,9 @@ const MeetingRoomIndex: React.FC = () => {
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
   const currentBranch =
-    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
-      ? selectedBranch
-      : reservedBranch;
+  updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+    ? selectedBranch
+    : reservedBranch || selectedBranch;
 
   useEffect(() => {
     if (!currentBranch) return;
