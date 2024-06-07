@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import { QueryClient, useMutation, useQueryClient } from 'react-query';
 
 const ReservationDeleteModal = () => {
-  const { reservationId, setDeleteOpen, setConfirmOpen } = useReservationStore();
+  const { reservationId, setDeleteOpen } = useReservationStore();
   const queryClient = useQueryClient();
 
   // const { mutateAsync } = useMutation((reservationId: number) => , {
