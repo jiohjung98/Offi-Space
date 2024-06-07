@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 const Footer = () => {
   const pathName = usePathname();
   const filteredPathName = deleteFirstWord(pathName);
-  console.log(filteredPathName);
 
   return (
     <footer>
