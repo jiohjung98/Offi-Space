@@ -20,7 +20,6 @@ const SignHomePage = () => {
     }
   }, [router, token]);
 
-  /* eslint-disable */
   const [FcmToken, setFcmToken] = useState('');
 
   const sendPush = useSendPush();
