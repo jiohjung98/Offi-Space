@@ -19,6 +19,7 @@ const useLogin = () => {
     setCookie('token', accessToken, cookieOptions);
 
     router.push('/');
+    console.log(token);
   };
   const onError = () => {
     console.log('error');

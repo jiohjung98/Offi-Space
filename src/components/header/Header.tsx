@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const Header = () => {
@@ -11,9 +12,11 @@ const Header = () => {
         <div className="cursor-pointer">
           <img src="/Inquiry.svg" alt="" />
         </div>
-        <div className="cursor-pointer">
-          <img src="/Notification.svg" alt="" />
-        </div>
+        <Link href={'/notification'}>
+          <div className="cursor-pointer">
+            <img src="/Notification.svg" alt="" />
+          </div>
+        </Link>
       </div>
     </header>
   );

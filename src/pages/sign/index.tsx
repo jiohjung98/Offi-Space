@@ -4,7 +4,7 @@ import SignInButton from '@/components/shared/sign/SignInButton';
 import SignUpButton from '@/components/shared/sign/SignUpButton';
 
 import Link from 'next/link';
-import useSendPush from '@/components/pwa/UseSendPush';
+// import useSendPush from '@/components/pwa/UseSendPush';
 import { getTokenHandler } from '@/components/pwa/Fcm';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -22,7 +22,7 @@ const SignHomePage = () => {
 
   const [FcmToken, setFcmToken] = useState('');
 
-  const sendPush = useSendPush();
+  // const sendPush = useSendPush();
   //
   useEffect(() => {
     const fetchToken = async () => {
@@ -74,7 +74,7 @@ const SignHomePage = () => {
       </div>
       {Test()}
       <div>
-        <button
+        {/* <button
           onClick={() => {
             sendPush({
               title: `알림테스트`,
@@ -84,7 +84,7 @@ const SignHomePage = () => {
             });
           }}>
           fcm 테스트
-        </button>
+        </button> */}
       </div>
     </MainContainer>
   );
