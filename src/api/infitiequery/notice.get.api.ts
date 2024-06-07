@@ -4,10 +4,24 @@ import { NotificationList } from '../types/notification';
 
 /* 알림 조회*/
 
-export const noticeInfo = async (pageNum: number, size: number, sortType: string) => {
-  const response = await getRequest<NotificationList>(
-    `notification?page=${pageNum}&size=${size}&sort=${sortType}`
-  );
+export const noticeInfo = async (type: string, cursorId?: string) => {
+  let url = `notification`;
+  const params = [];
+
+  if (type && type === 'RESERVATION') {
+    params.push(`type=RESERVATION`);
+  } else if (type && type === 'COMMUNITY') {
+    params.push(`type=COMMUNITY`);
+  }
+
+  if (cursorId !== '0') {
+    params.push(`cursorId=${cursorId}`);
+  }
+
+  if (params.length > 0) {
+    url += `?${params.join('&')}`;
+  }
+  const response = await getRequest<NotificationList>(url);
   const lastVisible =
     response?.data?.content[response?.data?.content.length - 1].notificationId;
   return {

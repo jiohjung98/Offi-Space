@@ -2,7 +2,7 @@ const CalculateTime = (timeStr: string) => {
   const now = new Date();
 
   // 입력받은 시간 문자열을 Date 객체로 변환
-  const pastTime = new Date(timeStr.replace(/-/g, '/'));
+  const pastTime = new Date(timeStr);
 
   // 두 시간의 차이를 계산
   const diff = now.getTime() - pastTime.getTime();

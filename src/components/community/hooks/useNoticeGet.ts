@@ -4,14 +4,13 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef } from 'react';
 import useIntersectionObserver from './useIntersectionObserver';
 
-const PAGE_SIZE = 5;
 const useNoticeGet = (sortType: string) => {
   // const router = useRouter();
 
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
-
+  console.log(isPageEnd);
   const {
     data,
     fetchNextPage,
@@ -19,9 +18,9 @@ const useNoticeGet = (sortType: string) => {
     hasNextPage = false,
     isFetchingNextPage
   } = useInfiniteQuery({
-    queryKey: ['notice'],
+    queryKey: ['notice', sortType],
     queryFn: ({ pageParam }) => {
-      return noticeInfo(Number(pageParam), PAGE_SIZE, sortType);
+      return noticeInfo(sortType, pageParam);
     },
     getNextPageParam: (lastPage) => {
       return lastPage.hasNext ? lastPage.lastVisible : undefined;
