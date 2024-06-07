@@ -49,7 +49,6 @@ const MeetingRoomInfo = () => {
         const { meetingRoomId } = router.query;
 
         if (getTimes && startsTime && endsTime && meetingRoomId) {
-            // 쿼리로 가져온 값이 있으면 로컬 스토리지에 저장
             localStorage.setItem('getAt', getTimes);
             localStorage.setItem('startedAt', startsTime);
             localStorage.setItem('endedAt', endsTime);
@@ -60,7 +59,6 @@ const MeetingRoomInfo = () => {
             setStoredEndTime(endsTime);
             setStoredMeetingRoomId(meetingRoomId as string);
         } else {
-            // 쿼리로 가져온 값이 없으면 로컬 스토리지에서 값 불러오기
             const savedGetTime = localStorage.getItem('getAt');
             const savedStartTime = localStorage.getItem('startedAt');
             const savedEndTime = localStorage.getItem('endedAt');
@@ -242,7 +240,7 @@ const MeetingRoomInfo = () => {
                     onChange={(e) => setEventName(e.target.value)}
                     ref={inputRef}
                     className="w-full h-full outline-none bg-transparent"
-                    placeholder="일정명을 입력해주세요."
+                    placeholder="일정명을 작성하세요."
                 />
                 <Image
                     src={'/pencil.svg'}
@@ -255,19 +253,19 @@ const MeetingRoomInfo = () => {
             </div>
             </div>
             <div className="w-[full] h-0.5 bg-neutral-200" />
-            <div className="px-4 mt-4">
-                <div className="flex-none w-[190px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer">
-                    <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
-                    <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">
+            <div className="flex px-4 my-4">
+            <div className="text-black/opacity-20 text-base font-bold font-['Pretendard'] my-auto">일정</div>
+                <div className="flex-none ml-[8px]">
+                    <div className="text-indigo-700 text-base font-semibold font-['Pretendard']">
                         {selectedTimeRange ? (
                             `${selectedTimeRange}`
                         ) : (
                             '시간을 선택해주세요'
                         )}
                     </div>
-                    <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
                 </div>
             </div>
+            <div className="w-[full] h-0.5 bg-neutral-200" />
             <footer className='w-full text-center py-[30px] fixed bottom-[70px] left-0 right-0'>
                 <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
             </footer>
