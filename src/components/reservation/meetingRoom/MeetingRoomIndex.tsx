@@ -5,6 +5,7 @@ import { useBranchStore2 } from '@/store/reserve.store';
 import Image from 'next/image';
 import DatePickerModal from './DatePickerModal';
 import { useRouter } from 'next/router';
+import { useBranchStore } from '@/store/branch.store';
 
 const formatDateToCustomString = (date: Date): string => {
   const year = date.getFullYear();
@@ -59,7 +60,6 @@ const setInitialParams = (startAt: Date, endAt: Date, branchName: string): GetMe
 };
 
 const MeetingRoomIndex: React.FC = () => {
-  const selectedBranch = useBranchStore2((state) => state.reservedBranch);
   const [params, setParams] = useState<GetMeetingRoomsParams | null>(null);
   const [meetingRooms, setMeetingRooms] = useState<MeetingRoom[]>([]);
   const [currentTime, setCurrentTime] = useState<string>('');
@@ -75,17 +75,27 @@ const MeetingRoomIndex: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState<React.ReactNode>(null);
 
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
+  const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
+  const reservedBranch = useBranchStore2((state) => state.reservedBranch);
+  const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
+
+  const currentBranch =
+    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+      ? selectedBranch
+      : reservedBranch;
+
   useEffect(() => {
-    if (!selectedBranch) return;
+    if (!currentBranch) return;
 
     const [startAt, endAt, currentTime] = setInitialDateTime();
     setStartTime(startAt);
     setEndTime(endAt);
     setCurrentTime(currentTime);
 
-    const initialParams = setInitialParams(startAt, endAt, selectedBranch.branchName);
+    const initialParams = setInitialParams(startAt, endAt, currentBranch.branchName);
     setParams(initialParams);
-  }, [selectedBranch]);
+  }, [currentBranch]);
 
   const fetchMeetingRooms = async (params: GetMeetingRoomsParams) => {
     try {
@@ -191,7 +201,7 @@ const MeetingRoomIndex: React.FC = () => {
     setSelectedMeetingRoomTypes('인원 수');
     setSelectedEquipment('비품');
     
-    const initialParams = setInitialParams(startAt, endAt, selectedBranch!.branchName);
+    const initialParams = setInitialParams(startAt, endAt, currentBranch!.branchName);
     setParams(initialParams);
   };
 

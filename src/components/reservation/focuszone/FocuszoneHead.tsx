@@ -2,15 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useQueryClient } from 'react-query';
 import { useBranchStore } from '@/store/branch.store';
+import { useBranchStore2 } from '@/store/reserve.store';
 
 const FocuszoneHead = () => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const queryClient = useQueryClient();
 
-  //지오님 작업 : branchId 받아오기
-  const { branchId } = useBranchStore((state) => state.selectedBranch) as {
-    branchId: number;
-  };
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
+  const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
+  const reservedBranch = useBranchStore2((state) => state.reservedBranch);
+  const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
+
+  const currentBranch =
+    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+      ? selectedBranch
+      : reservedBranch;
+
+  const branchId = currentBranch?.branchId;
 
   const handleRefresh = () => {
     if (branchId) {

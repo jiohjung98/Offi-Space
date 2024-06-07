@@ -1,17 +1,27 @@
 import { useBranchStore } from '@/store/branch.store';
+import { useBranchStore2 } from '@/store/reserve.store';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 
 const SelectSeatNav = () => {
+
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
-  //지오님 작업
+  const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
+  const reservedBranch = useBranchStore2((state) => state.reservedBranch);
+  const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
+
+  const currentBranch =
+    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+      ? selectedBranch
+      : reservedBranch;
+
 
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const queryClient = useQueryClient();
 
   const handleRefresh = () => {
-    if (selectedBranch?.branchId) {
+    if (currentBranch?.branchId) {
       queryClient.invalidateQueries(['seatInfo', selectedBranch?.branchId]);
       setCurrentTime(format(new Date(), 'HH:mm'));
     }
@@ -36,7 +46,7 @@ const SelectSeatNav = () => {
           <img src="/reservation/location.svg" alt="" />
         </div>
         <div className="text-space-black font-semibold tesx-sm ">
-          {selectedBranch?.branchName}
+          {currentBranch?.branchName}
         </div>
       </div>
       <div>
