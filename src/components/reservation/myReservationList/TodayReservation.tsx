@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import { getTodayReservationList } from '../remote/myreservation';
 import { todayListData } from '../model/myreservation';
 import MockItem from './roomTypeItem/MockItem';
+import { motion } from 'framer-motion';
 
 const TodayReservation = () => {
   const { data } = useQuery(['todayReservationList'], () => getTodayReservationList());
@@ -20,18 +21,31 @@ const TodayReservation = () => {
   }
 
   return (
-    <div>
-      {data?.map((item: todayListData) => {
-        if (item.spaceType == 'MEETINGROOM') {
-          return <MeetingRoomItem roomData={item} />;
-        } else if (item.spaceType == 'FOCUSDESK') {
-          return <FocuszoneItem roomData={item} />;
-        } else {
-          return <RechargingItem roomData={item} />;
-        }
-      })}
+    <ul>
+      {data?.map((item: todayListData, i: number) => (
+        <motion.li
+          key={i}
+          initial={{ opacity: 0, translateX: -90 }}
+          transition={{
+            duration: 0.6,
+            ease: 'easeInOut'
+          }}
+          animate={{
+            opacity: 1,
+            translateX: 0
+          }}>
+          {item.spaceType === 'MEETINGROOM' ? (
+            <MeetingRoomItem roomData={item} />
+          ) : item.spaceType === 'FOCUSDESK' ? (
+            <FocuszoneItem roomData={item} />
+          ) : (
+            <RechargingItem roomData={item} />
+          )}
+        </motion.li>
+      ))}
+      {/* 변경필요 */}
       <MockItem />
-    </div>
+    </ul>
   );
 };
 

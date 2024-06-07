@@ -5,6 +5,7 @@ import SelectSeatLayout from './SelectSeatLayout';
 import ConfirmModal from './ConfirmModal';
 import CheckModal from './CheckModal';
 import { useBranchStore } from '@/store/branch.store';
+import { motion } from 'framer-motion';
 
 const SelectSeatIndex = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -28,13 +29,24 @@ const SelectSeatIndex = () => {
         <SelectSeatNav />
       </nav>
       <section>
-        <SelectSeatLayout
-          setModalOpen={setModalOpen}
-          setCheckModal={setCheckModal}
-          setModalDeskId={setModalDeskId}
-          setModalDeskNumber={setModalDeskNumber}
-          branchId={branchId}
-        />
+        <motion.div
+          initial={{ opacity: 0, translateX: -90 }}
+          transition={{
+            duration: 0.6,
+            ease: 'easeInOut'
+          }}
+          animate={{
+            opacity: 1,
+            translateX: 0
+          }}>
+          <SelectSeatLayout
+            setModalOpen={setModalOpen}
+            setCheckModal={setCheckModal}
+            setModalDeskId={setModalDeskId}
+            setModalDeskNumber={setModalDeskNumber}
+            branchId={branchId}
+          />
+        </motion.div>
       </section>
       {modalOpen ? (
         <ConfirmModal setModalOpen={setModalOpen} modalDeskNumber={modalDeskNumber} />
