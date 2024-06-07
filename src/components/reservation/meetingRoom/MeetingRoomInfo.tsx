@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { getMeetingRoomInfo } from '@/api/reservation/getMeetingRoomInfo';
+import { searchMembers } from '@/api/reservation/searchMembers';
 import { MeetingRoomInfo as MeetingRoomInfoType } from "@/api/types/room";
+import { Member } from "@/api/types/member";
 import Image from "next/image";
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 import { Reserve } from '@/api/types/reserve';
 import { reserveMeetingRoom } from '@/api/reservation/reserveMeetingRoom';
-import ReservationModal from './ReservationModal'; 
+import ReservationModal from './ReservationModal';
 
 const MeetingRoomInfo = () => {
     const [meetingRoom, setMeetingRoom] = useState<MeetingRoomInfoType | null>(null);
@@ -16,6 +18,8 @@ const MeetingRoomInfo = () => {
     const [error, setError] = useState<string | null>(null);
     const [eventName, setEventName] = useState('');
     const [showReservationModal, setShowReservationModal] = useState(false); 
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState<Member[]>([]);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [storedGetTime, setStoredGetTime] = useState('');
@@ -35,7 +39,6 @@ const MeetingRoomInfo = () => {
     const router = useRouter();
 
     const { meetingRoomId } = router.query;
-
 
     useEffect(() => {
         const getTimes = router.query.startTime as string;
@@ -134,6 +137,22 @@ const MeetingRoomInfo = () => {
             });
     };
 
+    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const searchTerm = e.target.value;
+        setSearchTerm(searchTerm);
+
+        if (searchTerm.trim().length > 0) {
+            try {
+                const results = await searchMembers(searchTerm, storedStartTime, storedEndTime);
+                setSearchResults(results);
+            } catch (error) {
+                console.error('Error searching members:', error);
+            }
+        } else {
+            setSearchResults([]);
+        }
+    };
+
     if (loading) {
         return <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="loader"></div>
@@ -147,7 +166,6 @@ const MeetingRoomInfo = () => {
     if (!meetingRoom) {
         return <div>No meeting room data</div>;
     }
-
 
     return (
         <div>
@@ -212,7 +230,7 @@ const MeetingRoomInfo = () => {
             </div>
             <div className="w-[full] h-0.5 bg-neutral-200" />
             <div className="flex px-4 my-4">
-            <div className="text-black/opacity-20 text-base font-bold font-['Pretendard'] my-auto">일정</div>
+                <div className="text-black/opacity-20 text-base font-bold font-['Pretendard'] my-auto">일정</div>
                 <div className="flex-none ml-[8px]">
                     <div className="text-indigo-700 text-base font-semibold font-['Pretendard']">
                         {storedGetTime ? (
@@ -224,6 +242,24 @@ const MeetingRoomInfo = () => {
                 </div>
             </div>
             <div className="w-[full] h-0.5 bg-neutral-200" />
+            <div className="px-4">
+                <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="w-full h-10 px-2 py-1 outline-none border border-gray-300 rounded"
+                    placeholder="멤버 검색"
+                />
+                {searchResults.length > 0 && (
+                    <ul className="mt-2 border border-gray-300 rounded">
+                        {searchResults.map((member) => (
+                            <li key={member.memberId} className="p-2 border-b border-gray-200 last:border-0">
+                                {member.memberName} ({member.memberEmail})
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
             <footer className='w-full text-center py-[30px] fixed bottom-[70px] left-0 right-0'>
                 <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
             </footer>
