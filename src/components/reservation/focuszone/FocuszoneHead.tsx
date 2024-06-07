@@ -8,7 +8,6 @@ const FocuszoneHead = () => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const queryClient = useQueryClient();
 
-  //지오님 작업 : branchId 받아오기
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
   const reservedBranch = useBranchStore2((state) => state.reservedBranch);

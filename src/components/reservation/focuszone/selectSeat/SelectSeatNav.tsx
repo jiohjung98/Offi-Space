@@ -6,7 +6,6 @@ import { useQueryClient } from 'react-query';
 
 const SelectSeatNav = () => {
 
-  //지오님 작업
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
   const reservedBranch = useBranchStore2((state) => state.reservedBranch);

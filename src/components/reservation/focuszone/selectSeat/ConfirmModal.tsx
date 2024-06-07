@@ -12,7 +12,6 @@ interface ConfirmModalType {
 const ConfirmModal = ({ setModalOpen, modalDeskNumber }: ConfirmModalType) => {
   const router = useRouter();
 
-  // //지오님 작업
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
   const reservedBranch = useBranchStore2((state) => state.reservedBranch);
