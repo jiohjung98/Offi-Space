@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Branch } from '@/api/types/branch';
 import Image from 'next/image';
 import { getBranchInfo } from '@/api/map/getOffice';
-import SelectOfficeMap from './SelectOfficeMap';
+import SharedSelectOffice from './SharedSelectOffice';
 
-interface SearchModalProps {
+interface SharedSearchModalProps {
   onClose: () => void;
   // eslint-disable-next-line no-unused-vars
   onBranchSelect: (branch: Branch) => void;
 }
 
-const SearchModal: React.FC<SearchModalProps> = ({ onClose, onBranchSelect }) => {
+const SharedSearchModal: React.FC<SharedSearchModalProps> = ({ onClose, onBranchSelect }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [allBranches, setAllBranches] = useState<Branch[]>([]);
   const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
@@ -83,9 +83,9 @@ const SearchModal: React.FC<SearchModalProps> = ({ onClose, onBranchSelect }) =>
           </div>
         )}
       </section>
-      {selectedBranch && <SelectOfficeMap branch={selectedBranch} onClose={onClose} />}
+      {selectedBranch && <SharedSelectOffice branch={selectedBranch} onClose={onClose} />}
     </div>
   );
 };
 
-export default SearchModal;
+export default SharedSearchModal;

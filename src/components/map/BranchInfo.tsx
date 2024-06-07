@@ -10,9 +10,12 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 import { OfficeInfoProps } from '@/api/types/branch';
 import { subwayLineColors, subwayLineAbbreviations } from '@/constant/station';
 import BranchOffice from './BranchOffice';
+import { useBranchStore2 } from '@/store/reserve.store';
+import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 
 const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const router = useRouter();
+  const { setReservedBranch } = useBranchStore2();
 
   const address = router.query.address as string;
   const branchPhoneNumber = router.query.branchPhoneNumber as string;
@@ -50,10 +53,21 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
     }
   }, []);
 
-  const handleBackClick = () => {
-    router.push('/map');
+  const handleGoToReservation = async () => {
+    try {
+      const data = await getSelectedOfficeInfo(branchName); 
+      if (data.data) {
+        setReservedBranch(data.data, Date.now());
+        router.push('/reservation/');
+      }
+    } catch (error) {
+      console.error('Error updating selected branch:', error);
+    }
   };
 
+  const handleBackClick = () => {
+    router.back();
+  };
 
   return (
     <section className="w-full h-full">
@@ -164,7 +178,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         </div>
         <BranchOffice branchName={branchName}/>
         <footer className='w-full text-center py-[30px]'>
-          <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold'>예약하기</button>
+          <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold' onClick={handleGoToReservation}>예약하기</button>
         </footer>
       </article>
     </section>

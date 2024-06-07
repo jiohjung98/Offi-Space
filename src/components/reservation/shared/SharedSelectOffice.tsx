@@ -2,17 +2,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Branch } from '@/api/types/branch';
 import Image from 'next/image';
-import { useBranchStore } from '@/store/branch.store';
+import { useBranchStore2 } from '@/store/reserve.store';
 import { getOfficeAvailable } from '@/api/map/getOfficeAvailable';
 
-interface SelectOfficeMapProps {
+interface SharedSelectOfficeProps {
   branch: Branch;
   onClose: () => void;
 }
 
-const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) => {
+const SharedSelectOffice: React.FC<SharedSelectOfficeProps> = ({ branch, onClose }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
+  const setSelectedBranch = useBranchStore2((state) => state.setReservedBranch);
+
   const [branchCount, SetBranchCount] = useState(0);
   const [canBranchCount, SetCanBranchCount] = useState(0);
 
@@ -28,9 +29,9 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
       console.error('Error updating selected branch:', error);
     }
   };
-
+  
   const handleBranchSelection = () => {
-    setSelectedBranch(branch, Date.now())
+    setSelectedBranch(branch, Date.now());
     onClose();
   };
 
@@ -111,4 +112,4 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
   );
 };
 
-export default SelectOfficeMap;
+export default SharedSelectOffice;
