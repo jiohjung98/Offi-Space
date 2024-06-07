@@ -1,5 +1,5 @@
 /* ----- 1:1알림 MOCK DATA ----- */
-export const MOCK_RESOULVATION_NOTIFICATION_DATA = {
+export const MOCK_RESERVATION_NOTIFICATION_DATA = {
   status: 200,
   code: 'BMC002',
   message: '예약 알림 데이터 조회 성공',

@@ -19,8 +19,8 @@ export const questiongetmock = async () => {
   return response;
 };
 
-export const resoulvationgetmock = async () => {
-  const response = await axios.get(`/notification/resoulvation`);
+export const reservationgetmock = async () => {
+  const response = await axios.get(`/notification/reservation`);
   return response;
 };
 

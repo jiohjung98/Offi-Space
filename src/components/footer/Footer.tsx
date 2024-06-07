@@ -27,10 +27,10 @@ const Footer = () => {
         <Link href="/">
           <div className="h-[44.84px] flex-col justify-start items-center gap-2.5 inline-flex">
             <div className="w-[22.06px] h-[21.82px] flex-col justify-center items-center">
-              {filteredPathName === 'resoulvation' ? (
-                <img className="w-5 h-5 " src="/CheckedResoulvation.svg" alt="book" />
+              {filteredPathName === 'reservation' ? (
+                <img className="w-5 h-5 " src="/CheckedReservation.svg" alt="book" />
               ) : (
-                <img className="w-5 h-5 " src="/Resoulvation.svg" alt="book" />
+                <img className="w-5 h-5 " src="/Reservation.svg" alt="book" />
               )}
             </div>
             <div className="text-center text-black text-xs font-normal font-['Pretendard']">
