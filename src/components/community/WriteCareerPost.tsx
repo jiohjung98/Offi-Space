@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ToBackComunity from './shared/ToBackComunity';
 import WritePostPosition from './career/WritePostPosition';
 import WritePostTitle from './shared/WritePostTitle';
 import { tagWithCareer } from '@/constant/TagWithCareer';
@@ -13,6 +12,7 @@ import { useCareerDescription } from './hooks/useCareerDesscription';
 import { useRouter } from 'next/router';
 import { useCategoryToEnum } from './hooks/useCategoryToEnum';
 import { useTagToEnum } from './hooks/useTagToEnum';
+import ToBackWithRemoveSession from './shared/ToBackRemoveSession';
 
 const WriteCareerPost = () => {
   const router = useRouter();
@@ -58,7 +58,7 @@ const WriteCareerPost = () => {
     <div className="mx-4">
       <div className="h-[60px]" />
       <header className="flex justify-between items-center">
-        <ToBackComunity />
+        <ToBackWithRemoveSession />
         <button
           onClick={() => {
             mutateAsync(newPostData);
