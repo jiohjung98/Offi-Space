@@ -16,3 +16,12 @@ export const changepassword = async ({
 
   return response;
 };
+
+export const memberimage = async (imageData: FormData) => {
+  const response = await patchRequest<ICommon<null>, FormData>(
+    'members/image',
+    imageData
+  );
+
+  return response;
+};

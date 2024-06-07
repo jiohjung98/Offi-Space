@@ -4,14 +4,18 @@ import { setCookie } from '@/utils/cookies';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
+import { getTokenHandler } from '@/components/pwa/Fcm';
+import { fcmpost } from '@/api/fcm/fcm.post.api';
 
 const useLogin = () => {
   const router = useRouter();
   const [error, setError] = useState('');
-  const onSuccess = (data: UserLoginType) => {
+
+  const onSuccess = async (data: UserLoginType) => {
     const { accessToken } = data.data;
     const cookieOptions = { path: '/', maxAge: 600000 * 15 };
-
+    const token = await getTokenHandler();
+    fcmpost({ fcmToken: token });
     setCookie('token', accessToken, cookieOptions);
 
     router.push('/');

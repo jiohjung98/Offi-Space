@@ -7,7 +7,19 @@ import Link from 'next/link';
 import useSendPush from '@/components/pwa/UseSendPush';
 import { getTokenHandler } from '@/components/pwa/Fcm';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { getCookie } from '@/utils/cookies';
+
 const SignHomePage = () => {
+  const token = getCookie('token');
+  const router = useRouter();
+  useEffect(() => {
+    if (token) {
+      alert('이미 로그인 되어있습니다.\n 메인페이지로 이동합니다.');
+      router.push('/');
+    }
+  }, [router, token]);
+
   const [FcmToken, setFcmToken] = useState('');
   const sendPush = useSendPush();
   //
