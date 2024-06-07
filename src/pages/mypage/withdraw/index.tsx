@@ -60,7 +60,7 @@ const MemberWithdrawal = () => {
 
           <button
             onClick={handleWithdrawal}
-            className={`w-full mt-20 py-3 rounded-lg text-white font-semibold  flex justify-center  ${isChecked ? 'bg-blue-600' : 'bg-gray-400'} `}
+            className={`w-full mt-20 py-3 rounded-lg text-white font-semibold  flex justify-center  ${isChecked ? 'bg-space-purple' : 'bg-gray-400'} `}
             disabled={!isChecked}>
             회원탈퇴
           </button>

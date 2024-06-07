@@ -9,7 +9,7 @@ interface LogoutModalProps {
 const LogoutModal = ({ onConfirm, onCancel }: LogoutModalProps) => {
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 "
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]"
       onClick={onCancel}>
       <div className="w-[281px] h-[159px] bg-white rounded-2xl flex flex-col ">
         <div className="p-4 text-center mt-[30px] pb-[10px]">

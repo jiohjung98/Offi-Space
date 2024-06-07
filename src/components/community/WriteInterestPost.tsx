@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { tagWithInterest } from '@/constant/TagWithInterest';
-import ToBackComunity from './shared/ToBackComunity';
 import WritePostTitle from './shared/WritePostTitle';
 import WritePostInterest from './interest/WritePostInterest';
 import WritePostInterestTag from './interest/WritePostInterestTag';
@@ -11,6 +10,7 @@ import { writePost } from './remote/post';
 import { useTagToEnum } from './hooks/useTagToEnum';
 import { useCategoryToEnum } from './hooks/useCategoryToEnum';
 import { useRouter } from 'next/router';
+import ToBackWithRemoveSession from './shared/ToBackRemoveSession';
 
 const WriteInterestPost = () => {
   const router = useRouter();
@@ -48,7 +48,7 @@ const WriteInterestPost = () => {
     <div className="mx-4">
       <div className="h-[60px]" />
       <header className="flex justify-between items-center">
-        <ToBackComunity />
+        <ToBackWithRemoveSession />
         <button
           onClick={() => mutateAsync(newPostData)}
           disabled={!isValid}

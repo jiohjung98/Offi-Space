@@ -6,7 +6,7 @@ const MainHeader = () => {
     <header>
       <div className="flex justify-between items-center py-2">
         <div className="w-[116px] h-8">
-          <img src="/home/logo_white.png" alt="" className="w-full" />
+          <img src="/officelogowhite.svg" alt="" className="w-full" />
         </div>
         <div className="flex justify-center items-center gap-6">
           <div>

@@ -17,8 +17,7 @@ const WriteCommentLayout = ({ postId }: { postId: string }) => {
         content: content
       }),
     {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
         setCommentValue('');
         queryClient.invalidateQueries(['AllComments', String(postId)]);
       }
