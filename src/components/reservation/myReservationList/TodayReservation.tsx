@@ -5,7 +5,6 @@ import RechargingItem from './roomTypeItem/RechargingItem';
 import { useQuery } from 'react-query';
 import { getTodayReservationList } from '../remote/myreservation';
 import { todayListData } from '../model/myreservation';
-import MockItem from './roomTypeItem/MockItem';
 import { motion } from 'framer-motion';
 
 const TodayReservation = () => {
@@ -28,7 +27,8 @@ const TodayReservation = () => {
           initial={{ opacity: 0, translateX: -90 }}
           transition={{
             duration: 0.6,
-            ease: 'easeInOut'
+            ease: 'easeInOut',
+            delay: i * 0.1
           }}
           animate={{
             opacity: 1,
@@ -43,8 +43,6 @@ const TodayReservation = () => {
           )}
         </motion.li>
       ))}
-      {/* 변경필요 */}
-      <MockItem />
     </ul>
   );
 };

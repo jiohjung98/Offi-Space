@@ -5,8 +5,9 @@ import { useQueryClient } from 'react-query';
 
 const SelectSeatNav = () => {
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
-  const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
+  //지오님 작업
 
+  const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const queryClient = useQueryClient();
 
   const handleRefresh = () => {

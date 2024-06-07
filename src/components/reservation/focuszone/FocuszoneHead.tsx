@@ -6,6 +6,8 @@ import { useBranchStore } from '@/store/branch.store';
 const FocuszoneHead = () => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const queryClient = useQueryClient();
+
+  //지오님 작업 : branchId 받아오기
   const { branchId } = useBranchStore((state) => state.selectedBranch) as {
     branchId: number;
   };
