@@ -11,6 +11,7 @@ import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 import { Reserve } from '@/api/types/reserve';
 import { reserveMeetingRoom } from '@/api/reservation/reserveMeetingRoom';
 import ReservationModal from './ReservationModal';
+import { useBranchStore } from '@/store/branch.store';
 
 const MeetingRoomInfo = () => {
     const [meetingRoom, setMeetingRoom] = useState<MeetingRoomInfoType | null>(null);
@@ -34,7 +35,16 @@ const MeetingRoomInfo = () => {
         inputRef.current?.focus();
     };
 
-    const selectedBranch = useBranchStore2((state) => state.reservedBranch);
+    const selectedBranch = useBranchStore((state) => state.selectedBranch);
+    const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
+    const reservedBranch = useBranchStore2((state) => state.reservedBranch);
+    const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
+  
+    const currentBranch =
+      updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+        ? selectedBranch
+        : reservedBranch;
+  
 
     const router = useRouter();
 
@@ -100,19 +110,19 @@ const MeetingRoomInfo = () => {
 
     const handleOfficeInfo = async () => {
         try {
-            const data = await getSelectedOfficeInfo(selectedBranch!.branchName); 
+            const data = await getSelectedOfficeInfo(currentBranch!.branchName); 
             const officeInfo = data.data; 
             console.log(officeInfo);
             router.push({
-                pathname: `/branches/${encodeURIComponent(selectedBranch!.branchName)}`,
+                pathname: `/branches/${encodeURIComponent(currentBranch!.branchName)}`,
                 query: { 
-                    name: selectedBranch!.branchName, 
+                    name: currentBranch!.branchName, 
                     address: officeInfo.branchAddress,
                     branchPhoneNumber: officeInfo.branchPhoneNumber,
                     roadFromStation: officeInfo.roadFromStation,
                     stationToBranch: officeInfo.stationToBranch.join(',')
                 }
-            }, `/branches/${encodeURIComponent(selectedBranch!.branchName)}`);
+            }, `/branches/${encodeURIComponent(currentBranch!.branchName)}`);
         } catch (error) {
             console.error('Error fetching office info:', error);
         }
