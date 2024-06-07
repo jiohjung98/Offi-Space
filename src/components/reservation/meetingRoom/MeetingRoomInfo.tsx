@@ -4,7 +4,6 @@ import { getMeetingRoomInfo } from '@/api/reservation/getMeetingRoomInfo';
 import { MeetingRoomInfo as MeetingRoomInfoType } from "@/api/types/room";
 import Image from "next/image";
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import MeetingRoomDatePickerModal from './MeetingRoomDatePicker';
 import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 import { Reserve } from '@/api/types/reserve';
@@ -15,10 +14,6 @@ const MeetingRoomInfo = () => {
     const [meetingRoom, setMeetingRoom] = useState<MeetingRoomInfoType | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [showModal, setShowModal] = useState(false);
-    const [initialStartTime, setInitialStartTime] = useState<Date>(new Date());
-    const [initialEndTime, setInitialEndTime] = useState<Date>(new Date());
-    const [selectedTimeRange, setSelectedTimeRange] = useState<string | null>(null); 
     const [eventName, setEventName] = useState('');
     const [showReservationModal, setShowReservationModal] = useState(false); 
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -74,21 +69,12 @@ const MeetingRoomInfo = () => {
     }, [router.query]);
 
     useEffect(() => {
-        console.log('Stored Get Time:', storedGetTime);
-        console.log('Stored Start Time:', storedStartTime);
-        console.log('Stored End Time:', storedEndTime);
-        console.log('Stored Meeting Room ID:', storedMeetingRoomId);
-
         const formattedStart = `${storedStartTime}.220Z`;
         const formattedEnd = `${storedEndTime}.220Z`;
 
         setFormattedStartTime(formattedStart);
         setFormattedEndTime(formattedEnd);
         setFormattedGetTime(storedGetTime);
-
-    
-        console.log('Formatted Start Time:', formattedStart);
-        console.log('Formatted End Time:', formattedEnd);
     }, [storedGetTime, storedStartTime, storedEndTime, storedMeetingRoomId]);
 
     const handleBackClick = () => {
@@ -108,34 +94,6 @@ const MeetingRoomInfo = () => {
                 });
         }
     }, [meetingRoomId]);
-
-    useEffect(() => {
-        if (formattedGetTime) {
-            const [date, time] = (formattedGetTime as string).split(' ');
-            const [month, day] = date.split('.');
-            const [start, end] = time.split('~');
-            const [startHour, startMinute] = start.split(':');
-            const [endHour, endMinute] = end.split(':');
-            const now = new Date();
-
-            const initialStartDate = new Date(now.getFullYear(), parseInt(month) - 1, parseInt(day), parseInt(startHour), parseInt(startMinute));
-            const initialEndDate = new Date(now.getFullYear(), parseInt(month) - 1, parseInt(day), parseInt(endHour), parseInt(endMinute));
-
-            setInitialStartTime(initialStartDate);
-            setInitialEndTime(initialEndDate);
-            setSelectedTimeRange(`${formattedGetTime}`); 
-        }
-    }, [formattedGetTime]);
-
-    const handleConfirm = (startDate: Date, endDate: Date) => {
-        const formattedStartDate = `${String(startDate.getMonth() + 1).padStart(2, '0')}.${String(startDate.getDate()).padStart(2, '0')}`;
-        const formattedStartTime = `${String(startDate.getHours()).padStart(2, '0')}:${String(startDate.getMinutes()).padStart(2, '0')}`;
-        const formattedEndTime = `${String(endDate.getHours()).padStart(2, '0')}:${String(endDate.getMinutes()).padStart(2, '0')}`;
-
-        setSelectedTimeRange(`${formattedStartDate} ${formattedStartTime}~${formattedEndTime}`);
-
-        setShowModal(false); 
-    };
 
     const handleOfficeInfo = async () => {
         try {
@@ -257,8 +215,8 @@ const MeetingRoomInfo = () => {
             <div className="text-black/opacity-20 text-base font-bold font-['Pretendard'] my-auto">일정</div>
                 <div className="flex-none ml-[8px]">
                     <div className="text-indigo-700 text-base font-semibold font-['Pretendard']">
-                        {selectedTimeRange ? (
-                            `${selectedTimeRange}`
+                        {storedGetTime ? (
+                            `${storedGetTime}`
                         ) : (
                             '시간을 선택해주세요'
                         )}
@@ -269,15 +227,6 @@ const MeetingRoomInfo = () => {
             <footer className='w-full text-center py-[30px] fixed bottom-[70px] left-0 right-0'>
                 <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
             </footer>
-            {showModal && (
-                <MeetingRoomDatePickerModal
-                    showModal={showModal}
-                    setShowModal={setShowModal}
-                    onConfirm={handleConfirm}
-                    initialStartTime={initialStartTime}
-                    initialEndTime={initialEndTime}
-                />
-            )}
             <ReservationModal
                 isVisible={showReservationModal}
                 eventName={eventName}
