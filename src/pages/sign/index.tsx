@@ -1,4 +1,4 @@
-// import { Test } from '@/components/pwa/Test';
+import { Test } from '@/components/pwa/Test';
 import MainContainer from '@/components/shared/MainContainer';
 import SignInButton from '@/components/shared/sign/SignInButton';
 import SignUpButton from '@/components/shared/sign/SignUpButton';
@@ -73,9 +73,9 @@ const SignHomePage = () => {
           </span>
         </Link>
       </div>
-      {/* {Test()}
+      {Test()}
       <div>
-        <button
+        {/* <button
           onClick={() => {
             sendPush({
               title: `알림테스트`,
@@ -85,8 +85,8 @@ const SignHomePage = () => {
             });
           }}>
           fcm 테스트
-        </button>
-      </div> */}
+        </button> */}
+      </div>
     </MainContainer>
   );
 };
