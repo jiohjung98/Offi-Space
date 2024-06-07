@@ -11,7 +11,9 @@ const AvailavleCount = () => {
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
   const currentBranch =
-    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+    updatedTimeSelected &&
+    updatedTimeReserved &&
+    updatedTimeSelected > updatedTimeReserved
       ? selectedBranch
       : reservedBranch;
 

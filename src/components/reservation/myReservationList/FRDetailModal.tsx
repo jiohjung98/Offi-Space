@@ -8,7 +8,8 @@ import { getReservationDetail } from '../remote/myreservation';
 import { format } from 'date-fns';
 
 const FRDetailModal = () => {
-  const { setOpen, reservationId, setDeleteOpen } = useReservationStore();
+  const { setOpen, reservationId, setDeleteOpen, setDeleteDeskId } =
+    useReservationStore();
 
   const { data } = useQuery(
     ['reservationDetail', reservationId],
@@ -20,6 +21,10 @@ const FRDetailModal = () => {
 
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setOpen(false));
+
+  if (data == undefined) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">
@@ -65,7 +70,7 @@ const FRDetailModal = () => {
               </div>
               <div>
                 <div className="text-space-black text-base font-semibold">
-                  {data?.branchName} 여기 고쳐라
+                  {data?.branchName} {data?.spaceName}
                 </div>
                 <div className="text-space-black text-sm font-medium">
                   {data?.branchAddress}
@@ -74,6 +79,7 @@ const FRDetailModal = () => {
             </div>
             <div
               onClick={() => {
+                setDeleteDeskId(data?.spaceId);
                 setOpen(false);
                 setDeleteOpen(true);
               }}

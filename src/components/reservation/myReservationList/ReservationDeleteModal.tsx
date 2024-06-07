@@ -1,19 +1,19 @@
 import useOnClickOutside from '@/components/community/hooks/useOnClickOutside';
 import { useReservationStore } from '@/store/reservationModal.store';
 import React, { useRef } from 'react';
-import { QueryClient, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
+import { deleteFocuszone } from '../remote/myreservation';
 
 const ReservationDeleteModal = () => {
-  const { reservationId, setDeleteOpen } = useReservationStore();
+  const { deleteDeskId, setDeleteOpen } = useReservationStore();
   const queryClient = useQueryClient();
 
-  // const { mutateAsync } = useMutation((reservationId: number) => , {
-  //   onSuccess: () => {
-  //     setDeleteOpen(false)
-  // queryClient.invalidateQueries(['todayReservationList']);
-  // queryClient.invalidateQueries(['monthReservationList']);
-  //   }
-  // });
+  const { mutateAsync } = useMutation((deskId: number) => deleteFocuszone(deskId), {
+    onSuccess: () => {
+      setDeleteOpen(false);
+      queryClient.invalidateQueries(['todayReservationList']);
+    }
+  });
 
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setDeleteOpen(false));
@@ -34,11 +34,11 @@ const ReservationDeleteModal = () => {
             취소
           </div>
           <div
-            // onClick={() => {
-            //   if (reservationId) {
-            //     mutateAsync(reservationId);
-            //   }
-            // }}
+            onClick={() => {
+              if (deleteDeskId) {
+                mutateAsync(deleteDeskId);
+              }
+            }}
             className="cursor-pointer flex-1 flex items-center justify-center py-[12.5px] rounded-lg text-white bg-space-purple font-semibold text-base">
             확인
           </div>

@@ -1,13 +1,14 @@
 import useOnClickOutside from '@/components/community/hooks/useOnClickOutside';
 import { useReservationStore } from '@/store/reservationModal.store';
 import React, { useRef } from 'react';
-import { useQuery } from 'react-query';
 import { motion } from 'framer-motion';
 
 const MeetingDetailModal = () => {
+  //todo 미팅룸 보류
   const { setOpen, reservationId, setDeleteOpen } = useReservationStore();
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setOpen(false));
+  console.log(reservationId);
 
   //지워라
   const memberList = [

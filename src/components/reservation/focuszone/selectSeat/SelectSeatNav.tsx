@@ -5,24 +5,24 @@ import React, { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 
 const SelectSeatNav = () => {
-
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
   const reservedBranch = useBranchStore2((state) => state.reservedBranch);
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
   const currentBranch =
-    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+    updatedTimeSelected &&
+    updatedTimeReserved &&
+    updatedTimeSelected > updatedTimeReserved
       ? selectedBranch
       : reservedBranch;
-
 
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const queryClient = useQueryClient();
 
   const handleRefresh = () => {
     if (currentBranch?.branchId) {
-      queryClient.invalidateQueries(['seatInfo', selectedBranch?.branchId]);
+      queryClient.invalidateQueries(['seatInfo', currentBranch?.branchId]);
       setCurrentTime(format(new Date(), 'HH:mm'));
     }
   };
