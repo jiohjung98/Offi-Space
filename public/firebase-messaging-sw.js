@@ -13,9 +13,6 @@ firebase.initializeApp({
 // 푸시 내용을 처리해서 알림으로 띄운다.
 self.addEventListener('push', function (event) {
   if (event.data) {
-    console.log(event.data.json().data);
-    console.log(event.data.json().notification);
-
     // 알림 메세지일 경우엔 event.data.json().notification;
     const url = event.data.json().data;
     const data = event.data.json().notification;
@@ -38,13 +35,9 @@ self.addEventListener('push', function (event) {
 // 알림을 클릭하면 사이트로 이동한다.
 self.addEventListener('notificationclick', function (event) {
   event.preventDefault();
-  // 알림창 닫기
   event.notification.close();
-
-  // 이동할 url
   const urlToOpen = event.notification.data.targetUrl;
-  console.log(urlToOpen);
-  // 클라이언트에 해당 사이트가 열려 있는지 체크
+
   const promiseChain = clients
     .matchAll({
       type: 'window',

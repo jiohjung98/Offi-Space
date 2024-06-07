@@ -1,10 +1,10 @@
-import { Test } from '@/components/pwa/Test';
+// import { Test } from '@/components/pwa/Test';
 import MainContainer from '@/components/shared/MainContainer';
 import SignInButton from '@/components/shared/sign/SignInButton';
 import SignUpButton from '@/components/shared/sign/SignUpButton';
 
 import Link from 'next/link';
-import useSendPush from '@/components/pwa/UseSendPush';
+// import useSendPush from '@/components/pwa/UseSendPush';
 import { getTokenHandler } from '@/components/pwa/Fcm';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -20,8 +20,10 @@ const SignHomePage = () => {
     }
   }, [router, token]);
 
+  /* eslint-disable */
   const [FcmToken, setFcmToken] = useState('');
-  const sendPush = useSendPush();
+
+  // const sendPush = useSendPush();
   //
   useEffect(() => {
     const fetchToken = async () => {
@@ -38,7 +40,7 @@ const SignHomePage = () => {
     fetchToken();
   }, []);
 
-  console.log(FcmToken);
+  // console.log(FcmToken);
   return (
     <MainContainer>
       <div className="flex flex-col justify-center items-center gap-[39px] h-[470px]">
@@ -71,7 +73,7 @@ const SignHomePage = () => {
           </span>
         </Link>
       </div>
-      {Test()}
+      {/* {Test()}
       <div>
         <button
           onClick={() => {
@@ -84,7 +86,7 @@ const SignHomePage = () => {
           }}>
           fcm 테스트
         </button>
-      </div>
+      </div> */}
     </MainContainer>
   );
 };

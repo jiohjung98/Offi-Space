@@ -8,14 +8,13 @@ import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 const Index = () => {
+  /* eslint-disable */
   const member = useMember();
   const { data: memberData } = useQuery({ queryKey: ['userinfo'], queryFn: userinfo });
   const setmember = useSetMember();
   useEffect(() => {
-    console.log(memberData);
     setmember(memberData?.data);
   }, [memberData, setmember]);
-  console.log(member);
 
   return (
     <MainContainer>

@@ -4,6 +4,7 @@ import { useMember } from '@/store/user';
 import { getTitleFromDescription, jobPosition } from '@/constant/jobPosition';
 import { BackArrow } from '@/components/backarrow/BackArrow';
 import { memberimage } from '@/api/auth/auth.patch.api';
+import useUpdateMember from '@/hook/useUpdateMember';
 // import { useQuery } from 'react-query'; // Uncomment when useQuery is available
 
 export default function Profile() {
@@ -11,7 +12,6 @@ export default function Profile() {
 
   //api나오면 zustand 로직으로 수정
   const [fileUrl, setFileUrl] = useState<string | null>(null);
-  // const [contact] = useState('010-1234-5678');
 
   const member = useMember();
   const job = getTitleFromDescription(jobPosition, member.memberJob);
@@ -29,12 +29,12 @@ export default function Profile() {
   //   console.log(formData);
 
   // };
-  console.log(member.imageUrl);
+  console.log(fileUrl);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       const formData = new FormData();
-      formData.append('images', file);
+      formData.append('image', file);
       console.log(formData);
       memberimage(formData);
 
@@ -57,27 +57,16 @@ export default function Profile() {
     }
     console.log(formData);
   };
+  useUpdateMember();
 
   return (
     <div className="w-full  flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-6 rounded-lg ">
-        <BackArrow width="40px" height="24px" name="프로필 수정" />
+        <BackArrow width="40px" height="24px" name="프로필 수정" link="/mypage" />
         <div className="flex flex-col items-center mb-[12px] mt-[22px]">
           <div className="w-[100px] relative">
             <label className=" cursor-pointer" htmlFor="fileInput">
-              {fileUrl ? (
-                <img
-                  className="w-24 h-24 rounded-full"
-                  src={fileUrl}
-                  alt="Selected Profile Picture"
-                />
-              ) : (
-                <img
-                  className="w-24 h-24 rounded-full"
-                  src={member.imageUrl}
-                  alt="Profile Picture"
-                />
-              )}
+              <img className="w-24 h-24 rounded-full" src={member.imageUrl} />
 
               <label className="w-7 h-7 absolute bottom-0 right-0 bg-neutral-400 rounded-full border border-white cursor-pointer flex items-center justify-center">
                 <img
@@ -89,6 +78,7 @@ export default function Profile() {
                   id="fileInput"
                   type="file"
                   className="hidden"
+                  accept="image/*"
                   onChange={handleFileChange}
                 />
               </label>

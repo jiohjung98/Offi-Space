@@ -1,0 +1,9 @@
+<svg width="21" height="24" viewBox="0 0 21 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="navi">
+<rect id="Rectangle 42694" x="5.37461" y="12.6" width="15" height="10.8" rx="1.2" stroke="#373737" stroke-width="1.2"/>
+<path id="Rectangle 42693" d="M0.574657 1.8C0.574657 0.805887 1.38054 0 2.37466 0H16.7747C17.7688 0 18.5747 0.805888 18.5747 1.8V24H2.37466C1.38054 24 0.574657 23.1941 0.574657 22.2V1.8Z" fill="#373737"/>
+<path id="Vector 1911" d="M4.77461 5.39999H14.3746" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+<path id="Vector 1912" d="M4.77461 9H10.7746" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+<path id="Rectangle 42695" d="M17.9746 12.6H19.1746C19.8374 12.6 20.3746 13.1373 20.3746 13.8V22.2C20.3746 22.8627 19.8374 23.4 19.1746 23.4C18.5119 23.4 17.9746 22.8627 17.9746 22.2V12.6Z" stroke="#373737" stroke-width="1.2"/>
+</g>
+</svg>

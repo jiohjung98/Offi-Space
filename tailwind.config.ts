@@ -7,6 +7,12 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
+    screens: {
+      xs: { min: ' 350px', max: '400px' },
+      sm: { min: '401p', max: '551px' },
+      md: { min: '552px' }
+      // ...
+    },
     extend: {
       colors: {
         'space-purple': '#4E32BB',

@@ -15,7 +15,7 @@ const MemberWithdrawal = () => {
   return (
     <MainContainer>
       <div className="mt-[20px] ml-[10px] ">
-        <BackArrow width="40px" height="24px" name="회원 탈퇴" />
+        <BackArrow width="40px" height="24px" name="회원 탈퇴" link="/mypage" />
       </div>
       <div className="w-full h-screen bg-white flex flex-col items-center">
         <div className="flex flex-col p-[16px] items-start mt-3">
