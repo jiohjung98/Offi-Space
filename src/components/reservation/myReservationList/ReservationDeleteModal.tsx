@@ -7,7 +7,6 @@ import { deleteFocuszone } from '../remote/myreservation';
 const ReservationDeleteModal = () => {
   const { deleteDeskId, setDeleteOpen } = useReservationStore();
   const queryClient = useQueryClient();
-  console.log(reservationId);
 
   const { mutateAsync } = useMutation((deskId: number) => deleteFocuszone(deskId), {
     onSuccess: () => {

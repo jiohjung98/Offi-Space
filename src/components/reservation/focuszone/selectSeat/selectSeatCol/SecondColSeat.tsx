@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 
 interface SecondColSeatType {
   selectedSeat: string | null;
-  // eslint-disable-next-line no-unused-vars
   handleSeatClick: ({
     deskId,
     deskNumber

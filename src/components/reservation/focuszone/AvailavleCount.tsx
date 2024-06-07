@@ -17,7 +17,7 @@ const AvailavleCount = () => {
       ? selectedBranch
       : reservedBranch;
 
-  const branchId = currentBranch!.branchId;
+  const branchId = currentBranch!.branchId as number;
 
   const { data } = useQuery(
     ['availableCount', branchId],
