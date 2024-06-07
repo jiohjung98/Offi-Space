@@ -18,8 +18,14 @@ const FRDetailModal = () => {
     }
   );
 
+  console.log(data);
+
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setOpen(false));
+
+  if (data == undefined) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">

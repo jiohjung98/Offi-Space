@@ -6,6 +6,7 @@ import { QueryClient, useMutation, useQueryClient } from 'react-query';
 const ReservationDeleteModal = () => {
   const { reservationId, setDeleteOpen } = useReservationStore();
   const queryClient = useQueryClient();
+  console.log(reservationId);
 
   // const { mutateAsync } = useMutation((reservationId: number) => , {
   //   onSuccess: () => {
