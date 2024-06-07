@@ -5,6 +5,7 @@ import {
   TodayList,
   reservationDetailData
 } from '../model/myreservation';
+import { ICommon } from '@/api/types/common';
 
 export const getTodayReservationCount = async () => {
   try {
@@ -34,47 +35,13 @@ export const getReservationDetail = async (reservationId: number | null) => {
   }
 };
 
-export const quitFocuszone = async (reservationId) => {
+export const deleteFocuszone = async (deskId: number) => {
   try {
-    const { data } = await deleteRequest<ICommon<null>>(`reservations/focus-desks`);
+    const { data } = await deleteRequest<ICommon<null>>(
+      `reservations/focus-desks/${deskId}`
+    );
     return data;
   } catch (error: any) {
     return error.response.data;
   }
 };
-
-// export const getFocuszoneSeatCount = async (branchId: number) => {
-//   try {
-//     const { data } = await getRequest<FocusSeatCountType>(
-//       `spaces/focus-zone/${branchId}/available-seat-count`
-//     );
-//     return data;
-//   } catch (error: any) {
-//     return error.response.data;
-//   }
-// };
-
-// export const checkDeskId = async (deskId: number) => {
-//   try {
-//     const { data } = await getRequest<CheckDeskIdType>(
-//       `reservations/focus-desks/check-overlap/${deskId}`
-//     );
-//     return data;
-//   } catch (error: any) {
-//     return error.response.data;
-//   }
-// };
-
-// export const reservationFocus = async (deskId: number) => {
-//   try {
-//     const response = await postRequest<ICommon<null>, reservationFocusReqType>(
-//       `reservations/focus-desks`,
-//       {
-//         focusDeskId: deskId
-//       }
-//     );
-//     return response;
-//   } catch (error: any) {
-//     return error.response.data;
-//   }
-// };

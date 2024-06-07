@@ -8,7 +8,8 @@ import { getReservationDetail } from '../remote/myreservation';
 import { format } from 'date-fns';
 
 const FRDetailModal = () => {
-  const { setOpen, reservationId, setDeleteOpen } = useReservationStore();
+  const { setOpen, reservationId, setDeleteOpen, setDeleteDeskId } =
+    useReservationStore();
 
   const { data } = useQuery(
     ['reservationDetail', reservationId],
@@ -71,7 +72,7 @@ const FRDetailModal = () => {
               </div>
               <div>
                 <div className="text-space-black text-base font-semibold">
-                  {data?.branchName} 여기 고쳐라
+                  {data?.branchName} {data?.spaceName}
                 </div>
                 <div className="text-space-black text-sm font-medium">
                   {data?.branchAddress}
@@ -80,6 +81,7 @@ const FRDetailModal = () => {
             </div>
             <div
               onClick={() => {
+                setDeleteDeskId(data?.spaceId);
                 setOpen(false);
                 setDeleteOpen(true);
               }}

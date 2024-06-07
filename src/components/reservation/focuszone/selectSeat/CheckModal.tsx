@@ -2,26 +2,35 @@ import useOnClickOutside from '@/components/community/hooks/useOnClickOutside';
 import React, { Dispatch, useRef } from 'react';
 import { useMutation } from 'react-query';
 import { reservationFocus } from '../../remote/focuszone';
+import { useBranchStore } from '@/store/branch.store';
+import { Branch } from '@/api/types/branch';
 
 interface CheckModalType {
   modalDeskId: number | null;
   setCheckModal: Dispatch<React.SetStateAction<boolean>>;
   setModalOpen: Dispatch<React.SetStateAction<boolean>>;
+  branch: Branch;
 }
 
-const CheckModal = ({ modalDeskId, setCheckModal, setModalOpen }: CheckModalType) => {
+const CheckModal = ({ modalDeskId, setCheckModal, setModalOpen, branch }: CheckModalType) => {
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setCheckModal(false));
+  const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
 
   const { mutateAsync } = useMutation(
     async (deskId: number) => reservationFocus(deskId),
     {
       onSuccess: () => {
+        handleBranchSelect(branch);
         setCheckModal(false);
         setModalOpen(true);
       }
     }
   );
+
+  const handleBranchSelect = (branch: Branch) => {
+    setSelectedBranch(branch, Date.now());
+  };
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">

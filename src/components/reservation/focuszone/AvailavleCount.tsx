@@ -2,16 +2,22 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { getFocuszoneSeatCount } from '../remote/focuszone';
 import { useBranchStore } from '@/store/branch.store';
+import { useBranchStore2 } from '@/store/reserve.store';
 
 const AvailavleCount = () => {
-  const { branchId } = useBranchStore((state) => state.selectedBranch) as {
-    branchId: number;
-  };
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
+  const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
+  const reservedBranch = useBranchStore2((state) => state.reservedBranch);
+  const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
-  //지오님작업 : 현재 useBranchStore(기존 메인페이지 지점)의 branchId로 실시간 좌석 현황을 받아오고있습니다
-  // nav바, 내 주변에서 새롭게 지점이 설정되면 해당 지점의 id를 받아올 수 있게 해주시면 해주시면 되고,
-  // nav바, 내 주변에서 지점 선택을 따로 하지 않았을시는 기존 그대로 useBranchStore의 branchId를 받아오면 됩니다
-  // 가져와주시기만 하면 useQuery연결은 제가 작업하겠습니다.
+  const currentBranch =
+    updatedTimeSelected &&
+    updatedTimeReserved &&
+    updatedTimeSelected > updatedTimeReserved
+      ? selectedBranch
+      : reservedBranch;
+
+  const branchId = currentBranch!.branchId;
 
   const { data } = useQuery(
     ['availableCount', branchId],

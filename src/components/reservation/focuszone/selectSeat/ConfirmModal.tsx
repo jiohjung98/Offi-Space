@@ -2,6 +2,7 @@ import React, { Dispatch } from 'react';
 import { useRouter } from 'next/router';
 import { useBranchStore } from '@/store/branch.store';
 import { format } from 'date-fns';
+import { useBranchStore2 } from '@/store/reserve.store';
 
 interface ConfirmModalType {
   setModalOpen: Dispatch<React.SetStateAction<boolean>>;
@@ -12,9 +13,16 @@ const ConfirmModal = ({ setModalOpen, modalDeskNumber }: ConfirmModalType) => {
   const router = useRouter();
 
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
-  //지오님 작업
+  const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
+  const reservedBranch = useBranchStore2((state) => state.reservedBranch);
+  const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
-  const branchName = selectedBranch?.branchName;
+  const currentBranch =
+    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+      ? selectedBranch
+      : reservedBranch;
+
+  const branchName = currentBranch?.branchName;
   const now = new Date();
   const formattedDate = format(now, 'MM.dd HH:mm');
 
