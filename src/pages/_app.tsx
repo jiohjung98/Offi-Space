@@ -1,3 +1,4 @@
+import { AuthorizationProvider } from '@/providers/Authentication';
 import MockProvider from '@/providers/MockProvider';
 import QueryProvider from '@/providers/QueryProvider';
 import '@/styles/globals.css';

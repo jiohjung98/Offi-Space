@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 import axios, {
   Axios,
   InternalAxiosRequestConfig,
@@ -6,8 +5,12 @@ import axios, {
   AxiosResponse
 } from 'axios';
 
-import { getCookie } from '@utils/cookies';
+import { getCookie, removeCookie, setCookie } from '@utils/cookies';
 import logOnDev from '@utils/logOnDev';
+// import jwtDecode from 'jwt-decode';
+import { updateRefresh } from './refresh/tokenRefresh.api';
+
+import { UseRouter } from '@/hook/UseRouter';
 
 export const instance: Axios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -42,41 +45,44 @@ instance.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => {
     return response;
   },
-  (error: AxiosError | Error): Promise<AxiosError> => {
+  async (error: AxiosError | Error): Promise<any> => {
     if (process.env.NODE_ENV === 'development') {
-      if (axios.isAxiosError(error)) {
+      if (axios.isAxiosError(error) && error.config) {
         const { message } = error;
         const { method, url } = error.config as InternalAxiosRequestConfig;
         const { status, statusText } = error.response as AxiosResponse;
+
         logOnDev(
           `🚨 [API] ${method?.toUpperCase()} ${url} | Error ${status} ${statusText} | ${message}`
         );
-        switch (status) {
-          case 401: {
-            toast.error('로그인이 필요합니다');
-            break;
+        // 1. refresh 요청을 보내기 위한 거니까 '/auth/refresh' 요청에서 실패한게 아니어야함
+        if ((status == 401 || status == 419) && url !== '/reissue') {
+          console.log('error', url);
+          try {
+            const refreshResponse = await updateRefresh();
+
+            if (
+              refreshResponse &&
+              typeof refreshResponse.data.data.accessToken === 'string'
+            ) {
+              const token = refreshResponse.data.data.accessToken;
+              setCookie('token', token);
+              error.config.headers.Authorization = `Bearer ${token}`;
+              console.log(`리프레쉬 로직 작동  ${token}`);
+              return instance.request(error.config);
+            } else {
+              throw new Error('Refresh token is null');
+            }
+          } catch (refreshError) {
+            removeCookie('refreshToken');
+            UseRouter('');
+            return Promise.reject(refreshError);
           }
-          case 403: {
-            toast.error('잘못된 권한입니다');
-            break;
-          }
-          case 404: {
-            toast.error('잘못된 요청입니다');
-            break;
-          }
-          case 500: {
-            toast.error('서버 에러 발생');
-            break;
-          }
-          default: {
-            toast.error('알 수 없는 오류 발생');
-            break;
-          }
+        } else {
+          logOnDev(`🚨 [API] | Error ${error.message}`);
         }
-      } else {
-        logOnDev(`🚨 [API] | Error ${error.message}`);
       }
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
   }
 );

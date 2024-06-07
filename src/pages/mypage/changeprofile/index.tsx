@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useMember } from '@/store/user';
 import { getTitleFromDescription, jobPosition } from '@/constant/jobPosition';
 import { BackArrow } from '@/components/backarrow/BackArrow';
+import { memberimage } from '@/api/auth/auth.patch.api';
 // import { useQuery } from 'react-query'; // Uncomment when useQuery is available
 
 export default function Profile() {
@@ -28,9 +29,15 @@ export default function Profile() {
   //   console.log(formData);
 
   // };
-
+  console.log(member.imageUrl);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append('images', file);
+      console.log(formData);
+      memberimage(formData);
+
       setSelectedFile(event.target.files[0]);
       const reader = new FileReader();
       reader.onload = function (e) {
@@ -67,7 +74,7 @@ export default function Profile() {
               ) : (
                 <img
                   className="w-24 h-24 rounded-full"
-                  src="/mypage/profilechange/ProfileImage.svg"
+                  src={member.imageUrl}
                   alt="Profile Picture"
                 />
               )}
