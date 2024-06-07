@@ -7,13 +7,24 @@ import { postDataType } from '../model/postDataType';
 import { useEnumToCategory } from '../hooks/useEnumToCategory';
 import { useEnumToTag } from '../hooks/useEnumToTag';
 
-const PostItem = ({ post }: { post: postDataType }) => {
+const PostItem = ({
+  post,
+  allPosts
+}: {
+  post: postDataType;
+  allPosts: postDataType[];
+}) => {
   const router = useRouter();
   const tag = useEnumToTag(post?.tag);
+
+  const handlePostClick = () => {
+    sessionStorage.setItem('scrollPosition', window.scrollY.toString());
+    sessionStorage.setItem('savedData', JSON.stringify(allPosts));
+    router.push(`/community/${post.postId}`);
+  };
+
   return (
-    <div
-      onClick={() => router.push(`/community/${post.postId}`)}
-      className="my-6 cursor-pointer">
+    <div onClick={handlePostClick} className="my-6 cursor-pointer">
       {/* 태그자리 */}
       <div className="px-2 py-1 text-center bg-gray-100 inline-flex rounded-3xl">
         <span className="text-xs font-bold text-gray-700">{tag}</span>

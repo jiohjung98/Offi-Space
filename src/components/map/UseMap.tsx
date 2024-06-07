@@ -6,6 +6,7 @@ import MapSearchResult from './MapSearchResult';
 import { getBranchInfo } from '@/api/map/getOffice';
 import { Branch } from '@/api/types/branch';
 import BranchModal from './BranchModal';
+import { getOfficeAvailable } from '@/api/map/getOfficeAvailable';
 
 const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -24,6 +25,8 @@ const UseMap: React.FC = () => {
   const [currentLatitude, setCurrentLatitude] = useState<number>(37.4979);
   const [currentLongitude, setCurrentLongitude] = useState<number>(127.0276);
   const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
+  const [branchCount, SetBranchCount] = useState(0);
+  const [canBranchCount, SetCanBranchCount] = useState(0);
 
   useEffect(() => {
     const initMap = () => {
@@ -196,6 +199,19 @@ const UseMap: React.FC = () => {
     };
   }, [map]);
 
+  const handleOfficeAvailable = async (branch: Branch) => {
+    try {
+      const data = await getOfficeAvailable(branch.branchName); 
+      if (data.data) {
+        SetBranchCount(data.data.branchTotalMeetingRoomCount);
+        SetCanBranchCount(data.data.branchActiveMeetingRoomCount);
+        console.log(data);
+      }
+    } catch (error) {
+      console.error('Error updating selected branch:', error);
+    }
+  };
+
   const handleMarkerClick = (branch: Branch) => {
     const position = new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude);
     map?.panTo(position);
@@ -203,6 +219,7 @@ const UseMap: React.FC = () => {
     setSelectedBranch(branch);
     setIsModalOpen(true);
     setSelectedMarker(branch.branchName);
+    handleOfficeAvailable(branch);
   };
 
   const handleSearchQueryChange = (query: string) => {
@@ -253,7 +270,9 @@ const UseMap: React.FC = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         branchName={selectedBranch?.branchName || ''}
-        branchAddress={selectedBranch?.branchAddress || ''}
+        branchAddress={selectedBranch?.branchAddress || ''} 
+        branchActiveMeetingRoomCount={canBranchCount} 
+        branchTotalMeetingRoomCount={branchCount}        
       />
       <button
         id="current-location-button"

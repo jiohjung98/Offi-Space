@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from 'react';
 import { Branch } from '@/api/types/branch';
 import Image from 'next/image';
 import { useBranchStore } from '@/store/branch.store';
+import { getOfficeAvailable } from '@/api/map/getOfficeAvailable';
 
 interface SelectOfficeMapProps {
   branch: Branch;
@@ -11,11 +13,30 @@ interface SelectOfficeMapProps {
 const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
+  const [branchCount, SetBranchCount] = useState(0);
+  const [canBranchCount, SetCanBranchCount] = useState(0);
+
+  const handleOfficeAvailable = async (branch: Branch) => {
+    try {
+      const data = await getOfficeAvailable(branch.branchName); 
+      if (data.data) {
+        SetBranchCount(data.data.branchTotalMeetingRoomCount);
+        SetCanBranchCount(data.data.branchActiveMeetingRoomCount);
+        console.log(data);
+      }
+    } catch (error) {
+      console.error('Error updating selected branch:', error);
+    }
+  };
 
   const handleBranchSelection = () => {
-    setSelectedBranch(branch);
+    setSelectedBranch(branch, Date.now())
     onClose();
   };
+
+  useEffect(() => {
+    handleOfficeAvailable(branch); 
+  }, []);
 
   useEffect(() => {
     const { naver } = window;
@@ -45,10 +66,11 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
   }, [branch]);
 
   return (
-    <div className="fixed inset-0 bg-white z-50 flex items-center justify-center">
-      <div ref={mapRef} className="w-[393px] mx-auto h-full" />
+    <div className="fixed inset-0 bg-white z-50 flex items-center justify-center z-[9999]">
+      <div ref={mapRef} className="w-[393px] mx-auto h-full">
+      </div>
       <div className="absolute top-4 right-4">
-        <aside className="w-[373px] mx-auto fixed bottom-[85px] left-0 right-0 z-50">
+        <aside className="w-[373px] mx-auto fixed bottom-[30px] left-0 right-0 z-50">
           <div className="bg-white px-4 py-6 rounded-lg shadow-lg">
             <div className='flex'>
               <div className="flex-shrink-0 w-[88px] h-[88px] bg-gray-300 rounded-md">
@@ -70,7 +92,7 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
                 )}
                 <div className="flex">
                   <Image src="/map/OfficeInfo.svg" alt="Location" width={12} height={12} className="mr-2" />
-                  <p className="text-sm break-words">회의실 43개 중 현재 22개 사용중</p>
+                  <p className="text-sm break-words">회의실 {branchCount}개 중 현재 {canBranchCount}개 사용중</p>
                 </div>
               </div>
             </div>
@@ -84,12 +106,6 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
             </div>
           </div>
         </aside>
-        <button 
-          onClick={onClose} 
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white text-black flex items-center justify-center"
-        >
-          X
-        </button>
       </div>
     </div>
   );

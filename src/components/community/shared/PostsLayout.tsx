@@ -24,7 +24,11 @@ const PostsLayout = () => {
         getNextPageParam: (lastPage) => {
           return lastPage.hasNext ? lastPage.lastVisible : undefined;
         },
-        enabled: !!newCategory
+        enabled: !!newCategory,
+        initialData: () => {
+          const savedData = sessionStorage.getItem('savedData');
+          return savedData ? JSON.parse(savedData) : undefined;
+        }
       }
     );
 
@@ -49,11 +53,18 @@ const PostsLayout = () => {
 
   const allPosts = data?.pages?.map(({ content }) => content).flat();
 
+  useEffect(() => {
+    const savedScrollPosition = sessionStorage.getItem('scrollPosition');
+    if (savedScrollPosition) {
+      window.scrollTo(0, parseFloat(savedScrollPosition));
+    }
+  }, []);
+
   return (
     <div className="mx-4 mt-8 mb-16">
       {allPosts?.map((post: postDataType, i: number) => (
         <Fragment key={post?.postId}>
-          <PostItem post={post} />
+          <PostItem post={post} allPosts={allPosts} />
           {i < allPosts?.length - 1 && <div className="w-full h-[2px] bg-gray-50" />}
         </Fragment>
       ))}
