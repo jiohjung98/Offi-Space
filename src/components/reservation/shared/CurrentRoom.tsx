@@ -13,10 +13,10 @@ const CurrentRoom = () => {
   const [selectedUpdatedTime, setSelectedUpdatedTime] = useState<number | null>(null);
   const [reservedUpdatedTime, setReservedUpdatedTime] = useState<number | null>(null);
 
-  const updateSelectedBranch = useBranchStore(state => state.selectedBranch);
-  const updateSelectedBranchTime = useBranchStore(state => state.updatedTimeSelected);
-  const updateReservedBranch = useBranchStore2(state => state.reservedBranch);
-  const updateReservedBranchTime = useBranchStore2(state => state.updatedTimeReserved);
+  const updateSelectedBranch = useBranchStore((state) => state.selectedBranch);
+  const updateSelectedBranchTime = useBranchStore((state) => state.updatedTimeSelected);
+  const updateReservedBranch = useBranchStore2((state) => state.reservedBranch);
+  const updateReservedBranchTime = useBranchStore2((state) => state.updatedTimeReserved);
 
   useEffect(() => {
     setSelectedBranch(updateSelectedBranch);
@@ -34,7 +34,6 @@ const CurrentRoom = () => {
     setShowSearchModal(false);
     setShowSelectOfficeMap(true);
   };
-  
 
   const handleSearchClick = () => {
     setShowSearchModal(true);
@@ -52,16 +51,20 @@ const CurrentRoom = () => {
     console.log('Reserved Branch Updated:', reservedBranch);
   }, [reservedBranch]);
 
-  const currentBranch = selectedUpdatedTime && reservedUpdatedTime && selectedUpdatedTime > reservedUpdatedTime
-    ? selectedBranch
-    : reservedBranch;
+  const currentBranch =
+    selectedUpdatedTime &&
+    reservedUpdatedTime &&
+    selectedUpdatedTime > reservedUpdatedTime
+      ? selectedBranch
+      : reservedBranch;
+
+  // const currentBranch = selectedBranch;
 
   return (
     <>
       <div
         onClick={handleSearchClick}
-        className="py-5 flex items-center gap-[7px] cursor-pointer max-w-max mx-4"
-      >
+        className="py-5 flex items-center gap-[7px] cursor-pointer max-w-max mx-4">
         <div>
           <img src="/reservation/location.svg" alt="location icon" />
         </div>
@@ -72,7 +75,12 @@ const CurrentRoom = () => {
           <img src="/reservation/toBottom.svg" alt="dropdown icon" />
         </div>
       </div>
-      {showSearchModal && <SharedSearchModal onClose={() => setShowSearchModal(false)} onBranchSelect={handleBranchSelect} />}
+      {showSearchModal && (
+        <SharedSearchModal
+          onClose={() => setShowSearchModal(false)}
+          onBranchSelect={handleBranchSelect}
+        />
+      )}
       {showSelectOfficeMap && currentBranch && (
         <SharedSelectOffice branch={currentBranch} onClose={handleCloseSelectOfficeMap} />
       )}
