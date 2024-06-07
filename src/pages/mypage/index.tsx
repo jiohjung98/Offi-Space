@@ -6,6 +6,7 @@ import { useState } from 'react';
 import useLoggedOut from '@/hook/useLoggedOut';
 import SuccessModal from '@/components/modal/successModal';
 import Footer from '@/components/footer/Footer';
+import useUpdateMember from '@/hook/useUpdateMember';
 
 const MyPage = () => {
   const member = useMember();
@@ -21,18 +22,25 @@ const MyPage = () => {
       logout();
     }, 2000);
   };
-
+  useUpdateMember();
   const handleCancel = () => {
     setModalVisible(false);
   };
-
+  console.log(member.imageUrl);
   return (
     <div className=" max-w-[393px]  mx-auto relative">
       <Footer />
       <div className="w-full max-w-md flex flex-col items-center justify-center mt-[82px] relative">
         <div className="flex flex-col justify-center items-center">
           <div>
-            <img src="/mypage/ProfileImage.svg" />
+            {member.imageUrl && (
+              <img
+                className="w-24 h-24 rounded-full"
+                src={member.imageUrl}
+                alt="Selected Profile Picture"
+              />
+            )}
+            {/* <img src={`${member.imageUrl}`}></img> */}
           </div>
           <div className="w-[130px] h-[73px] flex flex-col justify-center items-center">
             <div className="h-14 flex flex-col justify-start items-start gap-2">
@@ -97,21 +105,25 @@ const MyPage = () => {
           </Link>
 
           <img src="/mypage/Vector.svg" />
-
-          <div className="flex flex-col justify-center items-start">
-            <div className="w-[70px] h-[78px] flex flex-col justify-start items-center">
-              <div className="w-[70px] h-[54px] flex justify-center items-center gap-2">
-                <div className="w-[43px] h-[43px] bg-indigo-50 rounded-full relative">
-                  <img className="absolute top-1/4 left-1/4" src="/mypage/Inquiry.svg" />
+          <Link href={'/mypage/question'}>
+            <div className="flex flex-col justify-center items-start">
+              <div className="w-[70px] h-[78px] flex flex-col justify-start items-center">
+                <div className="w-[70px] h-[54px] flex justify-center items-center gap-2">
+                  <div className="w-[43px] h-[43px] bg-indigo-50 rounded-full relative">
+                    <img
+                      className="absolute top-1/4 left-1/4"
+                      src="/mypage/Inquiry.svg"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="w-[70px] flex justify-center items-center">
-                <div className="opacity-70 text-black/opacity-20 text-base font-medium font-['Pretendard'] leading-normal">
-                  1:1문의
+                <div className="w-[70px] flex justify-center items-center">
+                  <div className="opacity-70 text-black/opacity-20 text-base font-medium font-['Pretendard'] leading-normal">
+                    1:1문의
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
 
         <div className="w-full h-[13px] bg-stone-50 mt-[36px] mb-[24px]" />

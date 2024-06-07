@@ -21,17 +21,21 @@ export const changepassword = async ({
 
 export const memberimage = async (imageData: FormData) => {
   const token = getCookie('token');
-  const response = await axios.patch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}members/image`,
-    imageData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`
-      },
-      withCredentials: true
-    }
-  );
+  try {
+    const response = await axios.patch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}members/image`,
+      imageData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
+        },
+        withCredentials: true
+      }
+    );
 
-  return response;
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
 };

@@ -4,6 +4,7 @@ import { useMember } from '@/store/user';
 import { getTitleFromDescription, jobPosition } from '@/constant/jobPosition';
 import { BackArrow } from '@/components/backarrow/BackArrow';
 import { memberimage } from '@/api/auth/auth.patch.api';
+import useUpdateMember from '@/hook/useUpdateMember';
 // import { useQuery } from 'react-query'; // Uncomment when useQuery is available
 
 export default function Profile() {
@@ -28,7 +29,7 @@ export default function Profile() {
   //   console.log(formData);
 
   // };
-  console.log(member.imageUrl);
+  console.log(fileUrl);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -56,6 +57,7 @@ export default function Profile() {
     }
     console.log(formData);
   };
+  useUpdateMember();
 
   return (
     <div className="w-full  flex items-center justify-center">
@@ -64,19 +66,7 @@ export default function Profile() {
         <div className="flex flex-col items-center mb-[12px] mt-[22px]">
           <div className="w-[100px] relative">
             <label className=" cursor-pointer" htmlFor="fileInput">
-              {fileUrl ? (
-                <img
-                  className="w-24 h-24 rounded-full"
-                  src={fileUrl}
-                  alt="Selected Profile Picture"
-                />
-              ) : (
-                <img
-                  className="w-24 h-24 rounded-full"
-                  src={member.imageUrl}
-                  alt="Profile Picture"
-                />
-              )}
+              <img className="w-24 h-24 rounded-full" src={member.imageUrl} />
 
               <label className="w-7 h-7 absolute bottom-0 right-0 bg-neutral-400 rounded-full border border-white cursor-pointer flex items-center justify-center">
                 <img
