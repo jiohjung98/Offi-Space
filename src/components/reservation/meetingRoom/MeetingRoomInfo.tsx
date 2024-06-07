@@ -18,9 +18,9 @@ const MeetingRoomInfo = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [eventName, setEventName] = useState('');
-    const [showReservationModal, setShowReservationModal] = useState(false); 
+    const [showReservationModal, setShowReservationModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const [showSearch, setShowSearch] = useState(false); 
+    const [showSearch, setShowSearch] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [storedGetTime, setStoredGetTime] = useState('');
@@ -34,6 +34,7 @@ const MeetingRoomInfo = () => {
     const [inviteableMembers, setInviteableMembers] = useState<Member[]>([]);
     const [nonInviteableMembers, setNonInviteableMembers] = useState<Member[]>([]);
     const [addedMembers, setAddedMembers] = useState<Member[]>([]);
+    const [invitedMemberIds, setInvitedMemberIds] = useState<string[]>([]); // 초대된 멤버 ID를 추적
 
     const handleImageClick = () => {
         inputRef.current?.focus();
@@ -43,12 +44,12 @@ const MeetingRoomInfo = () => {
     const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
     const reservedBranch = useBranchStore2((state) => state.reservedBranch);
     const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
-  
+
     const currentBranch =
-      updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
-        ? selectedBranch
-        : reservedBranch;
-  
+        updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+            ? selectedBranch
+            : reservedBranch;
+
     const router = useRouter();
 
     const { meetingRoomId } = router.query;
@@ -113,13 +114,13 @@ const MeetingRoomInfo = () => {
 
     const handleOfficeInfo = async () => {
         try {
-            const data = await getSelectedOfficeInfo(currentBranch!.branchName); 
-            const officeInfo = data.data; 
+            const data = await getSelectedOfficeInfo(currentBranch!.branchName);
+            const officeInfo = data.data;
             console.log(officeInfo);
             router.push({
                 pathname: `/branches/${encodeURIComponent(currentBranch!.branchName)}`,
-                query: { 
-                    name: currentBranch!.branchName, 
+                query: {
+                    name: currentBranch!.branchName,
                     address: officeInfo.branchAddress,
                     branchPhoneNumber: officeInfo.branchPhoneNumber,
                     roadFromStation: officeInfo.roadFromStation,
@@ -131,19 +132,19 @@ const MeetingRoomInfo = () => {
         }
     };
 
-    const handleReseve = () => {   
+    const handleReserve = () => {
         const reservation: Reserve = {
             reservationName: eventName,
-            meetingRoomId: meetingRoom!.meetingRoomId, 
-            startAt: formattedStartTime, 
+            meetingRoomId: meetingRoom!.meetingRoomId,
+            startAt: formattedStartTime,
             endAt: formattedEndTime,
-            memberIds: addedMembers.map(member => Number(member.memberId))
+            memberIds: addedMembers.map(member => (member.memberId))
         };
-    
+
         reserveMeetingRoom(reservation)
             .then(() => {
                 console.log('Meeting room reserved successfully');
-                setShowReservationModal(true); 
+                setShowReservationModal(true);
             })
             .catch(error => {
                 console.error('Error reserving meeting room:', error);
@@ -153,29 +154,29 @@ const MeetingRoomInfo = () => {
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
         setSearchTerm(searchTerm);
-      
+
         if (searchTerm.trim().length > 0) {
-          try {
-            const results = await searchMembers(searchTerm, storedStartTime, storedEndTime);
-            setInviteableMembers(results.memberCanInviteList);
-            setNonInviteableMembers(results.memberCantInviteList);
-          } catch (error) {
-            console.error('Error searching members:', error);
-          }
+            try {
+                const results = await searchMembers(searchTerm, storedStartTime, storedEndTime);
+                setInviteableMembers(results.memberCanInviteList);
+                setNonInviteableMembers(results.memberCantInviteList);
+            } catch (error) {
+                console.error('Error searching members:', error);
+            }
         } else {
-          setInviteableMembers([]);
-          setNonInviteableMembers([]);
+            setInviteableMembers([]);
+            setNonInviteableMembers([]);
         }
-      };
-    
+    };
+
     const handleAddMember = (member: Member) => {
         setAddedMembers([...addedMembers, member]);
-        setInviteableMembers(inviteableMembers.filter(m => m.memberId !== member.memberId));
+        setInvitedMemberIds([...invitedMemberIds, member.memberId]);
     };
 
     const handleRemoveMember = (member: Member) => {
         setAddedMembers(addedMembers.filter(m => m.memberId !== member.memberId));
-        setInviteableMembers([...inviteableMembers, member]);
+        setInvitedMemberIds(invitedMemberIds.filter(id => id !== member.memberId)); 
     };
 
     if (loading) {
@@ -191,6 +192,7 @@ const MeetingRoomInfo = () => {
     if (!meetingRoom) {
         return <div>No meeting room data</div>;
     }
+
 
     return (
         <div>
@@ -281,12 +283,13 @@ const MeetingRoomInfo = () => {
                 {showSearch && (
                     <>
                     {addedMembers.length > 0 && (
-                        <div className="mt-4">
+                        <div className="mt-4 flex">
                             {addedMembers.map(member => (
-                                <div key={member.memberId} className="flex items-center mb-2">
-                                    <Image src={member.imageUrl} width={24} height={24} alt="member image" className="mr-2 rounded-full" />
-                                    <span>{member.memberName} ({member.memberEmail})</span>
-                                    <button className="ml-auto text-red-500" onClick={() => handleRemoveMember(member)}>-</button>
+                                <div key={member.memberId} className="flex items-center">
+                                    <div className='px-2.5 py-1 mr-[6px] rounded-xl border border-zinc-400 justify-start items-center gap-2 inline-flex'>
+                                    <div className="text-neutral-400 text-sm font-medium font-['Pretendard'] mt-[2px]">{member.memberName}</div>
+                                    <Image src={'/reservation/deleteBtn.svg'} width={10} height={10} alt="delete uder" className="" onClick={() => handleRemoveMember(member)} />
+                                </div>
                                 </div>
                             ))}
                         </div>
@@ -301,16 +304,20 @@ const MeetingRoomInfo = () => {
                         />
                         <img src="/map/Search.png" alt="search" className="absolute left-3 top-2.5 w-5 h-5" />
                     </div>
-                        {(inviteableMembers.length > 0 || nonInviteableMembers.length > 0) && (
+                    {(inviteableMembers.length > 0 || nonInviteableMembers.length > 0) && (
                             <ul className="mt-2">
                                 {inviteableMembers.map((member) => (
                                     <li key={member.memberId} className="p-2 flex items-center">
                                         <Image src={member.imageUrl} width={32} height={32} alt="member image" className="mr-2 rounded-full" />
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col cursor-pointer">
                                             <span>{member.memberName}</span>
                                             <span className="text-sm text-gray-500">{member.memberEmail}</span>
                                         </div>
-                                        <button className="ml-auto p-2 bg-indigo-500 text-white rounded-full" onClick={() => handleAddMember(member)}>+</button>
+                                        {invitedMemberIds.includes(member.memberId) ? ( 
+                                            <Image src={'/reservation/InvitedUser.svg'} width={28} height={28} alt="invited user" className="ml-auto rounded-full cursor-not-allowed" />
+                                        ) : ( 
+                                            <Image src={'/reservation/InviteUser.svg'} width={28} height={28} alt="invite user" className="ml-auto rounded-full cursor-pointer" onClick={() => handleAddMember(member)} />
+                                        )}
                                     </li>
                                 ))}
                                 {nonInviteableMembers.map((member) => (
@@ -320,7 +327,7 @@ const MeetingRoomInfo = () => {
                                             <span>{member.memberName}</span>
                                             <span className="text-sm text-gray-500">{member.memberEmail}</span>
                                         </div>
-                                        <button className="ml-auto p-2 bg-gray-300 text-gray-500 rounded-full" disabled>+</button>
+                                        <Image src={'/reservation/CantInviteUser.svg'} width={28} height={28} alt="invite user" className="ml-auto rounded-full"/>
                                     </li>
                                 ))}
                             </ul>
@@ -329,7 +336,7 @@ const MeetingRoomInfo = () => {
                 )}
             </div>
             <footer className='w-full text-center py-[30px] mb-[50px] left-0 right-0'>
-                <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
+                <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReserve}>예약하기</button>
             </footer>
             <ReservationModal
                 isVisible={showReservationModal}
