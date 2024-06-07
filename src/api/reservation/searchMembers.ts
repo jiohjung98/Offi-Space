@@ -1,6 +1,6 @@
 import { Member } from '../types/member';
 
-export const searchMembers = async (searchTerm: string, startAt: string, endAt: string): Promise<Member[]> => {
+export const searchMembers = async (searchTerm: string, startAt: string, endAt: string): Promise<{ memberCanInviteList: Member[], memberCantInviteList: Member[] }> => {
   const backendUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const url = `${backendUrl}reservations/members?startAt=${startAt}&endAt=${endAt}&searchTerm=${searchTerm}`;
 
@@ -24,12 +24,15 @@ export const searchMembers = async (searchTerm: string, startAt: string, endAt: 
     throw new Error(`Error searching members: ${response.status} ${response.statusText} - ${errorText}`);
   }
 
-  const data: { status: string; errorCode: string | null; data: Member[] } = await response.json();
+  const data = await response.json();
   console.log(data);
 
   if (data.status !== 'SUCCESS') {
     throw new Error(`API Error: ${data.errorCode}`);
   }
 
-  return data.data;
+  return {
+    memberCanInviteList: data.data.memberCanInviteList,
+    memberCantInviteList: data.data.memberCantInviteList
+  };
 };

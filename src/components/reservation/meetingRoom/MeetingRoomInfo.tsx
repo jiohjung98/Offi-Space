@@ -20,7 +20,6 @@ const MeetingRoomInfo = () => {
     const [eventName, setEventName] = useState('');
     const [showReservationModal, setShowReservationModal] = useState(false); 
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState<Member[]>([]);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [storedGetTime, setStoredGetTime] = useState('');
@@ -30,6 +29,10 @@ const MeetingRoomInfo = () => {
     const [formattedGetTime, setFormattedGetTime] = useState('');
     const [formattedStartTime, setFormattedStartTime] = useState('');
     const [formattedEndTime, setFormattedEndTime] = useState('');
+
+    const [inviteableMembers, setInviteableMembers] = useState<Member[]>([]);
+    const [nonInviteableMembers, setNonInviteableMembers] = useState<Member[]>([]);
+
     
     const handleImageClick = () => {
         inputRef.current?.focus();
@@ -150,18 +153,21 @@ const MeetingRoomInfo = () => {
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
         setSearchTerm(searchTerm);
-
+      
         if (searchTerm.trim().length > 0) {
-            try {
-                const results = await searchMembers(searchTerm, storedStartTime, storedEndTime);
-                setSearchResults(results);
-            } catch (error) {
-                console.error('Error searching members:', error);
-            }
+          try {
+            const results = await searchMembers(searchTerm, storedStartTime, storedEndTime);
+            setInviteableMembers(results.memberCanInviteList);
+            setNonInviteableMembers(results.memberCantInviteList);
+          } catch (error) {
+            console.error('Error searching members:', error);
+          }
         } else {
-            setSearchResults([]);
+          setInviteableMembers([]);
+          setNonInviteableMembers([]);
         }
-    };
+      };
+      
 
     if (loading) {
         return <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -253,24 +259,33 @@ const MeetingRoomInfo = () => {
             </div>
             <div className="w-[full] h-0.5 bg-neutral-200" />
             <div className="px-4">
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    className="w-full h-10 px-2 py-1 outline-none border border-gray-300 rounded"
-                    placeholder="멤버 검색"
-                />
-                {searchResults.length > 0 && (
-                    <ul className="mt-2 border border-gray-300 rounded">
-                        {searchResults.map((member) => (
-                            <li key={member.memberId} className="p-2 border-b border-gray-200 last:border-0">
-                                {member.memberName} ({member.memberEmail})
-                            </li>
-                        ))}
-                    </ul>
-                )}
+            <input
+                type="text"
+                value={searchTerm}
+                onChange={handleSearch}
+                className="w-full h-10 px-2 py-1 outline-none border border-gray-300 rounded"
+                placeholder="멤버 검색"
+            />
+            {(inviteableMembers.length > 0 || nonInviteableMembers.length > 0) && (
+                <ul className="mt-2 border border-gray-300 rounded">
+                {inviteableMembers.map((member) => (
+                    <li key={member.memberId} className="p-2 border-b border-gray-200 last:border-0 flex items-center">
+                    <Image src={member.imageUrl} width={24} height={24} alt="member image" className="mr-2 rounded-full" />
+                    <span>{member.memberName} ({member.memberEmail})</span>
+                    <button className="ml-auto text-indigo-700">+</button>
+                    </li>
+                ))}
+                {nonInviteableMembers.map((member) => (
+                    <li key={member.memberId} className="p-2 border-b border-gray-200 last:border-0 flex items-center opacity-50">
+                    <Image src={member.imageUrl} width={24} height={24} alt="member image" className="mr-2 rounded-full" />
+                    <span>{member.memberName} ({member.memberEmail})</span>
+                    <button className="ml-auto text-gray-400" disabled>+</button>
+                    </li>
+                ))}
+                </ul>
+            )}
             </div>
-            <footer className='w-full text-center py-[30px] fixed bottom-[70px] left-0 right-0'>
+            <footer className='w-full text-center py-[30px] mb-[50px] left-0 right-0'>
                 <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
             </footer>
             <ReservationModal
