@@ -10,6 +10,8 @@ interface useReservationType {
   setIsMeeting: (payload: boolean) => void;
   deleteOpen: boolean;
   setDeleteOpen: (payload: boolean) => void;
+  deleteDeskId: number | null;
+  setDeleteDeskId: (payload: number) => void;
 }
 
 export const useReservationStore = create<useReservationType>((set) => ({
@@ -17,6 +19,7 @@ export const useReservationStore = create<useReservationType>((set) => ({
   reservationId: null, //예약 id
   isMeeting: false, // 미팅룸 모달인가?,
   deleteOpen: false,
+  deleteDeskId: null,
   setOpen: (payload: boolean) =>
     set(() => ({
       open: payload
@@ -32,5 +35,9 @@ export const useReservationStore = create<useReservationType>((set) => ({
   setDeleteOpen: (payload: boolean) =>
     set(() => ({
       deleteOpen: payload
+    })),
+  setDeleteDeskId: (payload: number) =>
+    set(() => ({
+      deleteDeskId: payload
     }))
 }));
