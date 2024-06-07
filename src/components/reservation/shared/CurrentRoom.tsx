@@ -52,13 +52,11 @@ const CurrentRoom = () => {
   }, [reservedBranch]);
 
   const currentBranch =
-    selectedUpdatedTime &&
-    reservedUpdatedTime &&
-    selectedUpdatedTime > reservedUpdatedTime
-      ? selectedBranch
-      : reservedBranch;
-
-  // const currentBranch = selectedBranch;
+  selectedUpdatedTime &&
+  reservedUpdatedTime &&
+  selectedUpdatedTime > reservedUpdatedTime
+    ? selectedBranch
+    : reservedBranch || selectedBranch;
 
   return (
     <>
@@ -69,7 +67,7 @@ const CurrentRoom = () => {
           <img src="/reservation/location.svg" alt="location icon" />
         </div>
         <div className="text-space-black font-semibold text-sm">
-          {currentBranch ? currentBranch.branchName : '강남1호점'}
+          {currentBranch?.branchName}
         </div>
         <div>
           <img src="/reservation/toBottom.svg" alt="dropdown icon" />
