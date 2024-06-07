@@ -19,7 +19,6 @@ const SelectSeatIndex = () => {
   // nav바, 내 주변에서 새롭게 지점이 설정되면 해당 지점의 id를 받아올 수 있게 해주시면 해주시면 되고,
   // nav바, 내 주변에서 지점 선택을 따로 하지 않았을시는 기존 그대로 useBranchStore의 branchId를 받아오면 됩니다
   // 가져와주시기만 하면 useQuery연결은 제가 작업하겠습니다.
-
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
   const reservedBranch = useBranchStore2((state) => state.reservedBranch);
@@ -72,7 +71,7 @@ const SelectSeatIndex = () => {
           setCheckModal={setCheckModal}
           modalDeskId={modalDeskId}
           setModalOpen={setModalOpen}
-        />
+          branch={currentBranch}        />
       ) : null}
     </div>
   );
