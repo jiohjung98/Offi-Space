@@ -1,11 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { OfficeInfoProps } from '@/api/types/branch';
 import { subwayLineColors, subwayLineAbbreviations } from '@/constant/station';
@@ -16,6 +14,9 @@ import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const router = useRouter();
   const { setReservedBranch } = useBranchStore2();
+
+  const [currentSlide, setCurrentSlide] = useState(1);
+  const totalSlides = 3;
 
   const address = router.query.address as string;
   const branchPhoneNumber = router.query.branchPhoneNumber as string;
@@ -93,9 +94,8 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           slidesPerView={1}
           loop={true}
           spaceBetween={8}
-          pagination={{ clickable: true }}
-          modules={[Pagination]}>
-          <SwiperSlide className="flex justify-center items-center h-full">
+          onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex + 1)}>
+          <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
               src="/map/OfficeDefaultImg2.png"
               alt="Office Image 1"
@@ -103,8 +103,11 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
               height={246}
               className="h-[246px] object-cover"
             />
+            <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
+              {currentSlide} / {totalSlides}
+            </div>
           </SwiperSlide>
-          <SwiperSlide className="flex justify-center items-center h-full">
+          <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
               src="/map/OfficeDefaultImg2.png"
               alt="Office Image 2"
@@ -112,8 +115,11 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
               height={246}
               className="h-[246px] object-cover"
             />
+            <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
+              {currentSlide} / {totalSlides}
+            </div>
           </SwiperSlide>
-          <SwiperSlide className="flex justify-center items-center h-full">
+          <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
               src="/map/OfficeDefaultImg2.png"
               alt="Office Image 3"
@@ -121,6 +127,9 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
               height={246}
               className="h-[246px] object-cover"
             />
+            <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
+              {currentSlide} / {totalSlides}
+            </div>
           </SwiperSlide>
         </Swiper>
       </div>
@@ -293,6 +302,11 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           </button>
         </footer>
       </article>
+      <style jsx global>{`
+        .swiper-pagination-bullet {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 };
