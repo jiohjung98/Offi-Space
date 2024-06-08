@@ -1,29 +1,58 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { OfficeInfoProps } from '@/api/types/branch';
 import { subwayLineColors, subwayLineAbbreviations } from '@/constant/station';
 import BranchOffice from './BranchOffice';
 import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
+import { getOfficeMeetingRoomCount } from '@/api/map/getAvailableOffice';
+import TabSection from './TapSection';
 
-const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
+const BranchInfo: React.FC = () => {
   const router = useRouter();
   const { setReservedBranch } = useBranchStore2();
+  const [urgentNotice, setUrgentNotice] = useState<{ title: string; content: string } | null>(null);
 
+  const [currentSlide, setCurrentSlide] = useState(1);
+  const totalSlides = 3;
+  
+  const branchName = router.query.name as string;
   const address = router.query.address as string;
   const branchPhoneNumber = router.query.branchPhoneNumber as string;
   const roadFromStation = router.query.roadFromStation as string;
   const stationToBranch = router.query.stationToBranch as string;
+  const branchId = router.query.branchId;
+
+  const numericBranchId = Array.isArray(branchId) ? parseInt(branchId[0], 10) : parseInt(branchId as string, 10);
+
+  console.log(branchId);
+  console.log(numericBranchId)
 
   useEffect(() => {
-    if (address && branchPhoneNumber && roadFromStation && stationToBranch) {
+    const fetchData = async () => {
+      try {
+        const data = await getOfficeMeetingRoomCount(branchId as unknown as number);
+        if (data.data) {
+          console.log(data);
+          console.log(data.data);    
+        }
+      } catch (error) {
+        console.error('Error updating selected branch:', error);
+      }
+    };
+    if (numericBranchId) {
+      fetchData();
+    }
+  }, [numericBranchId]);
+
+
+  useEffect(() => {
+    if (branchName && address && branchPhoneNumber && roadFromStation && stationToBranch && numericBranchId) {
       localStorage.setItem(
         'branchInfo',
         JSON.stringify({
@@ -31,14 +60,15 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           address,
           branchPhoneNumber,
           roadFromStation,
-          stationToBranch
+          stationToBranch,
+          branchId: numericBranchId,
         })
       );
     }
-  }, [address, branchPhoneNumber, roadFromStation, stationToBranch]);
+  }, [branchName, address, branchPhoneNumber, roadFromStation, stationToBranch, numericBranchId]);
 
   useEffect(() => {
-    if (!address || !branchPhoneNumber || !roadFromStation || !stationToBranch) {
+    if (!branchName || !address || !branchPhoneNumber || !roadFromStation || !stationToBranch || !branchId) {
       const savedBranchInfo = localStorage.getItem('branchInfo');
       if (savedBranchInfo) {
         const {
@@ -46,7 +76,8 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           address,
           branchPhoneNumber,
           roadFromStation,
-          stationToBranch
+          stationToBranch,
+          branchId
         } = JSON.parse(savedBranchInfo);
         router.replace(
           {
@@ -56,7 +87,8 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
               address,
               branchPhoneNumber,
               roadFromStation,
-              stationToBranch
+              stationToBranch,
+              branchId
             }
           },
           undefined,
@@ -82,20 +114,38 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
     router.back();
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.slice(0, maxLength) + '...';
+  };
+
   return (
     <section className="w-full h-full">
-      <header className="top-0 left-0 right-0 bg-white z-50 shadow-md py-4 flex items-center">
+      <header className="top-0 left-0 right-0 bg-white z-50 py-4 flex items-center">
         <IoIosArrowRoundBack size={40} className="ml-[6px]" onClick={handleBackClick} />
         <span className="text-lg font-semibold ml-[8px]">{branchName}</span>
       </header>
       <div className="">
+      {urgentNotice && (
+          <div className="absolute top-[90px] left-1/2 px-4 py-2 transform -translate-x-1/2 w-[361px] bg-white bg-opacity-80 rounded shadow border border-neutral-200 z-[9999]">
+            <div className="flex items-center mb-2">
+              <div className='p-1 bg-yellow-400 rounded-sm justify-center items-center gap-2.5 inline-flex'>
+              <span className="text-neutral-700 text-xs font-medium font-['Pretendard']">긴급</span>
+              </div>
+              <p className="text-black/opacity-20 text-base font-semibold font-['Pretendard'] ml-[7px] mt-[3px]">{urgentNotice.title}</p>
+              <button className='ml-auto my-auto' onClick={() => setUrgentNotice(null)}>X</button>
+            </div>
+            <p className="text-neutral-700 text-sm font-normal font-['Pretendard']">{truncateText(urgentNotice.content, 30)}</p>
+          </div>
+        )}
         <Swiper
           slidesPerView={1}
           loop={true}
           spaceBetween={8}
-          pagination={{ clickable: true }}
-          modules={[Pagination]}>
-          <SwiperSlide className="flex justify-center items-center h-full">
+          onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex + 1)}>
+          <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
               src="/map/OfficeDefaultImg2.png"
               alt="Office Image 1"
@@ -103,8 +153,11 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
               height={246}
               className="h-[246px] object-cover"
             />
+            <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
+              {currentSlide} / {totalSlides}
+            </div>
           </SwiperSlide>
-          <SwiperSlide className="flex justify-center items-center h-full">
+          <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
               src="/map/OfficeDefaultImg2.png"
               alt="Office Image 2"
@@ -112,8 +165,11 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
               height={246}
               className="h-[246px] object-cover"
             />
+            <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
+              {currentSlide} / {totalSlides}
+            </div>
           </SwiperSlide>
-          <SwiperSlide className="flex justify-center items-center h-full">
+          <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
               src="/map/OfficeDefaultImg2.png"
               alt="Office Image 3"
@@ -121,6 +177,9 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
               height={246}
               className="h-[246px] object-cover"
             />
+            <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
+              {currentSlide} / {totalSlides}
+            </div>
           </SwiperSlide>
         </Swiper>
       </div>
@@ -191,6 +250,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">
             공용 공간 리스트
           </div>
+          <TabSection branchId={numericBranchId} />
         </div>
         <div className="w-full h-px bg-neutral-200" />
         <div className="px-4 py-6">
@@ -284,7 +344,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         <div className="px-4 py-6">
           <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
-        <BranchOffice branchName={branchName} />
+        <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} />
         <footer className="w-full text-center py-[30px]">
           <button
             className="w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
@@ -293,6 +353,11 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           </button>
         </footer>
       </article>
+      <style jsx global>{`
+        .swiper-pagination-bullet {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 };

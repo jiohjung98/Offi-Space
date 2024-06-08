@@ -35,6 +35,7 @@ export interface OfficeInfoProps {
 }
 
 export interface SelectedBranch {
+  branchId: number;
   branchName: string;
   branchAddress: string;
   branchLatitude: number;
@@ -50,4 +51,13 @@ export interface BranchAvailable {
   branchAddress: string;
   branchTotalMeetingRoomCount: number;
   branchActiveMeetingRoomCount: number;
+}
+
+export interface OfficeRoomCounts {
+  focusDeskCount: number;
+  mediumRoomCount: number;
+  miniRoomCount: number;
+  rechargingRoomCount: number;
+  standardRoomCount: number;
+  stateRoomCount: number;
 }

@@ -70,7 +70,7 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
       <div ref={mapRef} className="w-[393px] mx-auto h-full">
       </div>
       <div className="absolute top-4 right-4">
-        <aside className="w-[373px] mx-auto fixed bottom-[30px] left-0 right-0 z-50">
+        <aside className="w-[373px] mx-auto fixed bottom-[100px] left-0 right-0 z-50">
           <div className="bg-white px-4 py-6 rounded-lg shadow-lg">
             <div className='flex'>
               <div className="flex-shrink-0 w-[88px] h-[88px] bg-gray-300 rounded-md">

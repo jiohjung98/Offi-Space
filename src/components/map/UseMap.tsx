@@ -215,11 +215,12 @@ const UseMap: React.FC = () => {
   const handleMarkerClick = (branch: Branch) => {
     const position = new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude);
     map?.panTo(position);
-
+    setShowMessage(false);
     setSelectedBranch(branch);
     setIsModalOpen(true);
     setSelectedMarker(branch.branchName);
     handleOfficeAvailable(branch);
+    
   };
 
   const handleSearchQueryChange = (query: string) => {
@@ -276,7 +277,7 @@ const UseMap: React.FC = () => {
       />
       <button
         id="current-location-button"
-        className={`absolute ${isModalOpen ? 'bottom-[280px]' : 'bottom-[105px]'} left-4 p-2 flex items-center justify-center`}
+        className={`absolute ${isModalOpen ? 'bottom-[300px]' : 'bottom-[105px]'} left-4 p-2 flex items-center justify-center`}
         onMouseEnter={() => setImageSrc('/map/MapLocationActive.png')}
         onMouseLeave={() => setImageSrc('/map/MapLocation.png')}
         onClick={handleCurrentLocationClick}

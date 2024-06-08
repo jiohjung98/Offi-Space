@@ -55,7 +55,8 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
           address: officeInfo.branchAddress,
           branchPhoneNumber: officeInfo.branchPhoneNumber,
           roadFromStation: officeInfo.roadFromStation,
-          stationToBranch: officeInfo.stationToBranch.join(',')
+          stationToBranch: officeInfo.stationToBranch.join(','),
+          branchId: officeInfo.branchId as number,
         }
       }, `/branches/${encodeURIComponent(branchName)}`);
     } catch (error) {
@@ -76,7 +77,7 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
   };
 
   return (
-    <aside className="w-[373px] mx-auto fixed bottom-[85px] left-0 right-0 z-50">
+    <aside className="w-[373px] mx-auto fixed bottom-[100px] left-0 right-0 z-50">
       <div ref={modalRef} className="bg-white px-4 py-6 rounded-lg shadow-lg">
         <div className='flex'>
           <div className="flex-shrink-0 w-[88px] h-[88px] bg-gray-300 rounded-md">
