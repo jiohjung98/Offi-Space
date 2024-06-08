@@ -97,6 +97,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
       isPrivate,
     });
     setShowModal(false);
+    setActiveTab('schedule');
   };
 
   const handleTypeChange = (type: 'MINI' | 'STANDARD' | 'MEDIUM' | 'STATE') => {
