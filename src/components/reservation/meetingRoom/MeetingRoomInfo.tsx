@@ -34,7 +34,17 @@ const MeetingRoomInfo = () => {
     const [inviteableMembers, setInviteableMembers] = useState<Member[]>([]);
     const [nonInviteableMembers, setNonInviteableMembers] = useState<Member[]>([]);
     const [addedMembers, setAddedMembers] = useState<Member[]>([]);
-    const [invitedMemberIds, setInvitedMemberIds] = useState<string[]>([]); // 초대된 멤버 ID를 추적
+    const [invitedMemberIds, setInvitedMemberIds] = useState<string[]>([]);
+    const [isReserveButtonDisabled, setIsReserveButtonDisabled] = useState(true);
+
+    useEffect(() => {
+        if (eventName.trim() === '') {
+            setIsReserveButtonDisabled(true);
+        } else {
+            setIsReserveButtonDisabled(false);
+        }
+    }, [eventName]);
+
 
     const handleImageClick = () => {
         inputRef.current?.focus();
@@ -359,7 +369,11 @@ const MeetingRoomInfo = () => {
                 <p className="text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">일정이 이미 있는 사용자는 참석 멤버로 등록할 수 없어요! 일정을 조정한 뒤 추가할 수 있습니다.</p>
             </div>
             <footer className={`w-full text-center py-[30px] ${showSearch ? 'mb-[100px]' : 'mb-[70px]'} left-0 right-0`}>
-            <button className='w-[100%] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReserve}>
+            <button 
+                className={`w-[100%] h-12 rounded-lg border text-center text-white text-[15px] font-semibold mx-auto ${isReserveButtonDisabled ? 'bg-gray-400 border-gray-400' : 'bg-indigo-700 border-indigo-700 text-stone-50'}`} 
+                onClick={handleReserve} 
+                disabled={isReserveButtonDisabled}
+            >
                 예약하기
             </button>
         </footer>
