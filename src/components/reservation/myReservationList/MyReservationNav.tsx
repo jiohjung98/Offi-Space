@@ -10,7 +10,7 @@ const MyReservationNav = () => {
 
   return (
     <div className="bg-space-purple mt-2">
-      <div className="mx-4 py-3 flex items-center justify-between text-white text-base font-semibold ">
+      <div className="mx-4 py-2 flex items-center justify-between text-white text-base font-semibold ">
         <div>{formattedDate} 오늘</div>
         <div>{data?.length}개의 예약</div>
       </div>

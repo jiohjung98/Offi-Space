@@ -12,6 +12,10 @@ interface useReservationType {
   setDeleteOpen: (payload: boolean) => void;
   deleteDeskId: number | null;
   setDeleteDeskId: (payload: number) => void;
+  isLeader: boolean;
+  setIsLeader: (payload: boolean) => void;
+  roomType: string | null;
+  setRoomType: (payload: string) => void;
 }
 
 export const useReservationStore = create<useReservationType>((set) => ({
@@ -20,6 +24,8 @@ export const useReservationStore = create<useReservationType>((set) => ({
   isMeeting: false, // 미팅룸 모달인가?,
   deleteOpen: false,
   deleteDeskId: null,
+  isLeader: false,
+  roomType: null,
   setOpen: (payload: boolean) =>
     set(() => ({
       open: payload
@@ -39,5 +45,13 @@ export const useReservationStore = create<useReservationType>((set) => ({
   setDeleteDeskId: (payload: number) =>
     set(() => ({
       deleteDeskId: payload
+    })),
+  setIsLeader: (payload: boolean) =>
+    set(() => ({
+      isLeader: payload
+    })),
+  setRoomType: (payload: string) =>
+    set(() => ({
+      roomType: payload
     }))
 }));

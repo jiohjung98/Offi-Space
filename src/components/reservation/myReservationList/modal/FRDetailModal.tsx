@@ -4,11 +4,11 @@ import { useReservationStore } from '@/store/reservationModal.store';
 import React, { useRef } from 'react';
 import { useQuery } from 'react-query';
 import { motion } from 'framer-motion';
-import { getReservationDetail } from '../remote/myreservation';
+import { getReservationDetail } from '../../remote/myreservation';
 import { format } from 'date-fns';
 
 const FRDetailModal = () => {
-  const { setOpen, reservationId, setDeleteOpen, setDeleteDeskId } =
+  const { setOpen, reservationId, setDeleteOpen, setDeleteDeskId, setRoomType } =
     useReservationStore();
 
   const { data } = useQuery(
@@ -18,8 +18,6 @@ const FRDetailModal = () => {
       enabled: reservationId != null
     }
   );
-
-  console.log(data);
 
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setOpen(false));
@@ -81,6 +79,11 @@ const FRDetailModal = () => {
             </div>
             <div
               onClick={() => {
+                if (data?.spaceType === 'FOCUSDESK') {
+                  setRoomType('FOCUS');
+                } else {
+                  setRoomType('RECHARGING');
+                }
                 setDeleteDeskId(data?.spaceId);
                 setOpen(false);
                 setDeleteOpen(true);

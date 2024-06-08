@@ -28,7 +28,7 @@ const TodayReservation = () => {
           transition={{
             duration: 0.6,
             ease: 'easeInOut',
-            delay: i * 0.1
+            delay: 0.1
           }}
           animate={{
             opacity: 1,

@@ -1,5 +1,5 @@
 'use client';
-import Footer from '@/components/footer/Footer';
+import Footer from '@/components/layout/footer/Footer';
 import SelectSeatIndex from '@/components/reservation/focuszone/selectSeat/SelectSeatIndex';
 import MainContainer from '@/components/shared/MainContainer';
 import React from 'react';

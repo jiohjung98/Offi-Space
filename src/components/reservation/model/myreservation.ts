@@ -13,6 +13,7 @@ export interface todayListData {
   memberImageUrls: string[];
   memberType: string;
   endAt: string;
+  spaceFloor: number;
 }
 
 export interface reservationDetailData {
@@ -26,7 +27,7 @@ export interface reservationDetailData {
   branchAddress: string;
   spaceType: string;
   representative: Representative;
-  participants: any[];
+  participants: participantsType[];
   myMemberType: string;
   reservationProgress: string;
 }
@@ -39,6 +40,15 @@ export interface Representative {
   memberType: string;
 }
 
+export interface participantsType {
+  memberId: number;
+  memberName: string;
+  memberEmail: string;
+  imageUrl: string;
+  memberType: string;
+}
+
 export type TodayCountType = ICommon<todayCountData>;
 export type TodayList = ICommon<todayListData[]>;
 export type ReservationDetail = ICommon<reservationDetailData>;
+export type expectedList = ICommon<todayListData[]>;
