@@ -84,7 +84,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
 
   return (
     <section className="w-full h-full">
-      <header className="top-0 left-0 right-0 bg-white z-50 shadow-md py-4 flex items-center">
+      <header className="top-0 left-0 right-0 bg-white z-50 py-4 flex items-center">
         <IoIosArrowRoundBack size={40} className="ml-[6px]" onClick={handleBackClick} />
         <span className="text-lg font-semibold ml-[8px]">{branchName}</span>
       </header>
