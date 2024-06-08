@@ -14,6 +14,7 @@ import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const router = useRouter();
   const { setReservedBranch } = useBranchStore2();
+  const [urgentNotice, setUrgentNotice] = useState<{ title: string; content: string } | null>(null);
 
   const [currentSlide, setCurrentSlide] = useState(1);
   const totalSlides = 3;
@@ -36,6 +37,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         })
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, branchPhoneNumber, roadFromStation, stationToBranch]);
 
   useEffect(() => {
@@ -65,6 +67,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         );
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleGoToReservation = async () => {
@@ -83,6 +86,13 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
     router.back();
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.slice(0, maxLength) + '...';
+  };
+
   return (
     <section className="w-full h-full">
       <header className="top-0 left-0 right-0 bg-white z-50 py-4 flex items-center">
@@ -90,6 +100,18 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         <span className="text-lg font-semibold ml-[8px]">{branchName}</span>
       </header>
       <div className="">
+      {urgentNotice && (
+          <div className="absolute top-[90px] left-1/2 px-4 py-2 transform -translate-x-1/2 w-[361px] bg-white bg-opacity-80 rounded shadow border border-neutral-200 z-[9999]">
+            <div className="flex items-center mb-2">
+              <div className='p-1 bg-yellow-400 rounded-sm justify-center items-center gap-2.5 inline-flex'>
+              <span className="text-neutral-700 text-xs font-medium font-['Pretendard']">긴급</span>
+              </div>
+              <p className="text-black/opacity-20 text-base font-semibold font-['Pretendard'] ml-[7px] mt-[3px]">{urgentNotice.title}</p>
+              <button className='ml-auto my-auto' onClick={() => setUrgentNotice(null)}>X</button>
+            </div>
+            <p className="text-neutral-700 text-sm font-normal font-['Pretendard']">{truncateText(urgentNotice.content, 30)}</p>
+          </div>
+        )}
         <Swiper
           slidesPerView={1}
           loop={true}
@@ -293,7 +315,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         <div className="px-4 py-6">
           <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
-        <BranchOffice branchName={branchName} />
+        <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} />
         <footer className="w-full text-center py-[30px]">
           <button
             className="w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
