@@ -147,8 +147,8 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   return (
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-      <div className="bg-white rounded-t-2xl w-[100%] h-[650px] p-6 absolute bottom-0 overflow-y-auto">
-        <div className="flex mb-4">
+      <div className="bg-white rounded-t-2xl w-[100%] h-[600px] p-6 absolute bottom-0 overflow-y-auto">
+        <div className="flex">
           <button
             className={`py-2 px-4 ${
               activeTab === 'schedule' ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']" : "text-neutral-600 text-lg font-normal font-['Pretendard']"
@@ -236,7 +236,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                 />
               </div>
             </div>
-            <div className="mb-2">
+            <div className="mb-[50px]">
               <div className="flex items-center w-[100%]">
                 <DatePickerWheel
                   items={startTimeOptions.map((time) => ({ value: time, label: time }))}
@@ -331,9 +331,9 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
             </div>
           </div>
         )}
-        <div className="flex pt-[30px] text-center items-center">
+        <div className="pt-[10px] w-full text-center items-center">
           <button
-            className="flex w-full h-12 bg-indigo-700 rounded-lg justify-center items-center"
+            className="absolute bottom-[20px] flex w-[88%] mx-auto h-12 bg-indigo-700 text-white rounded-lg justify-center items-center"
             onClick={handleConfirm}
           >
             확인

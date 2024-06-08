@@ -61,6 +61,7 @@ body {
 .react-datepicker__header {
   background-color: white !important;
   border: none !important;
+  padding: none !important;
 }
 
 .react-datepicker__month {
@@ -92,7 +93,7 @@ body {
 }
 
 .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-  margin-right: 10px !important;
+  margin-right: 16px !important;
   margin-top: 6px !important;
 }
 
