@@ -153,6 +153,7 @@ input[id="check1"]:checked {
 }
 
 .items {
+  width: 100%;
   height: 100%;
   padding: 50% 0;
   margin: 0;
@@ -171,13 +172,12 @@ input[id="check1"]:checked {
 .item {
   margin-right: 10px;
   list-style-type: none;
-  width: 100%;
-  text-align: right;
+  text-align: center;
   scroll-snap-align: center;
 }
 
 .item div {
-  width: 150px;
+  width: 100%;
   display: inline-block;
   text-align: center;
 }

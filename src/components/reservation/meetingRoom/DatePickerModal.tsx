@@ -134,10 +134,6 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
     }
   }
 
-  const resetFilters = () => {
-    setShowModal(false);
-  };
-
   useEffect(() => {
     if (showModal) {
       document.body.style.overflow = 'hidden';
@@ -151,7 +147,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   return (
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-      <div className="bg-white rounded-t-2xl w-[full] h-[650px] p-6 absolute bottom-0 overflow-y-auto">
+      <div className="bg-white rounded-t-2xl w-[100%] h-[650px] p-6 absolute bottom-0 overflow-y-auto">
         <div className="flex mb-4">
           <button
             className={`py-2 px-4 ${
@@ -241,14 +237,14 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
               </div>
             </div>
             <div className="mb-2">
-              <div className="flex items-center w-full">
+              <div className="flex items-center w-[100%]">
                 <DatePickerWheel
                   items={startTimeOptions.map((time) => ({ value: time, label: time }))}
                   value={startTime}
                   onChange={setStartTime}
                 />
                 <span
-                  className="h-[50px] w-[40px] my-auto leading-[50px]"
+                  className="h-[50px] w-[20%] text-center my-auto leading-[50px]"
                   style={{ backgroundColor: 'rgba(237, 235, 248, 0.85)' }}
                 >
                   부터
@@ -264,10 +260,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
         )}
 
         {activeTab === 'people' && (
-          <div className="mb-4">
-            <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] mb-[5px]">
-              인원
-            </div>
+          <div className="mb-4 w-[100%]">
             <div className="grid grid-cols-2 gap-2">
               {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
                 <label key={type} className="flex items-center">
@@ -338,16 +331,9 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
             </div>
           </div>
         )}
-
-        <div className="flex justify-between pt-[30px]">
-          <div
-            className="flex w-[150px] h-[36px] bg-[#EDEBF8] rounded-md justify-center items-center cursor-pointer"
-            onClick={resetFilters}
-          >
-            <div className="text-[#3B268C] py-[6px] justify-center items-center gap-2">취소</div>
-          </div>
+        <div className="flex pt-[30px] text-center items-center">
           <button
-            className="flex w-[150px] h-[36px] text-[#3B268C] px-[6px] py-[6px] rounded-md justify-center items-center border border-[#3E2896] mr-[20px]"
+            className="flex w-full h-12 bg-indigo-700 rounded-lg justify-center items-center"
             onClick={handleConfirm}
           >
             확인
