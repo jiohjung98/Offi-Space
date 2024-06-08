@@ -23,7 +23,7 @@ const TabSection = ({ branchId }: { branchId: number }) => {
   }, [branchId]);
 
   const renderContent = () => {
-    if (!data) return <div>Loading...</div>;
+    if (!data) return <div></div>;
 
     switch (activeTab) {
       case 'meetingRoom':
@@ -48,21 +48,36 @@ const TabSection = ({ branchId }: { branchId: number }) => {
     <div>
       <div className="flex">
         <div
-          className={`flex-1 text-center py-4 cursor-pointer ${activeTab === 'meetingRoom' ? 'border-b-2 border-purple-600' : ''}`}
+          className={`flex-1 text-center pt-4 pb-1 cursor-pointer ${activeTab === 'meetingRoom' ? 'border-b-2 border-indigo-700 text-indigo-700 text-base font-bold' : 'font-medium text-black/opacity-20 text-base'}`}
           onClick={() => setActiveTab('meetingRoom')}
         >
+          <img
+            src={activeTab === 'meetingRoom' ? '/map/MeetingRoom.svg' : '/map/MeetingRoomInactive.svg'}
+            alt="Meeting Room Icon"
+            className="mx-auto mb-[9px]"
+          />
           미팅룸
         </div>
         <div
-          className={`flex-1 text-center py-4 cursor-pointer ${activeTab === 'rechargingRoom' ? 'border-b-2 border-purple-600' : ''}`}
+          className={`flex-1 text-center pt-4 pb-1 cursor-pointer ${activeTab === 'rechargingRoom' ? 'border-b-2 border-indigo-700 text-indigo-700 text-base font-bold' : 'font-medium text-black/opacity-20 text-base'}`}
           onClick={() => setActiveTab('rechargingRoom')}
         >
+          <img
+            src={activeTab === 'rechargingRoom' ? '/map/Recharge.svg' : '/map/RechargeInactive.svg'}
+            alt="Recharge Room Icon"
+            className="mx-auto mb-[9px]"
+          />
           리차징룸
         </div>
         <div
-          className={`flex-1 text-center py-4 cursor-pointer ${activeTab === 'focusZone' ? 'border-b-2 border-purple-600' : ''}`}
+          className={`flex-1 text-center pt-4 pb-1 cursor-pointer ${activeTab === 'focusZone' ? 'border-b-2 border-indigo-700 text-indigo-700 text-base font-bold' : 'font-medium text-black/opacity-20 text-base'}`}
           onClick={() => setActiveTab('focusZone')}
         >
+          <img
+            src={activeTab === 'focusZone' ? '/map/FocusZone.svg' : '/map/FocusZoneInactive.svg'}
+            alt="Focus Zone Icon"
+            className="mx-auto mb-[9px]"
+          />
           포커스존
         </div>
       </div>
