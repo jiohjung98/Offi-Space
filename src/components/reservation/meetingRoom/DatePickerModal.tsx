@@ -147,7 +147,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   return (
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-      <div className="bg-white rounded-t-2xl w-[100%] max-w-[430px] h-[600px] p-6 absolute bottom-0 overflow-y-auto">
+      <div className="bg-white rounded-t-2xl w-[100%] max-w-[430px] h-[610px] p-6 absolute bottom-0 overflow-y-auto">
         <div className="flex">
           <button
             className={`py-2 px-4 ${
