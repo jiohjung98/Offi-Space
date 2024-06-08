@@ -4,8 +4,9 @@ import { setCookie } from '@/utils/cookies';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { getTokenHandler } from '@/components/pwa/Fcm';
-import { fcmpost } from '@/api/fcm/fcm.post.api';
+//todo 기범님 오류
+// import { getTokenHandler } from '@/components/pwa/Fcm';
+// import { fcmpost } from '@/api/fcm/fcm.post.api';
 
 const useLogin = () => {
   const router = useRouter();
@@ -14,18 +15,17 @@ const useLogin = () => {
   const onSuccess = async (data: UserLoginType) => {
     const { accessToken } = data.data;
     const cookieOptions = { path: '/', maxAge: 600000 * 15 };
-    const token = await getTokenHandler();
-    fcmpost({ fcmToken: token });
+    // const token = await getTokenHandler();
+    // fcmpost({ fcmToken: token });
     setCookie('token', accessToken, cookieOptions);
-
     router.push('/');
-    console.log(token);
   };
-  const onError = () => {
-    console.log('error');
+
+  const onError = (error: any) => {
     setError('*아이디 혹은 비밀번호가 일치하지 않습니다');
     console.log(error);
   };
+
   const { mutate } = useMutation({
     mutationFn: signin,
     onSuccess,

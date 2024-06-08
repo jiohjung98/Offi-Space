@@ -1,10 +1,10 @@
 import { signup } from '@/api/auth/auth.post.api';
 import { ISignUp } from '@/api/types/auth';
 import MainContainer from '@/components/shared/MainContainer';
-import EmailVerification from '@/components/signup/EmailVerification';
-import PasswordVerification from '@/components/signup/PasswordVerification';
-import PhoneCertification from '@/components/signup/PhoneCertification';
-import SignupDone from '@/components/signup/SignupDone';
+import EmailVerification from '@/components/sign/signup/EmailVerification';
+import PasswordVerification from '@/components/sign/signup/PasswordVerification';
+import PhoneCertification from '@/components/sign/signup/PhoneCertification';
+import SignupDone from '@/components/sign/signup/SignupDone';
 import { ApplyValues } from '@/models/applyValues';
 import { useEffect, useState } from 'react';
 import { useMutation } from 'react-query';
@@ -38,12 +38,6 @@ const SignUpPage = () => {
           ...prev,
           step: (prev.step as number) + 1
         }))
-      // todo : error 처리 필요
-      // onError: (error: any) => {
-      //   if (error.response.data) {
-      //     setError(true);
-      //   }
-      // }
     }
   );
 

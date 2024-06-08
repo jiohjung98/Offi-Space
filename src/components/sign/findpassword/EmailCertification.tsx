@@ -1,11 +1,11 @@
 import React, { ChangeEvent, Dispatch, useEffect, useRef, useState } from 'react';
-import ToBack from '../shared/sign/ToBack';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';
 import { motion } from 'framer-motion';
 import { useMutation } from 'react-query';
 import { invertSecond } from '@/utils/invertSecond';
 import { emailauthrequest, emailauthverify } from '@/api/auth/auth.post.api';
 import { signError } from '@/constant/signError';
+import ToBack from '@/components/shared/sign/ToBack';
 
 interface EmailCertificationProps {
   setStep: Dispatch<React.SetStateAction<number>>;

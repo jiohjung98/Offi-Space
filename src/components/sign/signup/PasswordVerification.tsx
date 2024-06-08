@@ -1,11 +1,11 @@
 import React, { SetStateAction, useEffect, useState } from 'react';
-import ToBack from '../shared/sign/ToBack';
 import Image from 'next/image';
 import { ApplyValues } from '@/models/applyValues';
 import dynamic from 'next/dynamic';
 import Terms from './Terms';
 import { JobPositionType } from '@/models/jobPosition';
 import { jobPosition } from '@/constant/jobPosition';
+import ToBack from '@/components/shared/sign/ToBack';
 /* eslint-disable no-unused-vars */
 const JobPosition = dynamic(() => import('./JobPosition'), {
   ssr: false

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useMember } from '@/store/user';
 import { getTitleFromDescription, jobPosition } from '@/constant/jobPosition';
-import { BackArrow } from '@/components/backarrow/BackArrow';
 import { memberimage } from '@/api/auth/auth.patch.api';
 import useUpdateMember from '@/hook/useUpdateMember';
+import { BackArrow } from '@/components/sign/backarrow/BackArrow';
 // import { useQuery } from 'react-query'; // Uncomment when useQuery is available
 
 export default function Profile() {

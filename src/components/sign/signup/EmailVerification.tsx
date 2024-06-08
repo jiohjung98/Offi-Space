@@ -1,13 +1,14 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import ToBack from '../shared/sign/ToBack';
 import { useMutation } from 'react-query';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { emailauthrequest, emailauthverify } from '../../api/auth/auth.post.api';
 import { ApplyValues } from '@/models/applyValues';
 import { invertSecond } from '@/utils/invertSecond';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';
 import { signError } from '@/constant/signError';
+import { emailauthrequest, emailauthverify } from '@/api/auth/auth.post.api';
+import ToBack from '@/components/shared/sign/ToBack';
+
 /* eslint-disable no-unused-vars */
 interface EmailVerification {
   onNext: (name: ApplyValues['memberName'], email: ApplyValues['email']) => void;

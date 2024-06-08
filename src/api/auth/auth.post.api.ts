@@ -40,7 +40,7 @@ export const signin = async ({ email, password }: ISignIn) => {
     email,
     password
   });
-
+  console.log('실행1');
   return response;
 };
 
