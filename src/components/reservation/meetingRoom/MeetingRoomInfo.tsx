@@ -343,7 +343,10 @@ const MeetingRoomInfo = () => {
                                     <li key={member.memberId} className="p-2 flex items-center opacity-50">
                                         <Image src={member.imageUrl} width={32} height={32} alt="member image" className="mr-2 rounded-full" />
                                         <div className="flex flex-col">
+                                            <div className='flex flex-row items-center'>
                                             <span>{member.memberName}</span>
+                                            <Image src={'/reservation/ExclamationMark.svg'} width={14} height={14} alt="ExclamationMark" className="ml-[6.5px]" />
+                                            </div>
                                             <span className="text-sm text-gray-500">{member.memberEmail}</span>
                                         </div>
                                         <Image src={'/reservation/CantInviteUser.svg'} width={28} height={28} alt="invite user" className="ml-auto rounded-full"/>
@@ -353,6 +356,10 @@ const MeetingRoomInfo = () => {
                         )}
                     </>
                 )}
+            </div>
+            <div className="flex px-4 items-start mt-[24px]">
+              <Image src={'/reservation/ExclamationMark.svg'} alt="Location" width={14} height={14} className="mr-2" />
+              <p className="text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">일정이 이미 있는 사용자는 참석 멤버로 등록할 수 없어요! 일정을 조정한 뒤 추가할 수 있습니다.</p>
             </div>
             <footer className='w-full text-center py-[30px] mb-[50px] left-0 right-0'>
                 <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReserve}>예약하기</button>
