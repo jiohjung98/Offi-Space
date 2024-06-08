@@ -271,8 +271,25 @@ const MeetingRoomInfo = () => {
             <div className="w-[full] h-0.5 bg-neutral-200" />
             <div className="px-4 mt-[24px]">
                 <div className='flex justify-between items-center cursor-pointer' onClick={() => setShowSearch(!showSearch)}>
-                    <div className="text-black/opacity-20 text-base font-bold font-['Pretendard']">
-                        참석 멤버
+                    <div className='flex flex-row items-center'>
+                        <div className="text-black/opacity-20 text-base font-bold font-['Pretendard']">
+                            참석 멤버
+                        </div>
+                        {!showSearch && (
+                            <>
+                                {addedMembers.length > 0 && (
+                                    <div className="flex ml-[10px]">
+                                        <div className="text-indigo-700 text-base font-semibold font-['Pretendard']">
+                                        
+                                                {addedMembers.length === 1 
+                                                    ? addedMembers[0].memberName 
+                                                    : `${addedMembers[0].memberName} 외 ${addedMembers.length - 1}인`}
+
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
                     </div>
                     {showSearch ? (
                         <Image src={'/reservation/topArrow.svg'} width={14} height={7} alt="arrow" className="" />
@@ -282,29 +299,31 @@ const MeetingRoomInfo = () => {
                 </div>
                 {showSearch && (
                     <>
-                    {addedMembers.length > 0 && (
-                        <div className="mt-4 flex">
-                            {addedMembers.map(member => (
-                                <div key={member.memberId} className="flex items-center">
-                                    <div className='px-2.5 py-1 mr-[6px] rounded-xl border border-zinc-400 justify-start items-center gap-2 inline-flex'>
-                                    <div className="text-neutral-400 text-sm font-medium font-['Pretendard'] mt-[2px]">{member.memberName}</div>
-                                    <Image src={'/reservation/deleteBtn.svg'} width={10} height={10} alt="delete uder" className="" onClick={() => handleRemoveMember(member)} />
-                                </div>
-                                </div>
-                            ))}
+                        {addedMembers.length > 0 && (
+                            <div className="mt-4 flex overflow-x-auto">
+                                {addedMembers.map(member => (
+                                    <div key={member.memberId} className="flex items-center">
+                                        <div className='px-2.5 py-1 mr-[6px] rounded-xl border border-zinc-400 justify-start items-center gap-2 inline-flex'>
+                                            <div className="overflow-x-auto text-neutral-400 text-sm font-medium font-['Pretendard'] mt-[2px]">
+                                                {member.memberName}
+                                            </div>
+                                            <Image src={'/reservation/deleteBtn.svg'} width={10} height={10} alt="delete uder" className="cursor-pointer" onClick={() => handleRemoveMember(member)} />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        <div className="relative w-full mt-[20px]">
+                            <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={handleSearch}
+                                className="w-full h-10 pl-10 py-1 outline-none border border-gray-300 rounded placeholder-gray-400"
+                                placeholder="참석자의 이메일 또는 이름을 검색하세요."
+                            />
+                            <img src="/map/Search.png" alt="search" className="absolute left-3 top-2.5 w-5 h-5" />
                         </div>
-                    )}
-                    <div className="relative w-full mt-[20px]">
-                        <input
-                            type="text"
-                            value={searchTerm}
-                            onChange={handleSearch}
-                            className="w-full h-10 pl-10 py-1 outline-none border border-gray-300 rounded placeholder-gray-400"
-                            placeholder="참석자의 이메일 또는 이름을 검색하세요."
-                        />
-                        <img src="/map/Search.png" alt="search" className="absolute left-3 top-2.5 w-5 h-5" />
-                    </div>
-                    {(inviteableMembers.length > 0 || nonInviteableMembers.length > 0) && (
+                        {(inviteableMembers.length > 0 || nonInviteableMembers.length > 0) && (
                             <ul className="mt-2">
                                 {inviteableMembers.map((member) => (
                                     <li key={member.memberId} className="p-2 flex items-center">
