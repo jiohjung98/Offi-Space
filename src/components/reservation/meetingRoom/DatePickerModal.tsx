@@ -147,7 +147,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   return (
     <div className="fixed inset-0 flex items-end justify-center z-[9999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-      <div className="bg-white rounded-t-2xl w-[100%] h-[600px] p-6 absolute bottom-0 overflow-y-auto">
+      <div className="bg-white rounded-t-2xl w-[100%] max-w-[430px] h-[600px] p-6 absolute bottom-0 overflow-y-auto">
         <div className="flex">
           <button
             className={`py-2 px-4 ${
@@ -261,9 +261,9 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
 
         {activeTab === 'people' && (
           <div className="mb-4 w-[100%]">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="flex flex-col">
               {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
-                <label key={type} className="flex items-center">
+                <label key={type} className="flex items-center my-[12px]">
                   <input
                     type="checkbox"
                     id="check1"
@@ -275,7 +275,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                         : 'bg-zinc-100'
                     }`}
                   />
-                  <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
+                  <span className="ml-[8px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
                     {type === 'MINI'
                       ? '미니(1-4인)'
                       : type === 'STANDARD'
@@ -294,37 +294,34 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
 
         {activeTab === 'equipment' && (
           <div className="">
-            <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] mb-[5px]">
-              비품
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <label className="flex items-center">
+            <div className="flex flex-col">
+              <label className="flex items-center my-[12px]">
                 <input
                   type="checkbox"
                   checked={projectorExists}
                   onChange={() => setProjectorExists((prev) => !prev)}
                 />
-                <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
+                <span className="ml-[8px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
                   프로젝터
                 </span>
               </label>
-              <label className="flex items-center">
+              <label className="flex items-center my-[12px]">
                 <input
                   type="checkbox"
                   checked={canVideoConference}
                   onChange={() => setCanVideoConference((prev) => !(prev))}
                 />
-                <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
+                <span className="ml-[8px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
                   화상장비
                 </span>
               </label>
-              <label className="flex items-center">
+              <label className="flex items-center my-[12px]">
                 <input
                   type="checkbox"
                   checked={isPrivate}
                   onChange={() => setIsPrivate((prev) => !prev)}
                 />
-                <span className="ml-[5px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
+                <span className="ml-[8px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
                   프라이빗
                 </span>
               </label>
