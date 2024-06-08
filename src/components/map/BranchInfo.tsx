@@ -10,6 +10,7 @@ import { subwayLineColors, subwayLineAbbreviations } from '@/constant/station';
 import BranchOffice from './BranchOffice';
 import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
+import { getOfficeMeetingRoomCount } from '@/api/map/getAvailableOffice';
 
 const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const router = useRouter();
@@ -23,9 +24,30 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const branchPhoneNumber = router.query.branchPhoneNumber as string;
   const roadFromStation = router.query.roadFromStation as string;
   const stationToBranch = router.query.stationToBranch as string;
+  const branchId = router.query.branchId;
+
+  console.log(branchId);
 
   useEffect(() => {
-    if (address && branchPhoneNumber && roadFromStation && stationToBranch) {
+    const fetchData = async () => {
+      try {
+        const data = await getOfficeMeetingRoomCount(branchId as unknown as number);
+        if (data.data) {
+          console.log(data);
+          console.log(data.data);    
+        }
+      } catch (error) {
+        console.error('Error updating selected branch:', error);
+      }
+    };
+    if (branchId) {
+      fetchData();
+    }
+  }, [branchId]);
+
+
+  useEffect(() => {
+    if (address && branchPhoneNumber && roadFromStation && stationToBranch && branchId) {
       localStorage.setItem(
         'branchInfo',
         JSON.stringify({
@@ -33,15 +55,16 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           address,
           branchPhoneNumber,
           roadFromStation,
-          stationToBranch
+          stationToBranch,
+          branchId
         })
       );
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, branchPhoneNumber, roadFromStation, stationToBranch]);
+  }, [address, branchPhoneNumber, roadFromStation, stationToBranch, branchId]);
 
   useEffect(() => {
-    if (!address || !branchPhoneNumber || !roadFromStation || !stationToBranch) {
+    if (!address || !branchPhoneNumber || !roadFromStation || !stationToBranch || !branchId) {
       const savedBranchInfo = localStorage.getItem('branchInfo');
       if (savedBranchInfo) {
         const {
@@ -49,7 +72,8 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           address,
           branchPhoneNumber,
           roadFromStation,
-          stationToBranch
+          stationToBranch,
+          branchId
         } = JSON.parse(savedBranchInfo);
         router.replace(
           {
@@ -59,7 +83,8 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
               address,
               branchPhoneNumber,
               roadFromStation,
-              stationToBranch
+              stationToBranch,
+              branchId
             }
           },
           undefined,

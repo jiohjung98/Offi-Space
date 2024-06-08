@@ -35,6 +35,7 @@ export interface OfficeInfoProps {
 }
 
 export interface SelectedBranch {
+  branchId: number;
   branchName: string;
   branchAddress: string;
   branchLatitude: number;
