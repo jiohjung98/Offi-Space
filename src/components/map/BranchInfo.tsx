@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { OfficeInfoProps } from '@/api/types/branch';
 import { subwayLineColors, subwayLineAbbreviations } from '@/constant/station';
 import BranchOffice from './BranchOffice';
 import { useBranchStore2 } from '@/store/reserve.store';
@@ -13,14 +12,15 @@ import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 import { getOfficeMeetingRoomCount } from '@/api/map/getAvailableOffice';
 import TabSection from './TapSection';
 
-const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
+const BranchInfo: React.FC = () => {
   const router = useRouter();
   const { setReservedBranch } = useBranchStore2();
   const [urgentNotice, setUrgentNotice] = useState<{ title: string; content: string } | null>(null);
 
   const [currentSlide, setCurrentSlide] = useState(1);
   const totalSlides = 3;
-
+  
+  const branchName = router.query.name as string;
   const address = router.query.address as string;
   const branchPhoneNumber = router.query.branchPhoneNumber as string;
   const roadFromStation = router.query.roadFromStation as string;
@@ -52,7 +52,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
 
 
   useEffect(() => {
-    if (address && branchPhoneNumber && roadFromStation && stationToBranch && numericBranchId) {
+    if (branchName && address && branchPhoneNumber && roadFromStation && stationToBranch && numericBranchId) {
       localStorage.setItem(
         'branchInfo',
         JSON.stringify({
@@ -66,10 +66,10 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
       );
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, branchPhoneNumber, roadFromStation, stationToBranch, numericBranchId]);
+  }, [branchName, address, branchPhoneNumber, roadFromStation, stationToBranch, numericBranchId]);
 
   useEffect(() => {
-    if (!address || !branchPhoneNumber || !roadFromStation || !stationToBranch || !branchId) {
+    if (!branchName || !address || !branchPhoneNumber || !roadFromStation || !stationToBranch || !branchId) {
       const savedBranchInfo = localStorage.getItem('branchInfo');
       if (savedBranchInfo) {
         const {

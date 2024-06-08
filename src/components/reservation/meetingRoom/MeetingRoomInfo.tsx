@@ -60,6 +60,8 @@ const MeetingRoomInfo = () => {
             ? selectedBranch
             : reservedBranch;
 
+    
+    console.log(`current Branch = ${currentBranch?.branchName}`);
     const router = useRouter();
 
     const { meetingRoomId } = router.query;
@@ -124,17 +126,21 @@ const MeetingRoomInfo = () => {
 
     const handleOfficeInfo = async () => {
         try {
+            console.log(currentBranch!.branchName);
             const data = await getSelectedOfficeInfo(currentBranch!.branchName);
+            console.log(data);
             const officeInfo = data.data;
             console.log(officeInfo);
             router.push({
+                // pathname: `/branches/${encodeURIComponent(officeInfo!.branchName)}`,
                 pathname: `/branches/${encodeURIComponent(currentBranch!.branchName)}`,
                 query: {
-                    name: currentBranch!.branchName,
+                    name: officeInfo.branchName,
                     address: officeInfo.branchAddress,
                     branchPhoneNumber: officeInfo.branchPhoneNumber,
                     roadFromStation: officeInfo.roadFromStation,
-                    stationToBranch: officeInfo.stationToBranch.join(',')
+                    stationToBranch: officeInfo.stationToBranch.join(','),
+                    branchId: officeInfo.branchId
                 }
             }, `/branches/${encodeURIComponent(currentBranch!.branchName)}`);
         } catch (error) {
