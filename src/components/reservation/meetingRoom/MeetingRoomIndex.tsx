@@ -227,12 +227,23 @@ const MeetingRoomIndex: React.FC = () => {
     setSortTarget(target);
     setSortDirection(direction);
     setDropdownOpen(false); 
+  
     if (target === 'roomCapacity') {
       setSelectedSortOption(direction === 'ASC' ? '낮은 인원 순' : '높은 인원 순');
     } else {
       setSelectedSortOption(direction === 'ASC' ? '낮은 층 수' : '높은 층 수');
     }
+  
+    const sortedRooms = [...meetingRooms].sort((a, b) => {
+      if (target === 'roomCapacity') {
+        return direction === 'ASC' ? a.meetingRoomCapacity - b.meetingRoomCapacity : b.meetingRoomCapacity - a.meetingRoomCapacity;
+      } else {
+        return direction === 'ASC' ? a.meetingRoomFloor - b.meetingRoomFloor : b.meetingRoomFloor - a.meetingRoomFloor;
+      }
+    });
+    setMeetingRooms(sortedRooms);
   };
+  
   
   return (
     <div className="p-4 h-screen">
@@ -341,120 +352,33 @@ const MeetingRoomIndex: React.FC = () => {
         </div>
       </div>
       <div className={`grid grid-cols-2 gap-x-[11px] gap-y-[24px] ${showToast ? 'pointer-events-none opacity-50' : ''}`}>
-        {sortTarget === 'roomCapacity' ? (
-          sortDirection === 'ASC' ? (
-            meetingRooms.map((room) => (
-              <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
-                <div className="rounded">
-                  <Image
-                    src={room.meetingRoomImage || '/meetingRoomImg.svg'}
-                    width={175}
-                    height={124}
-                    alt={room.meetingRoomName}
-                    className="object-cover rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
-                    {room.meetingRoomName}
-                  </div>
-                  <div className="flex mt-[4px] items-center">
-                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
-                      {room.meetingRoomFloor}층
-                    </div>
-                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-                    <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
-                  </div>
-                </div>
+      {meetingRooms.map((room) => (
+        <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
+          <div className="rounded">
+            <Image
+              src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+              width={175}
+              height={124}
+              alt={room.meetingRoomName}
+              className="object-cover rounded"
+            />
+          </div>
+          <div className="flex flex-col">
+            <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+              {room.meetingRoomName}
+            </div>
+            <div className="flex mt-[4px] items-center">
+              <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+              <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                {room.meetingRoomFloor}층
               </div>
-            ))
-          ) : (
-            [...meetingRooms].reverse().map((room) => (
-              <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
-                <div className="rounded">
-                  <Image
-                    src={room.meetingRoomImage || '/meetingRoomImg.svg'}
-                    width={175}
-                    height={124}
-                    alt={room.meetingRoomName}
-                    className="object-cover rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
-                    {room.meetingRoomName}
-                  </div>
-                  <div className="flex mt-[4px] items-center">
-                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
-                      {room.meetingRoomFloor}층
-                    </div>
-                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-                    <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
-                  </div>
-                </div>
-              </div>
-            ))
-          )
-        ) : (
-          sortDirection === 'ASC' ? (
-            meetingRooms.map((room) => (
-              <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
-                <div className="rounded">
-                  <Image
-                    src={room.meetingRoomImage || '/meetingRoomImg.svg'}
-                    width={175}
-                    height={124}
-                    alt={room.meetingRoomName}
-                    className="object-cover rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
-                    {room.meetingRoomName}
-                  </div>
-                  <div className="flex mt-[4px] items-center">
-                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
-                      {room.meetingRoomFloor}층
-                    </div>
-                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-                    <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            [...meetingRooms].reverse().map((room) => (
-              <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
-                <div className="rounded">
-                  <Image
-                    src={room.meetingRoomImage || '/meetingRoomImg.svg'}
-                    width={175}
-                    height={124}
-                    alt={room.meetingRoomName}
-                    className="object-cover rounded"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
-                    {room.meetingRoomName}
-                  </div>
-                  <div className="flex mt-[4px] items-center">
-                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
-                      {room.meetingRoomFloor}층
-                    </div>
-                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-                    <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
-                  </div>
-                </div>
-              </div>
-            ))
-          )
-        )}
-      </div>
+              <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+              <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
       <div className="h-[100px]"></div>
       {startTime && endTime && (
         <DatePickerModal
