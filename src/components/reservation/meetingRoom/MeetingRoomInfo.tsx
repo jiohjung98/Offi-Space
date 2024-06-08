@@ -208,10 +208,10 @@ const MeetingRoomInfo = () => {
             />
             <div className='px-4'>
                 <div className="flex w-full items-center mt-[24px]">
-                    <div className="text-black/opacity-20 text-lg font-medium font-['Pretendard']">
+                    <div className="text-black/opacity-20 text-lg font-medium my-auto items-center font-['Pretendard']">
                         {meetingRoom.branchName}
                     </div>
-                    <div className="ml-auto flex" onClick={handleOfficeInfo}>
+                    <div className="ml-auto flex cursor-pointer" onClick={handleOfficeInfo}>
                         <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px]">지점 상세보기</div>
                         <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
                     </div>
