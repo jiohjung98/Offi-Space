@@ -357,7 +357,7 @@ const MeetingRoomIndex: React.FC = () => {
       </div>
       <div className={`grid grid-cols-2 gap-x-[11px] gap-y-[24px] ${showToast ? 'pointer-events-none opacity-50' : ''}`}>
       {meetingRooms.map((room) => (
-        <div key={room.meetingRoomId}  className={`overflow-hidden bg-white text-center ${toastType === 'OVERLAPPING_MEETING_ROOM_EXISTS' ? 'pointer-events-none' : ''}`}  onClick={() => handleRoomClick(room.meetingRoomId)}>
+        <div key={room.meetingRoomId}  className={`overflow-hidden bg-white text-center ${toastType === 'OVERLAPPING_MEETING_ROOM_EXISTS' ? 'pointer-events-none' : 'cursor-pointer'}`}  onClick={() => handleRoomClick(room.meetingRoomId)}>
           <div className="rounded">
             <Image
               src={room.meetingRoomImage || '/meetingRoomImg.svg'}
