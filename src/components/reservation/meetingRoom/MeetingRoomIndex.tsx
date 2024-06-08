@@ -97,6 +97,7 @@ const MeetingRoomIndex: React.FC = () => {
 
     const initialParams = setInitialParams(startAt, endAt, currentBranch.branchName);
     setParams(initialParams);
+    setSelectedSortOption('낮은 인원 순');
   }, [currentBranch]);
 
   const fetchMeetingRooms = async (params: GetMeetingRoomsParams) => {
