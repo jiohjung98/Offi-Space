@@ -207,7 +207,7 @@ const MeetingRoomInfo = () => {
     return (
         <div className='min-h-screen flex flex-col'>
         <div className="px-4 mt-[20px]">
-            <IoIosArrowRoundBack size={40} className="mr-auto" onClick={handleBackClick} />
+            <IoIosArrowRoundBack size={40} className="mr-auto cursor-pointer" onClick={handleBackClick} />
         </div>
         <Image
             src={meetingRoom.meetingRoomImage || '/meetingRoomSqaure.svg'}
