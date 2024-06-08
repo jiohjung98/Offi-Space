@@ -260,7 +260,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
         )}
 
         {activeTab === 'people' && (
-          <div className="mb-4 w-[100%]">
+          <div className="mt-4 w-[100%]">
             <div className="flex flex-col">
               {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
                 <label key={type} className="flex items-center my-[12px]">
@@ -294,7 +294,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
 
         {activeTab === 'equipment' && (
           <div className="">
-            <div className="flex flex-col">
+            <div className="mt-4 flex flex-col">
               <label className="flex items-center my-[12px]">
                 <input
                   type="checkbox"
