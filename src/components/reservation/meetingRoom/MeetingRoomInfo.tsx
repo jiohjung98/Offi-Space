@@ -334,17 +334,19 @@ const MeetingRoomInfo = () => {
                             <ul className="mt-2">
                                 {inviteableMembers.map((member) => (
                                     <li key={member.memberId} className="p-2 flex items-center">
-                                        <Image src={member.imageUrl} width={32} height={32} alt="member image" className="mr-2 rounded-full" />
-                                        <div className="flex flex-col cursor-pointer">
-                                            <span>{member.memberName}</span>
-                                            <span className="text-sm text-gray-500">{member.memberEmail}</span>
-                                        </div>
-                                        {invitedMemberIds.includes(member.memberId) ? ( 
-                                            <Image src={'/reservation/InvitedUser.svg'} width={28} height={28} alt="invited user" className="ml-auto rounded-full cursor-not-allowed" />
-                                        ) : ( 
-                                            <Image src={'/reservation/InviteUser.svg'} width={28} height={28} alt="invite user" className="ml-auto rounded-full cursor-pointer" onClick={() => handleAddMember(member)} />
-                                        )}
-                                    </li>
+                                    <div className="relative w-8 h-8 mr-2 rounded-full overflow-hidden">
+                                      <Image src={member.imageUrl} layout="fill" objectFit="cover" alt="member image" />
+                                    </div>
+                                    <div className="flex flex-col cursor-pointer">
+                                      <span>{member.memberName}</span>
+                                      <span className="text-sm text-gray-500">{member.memberEmail}</span>
+                                    </div>
+                                    {invitedMemberIds.includes(member.memberId) ? (
+                                      <Image src="/reservation/InvitedUser.svg" width={28} height={28} alt="invited user" className="ml-auto rounded-full cursor-not-allowed" />
+                                    ) : (
+                                      <Image src="/reservation/InviteUser.svg" width={28} height={28} alt="invite user" className="ml-auto rounded-full cursor-pointer" onClick={() => handleAddMember(member)} />
+                                    )}
+                                  </li>
                                 ))}
                                 {nonInviteableMembers.map((member) => (
                                     <li key={member.memberId} className="p-2 flex items-center opacity-50">
