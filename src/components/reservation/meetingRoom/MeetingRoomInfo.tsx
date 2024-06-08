@@ -195,42 +195,41 @@ const MeetingRoomInfo = () => {
 
 
     return (
-        <div>
-            <div className="px-4 mt-[20px]">
-                <IoIosArrowRoundBack size={40} className="mr-auto" onClick={handleBackClick} />
-            </div>
-            <Image
-                src={meetingRoom.meetingRoomImage || '/meetingRoomSqaure.svg'}
-                width={393}
-                height={124}
-                alt='meetingRoomImage'
-                className="object-cover"
-            />
-            <div className='px-4'>
-                <div className="flex w-full items-center mt-[24px]">
-                    <div className="text-black/opacity-20 text-lg font-medium my-auto items-center font-['Pretendard']">
-                        {meetingRoom.branchName}
-                    </div>
-                    <div className="ml-auto flex cursor-pointer" onClick={handleOfficeInfo}>
-                        <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px]">지점 상세보기</div>
-                        <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
-                    </div>
+        <div className='min-h-screen flex flex-col'>
+        <div className="px-4 mt-[20px]">
+            <IoIosArrowRoundBack size={40} className="mr-auto" onClick={handleBackClick} />
+        </div>
+        <Image
+            src={meetingRoom.meetingRoomImage || '/meetingRoomSqaure.svg'}
+            width={393}
+            height={124}
+            alt='meetingRoomImage'
+            className="object-cover"
+        />
+        <div className='px-4 flex-grow overflow-y-auto'>
+            <div className="flex w-full items-center mt-[24px]">
+                <div className="text-black/opacity-20 text-lg font-medium my-auto items-center font-['Pretendard']">
+                    {meetingRoom.branchName}
                 </div>
-                <div className="flex flex-col w-full mt-[24px]">
-                    <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard']">{meetingRoom.meetingRoomName}</div>
-                    <div className="flex flex-row items-center">
-                        <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-                        <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-[2px]">
-                            {meetingRoom.meetingRoomFloor}층
-                        </div>
-                        <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-                        <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-[2px]">
-                            1~{meetingRoom.meetingRoomCapacity}명
-                        </div>
-                        <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
-                        <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mt-[2px]">
-                            {meetingRoom.equipments.join(', ')}
-                        </div>
+                <div className="ml-auto flex cursor-pointer" onClick={handleOfficeInfo}>
+                    <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px]">지점 상세보기</div>
+                    <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
+                </div>
+            </div>
+            <div className="flex flex-col w-full mt-[24px]">
+                <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard']">{meetingRoom.meetingRoomName}</div>
+                <div className="flex flex-row items-center">
+                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-[2px]">
+                        {meetingRoom.meetingRoomFloor}층
+                    </div>
+                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-[2px]">
+                        1~{meetingRoom.meetingRoomCapacity}명
+                    </div>
+                    <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mt-[2px]">
+                        {meetingRoom.equipments.join(', ')}
                     </div>
                 </div>
             </div>
@@ -280,11 +279,9 @@ const MeetingRoomInfo = () => {
                                 {addedMembers.length > 0 && (
                                     <div className="flex ml-[10px]">
                                         <div className="text-indigo-700 text-base font-semibold font-['Pretendard']">
-                                        
-                                                {addedMembers.length === 1 
-                                                    ? addedMembers[0].memberName 
-                                                    : `${addedMembers[0].memberName} 외 ${addedMembers.length - 1}인`}
-
+                                            {addedMembers.length === 1 
+                                                ? addedMembers[0].memberName 
+                                                : `${addedMembers[0].memberName} 외 ${addedMembers.length - 1}인`}
                                         </div>
                                     </div>
                                 )}
@@ -358,20 +355,24 @@ const MeetingRoomInfo = () => {
                 )}
             </div>
             <div className="flex px-4 items-start mt-[24px]">
-              <Image src={'/reservation/ExclamationMark.svg'} alt="Location" width={14} height={14} className="mr-2" />
-              <p className="text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">일정이 이미 있는 사용자는 참석 멤버로 등록할 수 없어요! 일정을 조정한 뒤 추가할 수 있습니다.</p>
+                <Image src={'/reservation/ExclamationMark.svg'} alt="Location" width={14} height={14} className="mr-2" />
+                <p className="text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">일정이 이미 있는 사용자는 참석 멤버로 등록할 수 없어요! 일정을 조정한 뒤 추가할 수 있습니다.</p>
             </div>
-            <footer className='w-full text-center py-[30px] mb-[50px] left-0 right-0'>
-                <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReserve}>예약하기</button>
-            </footer>
-            <ReservationModal
-                isVisible={showReservationModal}
-                eventName={eventName}
-                getTimes={formattedGetTime}
-                selectedBranch={meetingRoom.branchName}
-                meetingRoomName={meetingRoom.meetingRoomName}
-            />
+            <footer className={`w-full text-center py-[30px] ${showSearch ? 'mb-[100px]' : 'mb-[70px]'} left-0 right-0`}>
+            <button className='w-[100%] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReserve}>
+                예약하기
+            </button>
+        </footer>
         </div>
+        <ReservationModal
+            isVisible={showReservationModal}
+            eventName={eventName}
+            getTimes={formattedGetTime}
+            selectedBranch={meetingRoom.branchName}
+            meetingRoomName={meetingRoom.meetingRoomName}
+        />
+    </div>
+    
     );
 };
 
