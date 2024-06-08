@@ -1,5 +1,5 @@
 import { questiongetmock, questionpostmock } from '@/api/mock.api';
-import { BackArrow } from '@/components/backarrow/BackArrow';
+import { BackArrow } from '@/components/sign/backarrow/BackArrow';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 

@@ -1,5 +1,3 @@
-import { BackArrow } from '@/components/backarrow/BackArrow';
-import Footer from '@/components/footer/Footer';
 import { Fragment } from 'react';
 import useNoticeGet from '@/components/community/hooks/useNoticeGet';
 import { NotificationType } from '@/api/types/notification';
@@ -10,6 +8,8 @@ import {
   useNotificationCategory,
   useSetNotificationCategory
 } from '@/store/notifications.store';
+import Footer from '@/components/layout/footer/Footer';
+import { BackArrow } from '@/components/sign/backarrow/BackArrow';
 
 const categorizeNotifications = (notifications: NotificationType[]) => {
   const today = new Date();

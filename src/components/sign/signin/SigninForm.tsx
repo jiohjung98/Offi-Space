@@ -2,24 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useLogin from '@/hook/useLogin';
 import { ISignIn } from '@/api/types/auth';
-import { signinmock } from '@/api/mock.api';
-// interface SigninType {
-//   email: string;
-//   password: string;
-// }
 
 const SigninForm = () => {
   const [isError, setIsError] = useState(false);
   const {
     register,
     handleSubmit,
-    // setError,
     formState: { errors }
   } = useForm<ISignIn>();
-
-  useEffect(() => {
-    signinmock();
-  }, []);
 
   const { mutate, error } = useLogin();
 
@@ -27,8 +17,6 @@ const SigninForm = () => {
     setIsError(false);
     const { email, password } = data;
     mutate({ email, password });
-    //todo : signin 처리
-    console.log(data);
   };
 
   useEffect(() => {
@@ -41,14 +29,6 @@ const SigninForm = () => {
     return () => clearTimeout(timeoutId);
   }, [isError]);
 
-  // {
-  //   error.length > 2
-  //     ? setError('password', {
-  //         type: 'manual',
-  //         message: '*일치하지 않습니다.'
-  //       })
-  //     : null;
-  // }
   return (
     <form
       onSubmit={handleSubmit((data) => FormSubmit(data))}
@@ -106,10 +86,6 @@ const SigninForm = () => {
             <input
               {...register('password', {
                 required: true
-                // pattern: {
-                //   value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/,
-                //   message: '8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.'
-                // }
               })}
               type="password"
               className="outline-none w-full"

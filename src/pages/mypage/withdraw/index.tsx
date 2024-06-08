@@ -1,6 +1,6 @@
 import { del } from '@/api/auth/auth.delete.api';
-import { BackArrow } from '@/components/backarrow/BackArrow';
 import MainContainer from '@/components/shared/MainContainer';
+import { BackArrow } from '@/components/sign/backarrow/BackArrow';
 import { useState } from 'react';
 
 const MemberWithdrawal = () => {

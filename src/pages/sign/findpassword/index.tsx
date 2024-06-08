@@ -1,7 +1,7 @@
-import ChangePasswordDone from '@/components/findpassword/ChangePasswordDone';
-import EmailCertification from '@/components/findpassword/EmailCertification';
-import SetNewPassword from '@/components/findpassword/SetNewPasswod';
 import MainContainer from '@/components/shared/MainContainer';
+import ChangePasswordDone from '@/components/sign/findpassword/ChangePasswordDone';
+import EmailCertification from '@/components/sign/findpassword/EmailCertification';
+import SetNewPassword from '@/components/sign/findpassword/SetNewPasswod';
 import React, { useState } from 'react';
 
 const FindPasswordPage = () => {

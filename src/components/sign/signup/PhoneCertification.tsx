@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import ToBack from '../shared/sign/ToBack';
 import { SignupBtnStatus } from '@/models/signupBtnStatus';
 import { motion } from 'framer-motion';
 import { invertSecond } from '@/utils/invertSecond';
@@ -7,6 +6,8 @@ import { useMutation } from 'react-query';
 import { phoneauthrequest, phoneauthverify } from '@/api/auth/auth.post.api';
 import { ApplyValues } from '@/models/applyValues';
 import { signError } from '@/constant/signError';
+import ToBack from '@/components/shared/sign/ToBack';
+
 /* eslint-disable no-unused-vars */
 interface PhoneCertificationProps {
   onNext: (phoneNumber: ApplyValues['memberPhone']) => void;
