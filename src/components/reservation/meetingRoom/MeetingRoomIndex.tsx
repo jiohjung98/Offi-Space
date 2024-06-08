@@ -80,6 +80,8 @@ const MeetingRoomIndex: React.FC = () => {
   const reservedBranch = useBranchStore2((state) => state.reservedBranch);
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
+  const [toastType, setToastType] = useState<string | null>(null);
+
   const currentBranch =
   updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
     ? selectedBranch
@@ -116,6 +118,7 @@ const MeetingRoomIndex: React.FC = () => {
               해당 시간에 미팅룸 일정이 있습니다.<br/>다른 시간으로 예약해보세요.
           </div>
       );
+        setToastType('OVERLAPPING_MEETING_ROOM_EXISTS')
         setShowToast(true);
         setTimeout(() => {
           setShowToast(false);
@@ -123,6 +126,7 @@ const MeetingRoomIndex: React.FC = () => {
       }
 
       if (toastType === null ) {
+        setToastType('Can Click')
         setShowToast(false);
       }
 
@@ -353,7 +357,7 @@ const MeetingRoomIndex: React.FC = () => {
       </div>
       <div className={`grid grid-cols-2 gap-x-[11px] gap-y-[24px] ${showToast ? 'pointer-events-none opacity-50' : ''}`}>
       {meetingRooms.map((room) => (
-        <div key={room.meetingRoomId} className="overflow-hidden bg-white text-center" onClick={() => handleRoomClick(room.meetingRoomId)}>
+        <div key={room.meetingRoomId}  className={`overflow-hidden bg-white text-center ${toastType === 'OVERLAPPING_MEETING_ROOM_EXISTS' ? 'pointer-events-none' : ''}`}  onClick={() => handleRoomClick(room.meetingRoomId)}>
           <div className="rounded">
             <Image
               src={room.meetingRoomImage || '/meetingRoomImg.svg'}
