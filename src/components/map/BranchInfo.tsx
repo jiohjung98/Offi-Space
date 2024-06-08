@@ -11,6 +11,7 @@ import BranchOffice from './BranchOffice';
 import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 import { getOfficeMeetingRoomCount } from '@/api/map/getAvailableOffice';
+import TabSection from './TapSection';
 
 const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const router = useRouter();
@@ -26,7 +27,10 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
   const stationToBranch = router.query.stationToBranch as string;
   const branchId = router.query.branchId;
 
+  const numericBranchId = Array.isArray(branchId) ? parseInt(branchId[0], 10) : parseInt(branchId as string, 10);
+
   console.log(branchId);
+  console.log(numericBranchId)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,14 +44,15 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
         console.error('Error updating selected branch:', error);
       }
     };
-    if (branchId) {
+    if (numericBranchId) {
       fetchData();
     }
-  }, [branchId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [numericBranchId]);
 
 
   useEffect(() => {
-    if (address && branchPhoneNumber && roadFromStation && stationToBranch && branchId) {
+    if (address && branchPhoneNumber && roadFromStation && stationToBranch && numericBranchId) {
       localStorage.setItem(
         'branchInfo',
         JSON.stringify({
@@ -56,12 +61,12 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           branchPhoneNumber,
           roadFromStation,
           stationToBranch,
-          branchId
+          branchId: numericBranchId,
         })
       );
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, branchPhoneNumber, roadFromStation, stationToBranch, branchId]);
+  }, [address, branchPhoneNumber, roadFromStation, stationToBranch, numericBranchId]);
 
   useEffect(() => {
     if (!address || !branchPhoneNumber || !roadFromStation || !stationToBranch || !branchId) {
@@ -247,6 +252,7 @@ const BranchInfo: React.FC<OfficeInfoProps> = ({ branchName }) => {
           <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">
             공용 공간 리스트
           </div>
+          <TabSection branchId={numericBranchId} />
         </div>
         <div className="w-full h-px bg-neutral-200" />
         <div className="px-4 py-6">

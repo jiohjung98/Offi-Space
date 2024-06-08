@@ -52,3 +52,12 @@ export interface BranchAvailable {
   branchTotalMeetingRoomCount: number;
   branchActiveMeetingRoomCount: number;
 }
+
+export interface OfficeRoomCounts {
+  focusDeskCount: number;
+  mediumRoomCount: number;
+  miniRoomCount: number;
+  rechargingRoomCount: number;
+  standardRoomCount: number;
+  stateRoomCount: number;
+}

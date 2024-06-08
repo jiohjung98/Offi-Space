@@ -1,6 +1,7 @@
-import { SelectedBranch } from '@/api/types/branch';
+// getAvailableOffice.ts
+import { OfficeRoomCounts } from '@/api/types/branch';
 
-export const getOfficeMeetingRoomCount = async (branchId: number): Promise<{ data: SelectedBranch }> => {
+export const getOfficeMeetingRoomCount = async (branchId: number): Promise<{ data: OfficeRoomCounts }> => {
   try {
     const backendUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
@@ -15,7 +16,7 @@ export const getOfficeMeetingRoomCount = async (branchId: number): Promise<{ dat
     if (!response.ok) {
       throw new Error('Failed to fetch meeting room count');
     }
-    const data: { data: SelectedBranch } = await response.json();
+    const data: { data: OfficeRoomCounts } = await response.json();
     return data;
   } catch (error) {
     console.error('Error fetching meeting room count:', error);
