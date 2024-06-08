@@ -1,5 +1,5 @@
 'use client';
-import Footer from '@/components/footer/Footer';
+import Footer from '@/components/layout/footer/Footer';
 import MyReservationListIndex from '@/components/reservation/myReservationList/MyReservationListIndex';
 import MainContainer from '@/components/shared/MainContainer';
 import React from 'react';

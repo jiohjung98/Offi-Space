@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-// import Link from 'next/link';
 import { passwordverify } from '@/api/auth/auth.post.api';
 import { useMutation } from '@tanstack/react-query';
 import { changepassword } from '@/api/auth/auth.patch.api';
 import { useRouter } from 'next/navigation';
-import { BackArrow } from '@/components/backarrow/BackArrow';
+import { BackArrow } from '@/components/sign/backarrow/BackArrow';
+
 export default function PasswordChange() {
   const {
     register,

@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
-import Footer from '@components/footer/Footer';
-import Header from '@/components/header/Header';
 import { usePathname } from 'next/navigation';
 import deleteFirstWord from '@/utils/deleteFirtstWord';
-import ReservationHeader from '../header/ReservationHeader';
+import ReservationHeader from './header/ReservationHeader';
+import Header from './header/Header';
+import Footer from './footer/Footer';
 
 interface LayoutProps {
   title?: string;

@@ -1,7 +1,7 @@
 'use client';
 import { userinfo } from '@/api/auth/auth.get.api';
-import Footer from '@/components/footer/Footer';
 import MainPageIndex from '@/components/home/MainPageIndex';
+import Footer from '@/components/layout/footer/Footer';
 import MainContainer from '@/components/shared/MainContainer';
 import { useMember, useSetMember } from '@/store/user';
 import React, { useEffect } from 'react';

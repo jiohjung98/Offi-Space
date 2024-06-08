@@ -1,8 +1,8 @@
 import React from 'react';
-import MainContainer from '../shared/MainContainer';
 import { useRouter } from 'next/router';
+import MainContainer from '@/components/shared/MainContainer';
 
-const SignupDone = () => {
+const ChangePasswordDone = () => {
   const router = useRouter();
   return (
     <MainContainer>
@@ -17,7 +17,7 @@ const SignupDone = () => {
         </div>
         <div className="mt-[32px]">
           <div className="text-center text-black text-[22px] font-semibold font-pretendard leading-[30.80px]">
-            회원가입이 <br />
+            비밀번호 재설정이 <br />
             완료되었습니다.
           </div>
         </div>
@@ -34,4 +34,4 @@ const SignupDone = () => {
   );
 };
 
-export default SignupDone;
+export default ChangePasswordDone;

@@ -1,5 +1,5 @@
-import { BackArrow } from '@/components/backarrow/BackArrow';
 import MainContainer from '@/components/shared/MainContainer';
+import { BackArrow } from '@/components/sign/backarrow/BackArrow';
 import React, { useState } from 'react';
 
 const NoticePage = () => {

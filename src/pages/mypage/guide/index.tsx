@@ -1,4 +1,4 @@
-import { BackArrow } from '@/components/backarrow/BackArrow';
+import { BackArrow } from '@/components/sign/backarrow/BackArrow';
 import React from 'react';
 
 const GuidePage = () => {

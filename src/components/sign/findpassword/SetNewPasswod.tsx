@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react';
-import ToBack from '../shared/sign/ToBack';
 import NewPasswordForm from './NewPasswordForm';
+import ToBack from '@/components/shared/sign/ToBack';
 
 const SetNewPassword = ({
   setStep

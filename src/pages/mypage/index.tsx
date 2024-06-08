@@ -5,8 +5,8 @@ import LogoutModal from '@/components/modal/logoutModal';
 import { useState } from 'react';
 import useLoggedOut from '@/hook/useLoggedOut';
 import SuccessModal from '@/components/modal/successModal';
-import Footer from '@/components/footer/Footer';
 import useUpdateMember from '@/hook/useUpdateMember';
+import Footer from '@/components/layout/footer/Footer';
 
 const MyPage = () => {
   const member = useMember();
