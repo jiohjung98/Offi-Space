@@ -15,7 +15,7 @@ const DatePickerWheel: React.FC<WheelPickerProps> = ({
   value,
   onChange,
   containerHeight = 150,
-  containerWidth = 150,
+  containerWidth = 140,
   itemHeight = 50,
 }) => {
   const itemsContRef = useRef<HTMLUListElement>(null);

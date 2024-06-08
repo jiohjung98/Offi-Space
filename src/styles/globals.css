@@ -92,7 +92,7 @@ body {
 }
 
 .react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
-  margin-right: 18px !important;
+  margin-right: 10px !important;
   margin-top: 6px !important;
 }
 
