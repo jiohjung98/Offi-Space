@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -47,7 +48,6 @@ const BranchInfo: React.FC = () => {
     if (numericBranchId) {
       fetchData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numericBranchId]);
 
 
@@ -65,7 +65,6 @@ const BranchInfo: React.FC = () => {
         })
       );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [branchName, address, branchPhoneNumber, roadFromStation, stationToBranch, numericBranchId]);
 
   useEffect(() => {
@@ -97,7 +96,6 @@ const BranchInfo: React.FC = () => {
         );
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleGoToReservation = async () => {
