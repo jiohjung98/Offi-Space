@@ -215,11 +215,12 @@ const UseMap: React.FC = () => {
   const handleMarkerClick = (branch: Branch) => {
     const position = new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude);
     map?.panTo(position);
-
+    setShowMessage(false);
     setSelectedBranch(branch);
     setIsModalOpen(true);
     setSelectedMarker(branch.branchName);
     handleOfficeAvailable(branch);
+    
   };
 
   const handleSearchQueryChange = (query: string) => {
