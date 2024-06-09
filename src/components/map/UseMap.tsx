@@ -12,7 +12,7 @@ const UseMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const markerRef = useRef<naver.maps.Marker | null>(null);
   const markerRefs = useRef<{ [key: string]: naver.maps.Marker }>({});
-  const [imageSrc, setImageSrc] = useState('/map/MapLocation.png');
+  const [imageSrc, setImageSrc] = useState('/map/MapLocation.svg');
   const [showMessage, setShowMessage] = useState(true);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -173,7 +173,7 @@ const UseMap: React.FC = () => {
               position: currentLocation,
               map: map,
               icon: {
-                url: '/map/MyLocation.png',
+                url: '/map/MyLocation.svg',
                 size: new naver.maps.Size(48, 48),
                 scaledSize: new naver.maps.Size(48, 48),
                 origin: new naver.maps.Point(0, 0),
@@ -255,13 +255,13 @@ const UseMap: React.FC = () => {
       <div ref={mapRef} className="w-full h-full" />
       {showMessage && (
         <>
-          <div className={`absolute ${isModalOpen ? 'bottom-[355px]' : 'bottom-[180px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center ${isIOS && !isStandalone ? 'mb-[80px]' : ''}`}>
+          <div className={`absolute ${isModalOpen ? 'bottom-[355px]' : 'bottom-[180px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center ${isIOS && !isStandalone ? 'mb-[60px]' : ''}`}>
             <span>더 정확한 접속위치를 확인해보세요!</span>
             <div onClick={handleCurrentLocationTextClick} className="ml-4 inline-block cursor-pointer">
               <Image src='/CloseBtn.svg' alt='closeBtn' width={13} height={13} />
             </div>
           </div>
-          <Image src='/map/triangle.svg' alt="Current Location" className={`absolute ${isModalOpen ? 'bottom-[345px]' : 'bottom-[170px]'} left-[40px]  ${isIOS && !isStandalone ? 'mb-[80px]' : ''}`} width={18} height={10} />
+          <Image src='/map/triangle.svg' alt="Current Location" className={`absolute ${isModalOpen ? 'bottom-[345px]' : 'bottom-[170px]'} left-[40px]  ${isIOS && !isStandalone ? 'mb-[60px]' : ''}`} width={18} height={10} />
         </>
       )}
       <MapSearchBar onFocus={() => setShowSearchResults(true)} onChange={handleSearchQueryChange} />
@@ -284,9 +284,9 @@ const UseMap: React.FC = () => {
       />
       <button
         id="current-location-button"
-        className={`absolute ${isModalOpen ? 'bottom-[300px]' : 'bottom-[105px]'} left-4 p-2 flex items-center justify-center ${isIOS && !isStandalone ? 'mb-16' : ''}`}
-        onMouseEnter={() => setImageSrc('/map/MapLocationActive.png')}
-        onMouseLeave={() => setImageSrc('/map/MapLocation.png')}
+        className={`absolute ${isModalOpen ? 'bottom-[320px]' : 'bottom-[105px]'} left-4 p-2 flex items-center justify-center ${isIOS && !isStandalone ? 'mb-16' : ''}`}
+        onMouseEnter={() => setImageSrc('/map/MapLocationActive.svg')}
+        onMouseLeave={() => setImageSrc('/map/MapLocation.svg')}
         onClick={handleCurrentLocationClick}
       >
       <Image src={imageSrc} alt="Current Location" width={48} height={48} />
