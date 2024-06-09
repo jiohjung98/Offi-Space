@@ -60,7 +60,6 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
           roadFromStation: officeInfo.roadFromStation,
           stationToBranch: officeInfo.stationToBranch.join(','),
           branchId: officeInfo.branchId as number,
-          image: getBranchImage(branchName),
         }
       }, `/branches/${encodeURIComponent(branchName)}`);
     } catch (error) {
