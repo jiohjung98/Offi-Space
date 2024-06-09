@@ -28,19 +28,21 @@ const formatDisplayDate = (startDate: Date, endDate: Date): string => {
 
 const setInitialDateTime = (): [Date, Date, string] => {
   const now = new Date();
-  let startAt: Date;
+  const roundedMinutes = Math.ceil(now.getMinutes() / 30) * 30;
+  const startAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), roundedMinutes, 0);
 
-  if (now.getMinutes() > 30) {
-    startAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0);
+  let endAt: Date;
+  if (startAt.getHours() === 23 && startAt.getMinutes() === 30) {
+    endAt = new Date(startAt.getTime() + 30 * 60 * 1000);
   } else {
-    startAt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 30, 0);
+    endAt = new Date(startAt.getTime() + 60 * 60 * 1000);
   }
 
-  const endAt = new Date(startAt.getTime() + 60 * 60 * 1000);
   const currentTime = formatDisplayDate(startAt, endAt);
 
   return [startAt, endAt, currentTime];
 };
+
 
 const setInitialParams = (startAt: Date, endAt: Date, branchName: string): GetMeetingRoomsParams => {
   const formattedStartAt = formatDateToCustomString(startAt);
