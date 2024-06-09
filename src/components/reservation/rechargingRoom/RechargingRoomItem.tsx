@@ -1,6 +1,7 @@
 import React, { Dispatch } from 'react';
 import { rechargingRoomDataType } from '../model/recharging';
 import { SelectedState } from './RechargingRoomIndex';
+import { checkValidRecharging } from '../remote/recharging';
 
 interface RechargingRoomItemType {
   roomData: rechargingRoomDataType;
@@ -13,12 +14,31 @@ const RechargingRoomItem = ({
   isSelected,
   setIsSelected
 }: RechargingRoomItemType) => {
-  const handleTimeBtn = (startAt: string) => {
-    setIsSelected({
-      rechargingRoomId: roomData?.rechargingRoomId,
-      startAt,
-      rechargingRoomName: roomData?.rechargingRoomName
-    });
+  const formatDateWithCurrentDate = (time: string): string => {
+    const today = new Date();
+    const [hours, minutes] = time.split(':');
+    today.setHours(parseInt(hours, 10));
+    today.setMinutes(parseInt(minutes, 10));
+    today.setSeconds(0);
+    today.setMilliseconds(0);
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+
+    return `${yyyy}-${mm}-${dd}T${time}:00`;
+  };
+
+  const handleTimeBtn = async (startAt: string) => {
+    const formattedStartAt = startAt ? formatDateWithCurrentDate(startAt) : '';
+    const data = await checkValidRecharging(formattedStartAt);
+    console.log(data);
+    if (data?.status == 'SUCCESS') {
+      setIsSelected({
+        rechargingRoomId: roomData?.rechargingRoomId,
+        startAt,
+        rechargingRoomName: roomData?.rechargingRoomName
+      });
+    }
   };
 
   return (

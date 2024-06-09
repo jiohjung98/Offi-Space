@@ -29,9 +29,11 @@ const RechargingRoomIndex = () => {
   });
 
   const currentBranch =
-  updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
-    ? selectedBranch
-    : reservedBranch || selectedBranch;
+    updatedTimeSelected &&
+    updatedTimeReserved &&
+    updatedTimeSelected > updatedTimeReserved
+      ? selectedBranch
+      : reservedBranch || selectedBranch;
 
   const branchId = currentBranch?.branchId as number;
 
@@ -43,7 +45,7 @@ const RechargingRoomIndex = () => {
     }
   );
 
-  if (data == undefined) {
+  if (data == undefined || data?.status == 'FAIL') {
     return null;
   }
 

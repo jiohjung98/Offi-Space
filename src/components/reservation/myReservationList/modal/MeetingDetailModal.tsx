@@ -144,7 +144,7 @@ const MeetingDetailModal = () => {
                   <img
                     src={data?.representative?.imageUrl}
                     alt="image"
-                    className="rounded-full"
+                    className="rounded-full w-[42px] h-[42px]"
                   />
                   <img
                     src="/reservation/groupLeader.svg"
@@ -165,7 +165,11 @@ const MeetingDetailModal = () => {
               {data?.participants.map((member: participantsType, i: number) => (
                 <div key={i} className="flex items-center gap-[13px]">
                   <div className="w-[42px] h-[42px]">
-                    <img src={member.imageUrl} alt="image" className=" rounded-full" />
+                    <img
+                      src={member.imageUrl}
+                      alt="image"
+                      className=" rounded-full w-[42px] h-[42px]"
+                    />
                   </div>
                   <div className="flex flex-col ">
                     <div className="text-space-black font-semibold text-base">
