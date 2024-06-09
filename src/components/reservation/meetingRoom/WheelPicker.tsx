@@ -15,7 +15,7 @@ const DatePickerWheel: React.FC<WheelPickerProps> = ({
   value,
   onChange,
   containerHeight = 150,
-  containerWidth = 150,
+  containerWidth = 40,
   itemHeight = 50,
 }) => {
   const itemsContRef = useRef<HTMLUListElement>(null);
@@ -82,7 +82,7 @@ const DatePickerWheel: React.FC<WheelPickerProps> = ({
   }, [value, itemsMap]);
 
   return (
-    <div className="container" style={{ height: `${containerHeight}px`, width: `${containerWidth}px` }}>
+    <div className="container mx-auto" style={{ height: `${containerHeight}px`, width: `${containerWidth}%` }}>
       <ul className="items" ref={itemsContRef}>
         {items.map((item, index) => (
           <li

@@ -27,6 +27,14 @@ const UseMap: React.FC = () => {
   const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
   const [branchCount, SetBranchCount] = useState(0);
   const [canBranchCount, SetCanBranchCount] = useState(0);
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    const userAgent = window.navigator.userAgent;
+    if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+      setIsIOS(true);
+    }
+  }, []);
 
   useEffect(() => {
     const initMap = () => {
@@ -215,11 +223,12 @@ const UseMap: React.FC = () => {
   const handleMarkerClick = (branch: Branch) => {
     const position = new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude);
     map?.panTo(position);
-
+    setShowMessage(false);
     setSelectedBranch(branch);
     setIsModalOpen(true);
     setSelectedMarker(branch.branchName);
     handleOfficeAvailable(branch);
+    
   };
 
   const handleSearchQueryChange = (query: string) => {
@@ -276,7 +285,7 @@ const UseMap: React.FC = () => {
       />
       <button
         id="current-location-button"
-        className={`absolute ${isModalOpen ? 'bottom-[280px]' : 'bottom-[105px]'} left-4 p-2 flex items-center justify-center`}
+        className={`absolute ${isModalOpen ? 'bottom-[300px]' : 'bottom-[105px]'} left-4 p-2 flex items-center justify-center ${isIOS ? 'mb-16' : ''}`}
         onMouseEnter={() => setImageSrc('/map/MapLocationActive.png')}
         onMouseLeave={() => setImageSrc('/map/MapLocation.png')}
         onClick={handleCurrentLocationClick}

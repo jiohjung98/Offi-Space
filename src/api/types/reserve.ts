@@ -3,7 +3,7 @@ export interface Reserve {
     meetingRoomId: number;
     startAt: string;
     endAt: string;
-    memberIds: number[];
+    memberIds: string[];
 }
 
 export interface ReservationModalProps {

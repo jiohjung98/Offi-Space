@@ -18,8 +18,9 @@ const MeetingRoomInfo = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [eventName, setEventName] = useState('');
-    const [showReservationModal, setShowReservationModal] = useState(false); 
+    const [showReservationModal, setShowReservationModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [showSearch, setShowSearch] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [storedGetTime, setStoredGetTime] = useState('');
@@ -32,8 +33,19 @@ const MeetingRoomInfo = () => {
 
     const [inviteableMembers, setInviteableMembers] = useState<Member[]>([]);
     const [nonInviteableMembers, setNonInviteableMembers] = useState<Member[]>([]);
+    const [addedMembers, setAddedMembers] = useState<Member[]>([]);
+    const [invitedMemberIds, setInvitedMemberIds] = useState<string[]>([]);
+    const [isReserveButtonDisabled, setIsReserveButtonDisabled] = useState(true);
 
-    
+    useEffect(() => {
+        if (eventName.trim() === '') {
+            setIsReserveButtonDisabled(true);
+        } else {
+            setIsReserveButtonDisabled(false);
+        }
+    }, [eventName]);
+
+
     const handleImageClick = () => {
         inputRef.current?.focus();
     };
@@ -42,13 +54,14 @@ const MeetingRoomInfo = () => {
     const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
     const reservedBranch = useBranchStore2((state) => state.reservedBranch);
     const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
-  
-    const currentBranch =
-      updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
-        ? selectedBranch
-        : reservedBranch;
-  
 
+    const currentBranch =
+        updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+            ? selectedBranch
+            : reservedBranch;
+
+    
+    console.log(`current Branch = ${currentBranch?.branchName}`);
     const router = useRouter();
 
     const { meetingRoomId } = router.query;
@@ -113,17 +126,21 @@ const MeetingRoomInfo = () => {
 
     const handleOfficeInfo = async () => {
         try {
-            const data = await getSelectedOfficeInfo(currentBranch!.branchName); 
-            const officeInfo = data.data; 
+            console.log(currentBranch!.branchName);
+            const data = await getSelectedOfficeInfo(currentBranch!.branchName);
+            console.log(data);
+            const officeInfo = data.data;
             console.log(officeInfo);
             router.push({
+                // pathname: `/branches/${encodeURIComponent(officeInfo!.branchName)}`,
                 pathname: `/branches/${encodeURIComponent(currentBranch!.branchName)}`,
-                query: { 
-                    name: currentBranch!.branchName, 
+                query: {
+                    name: officeInfo.branchName,
                     address: officeInfo.branchAddress,
                     branchPhoneNumber: officeInfo.branchPhoneNumber,
                     roadFromStation: officeInfo.roadFromStation,
-                    stationToBranch: officeInfo.stationToBranch.join(',')
+                    stationToBranch: officeInfo.stationToBranch.join(','),
+                    branchId: officeInfo.branchId
                 }
             }, `/branches/${encodeURIComponent(currentBranch!.branchName)}`);
         } catch (error) {
@@ -131,19 +148,19 @@ const MeetingRoomInfo = () => {
         }
     };
 
-    const handleReseve = () => {   
+    const handleReserve = () => {
         const reservation: Reserve = {
             reservationName: eventName,
-            meetingRoomId: meetingRoom!.meetingRoomId, 
-            startAt: formattedStartTime, 
+            meetingRoomId: meetingRoom!.meetingRoomId,
+            startAt: formattedStartTime,
             endAt: formattedEndTime,
-            memberIds: [] 
+            memberIds: addedMembers.map(member => (member.memberId))
         };
-    
+
         reserveMeetingRoom(reservation)
             .then(() => {
                 console.log('Meeting room reserved successfully');
-                setShowReservationModal(true); 
+                setShowReservationModal(true);
             })
             .catch(error => {
                 console.error('Error reserving meeting room:', error);
@@ -153,21 +170,30 @@ const MeetingRoomInfo = () => {
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value;
         setSearchTerm(searchTerm);
-      
+
         if (searchTerm.trim().length > 0) {
-          try {
-            const results = await searchMembers(searchTerm, storedStartTime, storedEndTime);
-            setInviteableMembers(results.memberCanInviteList);
-            setNonInviteableMembers(results.memberCantInviteList);
-          } catch (error) {
-            console.error('Error searching members:', error);
-          }
+            try {
+                const results = await searchMembers(searchTerm, storedStartTime, storedEndTime);
+                setInviteableMembers(results.memberCanInviteList);
+                setNonInviteableMembers(results.memberCantInviteList);
+            } catch (error) {
+                console.error('Error searching members:', error);
+            }
         } else {
-          setInviteableMembers([]);
-          setNonInviteableMembers([]);
+            setInviteableMembers([]);
+            setNonInviteableMembers([]);
         }
-      };
-      
+    };
+
+    const handleAddMember = (member: Member) => {
+        setAddedMembers([...addedMembers, member]);
+        setInvitedMemberIds([...invitedMemberIds, member.memberId]);
+    };
+
+    const handleRemoveMember = (member: Member) => {
+        setAddedMembers(addedMembers.filter(m => m.memberId !== member.memberId));
+        setInvitedMemberIds(invitedMemberIds.filter(id => id !== member.memberId)); 
+    };
 
     if (loading) {
         return <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -183,43 +209,43 @@ const MeetingRoomInfo = () => {
         return <div>No meeting room data</div>;
     }
 
+
     return (
-        <div>
-            <div className="px-4 mt-[20px]">
-                <IoIosArrowRoundBack size={40} className="mr-auto" onClick={handleBackClick} />
-            </div>
-            <Image
-                src={meetingRoom.meetingRoomImage || '/meetingRoomSqaure.svg'}
-                width={393}
-                height={124}
-                alt='meetingRoomImage'
-                className="object-cover"
-            />
-            <div className='px-4'>
-                <div className="flex w-full items-center mt-[24px]">
-                    <div className="text-black/opacity-20 text-lg font-medium font-['Pretendard']">
-                        {meetingRoom.branchName}
-                    </div>
-                    <div className="ml-auto flex" onClick={handleOfficeInfo}>
-                        <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px]">지점 상세보기</div>
-                        <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
-                    </div>
+        <div className='min-h-screen flex flex-col'>
+        <div className="px-4 mt-[20px]">
+            <IoIosArrowRoundBack size={40} className="mr-auto cursor-pointer" onClick={handleBackClick} />
+        </div>
+        <Image
+            src={meetingRoom.meetingRoomImage || '/meetingRoomSqaure.svg'}
+            width={393}
+            height={124}
+            alt='meetingRoomImage'
+            className="object-cover"
+        />
+        <div className='px-4 flex-grow overflow-y-auto'>
+            <div className="flex w-full items-center mt-[24px]">
+                <div className="text-black/opacity-20 text-lg font-medium my-auto items-center font-['Pretendard']">
+                    {meetingRoom.branchName}
                 </div>
-                <div className="flex flex-col w-full mt-[24px]">
-                    <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard']">{meetingRoom.meetingRoomName}</div>
-                    <div className="flex flex-row items-center">
-                        <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-                        <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-[2px]">
-                            {meetingRoom.meetingRoomFloor}층
-                        </div>
-                        <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-                        <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-[2px]">
-                            1~{meetingRoom.meetingRoomCapacity}명
-                        </div>
-                        <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
-                        <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mt-[2px]">
-                            {meetingRoom.equipments.join(', ')}
-                        </div>
+                <div className="ml-auto flex cursor-pointer" onClick={handleOfficeInfo}>
+                    <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px]">지점 상세보기</div>
+                    <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
+                </div>
+            </div>
+            <div className="flex flex-col w-full mt-[24px]">
+                <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard']">{meetingRoom.meetingRoomName}</div>
+                <div className="flex flex-row items-center">
+                    <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                        {meetingRoom.meetingRoomFloor < 0 ? `B${Math.abs(meetingRoom.meetingRoomFloor)}` : `${meetingRoom.meetingRoomFloor}`}층
+                    </div>
+                    <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-[2px]">
+                        1~{meetingRoom.meetingRoomCapacity}명
+                    </div>
+                    <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mt-[2px]">
+                        {meetingRoom.equipments.join(', ')}
                     </div>
                 </div>
             </div>
@@ -258,44 +284,117 @@ const MeetingRoomInfo = () => {
                 </div>
             </div>
             <div className="w-[full] h-0.5 bg-neutral-200" />
-            <div className="px-4">
-            <input
-                type="text"
-                value={searchTerm}
-                onChange={handleSearch}
-                className="w-full h-10 px-2 py-1 outline-none border border-gray-300 rounded"
-                placeholder="멤버 검색"
-            />
-            {(inviteableMembers.length > 0 || nonInviteableMembers.length > 0) && (
-                <ul className="mt-2 border border-gray-300 rounded">
-                {inviteableMembers.map((member) => (
-                    <li key={member.memberId} className="p-2 border-b border-gray-200 last:border-0 flex items-center">
-                    <Image src={member.imageUrl} width={24} height={24} alt="member image" className="mr-2 rounded-full" />
-                    <span>{member.memberName} ({member.memberEmail})</span>
-                    <button className="ml-auto text-indigo-700">+</button>
-                    </li>
-                ))}
-                {nonInviteableMembers.map((member) => (
-                    <li key={member.memberId} className="p-2 border-b border-gray-200 last:border-0 flex items-center opacity-50">
-                    <Image src={member.imageUrl} width={24} height={24} alt="member image" className="mr-2 rounded-full" />
-                    <span>{member.memberName} ({member.memberEmail})</span>
-                    <button className="ml-auto text-gray-400" disabled>+</button>
-                    </li>
-                ))}
-                </ul>
-            )}
+            <div className="px-4 mt-[24px]">
+                <div className='flex justify-between items-center cursor-pointer' onClick={() => setShowSearch(!showSearch)}>
+                    <div className='flex flex-row items-center'>
+                        <div className="text-black/opacity-20 text-base font-bold font-['Pretendard']">
+                            참석 멤버
+                        </div>
+                        {!showSearch && (
+                            <>
+                                {addedMembers.length > 0 && (
+                                    <div className="flex ml-[10px]">
+                                        <div className="text-indigo-700 text-base font-semibold font-['Pretendard']">
+                                            {addedMembers.length === 1 
+                                                ? addedMembers[0].memberName 
+                                                : `${addedMembers[0].memberName} 외 ${addedMembers.length - 1}인`}
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                    {showSearch ? (
+                        <Image src={'/reservation/topArrow.svg'} width={14} height={7} alt="arrow" className="" />
+                    ) : (
+                        <Image src={'/reservation/bottomArrow.svg'} width={14} height={7} alt="arrow" className="" />
+                    )}
+                </div>
+                {showSearch && (
+                    <>
+                        {addedMembers.length > 0 && (
+                            <div className="mt-4 flex overflow-x-auto">
+                                {addedMembers.map(member => (
+                                    <div key={member.memberId} className="flex items-center">
+                                        <div className='px-2.5 py-1 mr-[6px] rounded-xl border border-zinc-400 justify-start items-center gap-2 inline-flex'>
+                                            <div className="overflow-x-auto text-neutral-400 text-sm font-medium font-['Pretendard'] mt-[2px]">
+                                                {member.memberName}
+                                            </div>
+                                            <Image src={'/reservation/deleteBtn.svg'} width={10} height={10} alt="delete uder" className="cursor-pointer" onClick={() => handleRemoveMember(member)} />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        <div className="relative w-full mt-[20px]">
+                            <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={handleSearch}
+                                className="w-full h-10 pl-10 py-1 outline-none border border-gray-300 rounded placeholder-gray-400"
+                                placeholder="참석자의 이메일 또는 이름을 검색하세요."
+                            />
+                            <img src="/map/Search.png" alt="search" className="absolute left-3 top-2.5 w-5 h-5" />
+                        </div>
+                        {(inviteableMembers.length > 0 || nonInviteableMembers.length > 0) && (
+                            <ul className="mt-2">
+                                {inviteableMembers.map((member) => (
+                                    <li key={member.memberId} className="p-2 flex items-center">
+                                    <div className="relative w-8 h-8 mr-2 rounded-full overflow-hidden">
+                                      <Image src={member.imageUrl} layout="fill" objectFit="cover" alt="member image" />
+                                    </div>
+                                    <div className="flex flex-col cursor-pointer">
+                                      <span>{member.memberName}</span>
+                                      <span className="text-sm text-gray-500">{member.memberEmail}</span>
+                                    </div>
+                                    {invitedMemberIds.includes(member.memberId) ? (
+                                      <Image src="/reservation/InvitedUser.svg" width={28} height={28} alt="invited user" className="ml-auto rounded-full cursor-not-allowed" />
+                                    ) : (
+                                      <Image src="/reservation/InviteUser.svg" width={28} height={28} alt="invite user" className="ml-auto rounded-full cursor-pointer" onClick={() => handleAddMember(member)} />
+                                    )}
+                                  </li>
+                                ))}
+                                {nonInviteableMembers.map((member) => (
+                                    <li key={member.memberId} className="p-2 flex items-center opacity-50">
+                                        <Image src={member.imageUrl} width={32} height={32} alt="member image" className="mr-2 rounded-full" />
+                                        <div className="flex flex-col">
+                                            <div className='flex flex-row items-center'>
+                                            <span>{member.memberName}</span>
+                                            <Image src={'/reservation/ExclamationMark.svg'} width={14} height={14} alt="ExclamationMark" className="ml-[6.5px]" />
+                                            </div>
+                                            <span className="text-sm text-gray-500">{member.memberEmail}</span>
+                                        </div>
+                                        <Image src={'/reservation/CantInviteUser.svg'} width={28} height={28} alt="invite user" className="ml-auto rounded-full"/>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </>
+                )}
             </div>
-            <footer className='w-full text-center py-[30px] mb-[50px] left-0 right-0'>
-                <button className='w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold mx-auto' onClick={handleReseve}>예약하기</button>
-            </footer>
-            <ReservationModal
-                isVisible={showReservationModal}
-                eventName={eventName}
-                getTimes={formattedGetTime}
-                selectedBranch={meetingRoom.branchName}
-                meetingRoomName={meetingRoom.meetingRoomName}
-            />
+            <div className="flex px-4 items-start mt-[24px]">
+                <Image src={'/reservation/ExclamationMark.svg'} alt="Location" width={14} height={14} className="mr-2" />
+                <p className="text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">일정이 이미 있는 사용자는 참석 멤버로 등록할 수 없어요! 일정을 조정한 뒤 추가할 수 있습니다.</p>
+            </div>
+            <footer className={`w-full text-center py-[30px] ${showSearch ? 'mb-[100px]' : 'mb-[70px]'} left-0 right-0`}>
+            <button 
+                className={`w-[100%] h-12 rounded-lg border text-center text-white text-[15px] font-semibold mx-auto ${isReserveButtonDisabled ? 'bg-gray-400 border-gray-400' : 'bg-indigo-700 border-indigo-700 text-stone-50'}`} 
+                onClick={handleReserve} 
+                disabled={isReserveButtonDisabled}
+            >
+                예약하기
+            </button>
+        </footer>
         </div>
+        <ReservationModal
+            isVisible={showReservationModal}
+            eventName={eventName}
+            getTimes={formattedGetTime}
+            selectedBranch={meetingRoom.branchName}
+            meetingRoomName={meetingRoom.meetingRoomName}
+        />
+    </div>
+    
     );
 };
 
