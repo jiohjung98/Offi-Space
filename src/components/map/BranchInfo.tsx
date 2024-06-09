@@ -345,9 +345,9 @@ const BranchInfo: React.FC = () => {
           <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
         <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} />
-        <footer className="fixed bottom-0 w-full text-center pb-[30px] bg-white no-box-shadow">
+        <footer className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[393px] px-4 text-center pb-[30px] bg-white no-box-shadow">
         <button
-          className="reserveBtn w-[90%] h-12 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
+          className="reserveBtn w-[100%] mx-auto h-12 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
           onClick={handleGoToReservation}>
           예약하기
         </button>
