@@ -313,25 +313,21 @@ const MeetingRoomInfo = () => {
                 {showSearch && (
                     <>
                     {addedMembers.length > 0 && (
-    <div className="mt-4 flex w-full overflow-x-auto">
-        <div className="flex flex-nowrap">
-            {addedMembers.map(member => (
-                <div key={member.memberId} className="flex items-center mr-2.5 flex-shrink-0">
-                    <div className='px-2.5 py-1 rounded-xl border border-zinc-400 justify-start items-center inline-flex'>
-                        <div className="text-neutral-400 text-sm font-medium font-['Pretendard'] mt-[2px] whitespace-nowrap mr-2 flex-shrink-0">
-                            {member.memberName}
+                        <div className="mt-4 flex w-full overflow-x-auto">
+                            <div className="flex flex-nowrap">
+                                {addedMembers.map(member => (
+                                    <div key={member.memberId} className="flex items-center mr-2.5 flex-shrink-0">
+                                        <div className='px-2.5 py-1 rounded-xl border border-zinc-400 justify-start items-center inline-flex'>
+                                            <div className="text-neutral-400 text-sm font-medium font-['Pretendard'] mt-[2px] whitespace-nowrap mr-2 flex-shrink-0">
+                                                {member.memberName}
+                                            </div>
+                                            <Image src={'/reservation/deleteBtn.svg'} width={10} height={10} alt="delete user" className="cursor-pointer flex-shrink-0" onClick={() => handleRemoveMember(member)} />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                        <Image src={'/reservation/deleteBtn.svg'} width={10} height={10} alt="delete user" className="cursor-pointer flex-shrink-0" onClick={() => handleRemoveMember(member)} />
-                    </div>
-                </div>
-            ))}
-        </div>
-    </div>
-)}
-
-
-
-
+                    )}
                         <div className="relative w-full mt-[20px]">
                             <input
                                 type="text"
@@ -356,7 +352,7 @@ const MeetingRoomInfo = () => {
                                     {invitedMemberIds.includes(member.memberId) ? (
                                       <Image src="/reservation/InvitedUser.svg" width={28} height={28} alt="invited user" className="ml-auto rounded-full cursor-not-allowed" />
                                     ) : (
-                                      <Image src="/reservation/InviteUser.svg" width={28} height={28} alt="invite user" className="ml-auto rounded-full cursor-pointer" onClick={() => handleAddMember(member)} />
+                                      <Image src="/reservation/CanInviteUser.png" width={28} height={28} alt="invite user" className="ml-auto rounded-full cursor-pointer" onClick={() => handleAddMember(member)} />
                                     )}
                                   </li>
                                 ))}
