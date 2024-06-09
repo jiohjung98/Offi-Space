@@ -30,6 +30,8 @@ const BranchInfo: React.FC = () => {
 
   const numericBranchId = Array.isArray(branchId) ? parseInt(branchId[0], 10) : parseInt(branchId as string, 10);
 
+  const [activeTab, setActiveTab] = useState('meetingRoom'); 
+
   console.log(branchId);
   console.log(numericBranchId)
 
@@ -103,7 +105,10 @@ const BranchInfo: React.FC = () => {
       const data = await getSelectedOfficeInfo(branchName);
       if (data.data) {
         setReservedBranch(data?.data, Date.now());
-        router.push('/reservation');
+        router.push({
+          pathname: '/reservation',
+          query: { tab: activeTab }, 
+        });
       }
     } catch (error) {
       console.error('Error updating selected branch:', error);
@@ -250,7 +255,7 @@ const BranchInfo: React.FC = () => {
           <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">
             공용 공간 리스트
           </div>
-          <TabSection branchId={numericBranchId} />
+          <TabSection branchId={numericBranchId} activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
         <div className="w-full h-px bg-neutral-200" />
         <div className="px-4 py-6">

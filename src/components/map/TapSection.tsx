@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { getOfficeMeetingRoomCount } from '@/api/map/getAvailableOffice';
 import { OfficeRoomCounts } from '@/api/types/branch';
 import Image from 'next/image';
@@ -39,8 +39,13 @@ const seededRandom = (seed: number) => {
   return x - Math.floor(x);
 };
 
-const TabSection = ({ branchId }: { branchId: number }) => {
-  const [activeTab, setActiveTab] = useState('meetingRoom');
+interface TabSectionProps {
+  branchId: number;
+  activeTab: string;
+  setActiveTab: Dispatch<SetStateAction<string>>;
+}
+
+const TabSection: React.FC<TabSectionProps> = ({ branchId, activeTab, setActiveTab }) => {
   const [data, setData] = useState<OfficeRoomCounts | null>(null);
   const [selectedImages, setSelectedImages] = useState(imagePairs[0]);
 
