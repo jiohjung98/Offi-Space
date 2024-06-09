@@ -13,6 +13,10 @@ import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 import { getOfficeMeetingRoomCount } from '@/api/map/getAvailableOffice';
 import TabSection from './TapSection';
 
+const getBranchImage = (imageName: string): string => {
+  return `/branch/${imageName}`;
+};
+
 const BranchInfo: React.FC = () => {
   const router = useRouter();
   const { setReservedBranch } = useBranchStore2();
@@ -27,13 +31,24 @@ const BranchInfo: React.FC = () => {
   const roadFromStation = router.query.roadFromStation as string;
   const stationToBranch = router.query.stationToBranch as string;
   const branchId = router.query.branchId;
-  const branchImage = router.query.image as string;
+
+  const imagePairs = [
+    ['branch1-1.png', 'branch1-2.png'],
+    ['branch2-1.png', 'branch2-2.png'],
+    ['branch3-1.png', 'branch3-2.png']
+  ];
+
+  const hash = Array.from(branchName).reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+  const pairIndex = hash % imagePairs.length;
+
+  const selectedImagePair = imagePairs[pairIndex];
+
+  const branchImage1 = getBranchImage(selectedImagePair[0]);
+  const branchImage2 = getBranchImage(selectedImagePair[1]);
 
   const numericBranchId = Array.isArray(branchId) ? parseInt(branchId[0], 10) : parseInt(branchId as string, 10);
 
   const [activeTab, setActiveTab] = useState('meetingRoom'); 
-
-  const imagePrefix = (branchImage || '').replace('.png', '');
 
   console.log(branchId);
   console.log(numericBranchId)
@@ -155,7 +170,7 @@ const BranchInfo: React.FC = () => {
           onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex + 1)}>
           <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
-              src={`${imagePrefix}-1.png`}
+              src={branchImage1}
               alt="Office Image 1"
               width={500}
               height={246}
@@ -167,7 +182,7 @@ const BranchInfo: React.FC = () => {
           </SwiperSlide>
           <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
-              src={`${imagePrefix}-2.png`}
+              src={branchImage2}
               alt="Office Image 2"
               width={500}
               height={246}
