@@ -24,7 +24,7 @@ const BranchInfo: React.FC = () => {
 
   const [currentSlide, setCurrentSlide] = useState(1);
   const totalSlides = 2;
-  
+
   const branchName = router.query.name as string;
   const address = router.query.address as string;
   const branchPhoneNumber = router.query.branchPhoneNumber as string;
@@ -38,7 +38,7 @@ const BranchInfo: React.FC = () => {
     ['branch3-1.png', 'branch3-2.png']
   ];
 
-  const hash = Array.from(branchName).reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+  const hash = Array.from(branchName || "").reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
   const pairIndex = hash % imagePairs.length;
 
   const selectedImagePair = imagePairs[pairIndex];
@@ -48,18 +48,15 @@ const BranchInfo: React.FC = () => {
 
   const numericBranchId = Array.isArray(branchId) ? parseInt(branchId[0], 10) : parseInt(branchId as string, 10);
 
-  const [activeTab, setActiveTab] = useState('meetingRoom'); 
-
-  console.log(branchId);
-  console.log(numericBranchId)
+  const [activeTab, setActiveTab] = useState('meetingRoom');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getOfficeMeetingRoomCount(branchId as unknown as number);
+        const data = await getOfficeMeetingRoomCount(numericBranchId);
         if (data.data) {
           console.log(data);
-          console.log(data.data);    
+          console.log(data.data);
         }
       } catch (error) {
         console.error('Error updating selected branch:', error);
@@ -69,7 +66,6 @@ const BranchInfo: React.FC = () => {
       fetchData();
     }
   }, [numericBranchId]);
-
 
   useEffect(() => {
     if (branchName && address && branchPhoneNumber && roadFromStation && stationToBranch && numericBranchId) {
@@ -125,7 +121,7 @@ const BranchInfo: React.FC = () => {
         setReservedBranch(data?.data, Date.now());
         router.push({
           pathname: '/reservation',
-          query: { tab: activeTab }, 
+          query: { tab: activeTab },
         });
       }
     } catch (error) {
