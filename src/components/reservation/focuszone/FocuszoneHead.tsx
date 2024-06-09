@@ -14,9 +14,9 @@ const FocuszoneHead = () => {
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
   const currentBranch =
-    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
-      ? selectedBranch
-      : reservedBranch;
+  updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+    ? selectedBranch
+    : reservedBranch || selectedBranch;
 
   const branchId = currentBranch?.branchId;
 

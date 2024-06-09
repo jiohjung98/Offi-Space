@@ -20,11 +20,9 @@ const ConfirmModal = ({ setModalOpen, modalDeskNumber }: ConfirmModalType) => {
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
   const currentBranch =
-    updatedTimeSelected &&
-    updatedTimeReserved &&
-    updatedTimeSelected > updatedTimeReserved
-      ? selectedBranch
-      : reservedBranch;
+  updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+    ? selectedBranch
+    : reservedBranch || selectedBranch;
 
   const branchName = currentBranch?.branchName;
   const now = new Date();
