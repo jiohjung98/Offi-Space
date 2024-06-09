@@ -195,3 +195,11 @@ input[type="checkbox"]:checked::after {
   display: inline-block;
   text-align: center;
 }
+
+.no-box-shadow {
+  box-shadow: none !important;
+}
+
+.reserveBtn {
+  background-color: #4E32BB;
+}

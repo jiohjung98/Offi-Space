@@ -66,33 +66,33 @@ const BranchOffice: React.FC<OfficeNoticeProps> = ({ branchName, setUrgentNotice
   };
 
   return (
-    <div className="px-4 pb-4">
-      {randomNotices.map((notice, index) => (
-        <div key={index} className="mb-[12px]">
-          <div className="flex justify-between items-center py-[10px]">
-            <div className='flex flex-col pl-[20px]'>
-              <div className="text-black/opacity-20 text-sm font-semibold font-['Pretendard'] leading-tight tracking-tight cursor-pointer" onClick={() => toggleExpand(notice.title)}>
-                {notice.title}
-              </div>
-              <div className="mt-[5px] text-zinc-400 text-xs font-normal font-['Pretendard'] tracking-tight">{currentDate}</div>
+    <div className="px-4 pb-4 overflow-y-auto">
+    {randomNotices.map((notice, index) => (
+      <div key={index} className={`mb-[${index === randomNotices.length - 1 ? '80' : '0'}px]`}>
+        <div className={`flex justify-between items-center py-[10px] pt-[12px] ${index === randomNotices.length - 1 ? 'border-b border-t' : 'border-t'} border-neutral-300`}>
+          <div className='flex flex-col pl-[20px]'>
+            <div className="text-black/opacity-20 text-sm font-semibold font-['Pretendard'] leading-tight tracking-tight cursor-pointer" onClick={() => toggleExpand(notice.title)}>
+              {notice.title}
             </div>
-            <img
-              className="w-[20px] h-4 cursor-pointer mr-[20px] mb-auto"
-              src={
-                expandedNotice[notice.title]
-                  ? '/mypage/notice/UpArrow.svg'
-                  : '/mypage/notice/DownArrow.svg'
-              }
-              alt="arrow"
-              onClick={() => toggleExpand(notice.title)}
-            />
+            <div className="mt-[5px] text-zinc-400 text-xs font-normal font-['Pretendard'] tracking-tight">{currentDate}</div>
           </div>
-          {expandedNotice[notice.title] && (
-            <div className="text-neutral-400 text-sm font-medium px-[20px] border-t border-b leading-tight py-3 bg-stone-50  border-neutral-300 mt-[12px]">{notice.content}</div>
-          )}
+          <img
+            className="w-[20px] h-4 cursor-pointer mr-[20px] mb-auto"
+            src={
+              expandedNotice[notice.title]
+                ? '/mypage/notice/UpArrow.svg'
+                : '/mypage/notice/DownArrow.svg'
+            }
+            alt="arrow"
+            onClick={() => toggleExpand(notice.title)}
+          />
         </div>
-      ))}
-    </div>
+        {expandedNotice[notice.title] && (
+          <div className={`text-neutral-400 text-sm font-medium px-[20px] ${index === randomNotices.length - 1 ? 'border-b' : 'border-t'} leading-tight py-3 bg-stone-50  border-neutral-300`}>{notice.content}</div>
+        )}
+      </div>
+    ))}
+  </div>
   );
 };
 

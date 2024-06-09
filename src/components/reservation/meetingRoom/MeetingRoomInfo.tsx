@@ -378,11 +378,11 @@ const MeetingRoomInfo = () => {
             </div>
             <footer className={`w-full text-center py-[30px] ${showSearch ? 'mb-[100px]' : 'mb-[70px]'} left-0 right-0`}>
             <button 
-                className={`w-[100%] h-12 rounded-lg border text-center text-white text-[15px] font-semibold mx-auto ${isReserveButtonDisabled ? 'bg-gray-400 border-gray-400' : 'bg-indigo-700 border-indigo-700 text-stone-50'}`} 
+                className={`w-[100%] h-12 rounded-lg border text-center text-white text-[15px] font-semibold mx-auto ${isReserveButtonDisabled ? 'bg-gray-400 border-gray-400' : 'reserveBtn border-indigo-700 text-stone-50'}`} 
                 onClick={handleReserve} 
                 disabled={isReserveButtonDisabled}
             >
-                예약하기
+                예약
             </button>
         </footer>
         </div>

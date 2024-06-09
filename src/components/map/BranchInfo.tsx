@@ -129,12 +129,12 @@ const BranchInfo: React.FC = () => {
       </header>
       <div className="">
       {urgentNotice && (
-          <div className="absolute top-[90px] left-1/2 px-4 py-2 transform -translate-x-1/2 w-[340px] bg-white bg-opacity-80 rounded shadow border border-neutral-200 z-[9999]">
+          <div className="absolute top-[90px] left-1/2 px-4 py-2 transform -translate-x-1/2 w-[350px] bg-white bg-opacity-80 rounded shadow border border-neutral-200 z-[9999]">
             <div className="flex items-center mb-2">
               <div className='p-1 bg-yellow-400 rounded-sm justify-center items-center gap-2.5 inline-flex'>
               <span className="text-neutral-700 text-xs font-medium font-['Pretendard']">긴급</span>
               </div>
-              <p className="text-black/opacity-20 text-base font-semibold font-['Pretendard'] ml-[7px] mt-[3px]">{urgentNotice.title}</p>
+              <p className="text-black/opacity-20 text-sm font-semibold font-['Pretendard'] ml-[7px] mt-[3px]">{urgentNotice.title}</p>
               <button className='ml-auto my-auto' onClick={() => setUrgentNotice(null)}>X</button>
             </div>
             <p className="text-neutral-700 text-sm font-normal font-['Pretendard']">{truncateText(urgentNotice.content, 28)}</p>
@@ -197,7 +197,7 @@ const BranchInfo: React.FC = () => {
               height={16}
             />
             <div className="flex flex-col">
-              <p className="text-sm text-gray-600 ml-[8px] mb-[5px]">{address}</p>
+              <p className="text-sm text-gray-900 ml-[8px] mb-[5px]">{address}</p>
               <div className="flex ml-[8px] space-x-[4px] items-center">
                 {stationToBranch &&
                   stationToBranch.split(',').map((line) => {
@@ -216,7 +216,7 @@ const BranchInfo: React.FC = () => {
                       </div>
                     );
                   })}
-                <p className="text-sm text-gray-600 ml-[8px]">{roadFromStation}</p>
+                <p className="text-sm text-gray-900 ml-[8px]">{roadFromStation}</p>
               </div>
             </div>
           </div>
@@ -228,7 +228,7 @@ const BranchInfo: React.FC = () => {
               width={12}
               height={16}
             />
-            <p className="text-sm text-gray-600 ml-[8px]">{branchPhoneNumber}</p>
+            <p className="text-sm text-gray-900 ml-[8px]">{branchPhoneNumber}</p>
           </div>
           <div className="flex py-[10px]">
             <Image
@@ -238,7 +238,7 @@ const BranchInfo: React.FC = () => {
               width={12}
               height={16}
             />
-            <p className="text-sm text-gray-600 ml-[8px]">
+            <p className="text-sm text-gray-900 ml-[8px]">
               출차 전 2층 데스크에서 1시간 무료 적용,
               <br />
               이후 10분당 800원 비용 발생
@@ -266,7 +266,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">라운지</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">라운지</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -276,7 +276,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">리차징룸</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">리차징룸</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -286,7 +286,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">무인택배</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">무인택배</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -296,7 +296,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">폰부스</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">폰부스</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -306,7 +306,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">복합기</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">복합기</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -316,7 +316,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">스낵바</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">스낵바</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -326,7 +326,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">사무용품</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">사무용품</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -336,7 +336,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">무제한 커피</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">무제한 커피</p>
             </div>
           </div>
         </div>
@@ -345,13 +345,13 @@ const BranchInfo: React.FC = () => {
           <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
         <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} />
-        <footer className="w-full text-center py-[30px]">
-          <button
-            className="w-[90%] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
-            onClick={handleGoToReservation}>
-            예약하기
-          </button>
-        </footer>
+        <footer className="fixed bottom-0 w-full text-center pb-[30px] bg-white no-box-shadow">
+        <button
+          className="reserveBtn w-[90%] h-12 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
+          onClick={handleGoToReservation}>
+          예약하기
+        </button>
+      </footer>
       </article>
       <style jsx global>{`
         .swiper-pagination-bullet {
