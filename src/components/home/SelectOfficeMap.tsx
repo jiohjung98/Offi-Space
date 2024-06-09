@@ -70,7 +70,7 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
       <div ref={mapRef} className="w-[393px] mx-auto h-full">
       </div>
       <div className="absolute top-4 right-4">
-        <aside className="w-[373px] mx-auto fixed bottom-[100px] left-0 right-0 z-50">
+        <aside className="w-[350px] mx-auto fixed bottom-[110px] left-0 right-0 z-50">
           <div className="bg-white px-4 py-6 rounded-lg shadow-lg">
             <div className='flex'>
               <div className="flex-shrink-0 w-[88px] h-[88px] bg-gray-300 rounded-md">
@@ -83,16 +83,16 @@ const SelectOfficeMap: React.FC<SelectOfficeMapProps> = ({ branch, onClose }) =>
                 />
               </div>
               <div className='ml-4 flex-1'>
-                <h2 className="text-xl font-semibold">{branch.branchName}</h2>
+                <h2 className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] leading-[27px]">{branch.branchName}</h2>
                 {branch.branchAddress && branch.branchLatitude && branch.branchLongitude && (
-                  <div className="flex items-start">
-                    <Image src="/map/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} className="mt-[4px] mr-2" />
-                    <p className="text-sm break-words">{branch.branchAddress}</p>
+                  <div className="flex items-start mt-[12px]">
+                    <Image src="/map/OfficeLocationSmall1.svg" alt="Location" width={12} height={16} className="mt-[2px] mr-2" />
+                    <p className="text-xs break-words">{branch.branchAddress}</p>
                   </div>
                 )}
                 <div className="flex">
                   <Image src="/map/OfficeInfo.svg" alt="Location" width={12} height={12} className="mr-2" />
-                  <p className="text-sm break-words">회의실 {branchCount}개 중 현재 {canBranchCount}개 사용중</p>
+                  <p className="text-xs break-words">회의실 {branchCount}개 중 현재 {canBranchCount}개 사용중</p>
                 </div>
               </div>
             </div>
