@@ -32,7 +32,7 @@ const OfficeNotice: React.FC = () => {
         </div>
       </div>
       {isModalOpen && (
-        <div className="fixed w-full inset-0 flex items-center justify-center z-[9999]">
+        <div className="fixed w-full inset-0 flex items-center justify-center z-[99999]">
           <div
             className="fixed inset-0 bg-black opacity-50"
             onClick={handleModalClose}></div>

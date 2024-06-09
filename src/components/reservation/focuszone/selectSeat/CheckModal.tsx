@@ -12,7 +12,12 @@ interface CheckModalType {
   branch: Branch;
 }
 
-const CheckModal = ({ modalDeskId, setCheckModal, setModalOpen, branch }: CheckModalType) => {
+const CheckModal = ({
+  modalDeskId,
+  setCheckModal,
+  setModalOpen,
+  branch
+}: CheckModalType) => {
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setCheckModal(false));
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
@@ -33,7 +38,7 @@ const CheckModal = ({ modalDeskId, setCheckModal, setModalOpen, branch }: CheckM
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[99999]">
       <div
         ref={ref}
         className="z-50 w-[281px] bg-white absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl">

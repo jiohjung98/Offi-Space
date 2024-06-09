@@ -2,7 +2,11 @@ import useOnClickOutside from '@/components/community/hooks/useOnClickOutside';
 import { useReservationStore } from '@/store/reservationModal.store';
 import React, { useRef } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { deleteFocuszone, deleteMeetingRoom } from '../../remote/myreservation';
+import {
+  deleteFocuszone,
+  deleteMeetingRoom,
+  deleteRechargingRoom
+} from '../../remote/myreservation';
 
 const ReservationDeleteModal = () => {
   const { deleteDeskId, setDeleteOpen, isMeeting, isLeader, roomType } =
@@ -14,14 +18,14 @@ const ReservationDeleteModal = () => {
       if (roomType === 'FOCUS') {
         return deleteFocuszone(deskId);
       } else if (roomType === 'RECHARGING') {
-        //todo : 변경필요
-        return deleteMeetingRoom(deskId);
+        return deleteRechargingRoom(deskId);
       } else {
         return deleteMeetingRoom(deskId);
       }
     },
     {
       onSuccess: () => {
+        console.log('삭제성공');
         setDeleteOpen(false);
         queryClient.invalidateQueries(['todayReservationList']);
         queryClient.invalidateQueries(['expectedReservationList']);
@@ -45,6 +49,12 @@ const ReservationDeleteModal = () => {
           참여를 취소하시겠어요?
         </div>
       );
+    } else if (roomType === 'RECHARGING') {
+      return (
+        <div className="mx-[30px] mt-10 text-space-black font-bold text-lg">
+          예약을 취소하시겠어요?
+        </div>
+      );
     } else {
       return (
         <div className="mx-[30px] mt-10 text-space-black font-bold text-lg">
@@ -55,7 +65,7 @@ const ReservationDeleteModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[99999]">
       <div
         ref={ref}
         className="z-50 w-[393px] bg-white absolute left-1/2 bottom-0 transform -translate-x-1/2 rounded-t-2xl">

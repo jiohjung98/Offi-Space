@@ -61,7 +61,17 @@ export const deleteMeetingRoom = async (deskId: number) => {
     const { data } = await deleteRequest<ICommon<null>>(
       `reservations/meeting-rooms/${deskId}`
     );
-    console.log(data);
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};
+
+export const deleteRechargingRoom = async (deskId: number) => {
+  try {
+    const { data } = await deleteRequest<ICommon<null>>(
+      `reservations/recharging-rooms/${deskId}`
+    );
     return data;
   } catch (error: any) {
     return error.response.data;

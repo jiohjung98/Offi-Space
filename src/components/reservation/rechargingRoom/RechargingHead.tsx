@@ -1,18 +1,25 @@
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { SelectedState } from './RechargingRoomIndex';
 
 interface RechargingHeadType {
   branchId: number;
   count: number;
+  setIsSelected: Dispatch<React.SetStateAction<SelectedState>>;
 }
 
-const RechargingHead = ({ branchId, count }: RechargingHeadType) => {
+const RechargingHead = ({ branchId, count, setIsSelected }: RechargingHeadType) => {
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const queryClient = useQueryClient();
 
   const handleRefresh = () => {
     if (branchId) {
+      setIsSelected({
+        rechargingRoomId: 0,
+        startAt: '',
+        rechargingRoomName: ''
+      });
       queryClient.invalidateQueries(['rechargingRooms', branchId]);
       setCurrentTime(format(new Date(), 'HH:mm'));
     }

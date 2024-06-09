@@ -5,7 +5,7 @@ import React, { useRef } from 'react';
 import { useQuery } from 'react-query';
 import { motion } from 'framer-motion';
 import { getReservationDetail } from '../../remote/myreservation';
-import { format } from 'date-fns';
+import { format, isBefore } from 'date-fns';
 
 const FRDetailModal = () => {
   const { setOpen, reservationId, setDeleteOpen, setDeleteDeskId, setRoomType } =
@@ -26,8 +26,47 @@ const FRDetailModal = () => {
     return null;
   }
 
+  const renderButton = () => {
+    if (data?.spaceType == 'FOCUSDESK') {
+      return (
+        <div
+          onClick={() => {
+            setRoomType('FOCUS');
+            setDeleteDeskId(data?.spaceId);
+            setOpen(false);
+            setDeleteOpen(true);
+          }}
+          className="cursor-pointer rounded-xl border-2 border-space-purple my-8 py-[13px] flex items-center justify-center text-space-purple font-semibold text-lg ">
+          이용 종료
+        </div>
+      );
+    } else {
+      const result = isBefore(data?.startAt, new Date());
+      if (result) {
+        return (
+          <div className="rounded-xl border-2 border-gray-300 my-8 py-[13px] flex items-center justify-center text-gray-400 text-semibold text-lg ">
+            이용 중
+          </div>
+        );
+      } else {
+        return (
+          <div
+            onClick={() => {
+              setRoomType('RECHARGING');
+              setDeleteDeskId(data?.reservationId);
+              setOpen(false);
+              setDeleteOpen(true);
+            }}
+            className="cursor-pointer rounded-xl border-2 border-space-purple my-8 py-[13px] flex items-center justify-center text-space-purple text-semibold text-lg ">
+            예약 취소
+          </div>
+        );
+      }
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[99999]">
       <motion.div
         transition={{
           duration: 0.1,
@@ -59,7 +98,10 @@ const FRDetailModal = () => {
                   {format(data?.startAt, 'MM.dd')} 오늘
                 </div>
                 <div className="text-space-black text-sm font-medium">
-                  {format(data?.startAt, 'HH:mm')} ~ 00:00
+                  {format(data?.startAt, 'HH:mm')} ~{' '}
+                  {data?.spaceType == 'RECHARGINGROOM'
+                    ? format(data?.endAt, 'HH:mm')
+                    : '00:00'}
                 </div>
               </div>
             </div>
@@ -77,20 +119,7 @@ const FRDetailModal = () => {
                 </div>
               </div>
             </div>
-            <div
-              onClick={() => {
-                if (data?.spaceType === 'FOCUSDESK') {
-                  setRoomType('FOCUS');
-                } else {
-                  setRoomType('RECHARGING');
-                }
-                setDeleteDeskId(data?.spaceId);
-                setOpen(false);
-                setDeleteOpen(true);
-              }}
-              className="cursor-pointer rounded-xl border-2 border-space-purple my-8 py-[13px] flex items-center justify-center text-space-purple font-semibold text-lg ">
-              이용 종료
-            </div>
+            {renderButton()}
           </div>
         </div>
       </motion.div>
