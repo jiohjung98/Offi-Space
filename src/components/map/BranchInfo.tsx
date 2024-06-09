@@ -33,7 +33,7 @@ const BranchInfo: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState('meetingRoom'); 
 
-  const imagePrefix = branchImage.replace('.png', '');
+  const imagePrefix = (branchImage || '').replace('.png', '');
 
   console.log(branchId);
   console.log(numericBranchId)
