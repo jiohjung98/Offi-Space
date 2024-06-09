@@ -197,7 +197,7 @@ const BranchInfo: React.FC = () => {
               height={16}
             />
             <div className="flex flex-col">
-              <p className="text-sm text-gray-600 ml-[8px] mb-[5px]">{address}</p>
+              <p className="text-sm text-gray-900 ml-[8px] mb-[5px]">{address}</p>
               <div className="flex ml-[8px] space-x-[4px] items-center">
                 {stationToBranch &&
                   stationToBranch.split(',').map((line) => {
@@ -216,7 +216,7 @@ const BranchInfo: React.FC = () => {
                       </div>
                     );
                   })}
-                <p className="text-sm text-gray-600 ml-[8px]">{roadFromStation}</p>
+                <p className="text-sm text-gray-900 ml-[8px]">{roadFromStation}</p>
               </div>
             </div>
           </div>
@@ -228,7 +228,7 @@ const BranchInfo: React.FC = () => {
               width={12}
               height={16}
             />
-            <p className="text-sm text-gray-600 ml-[8px]">{branchPhoneNumber}</p>
+            <p className="text-sm text-gray-900 ml-[8px]">{branchPhoneNumber}</p>
           </div>
           <div className="flex py-[10px]">
             <Image
@@ -238,7 +238,7 @@ const BranchInfo: React.FC = () => {
               width={12}
               height={16}
             />
-            <p className="text-sm text-gray-600 ml-[8px]">
+            <p className="text-sm text-gray-900 ml-[8px]">
               출차 전 2층 데스크에서 1시간 무료 적용,
               <br />
               이후 10분당 800원 비용 발생
@@ -266,7 +266,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">라운지</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">라운지</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -276,7 +276,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">리차징룸</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">리차징룸</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -286,7 +286,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">무인택배</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">무인택배</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -296,7 +296,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">폰부스</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">폰부스</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -306,7 +306,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">복합기</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">복합기</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -316,7 +316,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">스낵바</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">스낵바</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -326,7 +326,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">사무용품</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">사무용품</p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -336,7 +336,7 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-black/opacity-20 text-sm font-medium font-['Pretendard'] leading-[21px]">무제한 커피</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">무제한 커피</p>
             </div>
           </div>
         </div>
