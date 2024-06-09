@@ -202,7 +202,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .reserveBtn {
-  margin-left: auto; /* 왼쪽 여백을 자동으로 설정하여 가운데 정렬 */
-  margin-right: auto; /* 오른쪽 여백을 자동으로 설정하여 가운데 정렬 */
+  margin-left: auto; 
+  margin-right: auto; 
   background-color: #4E32BB;
 }
