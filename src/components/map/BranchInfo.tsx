@@ -19,7 +19,7 @@ const BranchInfo: React.FC = () => {
   const [urgentNotice, setUrgentNotice] = useState<{ title: string; content: string } | null>(null);
 
   const [currentSlide, setCurrentSlide] = useState(1);
-  const totalSlides = 3;
+  const totalSlides = 2;
   
   const branchName = router.query.name as string;
   const address = router.query.address as string;
@@ -27,8 +27,13 @@ const BranchInfo: React.FC = () => {
   const roadFromStation = router.query.roadFromStation as string;
   const stationToBranch = router.query.stationToBranch as string;
   const branchId = router.query.branchId;
+  const branchImage = router.query.image as string;
 
   const numericBranchId = Array.isArray(branchId) ? parseInt(branchId[0], 10) : parseInt(branchId as string, 10);
+
+  const [activeTab, setActiveTab] = useState('meetingRoom'); 
+
+  const imagePrefix = (branchImage || '').replace('.png', '');
 
   console.log(branchId);
   console.log(numericBranchId)
@@ -103,7 +108,10 @@ const BranchInfo: React.FC = () => {
       const data = await getSelectedOfficeInfo(branchName);
       if (data.data) {
         setReservedBranch(data?.data, Date.now());
-        router.push('/reservation');
+        router.push({
+          pathname: '/reservation',
+          query: { tab: activeTab }, 
+        });
       }
     } catch (error) {
       console.error('Error updating selected branch:', error);
@@ -147,7 +155,7 @@ const BranchInfo: React.FC = () => {
           onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex + 1)}>
           <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
-              src="/map/OfficeDefaultImg2.png"
+              src={`${imagePrefix}-1.png`}
               alt="Office Image 1"
               width={500}
               height={246}
@@ -159,20 +167,8 @@ const BranchInfo: React.FC = () => {
           </SwiperSlide>
           <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
-              src="/map/OfficeDefaultImg2.png"
+              src={`${imagePrefix}-2.png`}
               alt="Office Image 2"
-              width={500}
-              height={246}
-              className="h-[246px] object-cover"
-            />
-            <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
-              {currentSlide} / {totalSlides}
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="flex justify-center items-center h-full relative">
-            <Image
-              src="/map/OfficeDefaultImg2.png"
-              alt="Office Image 3"
               width={500}
               height={246}
               className="h-[246px] object-cover"
@@ -250,7 +246,7 @@ const BranchInfo: React.FC = () => {
           <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">
             공용 공간 리스트
           </div>
-          <TabSection branchId={numericBranchId} />
+          <TabSection branchId={numericBranchId} activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
         <div className="w-full h-px bg-neutral-200" />
         <div className="px-4 py-6">
@@ -345,9 +341,9 @@ const BranchInfo: React.FC = () => {
           <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
         <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} />
-        <footer className="fixed bottom-0 w-full text-center pb-[30px] bg-white no-box-shadow">
+        <footer className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[393px] px-4 text-center pb-[30px] bg-white no-box-shadow">
         <button
-          className="reserveBtn w-[90%] h-12 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
+          className="reserveBtn w-[100%] mx-auto h-12 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
           onClick={handleGoToReservation}>
           예약하기
         </button>

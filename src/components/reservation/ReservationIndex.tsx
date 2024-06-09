@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CurrentRoom from './shared/CurrentRoom';
 import ChangeRoomType from './shared/ChangeRoomType';
 import FocuszoneIndex from './focuszone/FocuszoneIndex';
 import MeetingRoomIndex from './meetingRoom/MeetingRoomIndex';
 import RechargingRoomIndex from './rechargingRoom/RechargingRoomIndex';
 
-const ReservationIndex = () => {
+interface ReservationIndexProps {
+  initialTab: string;
+}
+
+const ReservationIndex: React.FC<ReservationIndexProps> = ({ initialTab }) => {
   const [currentRoom, setCurrentRoom] = useState('meeting');
 
+  useEffect(() => {
+    if (initialTab) {
+      const tabMapping: { [key: string]: string } = {
+        meetingRoom: 'meeting',
+        rechargingRoom: 'recharging',
+        focusZone: 'focus'
+      };
+      setCurrentRoom(tabMapping[initialTab] || 'meeting');
+    }
+  }, [initialTab]);
+  
   return (
     <div className="mt-[80px] mb-[100px] ">
       {/* 현재 지정된 오피스 */}

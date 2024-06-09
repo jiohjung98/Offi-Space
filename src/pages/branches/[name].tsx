@@ -3,7 +3,6 @@ import BranchInfo from '@/components/map/BranchInfo';
 
 const BranchDetailsPage = () => {
 
-
   return (
     <MainContainer>
       <div className="flex flex-col justify-center items-center gap-[39px] h-screen">

@@ -24,11 +24,9 @@ const RechargingConfirmModal = ({
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
   const currentBranch =
-    updatedTimeSelected &&
-    updatedTimeReserved &&
-    updatedTimeSelected > updatedTimeReserved
-      ? selectedBranch
-      : reservedBranch;
+  updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+    ? selectedBranch
+    : reservedBranch || selectedBranch;
 
   const branchName = currentBranch?.branchName;
   const formattedStartAt = isSelected.startAt

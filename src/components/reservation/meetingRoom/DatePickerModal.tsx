@@ -148,7 +148,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   return (
     <div className="fixed inset-0 flex items-end justify-center z-[99999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
-      <div className="bg-white rounded-t-2xl w-[100%] max-w-[430px] h-[680px] p-6 absolute bottom-0 overflow-y-auto">
+      <div className="bg-white rounded-t-2xl w-[100%] max-w-[430px] h-[640px] p-6 absolute bottom-0 overflow-y-auto">
         <div className="flex">
           <button
             className={`py-2 px-4 ${
@@ -181,19 +181,6 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
 
         {activeTab === 'schedule' && (
           <>
-            {/* <div className="flex">
-              <div className="absolute">
-                <h2 className="text-lg font-semibold relative z-[9999] ml-[5px]">일정</h2>
-              </div>
-              <div className="flex mx-auto justify-center items-center">
-                <div className="text-indigo-700 text-lg font-bold font-['Pretendard'] justify-center items-center">{`${String(
-                  startDate.getMonth() + 1
-                ).padStart(2, '0')}.${String(startDate.getDate()).padStart(
-                  2,
-                  '0'
-                )} ${startTime.replace(':', '.')} ~ ${endTime.replace(':', '.')}`}</div>
-              </div>
-            </div> */}
             <div className="">
               <div className="w-full">
                 <DatePicker
@@ -332,7 +319,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
         )}
         <div className="pt-[10px] w-full text-center items-center">
           <button
-            className="absolute bottom-[100px] flex w-[88%] mx-auto h-12 bg-indigo-700 text-white rounded-lg justify-center items-center"
+            className="absolute bottom-[30px] flex w-[88%] mx-auto h-12 bg-indigo-700 text-white rounded-lg justify-center items-center"
             onClick={handleConfirm}>
             확인
           </button>

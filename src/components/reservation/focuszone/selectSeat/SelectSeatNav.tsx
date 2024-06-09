@@ -11,11 +11,9 @@ const SelectSeatNav = () => {
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
   const currentBranch =
-    updatedTimeSelected &&
-    updatedTimeReserved &&
-    updatedTimeSelected > updatedTimeReserved
-      ? selectedBranch
-      : reservedBranch;
+  updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+    ? selectedBranch
+    : reservedBranch || selectedBranch;
 
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const queryClient = useQueryClient();

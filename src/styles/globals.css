@@ -198,8 +198,11 @@ input[type="checkbox"]:checked::after {
 
 .no-box-shadow {
   box-shadow: none !important;
+  border: none !important;
 }
 
 .reserveBtn {
+  margin-left: auto; 
+  margin-right: auto; 
   background-color: #4E32BB;
 }

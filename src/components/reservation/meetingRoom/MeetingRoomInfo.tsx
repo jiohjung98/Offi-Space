@@ -312,20 +312,26 @@ const MeetingRoomInfo = () => {
                 </div>
                 {showSearch && (
                     <>
-                        {addedMembers.length > 0 && (
-                            <div className="mt-4 flex overflow-x-auto">
-                                {addedMembers.map(member => (
-                                    <div key={member.memberId} className="flex items-center">
-                                        <div className='px-2.5 py-1 mr-[6px] rounded-xl border border-zinc-400 justify-start items-center gap-2 inline-flex'>
-                                            <div className="overflow-x-auto text-neutral-400 text-sm font-medium font-['Pretendard'] mt-[2px]">
-                                                {member.memberName}
-                                            </div>
-                                            <Image src={'/reservation/deleteBtn.svg'} width={10} height={10} alt="delete uder" className="cursor-pointer" onClick={() => handleRemoveMember(member)} />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                    {addedMembers.length > 0 && (
+    <div className="mt-4 flex w-full overflow-x-auto">
+        <div className="flex flex-nowrap">
+            {addedMembers.map(member => (
+                <div key={member.memberId} className="flex items-center mr-2.5 flex-shrink-0">
+                    <div className='px-2.5 py-1 rounded-xl border border-zinc-400 justify-start items-center inline-flex'>
+                        <div className="text-neutral-400 text-sm font-medium font-['Pretendard'] mt-[2px] whitespace-nowrap mr-2 flex-shrink-0">
+                            {member.memberName}
+                        </div>
+                        <Image src={'/reservation/deleteBtn.svg'} width={10} height={10} alt="delete user" className="cursor-pointer flex-shrink-0" onClick={() => handleRemoveMember(member)} />
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+)}
+
+
+
+
                         <div className="relative w-full mt-[20px]">
                             <input
                                 type="text"

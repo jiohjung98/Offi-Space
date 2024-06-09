@@ -71,7 +71,7 @@ const MeetingRoomIndex: React.FC = () => {
   const [sortTarget, setSortTarget] = useState<'roomCapacity' | 'roomFloor'>('roomCapacity');
   const [sortDirection, setSortDirection] = useState<'ASC' | 'DESC'>('ASC');
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedSortOption, setSelectedSortOption] = useState('낮은 인원 순'); 
+  const [selectedSortOption, setSelectedSortOption] = useState('적은 인원 순'); 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState<React.ReactNode>(null);
 
@@ -97,7 +97,7 @@ const MeetingRoomIndex: React.FC = () => {
 
     const initialParams = setInitialParams(startAt, endAt, currentBranch.branchName);
     setParams(initialParams);
-    setSelectedSortOption('낮은 인원 순');
+    setSelectedSortOption('적은 인원 순');
   }, [currentBranch]);
 
   const fetchMeetingRooms = async (params: GetMeetingRoomsParams) => {
@@ -234,7 +234,7 @@ const MeetingRoomIndex: React.FC = () => {
     setDropdownOpen(false); 
   
     if (target === 'roomCapacity') {
-      setSelectedSortOption(direction === 'ASC' ? '낮은 인원 순' : '높은 인원 순');
+      setSelectedSortOption(direction === 'ASC' ? '적은 인원 순' : '많은 인원 순');
     } else {
       setSelectedSortOption(direction === 'ASC' ? '낮은 층 수' : '높은 층 수');
     }
@@ -282,8 +282,11 @@ const MeetingRoomIndex: React.FC = () => {
         </div>
       </div>
       <div className='flex mb-2'>
-        <div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div>
-        <div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">가능</div>
+      {meetingRooms.length === 0 ? (
+        <><div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div><div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">불가능</div></>
+      ) : (
+        <><div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div><div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">가능</div></>
+      )}
       </div>
       <div className="flex mb-2 w-full items-center">
         <div className="">총 {meetingRooms.length}개의 공간</div>
@@ -327,14 +330,14 @@ const MeetingRoomIndex: React.FC = () => {
                     className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${sortTarget === 'roomCapacity' && sortDirection === 'ASC' ? 'text-indigo-700' : ''}`}
                     role="menuitem"
                   >
-                    낮은 인원 순
+                    적은 인원 순
                   </button>
                   <button
                     onClick={() => handleSortToggle('roomCapacity', 'DESC')}
                     className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${sortTarget === 'roomCapacity' && sortDirection === 'DESC' ? 'text-indigo-700' : ''}`}
                     role="menuitem"
                   >
-                    높은 인원 순
+                    많은 인원 순
                   </button>
                   <button
                     onClick={() => handleSortToggle('roomFloor', 'ASC')}
@@ -356,34 +359,40 @@ const MeetingRoomIndex: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className={`grid grid-cols-2 gap-x-[11px] gap-y-[24px] ${showToast ? 'pointer-events-none opacity-50' : ''}`}>
-      {meetingRooms.map((room) => (
-        <div key={room.meetingRoomId}  className={`overflow-hidden bg-white text-center ${toastType === 'OVERLAPPING_MEETING_ROOM_EXISTS' ? 'pointer-events-none' : 'cursor-pointer'}`}  onClick={() => handleRoomClick(room.meetingRoomId)}>
-          <div className="rounded">
-            <Image
-              src={room.meetingRoomImage || '/meetingRoomImg.svg'}
-              width={175}
-              height={124}
-              alt={room.meetingRoomName}
-              className="object-cover rounded"
-            />
-          </div>
-          <div className="flex flex-col">
-            <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
-              {room.meetingRoomName}
-            </div>
-            <div className="flex mt-[4px] items-center">
-              <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-              <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
-                {room.meetingRoomFloor < 0 ? `B${Math.abs(room.meetingRoomFloor)}` : `${room.meetingRoomFloor}`}층
-              </div>
-              <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-              <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
-            </div>
-          </div>
+      {meetingRooms.length === 0 ? (
+        <div className="flex justify-center items-center mt-[60px] text-center text-neutral-400 text-base font-normal font-['Pretendard']">
+          조건에 맞는 미팅룸이 없습니다.
         </div>
-      ))}
-    </div>
+      ) : (
+        <div className={`grid grid-cols-2 gap-x-[11px] gap-y-[24px] ${showToast ? 'pointer-events-none opacity-50' : ''}`}>
+          {meetingRooms.map((room) => (
+            <div key={room.meetingRoomId}  className={`overflow-hidden bg-white text-center ${toastType === 'OVERLAPPING_MEETING_ROOM_EXISTS' ? 'pointer-events-none' : 'cursor-pointer'}`}  onClick={() => handleRoomClick(room.meetingRoomId)}>
+              <div className="rounded">
+                <Image
+                  src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+                  width={175}
+                  height={124}
+                  alt={room.meetingRoomName}
+                  className="object-cover rounded"
+                />
+              </div>
+              <div className="flex flex-col">
+                <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+                  {room.meetingRoomName}
+                </div>
+                <div className="flex mt-[4px] items-center">
+                  <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                  <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                    {room.meetingRoomFloor < 0 ? `B${Math.abs(room.meetingRoomFloor)}` : `${room.meetingRoomFloor}`}층
+                  </div>
+                  <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+                  <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="h-[100px]"></div>
       {startTime && endTime && (
         <DatePickerModal

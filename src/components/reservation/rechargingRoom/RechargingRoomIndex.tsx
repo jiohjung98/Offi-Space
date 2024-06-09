@@ -29,11 +29,9 @@ const RechargingRoomIndex = () => {
   });
 
   const currentBranch =
-    updatedTimeSelected &&
-    updatedTimeReserved &&
-    updatedTimeSelected > updatedTimeReserved
-      ? selectedBranch
-      : reservedBranch;
+  updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+    ? selectedBranch
+    : reservedBranch || selectedBranch;
 
   const branchId = currentBranch?.branchId as number;
 
