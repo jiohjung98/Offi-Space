@@ -1,15 +1,19 @@
 import React, { Dispatch } from 'react';
 import { useRouter } from 'next/router';
 import { useBranchStore } from '@/store/branch.store';
-import { format } from 'date-fns';
 import { useBranchStore2 } from '@/store/reserve.store';
+import { SelectedState } from '../RechargingRoomIndex';
+import { addMinutes, format } from 'date-fns';
 
-interface ConfirmModalType {
-  setModalOpen: Dispatch<React.SetStateAction<boolean>>;
-  modalDeskNumber: string | null;
+interface RechargingConfirmModalType {
+  setOpenModal: Dispatch<React.SetStateAction<boolean>>;
+  isSelected: SelectedState;
 }
 
-const ConfirmModal = ({ setModalOpen, modalDeskNumber }: ConfirmModalType) => {
+const RechargingConfirmModal = ({
+  setOpenModal,
+  isSelected
+}: RechargingConfirmModalType) => {
   const router = useRouter();
 
   const selectedBranch = useBranchStore(
@@ -27,8 +31,15 @@ const ConfirmModal = ({ setModalOpen, modalDeskNumber }: ConfirmModalType) => {
       : reservedBranch;
 
   const branchName = currentBranch?.branchName;
-  const now = new Date();
-  const formattedDate = format(now, 'MM.dd HH:mm');
+  const formattedStartAt = isSelected.startAt
+    ? format(new Date(), 'MM.dd ') + isSelected.startAt
+    : '';
+
+  const startTime = isSelected.startAt
+    ? new Date(`2000-01-01T${isSelected.startAt}`)
+    : new Date();
+  const endTime = addMinutes(startTime, 30);
+  const formattedEndTime = format(endTime, 'HH:mm');
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[99999]">
@@ -42,11 +53,13 @@ const ConfirmModal = ({ setModalOpen, modalDeskNumber }: ConfirmModalType) => {
         <div className="mt-[46px] flex flex-col gap-5">
           <div className="flex items-center justify-between mx-[30px] text-md">
             <div className="text-gray-700 font-normal">일정명</div>
-            <div className="text-space-purple font-semibold">포커스존</div>
+            <div className="text-space-purple font-semibold">리차징룸</div>
           </div>
           <div className="flex items-center justify-between mx-[30px] text-md">
             <div className="text-gray-700 font-normal">예약 시간</div>
-            <div className="text-space-purple font-semibold">{formattedDate} ~</div>
+            <div className="text-space-purple font-semibold">
+              {formattedStartAt} ~ {formattedEndTime}
+            </div>
           </div>
           <div className="flex items-center justify-between mx-[30px] text-md">
             <div className="text-gray-700 font-normal">예약한 지점</div>
@@ -55,14 +68,14 @@ const ConfirmModal = ({ setModalOpen, modalDeskNumber }: ConfirmModalType) => {
           <div className="flex items-center justify-between mx-[30px] text-md">
             <div className="text-gray-700 font-normal">예약한 공간</div>
             <div className="text-space-purple font-semibold">
-              {modalDeskNumber}번 좌석
+              {isSelected?.rechargingRoomName}
             </div>
           </div>
         </div>
         <div className="mt-10 border-t border-gray-300 flex cursor-pointer">
           <div
             onClick={() => {
-              setModalOpen(false);
+              setOpenModal(false);
               router.replace('/');
             }}
             className="border-r border-gray-300 flex-1 flex items-center justify-center py-[15px] text-gray-600 font-normal text-lg">
@@ -70,7 +83,7 @@ const ConfirmModal = ({ setModalOpen, modalDeskNumber }: ConfirmModalType) => {
           </div>
           <div
             onClick={() => {
-              setModalOpen(false);
+              setOpenModal(false);
               router.replace('/reservation/myreservationlist');
             }}
             className="flex-1 flex items-center justify-center py-[15px] text-lg font-semibold text-space-purple">
@@ -82,4 +95,4 @@ const ConfirmModal = ({ setModalOpen, modalDeskNumber }: ConfirmModalType) => {
   );
 };
 
-export default ConfirmModal;
+export default RechargingConfirmModal;

@@ -4,9 +4,10 @@ import MyReservationHeader from './MyReservationHeader';
 import MyReservationNav from './MyReservationNav';
 import TodayReservation from './TodayReservation';
 import { useReservationStore } from '@/store/reservationModal.store';
-import FRDetailModal from './FRDetailModal';
-import MeetingDetailModal from './MeetingDetailModal';
-import ReservationDeleteModal from './ReservationDeleteModal';
+import FRDetailModal from './modal/FRDetailModal';
+import MeetingDetailModal from './modal/MeetingDetailModal';
+import ReservationDeleteModal from './modal/ReservationDeleteModal';
+import ExpectedReservationIndex from './expectedReservation/ExpectedReservationIndex';
 
 const MyReservationListIndex = () => {
   const { open, reservationId, isMeeting, deleteOpen, deleteDeskId } =
@@ -21,6 +22,9 @@ const MyReservationListIndex = () => {
       </nav>
       <section>
         <TodayReservation />
+      </section>
+      <section>
+        <ExpectedReservationIndex />
       </section>
 
       {open && reservationId !== null && isMeeting == false && <FRDetailModal />}

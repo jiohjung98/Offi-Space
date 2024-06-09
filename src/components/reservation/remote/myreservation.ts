@@ -3,6 +3,7 @@ import {
   ReservationDetail,
   TodayCountType,
   TodayList,
+  expectedList,
   reservationDetailData
 } from '../model/myreservation';
 import { ICommon } from '@/api/types/common';
@@ -10,6 +11,15 @@ import { ICommon } from '@/api/types/common';
 export const getTodayReservationCount = async () => {
   try {
     const { data } = await getRequest<TodayCountType>(`reservations/today/count`);
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};
+
+export const getExpectedReservationList = async () => {
+  try {
+    const { data } = await getRequest<expectedList>(`reservations`);
     return data;
   } catch (error: any) {
     return error.response.data;
@@ -39,6 +49,28 @@ export const deleteFocuszone = async (deskId: number) => {
   try {
     const { data } = await deleteRequest<ICommon<null>>(
       `reservations/focus-desks/${deskId}`
+    );
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};
+
+export const deleteMeetingRoom = async (deskId: number) => {
+  try {
+    const { data } = await deleteRequest<ICommon<null>>(
+      `reservations/meeting-rooms/${deskId}`
+    );
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};
+
+export const deleteRechargingRoom = async (deskId: number) => {
+  try {
+    const { data } = await deleteRequest<ICommon<null>>(
+      `reservations/recharging-rooms/${deskId}`
     );
     return data;
   } catch (error: any) {

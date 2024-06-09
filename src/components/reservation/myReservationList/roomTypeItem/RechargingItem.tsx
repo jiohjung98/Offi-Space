@@ -22,7 +22,9 @@ const RechargingItem = ({ roomData }: RechargingItemType) => {
 
       <div className="flex flex-col text-gray-500 text-sm font-normal ">
         {/* 변경 필요 */}
-        <div>{roomData?.branchName} 리차징룸 3</div>
+        <div>
+          {roomData?.branchName} {roomData?.spaceName}
+        </div>
         <div>
           {roomData?.startAt} - {roomData?.endAt}
         </div>

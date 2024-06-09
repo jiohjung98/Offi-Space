@@ -3,6 +3,7 @@
 import { useReservationStore } from '@/store/reservationModal.store';
 import React, { useCallback } from 'react';
 import { todayListData } from '../../model/myreservation';
+import { format } from 'date-fns';
 
 interface MeetingRoomItemType {
   roomData: todayListData;
@@ -65,16 +66,18 @@ const MeetingRoomItem = ({ roomData }: MeetingRoomItemType) => {
       <div className="mx-4 flex items-center justify-between">
         {/* 고정 */}
         <div className="flex gap-2 items-center">
-          <div className="w-[3px] h-16 bg-yellow-400" />
+          <div className="w-[3px] h-[72px] bg-yellow-400" />
           <div className="flex flex-col gap-2">
             <div className="text-space-black text-md font-semibold">
               {roomData?.reservationName}
             </div>
             <div className="flex flex-col text-sm font-normal text-gray-500">
               {/* 변경 필요 */}
-              <div>{roomData?.branchName} 미팅룸 미니7</div>
               <div>
-                {roomData?.startAt} - {roomData?.endAt}
+                {roomData?.branchName} {roomData?.spaceName}
+              </div>
+              <div>
+                {format(roomData?.startAt, 'HH:mm')} - {format(roomData?.endAt, 'HH:mm')}
               </div>
             </div>
           </div>
