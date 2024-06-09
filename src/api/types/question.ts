@@ -12,6 +12,10 @@ interface QuestionGet {
   content: string;
   branchName: string;
   createdDate: string;
+  answer: {
+    privatePostAnswerId: number;
+    content: string;
+  };
 }
 
 interface QuestionGetResponse {

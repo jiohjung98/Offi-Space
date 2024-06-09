@@ -1,4 +1,5 @@
 // components/LogoutModal.tsx
+import { useSetMember } from '@/store/user';
 import React from 'react';
 
 interface LogoutModalProps {
@@ -7,6 +8,7 @@ interface LogoutModalProps {
 }
 
 const LogoutModal = ({ onConfirm, onCancel }: LogoutModalProps) => {
+  const setmember = useSetMember();
   return (
     <div
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999]"
@@ -21,7 +23,18 @@ const LogoutModal = ({ onConfirm, onCancel }: LogoutModalProps) => {
         <div className="flex justify-between">
           <button
             className="h-[42px] flex-1 text-center font-bold text-indigo-700    leading-normal  text-lg  font-['Pretendard']"
-            onClick={onConfirm}>
+            onClick={() => {
+              onConfirm();
+              setmember({
+                memberEmail: '',
+                memberName: '',
+                memberNickName: '',
+                memberJob: '',
+                memberSmsAgree: '',
+                memberPhone: '',
+                companyName: ''
+              });
+            }}>
             확인
           </button>
           <div className="w-[1px] h-full bg-gray-300"></div>

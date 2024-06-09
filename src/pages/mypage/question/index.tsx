@@ -118,10 +118,15 @@ const InquiryHistory = () => {
 
       {inquiriesData?.map(
         (
-          data: { title: string; content: string; createdDate: string },
+          data: {
+            title: string;
+            content: string;
+            createdDate: string;
+            answer: { content: string };
+          },
           index: number
         ) => {
-          const openAnswer = inquiriesData.length - index;
+          // const openAnswer = inquiriesData.length - index;
           return (
             <div
               key={index}
@@ -152,15 +157,16 @@ const InquiryHistory = () => {
                       </div>
                     </div>
                   </div>
-
-                  <div className="flex flex-row justify-between">
-                    <div className="w-auto h-auto min-h-[45px] max-w-[250px] pl-5 pr-4 py-3 bg-violet-50 rounded-tl-[10px] rounded-tr-[10px] rounded-bl-[10px] justify-center items-center gap-2 inline-flex">
-                      <div className="text-right text-neutral-700 text-sm font-normal font-['Pretendard'] leading-[21px] tracking-tight">
-                        {openAnswer}
+                  {data.answer && (
+                    <div className="flex flex-row justify-between">
+                      <div className="w-auto h-auto min-h-[45px] max-w-[250px] pl-5 pr-4 py-3 bg-violet-50 rounded-tl-[10px] rounded-tr-[10px] rounded-bl-[10px] justify-center items-center gap-2 inline-flex">
+                        <div className="text-right text-neutral-700 text-sm font-normal font-['Pretendard'] leading-[21px] tracking-tight">
+                          {data.answer.content}
+                        </div>
+                        <div className="w-auto" />
                       </div>
-                      <div className="w-auto" />
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
             </div>
