@@ -71,7 +71,7 @@ const MeetingRoomIndex: React.FC = () => {
   const [sortTarget, setSortTarget] = useState<'roomCapacity' | 'roomFloor'>('roomCapacity');
   const [sortDirection, setSortDirection] = useState<'ASC' | 'DESC'>('ASC');
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedSortOption, setSelectedSortOption] = useState('낮은 인원 순'); 
+  const [selectedSortOption, setSelectedSortOption] = useState('적은 인원 순'); 
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState<React.ReactNode>(null);
 
@@ -97,7 +97,7 @@ const MeetingRoomIndex: React.FC = () => {
 
     const initialParams = setInitialParams(startAt, endAt, currentBranch.branchName);
     setParams(initialParams);
-    setSelectedSortOption('낮은 인원 순');
+    setSelectedSortOption('적은 인원 순');
   }, [currentBranch]);
 
   const fetchMeetingRooms = async (params: GetMeetingRoomsParams) => {
@@ -234,7 +234,7 @@ const MeetingRoomIndex: React.FC = () => {
     setDropdownOpen(false); 
   
     if (target === 'roomCapacity') {
-      setSelectedSortOption(direction === 'ASC' ? '낮은 인원 순' : '높은 인원 순');
+      setSelectedSortOption(direction === 'ASC' ? '적은 인원 순' : '많은 인원 순');
     } else {
       setSelectedSortOption(direction === 'ASC' ? '낮은 층 수' : '높은 층 수');
     }
@@ -327,14 +327,14 @@ const MeetingRoomIndex: React.FC = () => {
                     className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${sortTarget === 'roomCapacity' && sortDirection === 'ASC' ? 'text-indigo-700' : ''}`}
                     role="menuitem"
                   >
-                    낮은 인원 순
+                    적은 인원 순
                   </button>
                   <button
                     onClick={() => handleSortToggle('roomCapacity', 'DESC')}
                     className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${sortTarget === 'roomCapacity' && sortDirection === 'DESC' ? 'text-indigo-700' : ''}`}
                     role="menuitem"
                   >
-                    높은 인원 순
+                    많은 인원 순
                   </button>
                   <button
                     onClick={() => handleSortToggle('roomFloor', 'ASC')}
