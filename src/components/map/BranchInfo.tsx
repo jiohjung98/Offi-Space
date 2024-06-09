@@ -19,7 +19,7 @@ const BranchInfo: React.FC = () => {
   const [urgentNotice, setUrgentNotice] = useState<{ title: string; content: string } | null>(null);
 
   const [currentSlide, setCurrentSlide] = useState(1);
-  const totalSlides = 3;
+  const totalSlides = 2;
   
   const branchName = router.query.name as string;
   const address = router.query.address as string;
@@ -27,10 +27,13 @@ const BranchInfo: React.FC = () => {
   const roadFromStation = router.query.roadFromStation as string;
   const stationToBranch = router.query.stationToBranch as string;
   const branchId = router.query.branchId;
+  const branchImage = router.query.image as string;
 
   const numericBranchId = Array.isArray(branchId) ? parseInt(branchId[0], 10) : parseInt(branchId as string, 10);
 
   const [activeTab, setActiveTab] = useState('meetingRoom'); 
+
+  const imagePrefix = branchImage.replace('.png', '');
 
   console.log(branchId);
   console.log(numericBranchId)
@@ -152,7 +155,7 @@ const BranchInfo: React.FC = () => {
           onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex + 1)}>
           <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
-              src="/map/OfficeDefaultImg2.png"
+              src={`${imagePrefix}-1.png`}
               alt="Office Image 1"
               width={500}
               height={246}
@@ -164,20 +167,8 @@ const BranchInfo: React.FC = () => {
           </SwiperSlide>
           <SwiperSlide className="flex justify-center items-center h-full relative">
             <Image
-              src="/map/OfficeDefaultImg2.png"
+              src={`${imagePrefix}-2.png`}
               alt="Office Image 2"
-              width={500}
-              height={246}
-              className="h-[246px] object-cover"
-            />
-            <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
-              {currentSlide} / {totalSlides}
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="flex justify-center items-center h-full relative">
-            <Image
-              src="/map/OfficeDefaultImg2.png"
-              alt="Office Image 3"
               width={500}
               height={246}
               className="h-[246px] object-cover"

@@ -5,6 +5,11 @@ import { useRouter } from 'next/router';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 import { useBranchStore2 } from '@/store/reserve.store';
 
+const getBranchImage = (branchName: string): string => {
+  const hash = Array.from(branchName).reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+  const imageIndex = (hash % 3) + 1; 
+  return `/branch/branch${imageIndex}.png`;
+};
 
 const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branchAddress, branchActiveMeetingRoomCount, branchTotalMeetingRoomCount }) => {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -27,36 +32,35 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
         onClose();
       }
     };
-  
+
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-  
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen, onClose]);
-  
 
   if (!isOpen) return null;
 
-
   const handleOfficeInfo = async () => {
     try {
-      const data = await getSelectedOfficeInfo(branchName); 
-      const officeInfo = data.data; 
+      const data = await getSelectedOfficeInfo(branchName);
+      const officeInfo = data.data;
       console.log(officeInfo);
       router.push({
         pathname: `/branches/${encodeURIComponent(branchName)}`,
-        query: { 
-          name: branchName, 
+        query: {
+          name: branchName,
           address: officeInfo.branchAddress,
           branchPhoneNumber: officeInfo.branchPhoneNumber,
           roadFromStation: officeInfo.roadFromStation,
           stationToBranch: officeInfo.stationToBranch.join(','),
           branchId: officeInfo.branchId as number,
+          image: getBranchImage(branchName),
         }
       }, `/branches/${encodeURIComponent(branchName)}`);
     } catch (error) {
@@ -66,7 +70,7 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
 
   const handleGoToReservation = async () => {
     try {
-      const data = await getSelectedOfficeInfo(branchName); 
+      const data = await getSelectedOfficeInfo(branchName);
       if (data.data) {
         setReservedBranch(data?.data, Date.now());
         router.push('/reservation/');
@@ -82,7 +86,7 @@ const BranchModal: React.FC<ModalProps> = ({ isOpen, onClose, branchName, branch
         <div className='flex'>
           <div className="flex-shrink-0 w-[88px] h-[88px] bg-gray-300 rounded-md">
             <Image 
-              src="/map/OfficeDefaultImg.png" 
+              src={getBranchImage(branchName)} 
               alt="Office" 
               width={88}
               height={88}
