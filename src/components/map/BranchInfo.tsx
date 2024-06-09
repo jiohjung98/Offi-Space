@@ -129,12 +129,12 @@ const BranchInfo: React.FC = () => {
       </header>
       <div className="">
       {urgentNotice && (
-          <div className="absolute top-[90px] left-1/2 px-4 py-2 transform -translate-x-1/2 w-[340px] bg-white bg-opacity-80 rounded shadow border border-neutral-200 z-[9999]">
+          <div className="absolute top-[90px] left-1/2 px-4 py-2 transform -translate-x-1/2 w-[350px] bg-white bg-opacity-80 rounded shadow border border-neutral-200 z-[9999]">
             <div className="flex items-center mb-2">
               <div className='p-1 bg-yellow-400 rounded-sm justify-center items-center gap-2.5 inline-flex'>
               <span className="text-neutral-700 text-xs font-medium font-['Pretendard']">긴급</span>
               </div>
-              <p className="text-black/opacity-20 text-base font-semibold font-['Pretendard'] ml-[7px] mt-[3px]">{urgentNotice.title}</p>
+              <p className="text-black/opacity-20 text-sm font-semibold font-['Pretendard'] ml-[7px] mt-[3px]">{urgentNotice.title}</p>
               <button className='ml-auto my-auto' onClick={() => setUrgentNotice(null)}>X</button>
             </div>
             <p className="text-neutral-700 text-sm font-normal font-['Pretendard']">{truncateText(urgentNotice.content, 28)}</p>
