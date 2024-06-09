@@ -244,25 +244,24 @@ const UseMap: React.FC = () => {
     }
   };
 
-  const handleCurrentLocationTextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCurrentLocationTextClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setShowMessage(false);
-    const button = document.getElementById('current-location-text');
-    if (button) {
-      button.click();
-    }
   };
+  
 
   return (
     <section className="relative w-full h-screen">
       <div ref={mapRef} className="w-full h-full" />
       {showMessage && (
         <>
-          <div className={`absolute ${isModalOpen ? 'bottom-[355px]' : 'bottom-[180px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center`}>
+          <div className={`absolute ${isModalOpen ? 'bottom-[355px]' : 'bottom-[180px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center ${isIOS && !isStandalone ? 'mb-[80px]' : ''}`}>
             <span>더 정확한 접속위치를 확인해보세요!</span>
-            <button id="current-location-text" onClick={handleCurrentLocationTextClick} className="ml-4">X</button>
+            <div onClick={handleCurrentLocationTextClick} className="ml-4 inline-block cursor-pointer">
+              <Image src='/CloseBtn.svg' alt='closeBtn' width={13} height={13} />
+            </div>
           </div>
-          <Image src='/map/triangle.svg' alt="Current Location" className={`absolute ${isModalOpen ? 'bottom-[345px]' : 'bottom-[170px]'} left-[40px]`} width={18} height={10} />
+          <Image src='/map/triangle.svg' alt="Current Location" className={`absolute ${isModalOpen ? 'bottom-[345px]' : 'bottom-[170px]'} left-[40px]  ${isIOS && !isStandalone ? 'mb-[80px]' : ''}`} width={18} height={10} />
         </>
       )}
       <MapSearchBar onFocus={() => setShowSearchResults(true)} onChange={handleSearchQueryChange} />
@@ -290,7 +289,7 @@ const UseMap: React.FC = () => {
         onMouseLeave={() => setImageSrc('/map/MapLocation.png')}
         onClick={handleCurrentLocationClick}
       >
-        <Image src={imageSrc} alt="Current Location" width={48} height={48} />
+      <Image src={imageSrc} alt="Current Location" width={48} height={48} />
       </button>
       {loading && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
