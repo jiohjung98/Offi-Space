@@ -236,7 +236,7 @@ const MeetingRoomInfo = () => {
                 <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard']">{meetingRoom.meetingRoomName}</div>
                 <div className="flex flex-row items-center">
                     <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                    <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-auto">
                         {meetingRoom.meetingRoomFloor < 0 ? `B${Math.abs(meetingRoom.meetingRoomFloor)}` : `${meetingRoom.meetingRoomFloor}`}층
                     </div>
                     <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />

@@ -382,7 +382,7 @@ const MeetingRoomIndex: React.FC = () => {
                 </div>
                 <div className="flex mt-[4px] items-center">
                   <Image src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
-                  <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] my-auto">
+                  <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-auto">
                     {room.meetingRoomFloor < 0 ? `B${Math.abs(room.meetingRoomFloor)}` : `${room.meetingRoomFloor}`}층
                   </div>
                   <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
