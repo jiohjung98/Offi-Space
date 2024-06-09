@@ -347,7 +347,7 @@ const BranchInfo: React.FC = () => {
         <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} />
         <footer className="w-full text-center py-[30px]">
           <button
-            className="w-[361px] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
+            className="w-[90%] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
             onClick={handleGoToReservation}>
             예약하기
           </button>
