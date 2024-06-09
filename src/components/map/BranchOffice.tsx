@@ -68,8 +68,8 @@ const BranchOffice: React.FC<OfficeNoticeProps> = ({ branchName, setUrgentNotice
   return (
     <div className="px-4 pb-4 overflow-y-auto">
     {randomNotices.map((notice, index) => (
-      <div key={index} className={`mb-[${index === randomNotices.length - 1 ? '80' : '12'}px]`}>
-        <div className="flex justify-between items-center py-[10px]">
+      <div key={index} className={`mb-[${index === randomNotices.length - 1 ? '80' : '0'}px]`}>
+        <div className={`flex justify-between items-center py-[10px] pt-[12px] ${index === randomNotices.length - 1 ? 'border-b border-t' : 'border-t'} border-neutral-300`}>
           <div className='flex flex-col pl-[20px]'>
             <div className="text-black/opacity-20 text-sm font-semibold font-['Pretendard'] leading-tight tracking-tight cursor-pointer" onClick={() => toggleExpand(notice.title)}>
               {notice.title}
@@ -88,7 +88,7 @@ const BranchOffice: React.FC<OfficeNoticeProps> = ({ branchName, setUrgentNotice
           />
         </div>
         {expandedNotice[notice.title] && (
-          <div className="text-neutral-400 text-sm font-medium px-[20px] border-t border-b leading-tight py-3 bg-stone-50  border-neutral-300 mt-[12px]">{notice.content}</div>
+          <div className={`text-neutral-400 text-sm font-medium px-[20px] ${index === randomNotices.length - 1 ? 'border-b' : 'border-t'} leading-tight py-3 bg-stone-50  border-neutral-300`}>{notice.content}</div>
         )}
       </div>
     ))}
