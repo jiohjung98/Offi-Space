@@ -66,7 +66,7 @@ const BranchOffice: React.FC<OfficeNoticeProps> = ({ branchName, setUrgentNotice
   };
 
   return (
-    <div className="px-4 pb-4">
+    <div className="px-4 pb-4 overflow-y-auto">
     {randomNotices.map((notice, index) => (
       <div key={index} className={`mb-[${index === randomNotices.length - 1 ? '80' : '12'}px]`}>
         <div className="flex justify-between items-center py-[10px]">
