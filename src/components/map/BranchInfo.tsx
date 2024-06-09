@@ -345,13 +345,13 @@ const BranchInfo: React.FC = () => {
           <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
         <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} />
-        <footer className="w-full text-center py-[30px]">
-          <button
-            className="w-[90%] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
-            onClick={handleGoToReservation}>
-            예약하기
-          </button>
-        </footer>
+        <footer className="fixed bottom-0 w-full text-center pb-[30px] bg-white no-box-shadow">
+        <button
+          className="w-[90%] h-12 bg-indigo-700 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
+          onClick={handleGoToReservation}>
+          예약하기
+        </button>
+      </footer>
       </article>
       <style jsx global>{`
         .swiper-pagination-bullet {
