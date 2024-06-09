@@ -102,9 +102,9 @@ const UseMap: React.FC = () => {
         position: new naver.maps.LatLng(branch.branchLatitude, branch.branchLongitude),
         map: map,
         icon: {
-          url: '/map/OfficeInActive.svg',
-          size: new naver.maps.Size(48, 48),
-          scaledSize: new naver.maps.Size(48, 48),
+          url: '/map/OfficeInActive.png',
+          size: new naver.maps.Size(33, 46),
+          scaledSize: new naver.maps.Size(33, 46),
           origin: new naver.maps.Point(0, 0),
           anchor: new naver.maps.Point(24, 24),
         },
@@ -121,9 +121,9 @@ const UseMap: React.FC = () => {
   const updateMarkers = () => {
     Object.values(markerRefs.current).forEach(marker => {
       marker.setIcon({
-        url: '/map/OfficeInActive.svg',
-        size: new naver.maps.Size(48, 48),
-        scaledSize: new naver.maps.Size(48, 48),
+        url: '/map/OfficeInActive.png',
+        size: new naver.maps.Size(33, 46),
+        scaledSize: new naver.maps.Size(33, 46),
         origin: new naver.maps.Point(0, 0),
         anchor: new naver.maps.Point(24, 24),
       });
@@ -133,9 +133,9 @@ const UseMap: React.FC = () => {
       const selectedMarkerRef = markerRefs.current[selectedMarker];
       if (selectedMarkerRef) {
         selectedMarkerRef.setIcon({
-          url: '/map/OfficeActive.svg',
-          size: new naver.maps.Size(60, 60),
-          scaledSize: new naver.maps.Size(60, 60),
+          url: '/map/OfficeActive.png',
+          size: new naver.maps.Size(45, 63),
+          scaledSize: new naver.maps.Size(45, 63),
           origin: new naver.maps.Point(0, 0),
           anchor: new naver.maps.Point(30, 30),
         });
@@ -146,9 +146,9 @@ const UseMap: React.FC = () => {
   const resetMarkers = () => {
     Object.values(markerRefs.current).forEach(marker => {
       marker.setIcon({
-        url: '/map/OfficeInActive.svg',
-        size: new naver.maps.Size(48, 48),
-        scaledSize: new naver.maps.Size(48, 48),
+        url: '/map/OfficeInActive.png',
+        size: new naver.maps.Size(33, 46),
+        scaledSize: new naver.maps.Size(33, 46),
         origin: new naver.maps.Point(0, 0),
         anchor: new naver.maps.Point(24, 24),
       });
