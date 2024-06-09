@@ -11,7 +11,7 @@ const CreateModal = () => {
   useOnClickOutside(ref, () => setOpen(false));
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[9999]">
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-30 z-[99999]">
       <motion.div
         transition={{
           duration: 0.1,

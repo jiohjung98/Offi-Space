@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 import DatePickerWheel from './WheelPicker';
 import { ko } from 'date-fns/locale';
 
@@ -27,7 +27,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   setShowModal,
   onConfirm,
   initialStartTime,
-  initialEndTime,
+  initialEndTime
 }) => {
   const [startDate, setStartDate] = useState<Date>(initialStartTime);
   const [startTime, setStartTime] = useState<string>(
@@ -62,7 +62,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
     } else {
       setMinStartTime('00:00');
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate]);
 
   const add60Minutes = (time: string): string => {
@@ -94,7 +94,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
           : selectedMeetingRoomTypes,
       projectorExists,
       canVideoConference,
-      isPrivate,
+      isPrivate
     });
     setShowModal(false);
     setActiveTab('schedule');
@@ -146,32 +146,35 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   if (!showModal) return null;
 
   return (
-    <div className="fixed inset-0 flex items-end justify-center z-[9999]">
+    <div className="fixed inset-0 flex items-end justify-center z-[99999]">
       <div className="bg-black bg-opacity-50 absolute inset-0"></div>
       <div className="bg-white rounded-t-2xl w-[100%] max-w-[430px] h-[680px] p-6 absolute bottom-0 overflow-y-auto">
         <div className="flex">
           <button
             className={`py-2 px-4 ${
-              activeTab === 'schedule' ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']" : "text-neutral-600 text-lg font-normal font-['Pretendard']"
+              activeTab === 'schedule'
+                ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']"
+                : "text-neutral-600 text-lg font-normal font-['Pretendard']"
             }`}
-            onClick={() => setActiveTab('schedule')}
-          >
+            onClick={() => setActiveTab('schedule')}>
             일정
           </button>
           <button
             className={`py-2 px-4 rounded ${
-              activeTab === 'people' ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']" : "text-neutral-600 text-lg font-normal font-['Pretendard']"
+              activeTab === 'people'
+                ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']"
+                : "text-neutral-600 text-lg font-normal font-['Pretendard']"
             }`}
-            onClick={() => setActiveTab('people')}
-          >
+            onClick={() => setActiveTab('people')}>
             인원
           </button>
           <button
             className={`py-2 px-4 rounded ${
-              activeTab === 'equipment' ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']" : "text-neutral-600 text-lg font-normal font-['Pretendard']"
+              activeTab === 'equipment'
+                ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']"
+                : "text-neutral-600 text-lg font-normal font-['Pretendard']"
             }`}
-            onClick={() => setActiveTab('equipment')}
-          >
+            onClick={() => setActiveTab('equipment')}>
             비품
           </button>
         </div>
@@ -206,15 +209,14 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                     decreaseMonth,
                     increaseMonth,
                     prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
+                    nextMonthButtonDisabled
                   }) => (
                     <div className="w-full text-center">
                       <div className="flex mx-auto items-center justify-center px-2 py-1">
                         <button
                           className="mr-[15px]"
                           onClick={decreaseMonth}
-                          disabled={prevMonthButtonDisabled}
-                        >
+                          disabled={prevMonthButtonDisabled}>
                           {prevMonthButtonDisabled ? (
                             <img src="leftArrow.svg" alt="Left Arrow" />
                           ) : (
@@ -222,13 +224,13 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                           )}
                         </button>
                         <div className="text-black/opacity-20 text-base font-semibold leading-normal">
-                          {date.getFullYear()}. {String(date.getMonth() + 1).padStart(2, '0')}
+                          {date.getFullYear()}.{' '}
+                          {String(date.getMonth() + 1).padStart(2, '0')}
                         </div>
                         <button
                           className="ml-[15px]"
                           onClick={increaseMonth}
-                          disabled={nextMonthButtonDisabled}
-                        >
+                          disabled={nextMonthButtonDisabled}>
                           <img src="rightArrow.svg" alt="Right Arrow" />
                         </button>
                       </div>
@@ -246,8 +248,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                 />
                 <span
                   className="h-[50px] w-[20%] text-center my-auto leading-[50px]"
-                  style={{ backgroundColor: 'rgba(237, 235, 248, 0.85)' }}
-                >
+                  style={{ backgroundColor: 'rgba(237, 235, 248, 0.85)' }}>
                   부터
                 </span>
                 <DatePickerWheel
@@ -280,12 +281,12 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                     {type === 'MINI'
                       ? '미니(1-4인)'
                       : type === 'STANDARD'
-                      ? '스탠다드(5-8인)'
-                      : type === 'MEDIUM'
-                      ? '미디움(9-12인)'
-                      : type === 'STATE'
-                      ? '스테이트(13-15인)'
-                      : type}
+                        ? '스탠다드(5-8인)'
+                        : type === 'MEDIUM'
+                          ? '미디움(9-12인)'
+                          : type === 'STATE'
+                            ? '스테이트(13-15인)'
+                            : type}
                   </span>
                 </label>
               ))}
@@ -310,7 +311,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
                 <input
                   type="checkbox"
                   checked={canVideoConference}
-                  onChange={() => setCanVideoConference((prev) => !(prev))}
+                  onChange={() => setCanVideoConference((prev) => !prev)}
                 />
                 <span className="ml-[8px] text-black/opacity-20 text-base font-medium font-['Pretendard']">
                   화상장비
@@ -332,8 +333,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
         <div className="pt-[10px] w-full text-center items-center">
           <button
             className="absolute bottom-[100px] flex w-[88%] mx-auto h-12 bg-indigo-700 text-white rounded-lg justify-center items-center"
-            onClick={handleConfirm}
-          >
+            onClick={handleConfirm}>
             확인
           </button>
         </div>

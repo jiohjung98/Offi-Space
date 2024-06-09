@@ -13,7 +13,7 @@ const TodayReservation = () => {
   if (data?.length == 0) {
     return (
       <div className="border-b border-gray-300 mx-4 py-12 flex flex-col items-center justify-center text-base font-medium text-gray-500">
-        <div>예약된 일정이 없습니다.</div>
+        <div>오늘 일정은 없네요.</div>
         <div>다양한 공간을 예약해 보세요!</div>
       </div>
     );
@@ -28,7 +28,7 @@ const TodayReservation = () => {
           transition={{
             duration: 0.6,
             ease: 'easeInOut',
-            delay: i * 0.1
+            delay: 0.1
           }}
           animate={{
             opacity: 1,
