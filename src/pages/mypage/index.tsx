@@ -30,7 +30,7 @@ const MyPage = () => {
   return (
     <div className=" max-w-[393px]  mx-auto relative">
       <Footer />
-      <div className="w-full max-w-md flex flex-col items-center justify-center mt-[82px] relative">
+      <div className="w-full max-w-md flex flex-col items-center justify-center mt-[142px] relative">
         <div className="flex flex-col justify-center items-center">
           <div>
             {member.imageUrl && (
@@ -126,7 +126,7 @@ const MyPage = () => {
           </Link>
         </div>
 
-        <div className="w-full h-[13px] bg-stone-50 mt-[36px] mb-[24px]" />
+        <div className="w-full h-[13px] bg-stone-50 mt-[56px] mb-[24px]" />
 
         <div className="w-[361px] h-[39px] pb-3 flex justify-start items-start gap-3.5">
           <div className="text-center text-neutral-800 text-lg font-semibold font-['Pretendard'] leading-[27px]">
@@ -150,7 +150,7 @@ const MyPage = () => {
           <div className="h-6 flex justify-start items-start gap-3.5">
             <div className="w-[360px] flex justify-between">
               <div className="text-center text-black/opacity-20 text-base font-normal font-['Pretendard'] leading-normal">
-                알림 설정
+                알림 설정 가이드
               </div>
               <img className="mr-[16px]" src="/mypage/RightArrowIcon.svg" />
             </div>
@@ -160,7 +160,7 @@ const MyPage = () => {
 
         <div className="w-full h-[13px] bg-stone-50 mt-[24px] mb-[24px]" />
 
-        <div className="w-[361px] h-[33px] pb-3 flex justify-start items-start gap-4">
+        <div className="w-[361px] h-[33px] pb-3 flex justify-start items-start gap-4 ">
           <div
             onClick={() => setModalVisible(true)}
             className=" cursor-pointer text-center text-neutral-800 text-sm font-bold font-['Pretendard'] leading-[21px]">
