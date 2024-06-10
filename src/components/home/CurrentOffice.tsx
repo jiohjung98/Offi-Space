@@ -4,6 +4,7 @@ import SearchModal from './SearchModal';
 import SelectOfficeMap from './SelectOfficeMap';
 import { Branch } from '@/api/types/branch';
 import { useBranchStore } from '@/store/branch.store';
+import { useIsCurrentBranch } from '@/store/isCurrentBranch.store';
 
 const CurrentOffice = () => {
   const [showSearchModal, setShowSearchModal] = useState(false);
@@ -11,13 +12,15 @@ const CurrentOffice = () => {
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
   const [isHydrated, setIsHydrated] = useState(false);
+  const { isCurrent } = useIsCurrentBranch();
+  console.log(!isCurrent);
 
   const initialBranch: Branch = {
     branchId: 27,
     branchName: '강남1호점',
     branchAddress: '서울 강남구 강남대로 382 메리츠타워 17, 18층 (메인라운지 17층)',
     branchLatitude: 37.4971261,
-    branchLongitude: 127.0287132,
+    branchLongitude: 127.0287132
   };
 
   useEffect(() => {
@@ -58,12 +61,30 @@ const CurrentOffice = () => {
           <div>
             <img src="/home/location.svg" alt="" />
           </div>
-          <div className="text-white text-lg underline font-medium cursor-pointer" onClick={handleSearchClick}>
+          <div
+            className="text-white text-lg underline font-medium cursor-pointer"
+            onClick={handleSearchClick}>
             {selectedBranch?.branchName}
           </div>
         </div>
+
+        {!isCurrent ? (
+          <div className="absolute z-50 top-6 right-20">
+            <div className="ml-[22px] opacity-85 ">
+              <img src="/home/triangle.svg" alt="" />
+            </div>
+            <div className="border-t border-space-purple-dark-active p-2 opacity-85 bg-space-purple-dark-active rounded text-white text-sm font-normal">
+              이 지점이 맞나요?
+            </div>
+          </div>
+        ) : null}
       </div>
-      {showSearchModal && <SearchModal onClose={() => setShowSearchModal(false)} onBranchSelect={handleBranchSelect} />}
+      {showSearchModal && (
+        <SearchModal
+          onClose={() => setShowSearchModal(false)}
+          onBranchSelect={handleBranchSelect}
+        />
+      )}
       {showSelectOfficeMap && selectedBranch && (
         <SelectOfficeMap branch={selectedBranch} onClose={handleCloseSelectOfficeMap} />
       )}

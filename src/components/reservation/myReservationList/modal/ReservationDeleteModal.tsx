@@ -25,7 +25,6 @@ const ReservationDeleteModal = () => {
     },
     {
       onSuccess: () => {
-        console.log('삭제성공');
         setDeleteOpen(false);
         queryClient.invalidateQueries(['todayReservationList']);
         queryClient.invalidateQueries(['expectedReservationList']);

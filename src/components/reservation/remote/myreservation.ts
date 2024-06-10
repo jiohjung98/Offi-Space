@@ -38,7 +38,6 @@ export const getTodayReservationList = async () => {
 export const getReservationDetail = async (reservationId: number | null) => {
   try {
     const { data } = await getRequest<ReservationDetail>(`reservations/${reservationId}`);
-    console.log(data);
     return data as reservationDetailData;
   } catch (error: any) {
     return error.response.data;

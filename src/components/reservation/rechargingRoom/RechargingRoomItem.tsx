@@ -7,12 +7,14 @@ interface RechargingRoomItemType {
   roomData: rechargingRoomDataType;
   isSelected: SelectedState;
   setIsSelected: Dispatch<React.SetStateAction<SelectedState>>;
+  setErrorModal: Dispatch<React.SetStateAction<string>>;
 }
 
 const RechargingRoomItem = ({
   roomData,
   isSelected,
-  setIsSelected
+  setIsSelected,
+  setErrorModal
 }: RechargingRoomItemType) => {
   const formatDateWithCurrentDate = (time: string): string => {
     const today = new Date();
@@ -31,8 +33,14 @@ const RechargingRoomItem = ({
   const handleTimeBtn = async (startAt: string) => {
     const formattedStartAt = startAt ? formatDateWithCurrentDate(startAt) : '';
     const data = await checkValidRecharging(formattedStartAt);
-    console.log(data);
-    if (data?.status == 'SUCCESS') {
+
+    if (data?.toastType === 'OVERLAPPING_MEETING_ROOM_EXISTS') {
+      //리차징룸 시간대에 미팅룸 예약 했을 때
+      setErrorModal('MEETING_ROOM_EXISTS');
+    } else if (data?.toastType === 'OVERLAPPING_RECHARGING_ROOM_EXISTS') {
+      //리차징룸 시간대에 다른 리차징룸이 있을 떄
+      setErrorModal('RECHARGING_ROOM_EXISTS');
+    } else {
       setIsSelected({
         rechargingRoomId: roomData?.rechargingRoomId,
         startAt,

@@ -1,5 +1,5 @@
 import { getRequest, postRequest } from '@/api/request';
-import { rechargingRoomType } from '../model/recharging';
+import { CheckRechargingType, rechargingRoomType } from '../model/recharging';
 import { ICommon } from '@/api/types/common';
 
 interface reservationRechargingReqType {
@@ -20,7 +20,7 @@ export const getRechargingRoom = async (branchId: number) => {
 
 export const checkValidRecharging = async (startTime: string) => {
   try {
-    const data = await getRequest<ICommon<null>>(
+    const { data } = await getRequest<CheckRechargingType>(
       `reservations/recharging-rooms/check-overlap?startAt=${startTime}`
     );
     return data;
