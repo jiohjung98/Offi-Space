@@ -310,11 +310,7 @@ const MeetingRoomIndex: React.FC = () => {
         </div>
       </div>
       <div className='flex mb-2'>
-      {meetingRooms.length === 0 ? (
-        <><div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div><div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">불가능</div></>
-      ) : (
         <><div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div><div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">가능</div></>
-      )}
       </div>
       <div className="flex mb-2 w-full items-center">
         <div className="">총 {meetingRooms.length}개의 공간</div>
