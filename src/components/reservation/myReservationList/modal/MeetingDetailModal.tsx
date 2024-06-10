@@ -1,16 +1,16 @@
 'use client';
 import useOnClickOutside from '@/components/community/hooks/useOnClickOutside';
 import { useReservationStore } from '@/store/reservationModal.store';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useQuery } from 'react-query';
 import { getReservationDetail } from '../../remote/myreservation';
 import { format, isBefore, isSameDay, parseISO } from 'date-fns';
 import { participantsType } from '../../model/myreservation';
 import { ko } from 'date-fns/locale';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 const MeetingDetailModal = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const {
     setOpen,
     reservationId,
@@ -31,12 +31,13 @@ const MeetingDetailModal = () => {
   );
 
   /* eslint-disable */
-  useEffect(() => {
-    if (data == undefined) {
-      alert('이미 종료된 일정입니다');
-      router.push('/');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (data == undefined) {
+  //     alert('이미 종료된 일정입니다');
+  //     router.push('/');
+  //   }
+  // }, []);
+
   if (data == undefined) {
     return null;
   }
