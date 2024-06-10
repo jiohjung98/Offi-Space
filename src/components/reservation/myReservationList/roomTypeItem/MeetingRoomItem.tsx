@@ -4,6 +4,7 @@ import { useReservationStore } from '@/store/reservationModal.store';
 import React, { useCallback } from 'react';
 import { todayListData } from '../../model/myreservation';
 import { format } from 'date-fns';
+import Image from 'next/image';
 
 interface MeetingRoomItemType {
   roomData: todayListData;
@@ -17,7 +18,9 @@ const MeetingRoomItem = ({ roomData }: MeetingRoomItemType) => {
       return (
         <div className="flex -space-x-3 rtl:space-x-reverse">
           {roomData?.memberImageUrls.map((userImg: string, i) => (
-            <img
+            <Image
+              width={40}
+              height={40}
               key={i}
               className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
               src={userImg}
@@ -32,7 +35,9 @@ const MeetingRoomItem = ({ roomData }: MeetingRoomItemType) => {
           {roomData?.memberImageUrls
             .slice(0, 3)
             .map((userImg: string, i) => (
-              <img
+              <Image
+                width={40}
+                height={40}
                 key={i}
                 className="w-10 h-10 border-2 border-white rounded-full"
                 src={userImg}
@@ -40,7 +45,9 @@ const MeetingRoomItem = ({ roomData }: MeetingRoomItemType) => {
               />
             ))}
           <div className="relative">
-            <img
+            <Image
+              width={40}
+              height={40}
               className=" w-10 h-10 border-2 border-white rounded-full brightness-50 opacity-80 "
               src={roomData?.memberImageUrls[3]}
               alt="userimg"

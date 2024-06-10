@@ -13,7 +13,6 @@ const CurrentOffice = () => {
   const setSelectedBranch = useBranchStore((state) => state.setSelectedBranch);
   const [isHydrated, setIsHydrated] = useState(false);
   const { isCurrent } = useIsCurrentBranch();
-  console.log(!isCurrent);
 
   const initialBranch: Branch = {
     branchId: 27,
@@ -30,10 +29,6 @@ const CurrentOffice = () => {
       setSelectedBranch(initialBranch, Date.now());
     }
   }, [selectedBranch, setSelectedBranch]);
-
-  useEffect(() => {
-    console.log('Current selectedBranch:', selectedBranch);
-  }, [selectedBranch]);
 
   const handleBranchSelect = (branch: Branch) => {
     setSelectedBranch(branch, Date.now());
@@ -70,10 +65,10 @@ const CurrentOffice = () => {
 
         {!isCurrent ? (
           <div className="absolute z-50 top-6 right-20">
-            <div className="ml-[22px] opacity-85 ">
+            <div className="ml-[22px] opacity-95 ">
               <img src="/home/triangle.svg" alt="" />
             </div>
-            <div className="border-t border-space-purple-dark-active p-2 opacity-85 bg-space-purple-dark-active rounded text-white text-sm font-normal">
+            <div className="border-t border-space-purple-dark-active p-2 opacity-95 bg-space-purple-dark-active rounded text-white text-sm font-normal">
               이 지점이 맞나요?
             </div>
           </div>

@@ -1,18 +1,18 @@
 import { todayListData } from '@/components/reservation/model/myreservation';
-import {
-  deleteFocuszone,
-  getReservationDetail
-} from '@/components/reservation/remote/myreservation';
+import { getReservationDetail } from '@/components/reservation/remote/myreservation';
+import { useReservationStore } from '@/store/reservationModal.store';
 import { format, parse } from 'date-fns';
 import React from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 
 interface OfficeInfoFocusType {
   data: todayListData;
 }
 
 const OfficeInfoFocus = ({ data }: OfficeInfoFocusType) => {
-  const queryClient = useQueryClient();
+  const { setDeleteOpen, setDeleteDeskId, setRoomType, setIsLeader, setIsMeeting } =
+    useReservationStore();
+
   const { data: focusData } = useQuery(
     ['reservationDetail', data?.reservationId],
     () => getReservationDetail(data?.reservationId),
@@ -20,11 +20,6 @@ const OfficeInfoFocus = ({ data }: OfficeInfoFocusType) => {
       enabled: data?.reservationId != null
     }
   );
-  const { mutateAsync } = useMutation((deskId: number) => deleteFocuszone(deskId), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['todayReservationList']);
-    }
-  });
 
   const date = parse(data?.startAt, 'yyyy-MM-dd HH:mm', new Date());
   const formattedTime = format(date, 'HH:mm');
@@ -45,7 +40,13 @@ const OfficeInfoFocus = ({ data }: OfficeInfoFocusType) => {
         </div>
 
         <div
-          onClick={() => mutateAsync(focusData?.spaceId)}
+          onClick={() => {
+            setRoomType('FOCUS');
+            setIsMeeting(false);
+            setIsLeader(false);
+            setDeleteDeskId(focusData?.spaceId);
+            setDeleteOpen(true);
+          }}
           className="cursor-pointer w-[107px] h-9 text-red-700 flex items-center justify-center border-2 border-red-700 font-medium rounded-md">
           이용 종료
         </div>
