@@ -157,7 +157,7 @@ const WeekSchedule = () => {
               );
             } else if (item.spaceType == 'FOCUSDESK') {
               return (
-                <div className="mx-4 mt-3 pb-4 border-b border-gray-300 ">
+                <div key={index} className="mx-4 mt-3 pb-4 border-b border-gray-300 ">
                   <div className="text-space-black text-base font-semibold">
                     개인 좌석
                   </div>
@@ -169,7 +169,7 @@ const WeekSchedule = () => {
               );
             } else {
               return (
-                <div className="mx-4 mt-3 pb-4 border-b border-gray-300 ">
+                <div key={index} className="mx-4 mt-3 pb-4 border-b border-gray-300 ">
                   <div className="text-space-black text-base font-semibold">
                     개인 휴식
                   </div>

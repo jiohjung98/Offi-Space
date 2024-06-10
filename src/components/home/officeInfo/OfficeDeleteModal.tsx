@@ -27,9 +27,9 @@ const OfficeDeleteModal = () => {
     },
     {
       onSuccess: () => {
-        setDeleteOpen(false);
         queryClient.invalidateQueries(['todayReservationList']);
         queryClient.invalidateQueries(['AllAvailableCount', selectedBranch?.branchId]);
+        setDeleteOpen(false);
       }
     }
   );
