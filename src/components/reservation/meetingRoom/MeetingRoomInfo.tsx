@@ -240,7 +240,7 @@ const MeetingRoomInfo = () => {
                     </div>
                     <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
                     <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-[2px]">
-                        1~{meetingRoom.meetingRoomCapacity}명
+                        최대 {meetingRoom.meetingRoomCapacity}명
                     </div>
                     <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
                     <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mt-[2px]">
