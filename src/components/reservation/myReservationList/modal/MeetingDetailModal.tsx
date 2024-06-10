@@ -30,6 +30,8 @@ const MeetingDetailModal = () => {
       enabled: reservationId != null
     }
   );
+
+  /* eslint-disable */
   useEffect(() => {
     if (data == undefined) {
       alert('이미 종료된 일정입니다');

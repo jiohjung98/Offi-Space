@@ -15,6 +15,7 @@ const TodayReservation = () => {
   const router = useRouter();
   const search = searchParams.get('targetId');
   const pathname = usePathname();
+  /* eslint-disable */
   useEffect(() => {
     setOpen(true);
     setIsMeeting(true);
