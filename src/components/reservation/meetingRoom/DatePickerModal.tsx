@@ -98,7 +98,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
     onConfirm(startDateTime, endDateTime, {
       meetingRoomTypes:
         selectedMeetingRoomTypes.length === 0
-          ? ['MINI', 'STANDARD', 'MEDIUM', 'STATE']
+          ? []
           : selectedMeetingRoomTypes,
       projectorExists,
       canVideoConference,

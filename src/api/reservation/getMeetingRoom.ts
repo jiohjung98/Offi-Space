@@ -1,28 +1,13 @@
-// import { AxiosRequestConfig } from 'axios';
-// import { getRequest } from '../request';
-// import { MeetingRoom, GetMeetingRoomsParams } from '../types/room';
-// import { getCookie } from '@/utils/cookies';
-
-// export const getMeetingRooms = async (params: GetMeetingRoomsParams): Promise<MeetingRoom[]> => {
-//   const config: AxiosRequestConfig = {
-//     params,
-//     headers: {
-//       'Authorization': `Bearer ${getCookie('token')}`,
-//     },
-//   };
-
-//   const response = await getRequest<{ status: string; errorCode: string | null; data: MeetingRoom[] }>(
-//     'spaces/meeting-rooms',
-//     config
-//   );
-//   return response.data;
-// };
-
 import { GetMeetingRoomsParams, MeetingRoomsResponse } from '../types/room';
 
 export const getMeetingRooms = async (params: GetMeetingRoomsParams): Promise<MeetingRoomsResponse> => {
   const backendUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const url = new URL(`${backendUrl}spaces/meeting-rooms`);
+
+  // If meetingRoomTypes is empty, include all types
+  if (!params.meetingRoomTypes || params.meetingRoomTypes.length === 0) {
+    params.meetingRoomTypes = ['MINI', 'STANDARD', 'MEDIUM', 'STATE'];
+  }
 
   Object.keys(params).forEach(key => {
     const value = params[key as keyof GetMeetingRoomsParams];

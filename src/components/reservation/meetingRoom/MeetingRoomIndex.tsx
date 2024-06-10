@@ -6,6 +6,7 @@ import Image from 'next/image';
 import DatePickerModal from './DatePickerModal';
 import { useRouter } from 'next/router';
 import { useBranchStore } from '@/store/branch.store';
+import { getBranchesByDistance } from '@/api/reservation/getBranchesByDistance';
 
 const formatDateToCustomString = (date: Date): string => {
   const year = date.getFullYear();
@@ -148,6 +149,7 @@ const MeetingRoomIndex: React.FC = () => {
 
   useEffect(() => {
   }, [meetingRooms]);
+  
 
   const roomTypeMap: { [key: string]: string } = {
     'MINI': '미니(1-4인)',
@@ -184,11 +186,18 @@ const MeetingRoomIndex: React.FC = () => {
     setEndTime(endDate);
 
     const selectedCount = options.meetingRoomTypes.length;
-    const displayTypes = selectedCount > 1 
-      ? `${roomTypeMap[options.meetingRoomTypes[0]]}외 ${selectedCount - 1}` 
-      : roomTypeMap[options.meetingRoomTypes[0]];
+    console.log(selectedCount);
+    let displayTypes;
+    if (selectedCount === 0) {
+      displayTypes = '인원 수';
+    } else if (selectedCount === 1) {
+      displayTypes = roomTypeMap[options.meetingRoomTypes[0]];
+    } else {
+      displayTypes = `${roomTypeMap[options.meetingRoomTypes[0]]}외 ${selectedCount - 1}`;
+    }
     setSelectedMeetingRoomTypes(displayTypes);
-
+    console.log(selectedMeetingRoomTypes);
+    
     const equipmentArray = [];
     if (options.projectorExists) equipmentArray.push('프로젝터');
     if (options.canVideoConference) equipmentArray.push('화상 회의');
@@ -256,25 +265,25 @@ const MeetingRoomIndex: React.FC = () => {
     setActiveTabState(tab);
     setShowModal(true);
   };
-  
-  const getCapacityText = (capacity: number) => {
-    if (capacity === 1 || capacity === 5 || capacity === 9 || capacity === 13) {
-      return `${capacity}명`;
+
+  const fetchBranchesByDistance = async (latitude: number, longitude: number) => {
+    try {
+      const branches = await getBranchesByDistance(latitude, longitude);
+      console.log('Branches by distance:', branches);
+    } catch (error) {
+      console.error('Error fetching branches by distance:', error);
     }
-    if (capacity > 1 && capacity < 5) {
-      return `1~${capacity}명`;
-    }
-    if (capacity > 5 && capacity < 9) {
-      return `5~${capacity}명`;
-    }
-    if (capacity > 9 && capacity < 13) {
-      return `9~${capacity}명`;
-    }
-    if (capacity === 14 || capacity === 15) {
-      return `13~${capacity}명`;
-    }
-    return `${capacity}명`;
   };
+
+  useEffect(() => {
+    if (meetingRooms.length === 0) {
+      const latitude = currentBranch!.branchLatitude
+      const longitude = currentBranch!.branchLongitude
+      fetchBranchesByDistance(latitude, longitude);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meetingRooms]); 
+
   
   return (
     <div className="p-4 h-screen">
@@ -310,11 +319,7 @@ const MeetingRoomIndex: React.FC = () => {
         </div>
       </div>
       <div className='flex mb-2'>
-      {meetingRooms.length === 0 ? (
-        <><div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div><div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">불가능</div></>
-      ) : (
         <><div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div><div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">가능</div></>
-      )}
       </div>
       <div className="flex mb-2 w-full items-center">
         <div className="">총 {meetingRooms.length}개의 공간</div>
@@ -414,7 +419,7 @@ const MeetingRoomIndex: React.FC = () => {
                     {room.meetingRoomFloor < 0 ? `B${Math.abs(room.meetingRoomFloor)}` : `${room.meetingRoomFloor}`}층
                   </div>
                   <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-                  <div className="text-stone-500 text-xs font-normal font-['Pretendard']">{getCapacityText(room.meetingRoomCapacity)}</div>
+                  <div className="text-stone-500 text-xs font-normal font-['Pretendard']">최대 {room.meetingRoomCapacity}명</div>
                 </div>
               </div>
             </div>
