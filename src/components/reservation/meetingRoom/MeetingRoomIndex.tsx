@@ -298,6 +298,7 @@ const MeetingRoomIndex: React.FC = () => {
           <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedMeetingRoomTypes}</div>
           <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
         </div>
+        <div className='w-[200px]'>
         <div
           className={`flex-none h-[33px] px-3 py-2 rounded inline-flex cursor-pointer ml-2 mr-[50px] ${selectedEquipment === '비품' ? 'w-[100px] bg-white border border-neutral-300' : 'w-[150px] bg-violet-100'}`}
           onClick={() => handleModalOpen('equipment')}
@@ -305,6 +306,7 @@ const MeetingRoomIndex: React.FC = () => {
           <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
           <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedEquipment}</div>
           <Image src={'/bottomArrow.svg'} width={11} height={11} alt="bottomArrow" className="ml-auto mr-[2px]" />
+        </div>
         </div>
       </div>
       <div className='flex mb-2'>
