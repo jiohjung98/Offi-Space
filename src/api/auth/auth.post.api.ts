@@ -1,5 +1,5 @@
 // import { ICommon } from '../types/common';
-import { postRequest } from '../request';
+import { patchRequest, postRequest } from '../request';
 import {
   ISignIn,
   ISignUp,
@@ -7,7 +7,8 @@ import {
   IEmailAuth,
   IPhoneNumber,
   IPhoneAuth,
-  UserLoginType
+  UserLoginType,
+  IPasswordVerifyChange
 } from '../types/auth';
 import { ICommon } from '../types/common';
 
@@ -54,6 +55,16 @@ export const emailauthrequest = async ({ emailAddress }: IEmail) => {
   return response;
 };
 
+/* 비밀번호 찾기 코드 요청 */
+
+export const emailauthpasswordrequest = async ({ emailAddress }: IEmail) => {
+  const response = await postRequest<ICommon<null>, IEmail>(`auth/password`, {
+    emailAddress
+  });
+
+  return response;
+};
+
 /* 이메일 코드 검증 */
 
 export const emailauthverify = async ({ emailAddress, code }: IEmailAuth) => {
@@ -61,6 +72,23 @@ export const emailauthverify = async ({ emailAddress, code }: IEmailAuth) => {
     emailAddress,
     code
   });
+
+  return response;
+};
+
+/* 비밀번호 변경 patch */
+
+export const passwordchangerequest = async ({
+  email,
+  password
+}: IPasswordVerifyChange) => {
+  const response = await patchRequest<ICommon<null>, IPasswordVerifyChange>(
+    `auth/password`,
+    {
+      email,
+      password
+    }
+  );
 
   return response;
 };

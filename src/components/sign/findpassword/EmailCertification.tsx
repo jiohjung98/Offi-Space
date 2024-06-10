@@ -3,15 +3,16 @@ import { SignupBtnStatus } from '@/models/signupBtnStatus';
 import { motion } from 'framer-motion';
 import { useMutation } from 'react-query';
 import { invertSecond } from '@/utils/invertSecond';
-import { emailauthrequest, emailauthverify } from '@/api/auth/auth.post.api';
+import { emailauthpasswordrequest, emailauthverify } from '@/api/auth/auth.post.api';
 import { signError } from '@/constant/signError';
 import ToBack from '@/components/shared/sign/ToBack';
 
 interface EmailCertificationProps {
   setStep: Dispatch<React.SetStateAction<number>>;
+  setEmail: Dispatch<React.SetStateAction<string>>;
 }
 
-const EmailCertification = ({ setStep }: EmailCertificationProps) => {
+const EmailCertification = ({ setStep, setEmail }: EmailCertificationProps) => {
   const [userEmail, setUserEmail] = useState<string>('');
   const [emailValid, setEmailValid] = useState(false);
   const [btnStatus, setBtnStatus] = useState<SignupBtnStatus>('FIRST');
@@ -23,8 +24,12 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
   //추가
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { mutateAsync: emailRequest } = useMutation((email: string) => {
-    return emailauthrequest({ emailAddress: email });
+  // const { mutateAsync: emailRequest } = useMutation((email: string) => {
+  //   return emailauthrequest({ emailAddress: email });
+  // });
+
+  const { mutateAsync: emailVerifyRequest } = useMutation((email: string) => {
+    return emailauthpasswordrequest({ emailAddress: email });
   });
 
   const { mutateAsync: emailVerify } = useMutation(
@@ -89,8 +94,9 @@ const EmailCertification = ({ setStep }: EmailCertificationProps) => {
   const handleClick = async () => {
     if (btnStatus == 'SECOND') {
       try {
-        const { status } = await emailRequest(userEmail);
+        const { status } = await emailVerifyRequest(userEmail);
         if (status == 'SUCCESS') {
+          setEmail(userEmail);
           setIsRequest(true);
           setBtnStatus('THIRD');
         }
