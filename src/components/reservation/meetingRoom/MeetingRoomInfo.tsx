@@ -56,9 +56,9 @@ const MeetingRoomInfo = () => {
     const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
     const currentBranch =
-        updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
-            ? selectedBranch
-            : reservedBranch;
+    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+      ? selectedBranch
+      : reservedBranch || selectedBranch;
 
     
     console.log(`current Branch = ${currentBranch?.branchName}`);
@@ -132,7 +132,6 @@ const MeetingRoomInfo = () => {
             const officeInfo = data.data;
             console.log(officeInfo);
             router.push({
-                // pathname: `/branches/${encodeURIComponent(officeInfo!.branchName)}`,
                 pathname: `/branches/${encodeURIComponent(currentBranch!.branchName)}`,
                 query: {
                     name: officeInfo.branchName,
