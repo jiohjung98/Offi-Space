@@ -6,6 +6,7 @@ import Image from 'next/image';
 import DatePickerModal from './DatePickerModal';
 import { useRouter } from 'next/router';
 import { useBranchStore } from '@/store/branch.store';
+import { getBranchesByDistance } from '@/api/reservation/getBranchesByDistance';
 
 const formatDateToCustomString = (date: Date): string => {
   const year = date.getFullYear();
@@ -148,6 +149,7 @@ const MeetingRoomIndex: React.FC = () => {
 
   useEffect(() => {
   }, [meetingRooms]);
+  
 
   const roomTypeMap: { [key: string]: string } = {
     'MINI': '미니(1-4인)',
@@ -263,25 +265,25 @@ const MeetingRoomIndex: React.FC = () => {
     setActiveTabState(tab);
     setShowModal(true);
   };
-  
-  // const getCapacityText = (capacity: number) => {
-  //   if (capacity === 1 || capacity === 5 || capacity === 9 || capacity === 13) {
-  //     return `${capacity}명`;
-  //   }
-  //   if (capacity > 1 && capacity < 5) {
-  //     return `1~${capacity}명`;
-  //   }
-  //   if (capacity > 5 && capacity < 9) {
-  //     return `5~${capacity}명`;
-  //   }
-  //   if (capacity > 9 && capacity < 13) {
-  //     return `9~${capacity}명`;
-  //   }
-  //   if (capacity === 14 || capacity === 15) {
-  //     return `13~${capacity}명`;
-  //   }
-  //   return `${capacity}명`;
-  // };
+
+  const fetchBranchesByDistance = async (latitude: number, longitude: number) => {
+    try {
+      const branches = await getBranchesByDistance(latitude, longitude);
+      console.log('Branches by distance:', branches);
+    } catch (error) {
+      console.error('Error fetching branches by distance:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (meetingRooms.length === 0) {
+      const latitude = currentBranch!.branchLatitude
+      const longitude = currentBranch!.branchLongitude
+      fetchBranchesByDistance(latitude, longitude);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meetingRooms]); 
+
   
   return (
     <div className="p-4 h-screen">
