@@ -20,6 +20,7 @@ interface DatePickerModalProps {
   ) => void;
   initialStartTime: Date;
   initialEndTime: Date;
+  activeTab: string; 
 }
 
 const DatePickerModal: React.FC<DatePickerModalProps> = ({
@@ -27,7 +28,8 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   setShowModal,
   onConfirm,
   initialStartTime,
-  initialEndTime
+  initialEndTime,
+  activeTab
 }) => {
   const [startDate, setStartDate] = useState<Date>(initialStartTime);
   const [startTime, setStartTime] = useState<string>(
@@ -43,7 +45,13 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   const [projectorExists, setProjectorExists] = useState<boolean>(false);
   const [canVideoConference, setCanVideoConference] = useState<boolean>(false);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<string>('schedule');
+  const [activeTabState, setActiveTabState] = useState<string>(activeTab);
+
+  console.log(activeTab);
+
+  useEffect(() => {
+    setActiveTabState(activeTab);
+  }, [activeTab]);
 
   useEffect(() => {
     if (startDate.toDateString() === new Date().toDateString()) {
@@ -97,7 +105,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
       isPrivate
     });
     setShowModal(false);
-    setActiveTab('schedule');
+    setActiveTabState('schedule');
   };
 
   const handleTypeChange = (type: 'MINI' | 'STANDARD' | 'MEDIUM' | 'STATE') => {
@@ -152,34 +160,34 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
         <div className="flex">
           <button
             className={`py-2 px-4 ${
-              activeTab === 'schedule'
+              activeTabState === 'schedule'
                 ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']"
                 : "text-neutral-600 text-lg font-normal font-['Pretendard']"
             }`}
-            onClick={() => setActiveTab('schedule')}>
+            onClick={() => setActiveTabState('schedule')}>
             일정
           </button>
           <button
             className={`py-2 px-4 rounded ${
-              activeTab === 'people'
+              activeTabState === 'people'
                 ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']"
                 : "text-neutral-600 text-lg font-normal font-['Pretendard']"
             }`}
-            onClick={() => setActiveTab('people')}>
+            onClick={() => setActiveTabState('people')}>
             인원
           </button>
           <button
             className={`py-2 px-4 rounded ${
-              activeTab === 'equipment'
+              activeTabState === 'equipment'
                 ? "text-black/opacity-20 text-lg font-bold font-['Pretendard']"
                 : "text-neutral-600 text-lg font-normal font-['Pretendard']"
             }`}
-            onClick={() => setActiveTab('equipment')}>
+            onClick={() => setActiveTabState('equipment')}>
             비품
           </button>
         </div>
 
-        {activeTab === 'schedule' && (
+        {activeTabState === 'schedule'   && (
           <>
             <div className="">
               <div className="w-full">
@@ -248,7 +256,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
           </>
         )}
 
-        {activeTab === 'people' && (
+        {activeTabState === 'people' && (
           <div className="mt-4 w-[100%]">
             <div className="flex flex-col">
               {(['MINI', 'STANDARD', 'MEDIUM', 'STATE'] as const).map((type) => (
@@ -281,7 +289,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
           </div>
         )}
 
-        {activeTab === 'equipment' && (
+        {activeTabState === 'equipment' && (
           <div className="">
             <div className="mt-4 flex flex-col">
               <label className="flex items-center my-[12px]">
