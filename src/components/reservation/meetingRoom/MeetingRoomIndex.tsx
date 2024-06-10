@@ -257,6 +257,24 @@ const MeetingRoomIndex: React.FC = () => {
     setShowModal(true);
   };
   
+  const getCapacityText = (capacity: number) => {
+    if (capacity === 1 || capacity === 5 || capacity === 9 || capacity === 13) {
+      return `${capacity}명`;
+    }
+    if (capacity > 1 && capacity < 5) {
+      return `1~${capacity}명`;
+    }
+    if (capacity > 5 && capacity < 9) {
+      return `5~${capacity}명`;
+    }
+    if (capacity > 9 && capacity < 13) {
+      return `9~${capacity}명`;
+    }
+    if (capacity === 14 || capacity === 15) {
+      return `13~${capacity}명`;
+    }
+    return `${capacity}명`;
+  };
   
   return (
     <div className="p-4 h-screen">
@@ -394,7 +412,7 @@ const MeetingRoomIndex: React.FC = () => {
                     {room.meetingRoomFloor < 0 ? `B${Math.abs(room.meetingRoomFloor)}` : `${room.meetingRoomFloor}`}층
                   </div>
                   <Image src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
-                  <div className="text-stone-500 text-xs font-normal font-['Pretendard']">1~{room.meetingRoomCapacity}명</div>
+                  <div className="text-stone-500 text-xs font-normal font-['Pretendard']">{getCapacityText(room.meetingRoomCapacity)}</div>
                 </div>
               </div>
             </div>
