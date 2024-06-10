@@ -1,23 +1,15 @@
 import { todayListData } from '@/components/reservation/model/myreservation';
-import { deleteRechargingRoom } from '@/components/reservation/remote/myreservation';
+import { useReservationStore } from '@/store/reservationModal.store';
 import { format, isBefore, parse } from 'date-fns';
 import React from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 
 interface OfficeInfoRechargingType {
   data: todayListData;
 }
 
 const OfficeInfoRecharging = ({ data }: OfficeInfoRechargingType) => {
-  const queryClient = useQueryClient();
-  const { mutateAsync } = useMutation(
-    (reservationId: number) => deleteRechargingRoom(reservationId),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['todayReservationList']);
-      }
-    }
-  );
+  const { setDeleteOpen, setDeleteDeskId, setIsLeader, setRoomType, setIsMeeting } =
+    useReservationStore();
 
   const startDate = parse(data?.startAt, 'yyyy-MM-dd HH:mm', new Date());
   const endDate = parse(data?.endAt, 'yyyy-MM-dd HH:mm', new Date());
@@ -46,7 +38,13 @@ const OfficeInfoRecharging = ({ data }: OfficeInfoRechargingType) => {
           </div>
         ) : (
           <div
-            onClick={() => mutateAsync(data?.reservationId)}
+            onClick={() => {
+              setRoomType('RECHARGING');
+              setIsLeader(false);
+              setIsMeeting(false);
+              setDeleteDeskId(data?.reservationId);
+              setDeleteOpen(true);
+            }}
             className="cursor-pointer w-[107px] h-9 text-space-purple flex items-center justify-center border-2 border-space-purple font-medium rounded-md">
             예약 취소
           </div>

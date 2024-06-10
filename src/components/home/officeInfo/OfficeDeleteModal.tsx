@@ -1,17 +1,19 @@
 import useOnClickOutside from '@/components/community/hooks/useOnClickOutside';
-import { useReservationStore } from '@/store/reservationModal.store';
-import React, { useRef } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 import {
   deleteFocuszone,
   deleteMeetingRoom,
   deleteRechargingRoom
-} from '../../remote/myreservation';
+} from '@/components/reservation/remote/myreservation';
+import { useBranchStore } from '@/store/branch.store';
+import { useReservationStore } from '@/store/reservationModal.store';
+import React, { useRef } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 
-const ReservationDeleteModal = () => {
+const OfficeDeleteModal = () => {
   const { deleteDeskId, setDeleteOpen, isMeeting, isLeader, roomType } =
     useReservationStore();
   const queryClient = useQueryClient();
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
 
   const { mutateAsync } = useMutation(
     (deskId: number) => {
@@ -25,9 +27,9 @@ const ReservationDeleteModal = () => {
     },
     {
       onSuccess: () => {
-        setDeleteOpen(false);
         queryClient.invalidateQueries(['todayReservationList']);
-        queryClient.invalidateQueries(['expectedReservationList']);
+        queryClient.invalidateQueries(['AllAvailableCount', selectedBranch?.branchId]);
+        setDeleteOpen(false);
       }
     }
   );
@@ -96,4 +98,4 @@ const ReservationDeleteModal = () => {
   );
 };
 
-export default ReservationDeleteModal;
+export default OfficeDeleteModal;
