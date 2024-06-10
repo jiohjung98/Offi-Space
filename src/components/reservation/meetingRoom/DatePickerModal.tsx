@@ -95,7 +95,6 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
     endDateTime.setHours(endHour);
     endDateTime.setMinutes(endMinute);
 
-    // Check if endDateTime is before startDateTime, if so, add a day to endDateTime
     if (endDateTime <= startDateTime) {
       endDateTime.setDate(endDateTime.getDate() + 1);
     }
