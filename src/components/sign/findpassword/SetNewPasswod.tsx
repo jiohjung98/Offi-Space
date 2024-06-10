@@ -3,9 +3,11 @@ import NewPasswordForm from './NewPasswordForm';
 import ToBack from '@/components/shared/sign/ToBack';
 
 const SetNewPassword = ({
-  setStep
+  setStep,
+  Email
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
+  Email: string;
 }) => {
   return (
     <div className="max-w-[360px] mx-auto">
@@ -14,7 +16,7 @@ const SetNewPassword = ({
         새로 사용할 <br />
         비밀번호를 설정해주세요.
       </div>
-      <NewPasswordForm setStep={setStep} />
+      <NewPasswordForm setStep={setStep} Email={Email} />
     </div>
   );
 };

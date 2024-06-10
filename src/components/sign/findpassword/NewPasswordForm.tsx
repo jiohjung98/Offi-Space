@@ -1,9 +1,13 @@
+import { passwordchangerequest } from '@/api/auth/auth.post.api';
 import React, { ChangeEvent, Dispatch, useState } from 'react';
+import { useMutation } from 'react-query';
 
 const NewPasswordForm = ({
-  setStep
+  setStep,
+  Email
 }: {
   setStep: Dispatch<React.SetStateAction<number>>;
+  Email: string;
 }) => {
   const [newPassword, setNewPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
@@ -29,6 +33,12 @@ const NewPasswordForm = ({
     );
   };
 
+  const { mutateAsync: passwordChange } = useMutation(
+    ({ email, password }: { email: string; password: string }) => {
+      return passwordchangerequest({ email: email, password: password });
+    }
+  );
+
   const checkValidPassword = () => {
     const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,16}$/;
     if (!passwordRegex.test(newPassword)) {
@@ -46,6 +56,7 @@ const NewPasswordForm = ({
 
   const handleButtonClick = () => {
     //todo : 비밀번호 변경 요청 api 필요
+    passwordChange({ email: Email, password: newPassword });
     setStep((prev) => prev + 1);
   };
 

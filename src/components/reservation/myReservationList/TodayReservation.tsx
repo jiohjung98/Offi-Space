@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FocuszoneItem from './roomTypeItem/FocuszoneItem';
 import MeetingRoomItem from './roomTypeItem/MeetingRoomItem';
 import RechargingItem from './roomTypeItem/RechargingItem';
@@ -6,9 +6,32 @@ import { useQuery } from 'react-query';
 import { getTodayReservationList } from '../remote/myreservation';
 import { todayListData } from '../model/myreservation';
 import { motion } from 'framer-motion';
-
+import { useReservationStore } from '@/store/reservationModal.store';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 const TodayReservation = () => {
   const { data } = useQuery(['todayReservationList'], () => getTodayReservationList());
+  const { setOpen, setReservationId, setIsMeeting } = useReservationStore();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const search = searchParams.get('targetId');
+  const pathname = usePathname();
+  /* eslint-disable */
+  useEffect(() => {
+    setOpen(true);
+    setIsMeeting(true);
+    setReservationId(search as any);
+  }, [search, router]);
+
+  //10초후에 사라지도록 설정
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchParams.toString()) {
+        // 쿼리 스트링이 있는 경우 쿼리 스트링을 제거하고 페이지를 새로고침하지 않습니다.
+        router.replace(pathname);
+      }
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, [setReservationId, setOpen]);
 
   if (data?.length == 0) {
     return (

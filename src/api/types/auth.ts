@@ -45,6 +45,14 @@ export interface IWithdraw {
 export interface IEmail {
   emailAddress: string;
 }
+
+export interface IEmailChange {
+  email: string;
+}
+
+export interface IPasswordVerifyChange extends IEmailChange {
+  password: string;
+}
 export interface IEmailAuth extends IEmail {
   code: string;
 }

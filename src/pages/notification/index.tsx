@@ -49,7 +49,7 @@ const Notification = () => {
   const { todayNotifications, pastNotifications } = categorizeNotifications(
     allPosts || []
   );
-
+  console.log(allPosts);
   return (
     <div className=" max-w-[393px]  mx-auto relative">
       <Footer />
@@ -78,40 +78,62 @@ const Notification = () => {
         <div className="w-full flex-1 ">
           {category === 'RESERVATION' ? (
             <div className="w-full max-w-md mx-auto p-4">
-              {allPosts?.map((notice: NotificationType) => (
-                <Fragment key={notice.notificationId}>
-                  <NotificationLayout notice={notice} />
-                </Fragment>
-              ))}
-              {(isFetching || isFetchingNextPage || hasNextPage) && <Loader />}
-              <div className="mb-[100px]" />
-              <div className="w-full touch-none" ref={ref} />
+              {allPosts?.length === undefined ? (
+                <div className=" w-full h-[400px] flex flex-col justify-center items-center">
+                  <img className="mb-[16px]" src="/mypage/inquiry/Warning.svg" />
+                  <div className="text-neutral-400 text-base font-normal font-['Pretendard'] leading-snug">
+                    예약 내역이 없습니다.
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {allPosts?.map((notice: NotificationType) => (
+                    <Fragment key={notice.notificationId}>
+                      <NotificationLayout notice={notice} />
+                    </Fragment>
+                  ))}
+                  {(isFetching || isFetchingNextPage || hasNextPage) && <Loader />}
+                  <div className="mb-[100px]" />
+                  <div className="w-full touch-none" ref={ref} />{' '}
+                </>
+              )}
             </div>
           ) : (
             <div className="w-full max-w-md mx-auto p-4">
-              {todayNotifications.length > 0 && (
-                <Fragment>
-                  <h2 className=" font-bold ">오늘</h2>
-                  {todayNotifications.map((notice: NotificationType) => (
-                    <Fragment key={notice.notificationId}>
-                      <NotificationCommunityLayout notice={notice} />
+              {allPosts?.length === undefined ? (
+                <div className=" w-full h-[400px] flex flex-col justify-center items-center">
+                  <img className="mb-[16px]" src="/mypage/inquiry/Warning.svg" />
+                  <div className="text-neutral-400 text-base font-normal font-['Pretendard'] leading-snug">
+                    알림 내역이 없습니다.
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {todayNotifications.length > 0 && (
+                    <Fragment>
+                      <h2 className=" font-bold ">오늘</h2>
+                      {todayNotifications.map((notice: NotificationType) => (
+                        <Fragment key={notice.notificationId}>
+                          <NotificationCommunityLayout notice={notice} />
+                        </Fragment>
+                      ))}
                     </Fragment>
-                  ))}
-                </Fragment>
-              )}
-              {pastNotifications.length > 0 && (
-                <Fragment>
-                  <h2 className=" font-bold mt-[20px] ">최근 7일</h2>
-                  {pastNotifications.map((notice: NotificationType) => (
-                    <Fragment key={notice.notificationId}>
-                      <NotificationCommunityLayout notice={notice} />
+                  )}
+                  {pastNotifications.length > 0 && (
+                    <Fragment>
+                      <h2 className=" font-bold mt-[20px] ">최근 7일</h2>
+                      {pastNotifications.map((notice: NotificationType) => (
+                        <Fragment key={notice.notificationId}>
+                          <NotificationCommunityLayout notice={notice} />
+                        </Fragment>
+                      ))}
                     </Fragment>
-                  ))}
-                </Fragment>
+                  )}
+                  {(isFetching || isFetchingNextPage || hasNextPage) && <Loader />}
+                  <div className="mb-[100px]" />
+                  <div className="w-full touch-none" ref={ref} />
+                </>
               )}
-              {(isFetching || isFetchingNextPage || hasNextPage) && <Loader />}
-              <div className="mb-[100px]" />
-              <div className="w-full touch-none" ref={ref} />
             </div>
           )}
         </div>
