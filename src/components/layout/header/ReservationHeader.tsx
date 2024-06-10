@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -14,9 +15,11 @@ const ReservationHeader = () => {
           className="cursor-pointer">
           <img src="/reservation/listicon.svg" alt="" />
         </div>
-        <div className="cursor-pointer">
-          <img src="/Notification.svg" alt="" />
-        </div>
+        <Link href={'/notification'}>
+          <div className="cursor-pointer">
+            <img src="/Notification.svg" alt="" />
+          </div>
+        </Link>
       </div>
     </header>
   );

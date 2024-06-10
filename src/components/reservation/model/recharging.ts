@@ -13,4 +13,9 @@ export interface Time {
   canReserve: boolean;
 }
 
+export interface CheckRechargingData {
+  toastType: string;
+}
+
 export type rechargingRoomType = ICommon<rechargingRoomDataType[]>;
+export type CheckRechargingType = ICommon<CheckRechargingData | null>;

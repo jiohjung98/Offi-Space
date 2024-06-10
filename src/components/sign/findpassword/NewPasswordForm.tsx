@@ -30,7 +30,7 @@ const NewPasswordForm = ({
   };
 
   const checkValidPassword = () => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+    const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,16}$/;
     if (!passwordRegex.test(newPassword)) {
       setError(true);
     } else {
