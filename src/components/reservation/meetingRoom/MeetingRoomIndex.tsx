@@ -184,11 +184,18 @@ const MeetingRoomIndex: React.FC = () => {
     setEndTime(endDate);
 
     const selectedCount = options.meetingRoomTypes.length;
-    const displayTypes = selectedCount > 1 
-      ? `${roomTypeMap[options.meetingRoomTypes[0]]}외 ${selectedCount - 1}` 
-      : roomTypeMap[options.meetingRoomTypes[0]];
+    console.log(selectedCount);
+    let displayTypes;
+    if (selectedCount === 0) {
+      displayTypes = '인원 수';
+    } else if (selectedCount === 1) {
+      displayTypes = roomTypeMap[options.meetingRoomTypes[0]];
+    } else {
+      displayTypes = `${roomTypeMap[options.meetingRoomTypes[0]]}외 ${selectedCount - 1}`;
+    }
     setSelectedMeetingRoomTypes(displayTypes);
-
+    console.log(selectedMeetingRoomTypes);
+    
     const equipmentArray = [];
     if (options.projectorExists) equipmentArray.push('프로젝터');
     if (options.canVideoConference) equipmentArray.push('화상 회의');
