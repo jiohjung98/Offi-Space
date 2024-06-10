@@ -7,6 +7,8 @@ import DatePickerModal from './DatePickerModal';
 import { useRouter } from 'next/router';
 import { useBranchStore } from '@/store/branch.store';
 import { getBranchesByDistance } from '@/api/reservation/getBranchesByDistance';
+import { BranchDistanceResponse } from '@/api/types/branch';
+import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
 
 const formatDateToCustomString = (date: Date): string => {
   const year = date.getFullYear();
@@ -85,6 +87,12 @@ const MeetingRoomIndex: React.FC = () => {
 
   const [toastType, setToastType] = useState<string | null>(null);
   const [activeTabState, setActiveTabState] = useState<string>('');
+  
+  const [newMeetingRoomsInfo, setNewMeetingRoomsInfo] = useState<BranchDistanceResponse[]>();
+  const [newMeetingRoomsInfo2, setNewMeetingRoomsInfo2] = useState<BranchDistanceResponse[]>();
+  const [newMeetingRooms, setNewMeetingRooms] = useState<MeetingRoom[]>([]);
+  const [newMeetingRooms2, setNewMeetingRooms2] = useState<MeetingRoom[]>([]);
+
 
   const currentBranch =
   updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
@@ -266,25 +274,106 @@ const MeetingRoomIndex: React.FC = () => {
     setShowModal(true);
   };
 
-  const fetchBranchesByDistance = async (latitude: number, longitude: number) => {
-    try {
-      const branches = await getBranchesByDistance(latitude, longitude);
-      console.log('Branches by distance:', branches);
-    } catch (error) {
-      console.error('Error fetching branches by distance:', error);
+const fetchBranchesByDistance = async (branchId: number, existingParams: GetMeetingRoomsParams) => {
+  try {
+    const branches = await getBranchesByDistance(branchId);
+    console.log('Branches by distance:', branches);
+
+    if (branches && branches.length > 0) {
+      const nearestBranch = branches[0];
+      setNewMeetingRoomsInfo([nearestBranch]);
+      console.log(newMeetingRoomsInfo);
+      const newParams = {
+        ...existingParams,
+        branchName: nearestBranch.branchName
+      };
+      const response = await getMeetingRooms(newParams);
+      const newRooms = response.meetingRoomForListList;
+      console.log(response);
+      console.log(newRooms);
+      setNewMeetingRooms(newRooms);
+      console.log(newMeetingRooms);
+
+      const nearestBranch2 = branches[1];
+      setNewMeetingRoomsInfo2([nearestBranch2]);
+      console.log(newMeetingRoomsInfo2);
+      const newParams2 = {
+        ...existingParams,
+        branchName: nearestBranch2.branchName
+      };
+      const response2 = await getMeetingRooms(newParams2);
+      const newRooms2 = response2.meetingRoomForListList;
+      console.log(response2);
+      console.log(newRooms2);
+      setNewMeetingRooms2(newRooms2);
+      console.log(newMeetingRooms2);
     }
-  };
+  } catch (error) {
+    console.error('Error fetching branches or meeting rooms:', error);
+  }
+};
+
+const handleNear1Office = async () => {
+  try {
+    if (!newMeetingRoomsInfo || newMeetingRoomsInfo.length === 0) {
+      console.error('newMeetingRoomsInfo is undefined or empty');
+      return;
+    }
+    const data = await getSelectedOfficeInfo(newMeetingRoomsInfo[0].branchName);
+    console.log(data);
+    const officeInfo = data.data;
+    console.log(officeInfo);
+    router.push({
+      pathname: `/branches/${encodeURIComponent(newMeetingRoomsInfo[0].branchName)}`,
+      query: {
+        name: officeInfo.branchName,
+        address: officeInfo.branchAddress,
+        branchPhoneNumber: officeInfo.branchPhoneNumber,
+        roadFromStation: officeInfo.roadFromStation,
+        stationToBranch: officeInfo.stationToBranch.join(','),
+        branchId: officeInfo.branchId
+      }
+    }, `/branches/${encodeURIComponent(newMeetingRoomsInfo[0].branchName)}`);
+  } catch (error) {
+    console.error('Error fetching office info:', error);
+  }
+};
+
+const handleNear2Office = async () => {
+  try {
+    if (!newMeetingRoomsInfo2 || newMeetingRoomsInfo2.length === 0) {
+      console.error('newMeetingRoomsInfo is undefined or empty');
+      return;
+    }
+    const data = await getSelectedOfficeInfo(newMeetingRoomsInfo2[0].branchName);
+    console.log(data);
+    const officeInfo = data.data;
+    console.log(officeInfo);
+    router.push({
+      pathname: `/branches/${encodeURIComponent(newMeetingRoomsInfo2[0].branchName)}`,
+      query: {
+        name: officeInfo.branchName,
+        address: officeInfo.branchAddress,
+        branchPhoneNumber: officeInfo.branchPhoneNumber,
+        roadFromStation: officeInfo.roadFromStation,
+        stationToBranch: officeInfo.stationToBranch.join(','),
+        branchId: officeInfo.branchId
+      }
+    }, `/branches/${encodeURIComponent(newMeetingRoomsInfo2[0].branchName)}`);
+  } catch (error) {
+    console.error('Error fetching office info:', error);
+  }
+};
+
 
   useEffect(() => {
-    if (meetingRooms.length === 0) {
-      const latitude = currentBranch!.branchLatitude
-      const longitude = currentBranch!.branchLongitude
-      fetchBranchesByDistance(latitude, longitude);
+    if (meetingRooms.length == 0 && params) {
+      fetchBranchesByDistance(currentBranch!.branchId, params);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [meetingRooms]); 
+  }, [meetingRooms, params]);
 
-  
+
   return (
     <div className="p-4 h-screen">
       <div className='relative'>
@@ -319,7 +408,17 @@ const MeetingRoomIndex: React.FC = () => {
         </div>
       </div>
       <div className='flex mb-2'>
-        <><div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div><div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">가능</div></>
+        <>
+        {meetingRooms.length === 0 && newMeetingRooms?.length === 0 && newMeetingRooms2?.length === 0  ? (
+           <>
+            <div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div><div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">불가능</div>
+          </>
+        ) : (
+          <>
+          <div className="text-indigo-700 text-lg font-bold font-['Pretendard']">바로예약</div><div className="text-black text-lg font-medium font-['Pretendard'] ml-[5px]">가능</div>
+          </>
+        )}
+        </>
       </div>
       <div className="flex mb-2 w-full items-center">
         <div className="">총 {meetingRooms.length}개의 공간</div>
@@ -426,6 +525,122 @@ const MeetingRoomIndex: React.FC = () => {
           ))}
         </div>
       )}
+      <div>
+        {meetingRooms.length === 0 && (      
+          <div>
+            <div className="w-full h-[4px] bg-gray-200 mt-[70px] mb-[35px]" />
+            <div><span className="text-indigo-700 text-lg font-bold font-['Pretendard']">같은 조건</span><span className="text-black/opacity-20 text-lg font-medium font-['Pretendard']">으로</span><span className="text-black/opacity-20 text-lg font-bold font-['Pretendard']"> <br/></span><span className="text-indigo-700 text-lg font-bold font-['Pretendard']">근처 지점</span><span className="text-black/opacity-20 text-lg font-medium font-['Pretendard']">에서 찾아봤어요.</span></div>
+            {newMeetingRoomsInfo && (
+              <div className='mt-[30px] mb-[20px]'>
+                <div className='flex flex-row justify-between'>
+                <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] my-auto">{newMeetingRoomsInfo[0].branchName}</div>
+                <div className="ml-auto flex cursor-pointer">
+                    <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px] my-auto" onClick={handleNear1Office}>지점 상세보기</div>
+                    <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
+                </div>
+                </div>
+                <div className='flex flex-row mt-[8px]'>
+                <img src={"/map/OfficeLocationSmall1.svg"} width={8} height={12} alt="location" className="mr-[6px] mb-[3px]" />
+                <div className="text-neutral-700 text-sm font-normal font-['Pretendard'] leading-[21px]">현재 지점으로부터 {newMeetingRoomsInfo[0].distance.toFixed(2)}km</div>
+                </div>
+              </div>
+              )}
+            {newMeetingRooms?.length > 0 ? ( 
+            <div style={{ overflowX: 'auto', display: 'flex' }}>
+              {newMeetingRooms.map((room) => (
+                <div
+                  key={room.meetingRoomId}
+                  className={`overflow-hidden bg-white text-center ${toastType === 'OVERLAPPING_MEETING_ROOM_EXISTS' ? 'pointer-events-none' : 'cursor-pointer'}`}
+                  onClick={() => handleRoomClick(room.meetingRoomId)}
+                  style={{ minWidth: 160, maxWidth: 160, marginRight: 10 }}
+                >
+                  <div className="rounded">
+                    <img
+                      src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+                      width={160}
+                      height={124}
+                      alt={room.meetingRoomName}
+                      className="object-cover rounded"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+                      {room.meetingRoomName}
+                    </div>
+                    <div className="flex my-[4px] items-center">
+                      <img src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                      <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-auto">
+                        {room.meetingRoomFloor < 0 ? `B${Math.abs(room.meetingRoomFloor)}` : `${room.meetingRoomFloor}`}층
+                      </div>
+                      <img src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+                      <div className="text-stone-500 text-xs font-normal font-['Pretendard']">최대 {room.meetingRoomCapacity}명</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            ) : (
+              <div className="flex justify-center items-center my-[60px] text-center text-neutral-400 text-base font-normal font-['Pretendard']">
+              조건에 맞는 미팅룸이 없습니다.
+            </div>
+            )}
+            {newMeetingRoomsInfo2 && (
+              <div className='mt-[30px] mb-[20px]'>
+                <div className='flex flex-row justify-between'>
+                <div className="text-black/opacity-20 text-lg font-bold font-['Pretendard'] my-auto">{newMeetingRoomsInfo2[0].branchName}</div>
+                <div className="ml-auto flex cursor-pointer">
+                    <div className="mr-[5px] text-neutral-400 text-sm font-normal font-['Pretendard'] leading-[21px] my-auto" onClick={handleNear2Office}>지점 상세보기</div>
+                    <Image src={'/nextArrow.svg'} width={5} height={11} alt="arrow" className="mr-[6px] mb-[2px]" />
+                </div>
+                </div>
+                <div className='flex flex-row mt-[8px]'>
+                <img src={"/map/OfficeLocationSmall1.svg"} width={8} height={12} alt="location" className="mr-[6px] mb-[3px]" />
+                <div className="text-neutral-700 text-sm font-normal font-['Pretendard'] leading-[21px]">현재 지점으로부터 {newMeetingRoomsInfo2[0].distance.toFixed(2)}km</div>
+                </div>
+              </div>
+              )}
+            {newMeetingRooms2?.length > 0 ? ( 
+            <div style={{ overflowX: 'auto', display: 'flex' }}>
+              {newMeetingRooms2.map((room) => (
+                <div
+                  key={room.meetingRoomId}
+                  className={`overflow-hidden bg-white text-center ${toastType === 'OVERLAPPING_MEETING_ROOM_EXISTS' ? 'pointer-events-none' : 'cursor-pointer'}`}
+                  onClick={() => handleRoomClick(room.meetingRoomId)}
+                  style={{ minWidth: 160, maxWidth: 160, marginRight: 10 }}
+                >
+                  <div className="rounded">
+                    <img
+                      src={room.meetingRoomImage || '/meetingRoomImg.svg'}
+                      width={160}
+                      height={124}
+                      alt={room.meetingRoomName}
+                      className="object-cover rounded"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="text-neutral-700 text-base font-bold font-['Pretendard'] mr-auto mt-[16px]">
+                      {room.meetingRoomName}
+                    </div>
+                    <div className="flex my-[4px] items-center">
+                      <img src={'/floor.svg'} width={14} height={14} alt="floor" className="mr-[6px]" />
+                      <div className="text-stone-500 text-xs font-normal font-['Pretendard'] mr-[12px] mt-auto">
+                        {room.meetingRoomFloor < 0 ? `B${Math.abs(room.meetingRoomFloor)}` : `${room.meetingRoomFloor}`}층
+                      </div>
+                      <img src={'/capacity.svg'} width={14} height={14} alt="capacity" className="mr-[6px]" />
+                      <div className="text-stone-500 text-xs font-normal font-['Pretendard']">최대 {room.meetingRoomCapacity}명</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+             ) : (
+              <div className="flex justify-center items-center my-[60px] text-center text-neutral-400 text-base font-normal font-['Pretendard']">
+              조건에 맞는 미팅룸이 없습니다.
+            </div>
+            )}
+          </div>
+        )}
+      </div>
       <div className="h-[100px]"></div>
       {startTime && endTime && (
         <DatePickerModal

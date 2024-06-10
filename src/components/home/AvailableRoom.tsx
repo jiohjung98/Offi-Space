@@ -5,12 +5,15 @@ import React, { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { getAllAvailableCount } from './remote/mainReservation';
 import { useRouter } from 'next/router';
+import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
+import { useBranchStore2 } from '@/store/reserve.store';
 
 const AvailableRoom = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
+  const { setReservedBranch } = useBranchStore2();
 
   const { data } = useQuery(
     ['AllAvailableCount', selectedBranch?.branchId],
@@ -31,6 +34,20 @@ const AvailableRoom = () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
+
+  const handleGoToReservation = async () => {
+    try {
+      const data = await getSelectedOfficeInfo(selectedBranch!.branchName);
+      if (data.data) {
+        setReservedBranch(data?.data, Date.now());
+        router.push({
+          pathname: '/reservation',
+        });
+      }
+    } catch (error) {
+      console.error('Error updating selected branch:', error);
+    }
+  };
 
   if (!data) {
     return null;
@@ -122,8 +139,7 @@ const AvailableRoom = () => {
 
       {/* 하단 */}
       <div
-        onClick={() => router.push('reservation')}
-        className="cursor-pointer mt-8 rounded-lg w-full h-12 border-2 border-space-purple flex justify-center items-center text-space-purple text-[15px] font-semibold">
+        className="cursor-pointer mt-8 rounded-lg w-full h-12 border-2 border-space-purple flex justify-center items-center text-space-purple text-[15px] font-semibold" onClick={handleGoToReservation}>
         예약하기
       </div>
     </div>
