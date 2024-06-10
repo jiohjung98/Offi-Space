@@ -8,6 +8,7 @@ import RechargingRoomItem from './RechargingRoomItem';
 import { rechargingRoomDataType } from '../model/recharging';
 import RechargingBtn from './RechargingBtn';
 import RechargingConfirmModal from './modal/RechargingConfirmModal';
+import RechargingErrorModal from './modal/RechargingErrorModal';
 
 export interface SelectedState {
   rechargingRoomId: number;
@@ -22,6 +23,7 @@ const RechargingRoomIndex = () => {
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
   const [openModal, setOpenModal] = useState(false);
+  const [errorModal, setErrorModal] = useState<string>('');
   const [isSelected, setIsSelected] = useState<SelectedState>({
     rechargingRoomId: 0,
     startAt: '',
@@ -29,9 +31,11 @@ const RechargingRoomIndex = () => {
   });
 
   const currentBranch =
-  updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
-    ? selectedBranch
-    : reservedBranch || selectedBranch;
+    updatedTimeSelected &&
+    updatedTimeReserved &&
+    updatedTimeSelected > updatedTimeReserved
+      ? selectedBranch
+      : reservedBranch || selectedBranch;
 
   const branchId = currentBranch?.branchId as number;
 
@@ -43,7 +47,7 @@ const RechargingRoomIndex = () => {
     }
   );
 
-  if (data == undefined) {
+  if (data == undefined || data?.status == 'FAIL') {
     return null;
   }
 
@@ -60,6 +64,7 @@ const RechargingRoomIndex = () => {
           roomData={item}
           isSelected={isSelected}
           setIsSelected={setIsSelected}
+          setErrorModal={setErrorModal}
         />
       ))}
       <RechargingBtn
@@ -67,12 +72,12 @@ const RechargingRoomIndex = () => {
         branchId={branchId}
         setOpenModal={setOpenModal}
       />
-
+      {errorModal !== '' ? (
+        <RechargingErrorModal errorModal={errorModal} setErrorModal={setErrorModal} />
+      ) : null}
       {openModal ? (
         <RechargingConfirmModal setOpenModal={setOpenModal} isSelected={isSelected} />
-      ) : (
-        ''
-      )}
+      ) : null}
     </div>
   );
 };

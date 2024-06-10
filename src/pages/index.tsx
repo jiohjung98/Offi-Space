@@ -6,7 +6,8 @@ import MainContainer from '@/components/shared/MainContainer';
 import { useMember, useSetMember } from '@/store/user';
 import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
-
+import { fcmpost } from '@/api/fcm/fcm.post.api';
+import { getTokenHandler } from '@/components/pwa/Fcm';
 const Index = () => {
   /* eslint-disable */
   const member = useMember();
@@ -15,6 +16,21 @@ const Index = () => {
   useEffect(() => {
     setmember(memberData?.data);
   }, [memberData, setmember]);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const token = await getTokenHandler();
+        if (typeof token === 'string') {
+          fcmpost({ fcmToken: token });
+        }
+      } catch (error) {
+        console.error('Failed to get FCM token:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
 
   return (
     <MainContainer>

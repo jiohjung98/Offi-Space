@@ -25,7 +25,9 @@ self.addEventListener('push', function (event) {
       image: data.image,
       data: {
         click_action: data.click_action,
-        targetUrl: url.targetUrl
+        targetUrl: url.targetUrl,
+        targetId: url.targetId,
+        targetType: url.targetType
       }
     };
 
@@ -36,14 +38,18 @@ self.addEventListener('push', function (event) {
 });
 
 // 알림을 클릭하면 사이트로 이동한다.
-self.addEventListener('notificationclick', function (event) {
+self.addEventListener('notificationclick', async function (event) {
   event.preventDefault();
   // 알림창 닫기
   event.notification.close();
 
   // 이동할 url
   const urlToOpen = event.notification.data.targetUrl;
+  // const targetId = event.notification.data.targetId;
   console.log(urlToOpen);
+  console.log(event.notification);
+  const Type = event.notification.data.targetType;
+  console.log('asdfasf', Type);
   // 클라이언트에 해당 사이트가 열려 있는지 체크
   const promiseChain = clients
     .matchAll({
@@ -64,7 +70,13 @@ self.addEventListener('notificationclick', function (event) {
       if (matchingClient) {
         return matchingClient.focus();
       } else {
-        return clients.openWindow(urlToOpen);
+        if (Type === 'RESERVATION') {
+          return clients.openWindow(
+            `reservation/myreservationlist?targetId=${event.notification.data.targetId}`
+          );
+        } else {
+          return clients.openWindow(`community/${event.notification.data.targetId}`);
+        }
       }
     });
 

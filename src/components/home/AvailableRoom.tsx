@@ -1,9 +1,24 @@
 'use client';
+import { useBranchStore } from '@/store/branch.store';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
+import { getAllAvailableCount } from './remote/mainReservation';
+import { useRouter } from 'next/router';
 
 const AvailableRoom = () => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const [currentTime, setCurrentTime] = useState(format(new Date(), 'HH:mm'));
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
+
+  const { data } = useQuery(
+    ['AllAvailableCount', selectedBranch?.branchId],
+    () => getAllAvailableCount(selectedBranch?.branchId as number),
+    {
+      enabled: !!selectedBranch?.branchId
+    }
+  );
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -17,6 +32,10 @@ const AvailableRoom = () => {
     };
   }, []);
 
+  if (!data) {
+    return null;
+  }
+
   return (
     <div className="pb-10">
       {/* 상단 */}
@@ -26,7 +45,13 @@ const AvailableRoom = () => {
           <div>{currentTime} 기준</div>
           <div
             className="cursor-pointer"
-            onClick={() => setCurrentTime(format(new Date(), 'HH:mm'))}>
+            onClick={() => {
+              queryClient.invalidateQueries([
+                'AllAvailableCount',
+                selectedBranch?.branchId
+              ]);
+              setCurrentTime(format(new Date(), 'HH:mm'));
+            }}>
             <img src="/home/refresh.svg" alt="" />
           </div>
         </div>
@@ -41,12 +66,16 @@ const AvailableRoom = () => {
           <div className="text-gray-600 text-sm font-normal ">미팅룸</div>
           <div className="flex justify-center items-center gap-1">
             <div>
-              <span className="text-space-purple text-[26px] font-medium">1</span>
+              <span className="text-space-purple text-[26px] font-medium">
+                {data?.availableMeetingRoomCount}
+              </span>
             </div>
             <div>
               <img src="/home/slash.svg" alt="" />
             </div>
-            <div className="text-gray-400 font-medium text-base">30</div>
+            <div className="text-gray-400 font-medium text-base">
+              {data?.totalMeetingRoomCount}
+            </div>
           </div>
         </div>
 
@@ -57,12 +86,16 @@ const AvailableRoom = () => {
           <div className="text-gray-600 text-sm font-normal ">리차징룸</div>
           <div className="flex justify-center items-center gap-1">
             <div>
-              <span className="text-space-purple text-[26px] font-medium">1</span>
+              <span className="text-space-purple text-[26px] font-medium">
+                {data?.availableRechargingRoomCount}
+              </span>
             </div>
             <div>
               <img src="/home/slash.svg" alt="" />
             </div>
-            <div className="text-gray-400 font-medium text-base">30</div>
+            <div className="text-gray-400 font-medium text-base">
+              {data?.totalRechargingRoomCount}
+            </div>
           </div>
         </div>
 
@@ -73,18 +106,24 @@ const AvailableRoom = () => {
           <div className="text-gray-600 text-sm font-normal ">포커스존</div>
           <div className="flex justify-center items-center gap-1">
             <div>
-              <span className="text-space-purple text-[26px] font-medium">1</span>
+              <span className="text-space-purple text-[26px] font-medium">
+                {data?.availableFocusDeskCount}
+              </span>
             </div>
             <div>
               <img src="/home/slash.svg" alt="" />
             </div>
-            <div className="text-gray-400 font-medium text-base">30</div>
+            <div className="text-gray-400 font-medium text-base">
+              {data?.totalFocusDeskCount}
+            </div>
           </div>
         </div>
       </div>
 
       {/* 하단 */}
-      <div className="cursor-pointer mt-8 rounded-lg w-full h-12 border-2 border-space-purple flex justify-center items-center text-space-purple text-[15px] font-semibold">
+      <div
+        onClick={() => router.push('reservation')}
+        className="cursor-pointer mt-8 rounded-lg w-full h-12 border-2 border-space-purple flex justify-center items-center text-space-purple text-[15px] font-semibold">
         예약하기
       </div>
     </div>

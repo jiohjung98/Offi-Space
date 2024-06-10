@@ -1,5 +1,8 @@
-import { questiongetmock, questionpostmock } from '@/api/mock.api';
+import { questioninfo, registerquestion } from '@/api/question/question.api';
+import { Branch } from '@/api/types/branch';
 import { BackArrow } from '@/components/sign/backarrow/BackArrow';
+import SearchModal from '@/components/home/SearchModal';
+import { useQuestionBranchStore } from '@/store/questionBranch.store';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 
@@ -8,22 +11,45 @@ const InquiryForm = () => {
   const [content, setContent] = useState('');
 
   const isButtonActive = title && content;
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const branch = useQuestionBranchStore((state) => state.selectedQuestionBranch);
+  const branchName = branch?.branchName;
+
+  const setSelectedQuestionBranch = useQuestionBranchStore(
+    (state) => state.setSelectedQuestionBranch
+  );
+  const handleSearchClick = () => {
+    setShowSearchModal(true);
+  };
+
+  const handleBranchSelect = (branch: Branch) => {
+    setSelectedQuestionBranch(branch, Date.now());
+    setShowSearchModal(false);
+  };
 
   const handleSubmit = () => {
     if (isButtonActive) {
-      questionpostmock({ title, content });
-      setTitle('');
-      setContent('');
-      alert('문의등록이 완료되었습니다!');
+      try {
+        registerquestion({ title, content, branchName });
+        setTitle('');
+        setContent('');
+        alert('문의등록이 완료되었습니다!');
+      } catch {
+        alert('문의등록에 실패했습니다.');
+      }
     }
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-4">
-      <div className="flex items-center mb-4">
+    <div className="w-full overflow-y-auto h-full max-w-md mx-auto p-4">
+      <div
+        className="w-[140px] flex flex-row items-center mb-4 cursor-pointer"
+        onClick={handleSearchClick}>
         <img className=" w-5 h-5" src="/mypage/inquiry/Map.svg" alt="map" />
         {/* api */}
-        <div className="text-black text-base font-medium">강남1호점</div>
+        <div className="text-black text-base font-medium">
+          {branch ? branch.branchName : '지점을 설정해주세요'}
+        </div>
       </div>
       <div className="border-b border-neutral-200 py-4">
         <div className="text-lg font-bold text-black">제목</div>
@@ -52,6 +78,12 @@ const InquiryForm = () => {
           등록
         </button>
       </div>
+      {showSearchModal && (
+        <SearchModal
+          onClose={() => setShowSearchModal(false)}
+          onBranchSelect={handleBranchSelect}
+        />
+      )}
     </div>
   );
 };
@@ -63,14 +95,14 @@ const InquiryHistory = () => {
   };
 
   const { data, isLoading } = useQuery({
-    queryKey: ['inquiries'],
-    queryFn: questiongetmock
+    queryKey: ['questioninfo'],
+    queryFn: questioninfo
   });
-  const inquiriesData = data?.data.value.data;
-  console.log(data?.data.value.data);
+  const inquiriesData = data?.data.privatePostList;
+  console.log(data);
 
   return (
-    <div className="w-full max-w-md mx-auto p-4">
+    <div className="w-full h-[800px] max-w-md mx-auto p-4 overflow-y-auto">
       {isLoading ? (
         <div>Loading...</div>
       ) : (
@@ -84,31 +116,63 @@ const InquiryHistory = () => {
         )
       )}
 
-      {inquiriesData?.map((data: { title: string; content: string }, index: number) => (
-        <div
-          key={index}
-          className="border-b border-neutral-300 py-4 cursor-pointer"
-          onClick={() => toggleInquiry(index)}>
-          <div className="flex justify-between items-center">
-            <div className="text-base font-medium text-black">{data.title}</div>
-            <img
-              className="w-2.5 h-5"
-              src={
-                openInquiry === index
-                  ? '/mypage/notice/UpArrow.svg'
-                  : '/mypage/notice/DownArrow.svg'
-              }
-              alt="arrow"
-            />
-          </div>
-          <div className="text-sm font-normal text-neutral-400 mt-2">2024.05.16</div>
-          {openInquiry === index && (
-            <div className="text-neutral-400 text-sm font-medium leading-tight py-2">
-              {data.content}
+      {inquiriesData?.map(
+        (
+          data: {
+            title: string;
+            content: string;
+            createdDate: string;
+            answer: { content: string };
+          },
+          index: number
+        ) => {
+          // const openAnswer = inquiriesData.length - index;
+          return (
+            <div
+              key={index}
+              className="border-b border-neutral-300 py-4 cursor-pointer"
+              onClick={() => toggleInquiry(index)}>
+              <div className="flex justify-between items-center">
+                <div className="text-base font-medium text-black">{data.title}</div>
+                <img
+                  className="w-2.5 h-5"
+                  src={
+                    openInquiry === index
+                      ? '/mypage/notice/UpArrow.svg'
+                      : '/mypage/notice/DownArrow.svg'
+                  }
+                  alt="arrow"
+                />
+              </div>
+              <div className="text-sm font-normal text-neutral-400 mt-2">
+                {data.createdDate}
+              </div>
+              {openInquiry === index && (
+                <div>
+                  <div className="flex flex-row justify-between">
+                    <div className="w-auto" />
+                    <div className="w-auto h-auto min-h-[45px] max-w-[250px] pl-5 pr-4 py-3 bg-violet-50 rounded-tl-[10px] rounded-tr-[10px] rounded-bl-[10px] justify-center items-center gap-2 inline-flex">
+                      <div className="text-right text-neutral-700 text-sm font-normal font-['Pretendard'] leading-[21px] tracking-tight">
+                        {data.content}
+                      </div>
+                    </div>
+                  </div>
+                  {data.answer && (
+                    <div className="flex flex-row justify-between">
+                      <div className="w-auto h-auto min-h-[45px] max-w-[250px] pl-5 pr-4 py-3 bg-violet-50 rounded-tl-[10px] rounded-tr-[10px] rounded-bl-[10px] justify-center items-center gap-2 inline-flex">
+                        <div className="text-right text-neutral-700 text-sm font-normal font-['Pretendard'] leading-[21px] tracking-tight">
+                          {data.answer.content}
+                        </div>
+                        <div className="w-auto" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      ))}
+          );
+        }
+      )}
     </div>
   );
 };
@@ -122,7 +186,7 @@ const InquiryPage = () => {
   // };
 
   return (
-    <div className=" max-w-[393px]  mx-auto relative">
+    <div className=" max-w-[393px] h-[890px]  mx-auto relative  overflow-hidden">
       <div className="mt-[20px] ml-[10px] ">
         <BackArrow width="40px" height="24px" name="1:1 문의" link="/mypage" />
       </div>

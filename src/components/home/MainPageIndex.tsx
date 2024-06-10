@@ -8,8 +8,11 @@ import UserInfo from './UserInfo';
 import OfficeInfo from './OfficeInfo';
 import WeekSchedule from './weekSchedule/WeekSchedule';
 import AvailableRoom from './AvailableRoom';
+import { useReservationStore } from '@/store/reservationModal.store';
+import OfficeDeleteModal from './officeInfo/OfficeDeleteModal';
 
 const MainPageIndex = () => {
+  const { deleteOpen, deleteDeskId } = useReservationStore();
   return (
     <div className="mb-[100px]">
       <BgPurpleLayout>
@@ -24,6 +27,7 @@ const MainPageIndex = () => {
         <WeekSchedule />
         <AvailableRoom />
       </div>
+      {deleteOpen && deleteDeskId !== null && <OfficeDeleteModal />}
     </div>
   );
 };

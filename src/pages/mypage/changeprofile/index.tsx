@@ -47,6 +47,8 @@ export default function Profile() {
       };
       reader.readAsDataURL(event.target.files[0]); // 파일을 데이터 URL로 읽습니다.
     }
+    alert('프로필 사진이 변경되었습니다.');
+    window.location.reload();
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,7 +60,7 @@ export default function Profile() {
     console.log(formData);
   };
   useUpdateMember();
-
+  console.log(member);
   return (
     <div className="w-full  flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-6 rounded-lg ">

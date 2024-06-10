@@ -132,7 +132,8 @@ export default function PasswordChange() {
                   {...register('newPassword', {
                     // minLength: { value: 8, message: '비밀번호는 8자리 이상이어야 합니다.' },
                     pattern: {
-                      value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                      value:
+                        /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,16}$/,
                       message: '*조건에 충족되지 않습니다'
                     }
                   })}

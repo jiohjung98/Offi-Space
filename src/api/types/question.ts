@@ -1,20 +1,32 @@
+// import { Branch } from './branch';
 import { ICommon } from './common';
+export interface QuestionPost {
+  title: string;
+  content: string;
+  branchName: string | undefined;
+}
 
-interface QuestionPost {
+interface QuestionGet {
   id: number;
   title: string;
   content: string;
   branchName: string;
   createdDate: string;
+  answer: {
+    privatePostAnswerId: number;
+    content: string;
+  };
 }
 
-interface QuestionPosttResponse {
-  privatePostList: QuestionPost[];
+interface QuestionGetResponse {
+  privatePostList: QuestionGet[];
   hasNext: boolean;
 }
 
-interface Message {
-  message: string;
+interface QuestionMessage {
+  id: number;
 }
 
-export type QuestionType = ICommon<QuestionPosttResponse & Message>;
+export type GetQuestionType = ICommon<QuestionGetResponse>;
+
+export type PostQuestionTypeResponse = ICommon<QuestionMessage>;

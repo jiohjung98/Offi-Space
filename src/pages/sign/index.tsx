@@ -5,10 +5,10 @@ import SignUpButton from '@/components/shared/sign/SignUpButton';
 
 import Link from 'next/link';
 // import useSendPush from '@/components/pwa/UseSendPush';
-import { getTokenHandler } from '@/components/pwa/Fcm';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCookie } from '@/utils/cookies';
+import { getTokenHandler } from '@/components/pwa/Fcm';
 
 const SignHomePage = () => {
   const token = getCookie('token');

@@ -1,10 +1,19 @@
 import { NotificationType } from '@/api/types/notification';
+import { useReservationStore } from '@/store/reservationModal.store';
 import CalculateTime from '@/utils/calculateTime';
 import Link from 'next/link';
 
 export const NotificationLayout = ({ notice }: { notice: NotificationType }) => {
+  const { setOpen, setReservationId, setIsMeeting } = useReservationStore();
+
   return (
-    <Link href={notice.targetUrl}>
+    <Link
+      href={`/reservation/myreservationlist?targetId=${notice?.targetId}`}
+      onClick={() => {
+        setOpen(true);
+        setIsMeeting(true);
+        setReservationId(notice?.targetId as any);
+      }}>
       <div
         key={notice?.notificationId}
         className="flex flex-row  justify-start items-center mt-[16px] mb-[36px] relative">
