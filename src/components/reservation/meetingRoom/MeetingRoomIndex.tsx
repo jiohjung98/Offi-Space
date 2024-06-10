@@ -83,6 +83,7 @@ const MeetingRoomIndex: React.FC = () => {
   const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
   const [toastType, setToastType] = useState<string | null>(null);
+  const [activeTabState, setActiveTabState] = useState<string>('');
 
   const currentBranch =
   updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
@@ -250,6 +251,11 @@ const MeetingRoomIndex: React.FC = () => {
     });
     setMeetingRooms(sortedRooms);
   };
+
+  const handleModalOpen = (tab: string) => {
+    setActiveTabState(tab);
+    setShowModal(true);
+  };
   
   
   return (
@@ -260,7 +266,7 @@ const MeetingRoomIndex: React.FC = () => {
       <div className="flex mb-4 overflow-x-auto whitespace-nowrap">
         <div
           className="flex-none w-[190px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer"
-          onClick={() => setShowModal(true)}
+          onClick={() => handleModalOpen('schedule')}
         >
           <Image src={'/calendar.svg'} width={14} height={14} alt="calendar" className="mr-[6px]" />
           <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{currentTime}</div>
@@ -268,7 +274,7 @@ const MeetingRoomIndex: React.FC = () => {
         </div>
         <div
           className={`flex-none h-[33px] px-3 py-2 rounded inline-flex cursor-pointer ml-2 ${selectedMeetingRoomTypes === '인원 수' ? 'w-[110px] bg-white border border-neutral-300' : 'w-[170px] bg-violet-100'}`}
-          onClick={() => setShowModal(true)}
+          onClick={() => handleModalOpen('people')}
         >
           <Image src={'/people.svg'} width={14} height={14} alt="people" className="mr-[6px]" />
           <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedMeetingRoomTypes}</div>
@@ -276,7 +282,7 @@ const MeetingRoomIndex: React.FC = () => {
         </div>
         <div
           className={`flex-none h-[33px] px-3 py-2 rounded inline-flex cursor-pointer ml-2 mr-[50px] ${selectedEquipment === '비품' ? 'w-[100px] bg-white border border-neutral-300' : 'w-[150px] bg-violet-100'}`}
-          onClick={() => setShowModal(true)}
+          onClick={() => handleModalOpen('equipment')}
         >
           <Image src={'/check.svg'} width={14} height={14} alt="check" className="mr-[6px]" />
           <div className="text-neutral-700 text-sm font-semibold font-['Pretendard']">{selectedEquipment}</div>
@@ -403,6 +409,7 @@ const MeetingRoomIndex: React.FC = () => {
           onConfirm={handleConfirm}
           initialStartTime={startTime}
           initialEndTime={endTime}
+          activeTab={activeTabState}
         />
       )}
       {showToast && (
