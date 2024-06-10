@@ -61,3 +61,9 @@ export interface OfficeRoomCounts {
   standardRoomCount: number;
   stateRoomCount: number;
 }
+
+export interface BranchDistanceResponse {
+  branchId: number;
+  branchName: string;
+  distance: number;
+}
