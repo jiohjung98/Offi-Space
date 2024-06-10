@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getTodayReservationList } from '../reservation/remote/myreservation';
 import { useQuery } from 'react-query';
 import OfficeInfoNone from './officeInfo/OfficeInfoNone';
@@ -7,11 +7,28 @@ import OfficeInfoFocus from './officeInfo/OfficeInfoFocus';
 import OfficeInfoRecharging from './officeInfo/OfficeInfoRecharging';
 import OfficeInfoMeeting from './officeInfo/OfficeInfoMeeting';
 import { todayListData } from '../reservation/model/myreservation';
+import { useIsCurrentBranch } from '@/store/isCurrentBranch.store';
+import { useBranchStore } from '@/store/branch.store';
 
 const OfficeInfo = () => {
   const { data } = useQuery(['todayReservationList'], () => getTodayReservationList());
+  const { setIsCurrent } = useIsCurrentBranch();
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
 
-  if (data == undefined || data == null) {
+  useEffect(() => {
+    if (data && selectedBranch) {
+      const findBranch = data.find(
+        (room: todayListData) => room.branchName === selectedBranch.branchName
+      );
+      if (!findBranch) {
+        setIsCurrent(false);
+      } else {
+        setIsCurrent(true);
+      }
+    }
+  }, [selectedBranch, setIsCurrent, data]);
+
+  if (!data) {
     return null;
   }
 
