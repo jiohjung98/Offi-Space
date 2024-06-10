@@ -266,23 +266,37 @@ const MeetingRoomIndex: React.FC = () => {
     setShowModal(true);
   };
 
-  const fetchBranchesByDistance = async (latitude: number, longitude: number) => {
-    try {
-      const branches = await getBranchesByDistance(latitude, longitude);
-      console.log('Branches by distance:', branches);
-    } catch (error) {
-      console.error('Error fetching branches by distance:', error);
+const fetchBranchesByDistance = async (branchId: number, existingParams: GetMeetingRoomsParams) => {
+  try {
+    const branches = await getBranchesByDistance(branchId);
+    console.log('Branches by distance:', branches);
+
+    if (branches && branches.length > 0) {
+      const nearestBranch = branches[0];
+      const newParams = {
+        ...existingParams,
+        branchName: nearestBranch.branchName
+      };
+
+      const response = await getMeetingRooms(newParams);
+      const rooms = response.meetingRoomForListList;
+      console.log(response);
+      console.log(rooms);
+      rooms.sort((a, b) => a.meetingRoomCapacity - b.meetingRoomCapacity || a.meetingRoomId - b.meetingRoomId);
+      // setMeetingRooms(rooms);
     }
-  };
+  } catch (error) {
+    console.error('Error fetching branches or meeting rooms:', error);
+  }
+};
 
   useEffect(() => {
-    if (meetingRooms.length === 0) {
-      const latitude = currentBranch!.branchLatitude
-      const longitude = currentBranch!.branchLongitude
-      fetchBranchesByDistance(latitude, longitude);
+    if (meetingRooms.length === 0 && params) {
+      fetchBranchesByDistance(currentBranch!.branchId, params);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [meetingRooms]); 
+  }, [meetingRooms, params]);
+
 
   
   return (

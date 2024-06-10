@@ -4,7 +4,7 @@ export interface Branch {
   branchAddress: string;
   branchLatitude: number;
   branchLongitude: number;
-  branchId?: number;
+  branchId: number;
 }
 
 export interface ModalProps {
