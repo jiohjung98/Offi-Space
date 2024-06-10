@@ -281,7 +281,7 @@ const MeetingRoomIndex: React.FC = () => {
       <div className='relative'>
         <Image src={'/resetwithbg.svg'} width={45} height={45} alt="reset" className="absolute right-0" onClick={handleReset} />
       </div>
-      <div className="flex mb-4 overflow-x-auto whitespace-nowrap">
+      <div className="flex mb-4 w-full overflow-x-auto whitespace-nowrap mr-[50px]">
         <div
           className="flex-none w-[190px] h-[33px] px-3 py-2 bg-violet-100 rounded inline-flex cursor-pointer"
           onClick={() => handleModalOpen('schedule')}
