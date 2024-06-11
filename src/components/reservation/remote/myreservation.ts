@@ -40,6 +40,8 @@ export const getReservationDetail = async (reservationId: number | null) => {
     const { data } = await getRequest<ReservationDetail>(`reservations/${reservationId}`);
     return data as reservationDetailData;
   } catch (error: any) {
+    alert('이미 종료된 일정입니다');
+    window.location.href = '/';
     return error.response.data;
   }
 };

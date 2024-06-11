@@ -1,5 +1,6 @@
 // components/LogoutModal.tsx
 import { useSetMember } from '@/store/user';
+import { removeCookie } from '@/utils/cookies';
 import React from 'react';
 
 interface LogoutModalProps {
@@ -25,6 +26,7 @@ const LogoutModal = ({ onConfirm, onCancel }: LogoutModalProps) => {
             className="h-[42px] flex-1 text-center font-bold text-indigo-700    leading-normal  text-lg  font-['Pretendard']"
             onClick={() => {
               onConfirm();
+              removeCookie('token');
               setmember({
                 memberEmail: '',
                 memberName: '',

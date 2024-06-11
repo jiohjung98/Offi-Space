@@ -49,7 +49,7 @@ const Notification = () => {
   const { todayNotifications, pastNotifications } = categorizeNotifications(
     allPosts || []
   );
-  console.log(allPosts);
+
   return (
     <div className=" max-w-[393px]  mx-auto relative">
       <Footer />

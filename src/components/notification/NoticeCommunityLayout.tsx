@@ -9,7 +9,7 @@ export const NotificationCommunityLayout = ({ notice }: { notice: NotificationTy
       <div
         key={notice?.notificationId}
         className="flex flex-row  justify-start items-center mt-[16px] mb-[36px] relative">
-        <img src="/Notification-Check.svg" className="mr-[14px]" />
+        <img src={notice?.image} className="mr-[14px] w-[28px] h-[28px]" />
 
         <div className="flex flex-col justify-start items-start">
           <div className=" w-[250px] text-xs font-medium text-neutral-600  flex-grow">

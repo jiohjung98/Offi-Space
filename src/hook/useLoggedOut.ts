@@ -7,8 +7,8 @@ function useLoggedOut() {
   const query = useQueryClient();
 
   const logout = (redirectPath = '/sign') => {
-    router.push(redirectPath);
     removeCookie('token');
+    router.push(redirectPath);
     query.clear();
   };
 

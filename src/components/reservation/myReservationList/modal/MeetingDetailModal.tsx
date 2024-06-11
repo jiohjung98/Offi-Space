@@ -22,20 +22,26 @@ const MeetingDetailModal = () => {
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => setOpen(false));
 
+  // const [LateDataTest, setLateDataTest] = useState('');
   const { data } = useQuery(
     ['reservationDetail', reservationId],
-    () => getReservationDetail(reservationId),
+    async () => await getReservationDetail(reservationId),
     {
       enabled: reservationId != null
     }
   );
 
+  // console.log(data?.status);
+  // console.log(data);
+  // /* eslint-disable */
   // useEffect(() => {
-  //   if (data == undefined) {
+  //   setLateDataTest(data?.data);
+  //   console.log(LateDataTest);
+  //   if (!LateDataTest) {
   //     alert('이미 종료된 일정입니다');
   //     router.push('/');
   //   }
-  // }, []);
+  // }, [data]);
 
   if (data == undefined) {
     return null;
