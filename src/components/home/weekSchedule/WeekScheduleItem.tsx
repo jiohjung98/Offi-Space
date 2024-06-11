@@ -88,7 +88,7 @@ const WeekScheduleItem = ({
           {data.slice(0, 3).map((item: todayListData, index: number) => {
             if (item.spaceType == 'MEETINGROOM') {
               return (
-                <div key={index} className="border-b border-gray-300 pb-3 ">
+                <div key={index} className="border-b border-gray-300 pb-3 mt-3">
                   <div className="mx-4 flex items-center justify-between">
                     {/* 고정 */}
                     <div className="flex gap-2 items-center">
@@ -108,7 +108,7 @@ const WeekScheduleItem = ({
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-[17px]">
+                    <div className="flex flex-col gap-[8px]">
                       <div className="flex justify-end">
                         {item?.memberType == 'REPRESENTATIVE' ? (
                           <div className="flex items-center justify-center w-[46px] h-6 text-center border-2 border-space-blue rounded-[20px] text-white bg-space-blue text-[12px] font-semibold">
