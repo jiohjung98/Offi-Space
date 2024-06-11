@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -31,6 +31,20 @@ const BranchInfo: React.FC = () => {
   const roadFromStation = router.query.roadFromStation as string;
   const stationToBranch = router.query.stationToBranch as string;
   const branchId = router.query.branchId;
+
+  const { urgentNoticeTitle, urgentNoticeContent } = router.query;
+
+
+  const branchOfficeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const { scrollToOffice } = router.query;
+    if (scrollToOffice && branchOfficeRef.current) {
+      setTimeout(() => {
+        branchOfficeRef.current!.scrollIntoView({ behavior: 'smooth' });
+      }, 300); // 300ms 정도의 딜레이를 줍니다.
+    }
+  }, [router.query]);
 
   const imagePairs = [
     ['branch1-1.png', 'branch1-2.png'],
@@ -351,7 +365,9 @@ const BranchInfo: React.FC = () => {
         <div className="px-4 py-6">
           <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
-        <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} />
+        <div ref={branchOfficeRef}>
+        <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} urgentNoticeTitle={urgentNoticeTitle as string} urgentNoticeContent={urgentNoticeContent as string} />
+        </div>
         <footer className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[393px] px-4 text-center pb-[30px] bg-white no-box-shadow">
         <button
           className="reserveBtn w-[100%] mx-auto h-12 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
