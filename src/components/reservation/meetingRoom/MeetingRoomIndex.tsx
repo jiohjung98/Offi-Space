@@ -371,7 +371,7 @@ const handleNear2Office = async () => {
       fetchBranchesByDistance(currentBranch!.branchId, params);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [meetingRooms, params]);
+  }, [meetingRooms]);
 
 
   return (
