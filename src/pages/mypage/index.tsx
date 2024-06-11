@@ -18,10 +18,12 @@ const MyPage = () => {
     console.log('Logged out');
     setModalVisible(false);
     setSuccessModal(true);
+
     setTimeout(() => {
       logout();
     }, 2000);
   };
+
   useUpdateMember();
   const handleCancel = () => {
     setModalVisible(false);

@@ -34,6 +34,7 @@ const InquiryForm = () => {
         setTitle('');
         setContent('');
         alert('문의등록이 완료되었습니다!');
+        window.location.reload();
       } catch {
         alert('문의등록에 실패했습니다.');
       }
@@ -43,7 +44,7 @@ const InquiryForm = () => {
   return (
     <div className="w-full overflow-y-auto h-full max-w-md mx-auto p-4">
       <div
-        className="w-[140px] flex flex-row items-center mb-4 cursor-pointer"
+        className="w-[180px] flex flex-row items-center mb-4 cursor-pointer"
         onClick={handleSearchClick}>
         <img className=" w-5 h-5" src="/mypage/inquiry/Map.svg" alt="map" />
         {/* api */}

@@ -43,9 +43,9 @@ const MeetingDetailModal = () => {
   //   }
   // }, [data]);
 
-  // if (data == undefined) {
-  //   return null;
-  // }
+  if (data == undefined) {
+    return null;
+  }
 
   const date =
     data && data.startAt

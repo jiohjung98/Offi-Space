@@ -60,10 +60,7 @@ self.addEventListener('notificationclick', async function (event) {
     tx.store.put(val, key);
     await tx.done;
   }
-  event.waitUntil(
-    // 'targetId'라는 키로 event.notification.data.targetId 값을 저장합니다.
-    set('targetId', event.notification.data.targetId)
-  );
+  event.waitUntil(set('targetId', event.notification.data.targetId));
 
   // 클라이언트에 해당 사이트가 열려 있는지 체크
   const promiseChain = clients
