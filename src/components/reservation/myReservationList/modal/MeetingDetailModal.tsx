@@ -131,7 +131,7 @@ const MeetingDetailModal = () => {
             </div>
             <div>
               <div className="text-space-black text-base font-semibold">
-                {data?.branchName} {data?.spaceName}
+                {data?.branchName} {data?.spaceName} ({data?.spaceFloor}층)
               </div>
               <div className="text-space-black text-sm font-medium">
                 {data?.branchAddress}

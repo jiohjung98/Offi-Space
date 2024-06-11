@@ -65,6 +65,10 @@ const TodayReservation = () => {
   //   return () => clearTimeout(timer);
   // }, [setReservationId, setOpen]);
 
+  if (!data) {
+    return null;
+  }
+
   if (data?.length == 0) {
     return (
       <div className="border-b border-gray-300 mx-4 py-12 flex flex-col items-center justify-center text-base font-medium text-gray-500">
@@ -74,30 +78,33 @@ const TodayReservation = () => {
     );
   }
 
+  console.log(data);
+
   return (
     <ul>
-      {data?.map((item: todayListData, i: number) => (
-        <motion.li
-          key={i}
-          initial={{ opacity: 0, translateX: -90 }}
-          transition={{
-            duration: 0.6,
-            ease: 'easeInOut',
-            delay: 0.1
-          }}
-          animate={{
-            opacity: 1,
-            translateX: 0
-          }}>
-          {item.spaceType === 'MEETINGROOM' ? (
-            <MeetingRoomItem roomData={item} />
-          ) : item.spaceType === 'FOCUSDESK' ? (
-            <FocuszoneItem roomData={item} />
-          ) : (
-            <RechargingItem roomData={item} />
-          )}
-        </motion.li>
-      ))}
+      {data &&
+        data?.map((item: todayListData, i: number) => (
+          <motion.li
+            key={i}
+            initial={{ opacity: 0, translateX: -90 }}
+            transition={{
+              duration: 0.6,
+              ease: 'easeInOut',
+              delay: 0.1
+            }}
+            animate={{
+              opacity: 1,
+              translateX: 0
+            }}>
+            {item.spaceType === 'MEETINGROOM' ? (
+              <MeetingRoomItem roomData={item} />
+            ) : item.spaceType === 'FOCUSDESK' ? (
+              <FocuszoneItem roomData={item} />
+            ) : (
+              <RechargingItem roomData={item} />
+            )}
+          </motion.li>
+        ))}
     </ul>
   );
 };
