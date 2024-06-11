@@ -152,7 +152,7 @@ const MyPage = () => {
           <div className="h-6 flex justify-start items-start gap-3.5">
             <div className="w-[360px] flex justify-between">
               <div className="text-center text-black/opacity-20 text-base font-normal font-['Pretendard'] leading-normal">
-                알림 설정 가이드
+                알림 설정
               </div>
               <img className="mr-[16px]" src="/mypage/RightArrowIcon.svg" />
             </div>
