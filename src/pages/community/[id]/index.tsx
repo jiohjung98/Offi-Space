@@ -26,7 +26,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const client = new QueryClient();
     try {
       await client.prefetchQuery(['post', postId], async () => {
-        const { data } = await axios.get(`https://joo-api.store/posts/${postId}`, {
+        const { data } = await axios.get(`https://www.4bujak.site/${postId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
