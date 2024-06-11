@@ -185,6 +185,7 @@ const BranchInfo: React.FC = () => {
               width={500}
               height={246}
               className="h-[246px] object-cover"
+              loading="lazy"
             />
             <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
               {currentSlide} / {totalSlides}
@@ -197,6 +198,7 @@ const BranchInfo: React.FC = () => {
               width={500}
               height={246}
               className="h-[246px] object-cover"
+              loading="lazy"
             />
             <div className="w-[50px] absolute bottom-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-center">
               {currentSlide} / {totalSlides}
