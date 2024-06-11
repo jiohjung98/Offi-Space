@@ -95,6 +95,10 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
     endDateTime.setHours(endHour);
     endDateTime.setMinutes(endMinute);
 
+    if (endDateTime <= startDateTime) {
+      endDateTime.setDate(endDateTime.getDate() + 1);
+    }
+
     onConfirm(startDateTime, endDateTime, {
       meetingRoomTypes:
         selectedMeetingRoomTypes.length === 0

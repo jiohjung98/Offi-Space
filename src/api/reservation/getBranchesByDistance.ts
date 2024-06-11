@@ -1,12 +1,8 @@
 import { BranchDistanceResponse } from "../types/branch";
 
-export const getBranchesByDistance = async (latitude: number, longitude: number): Promise<BranchDistanceResponse[]> => {
+export const getBranchesByDistance = async (branchId: number): Promise<BranchDistanceResponse[]> => {
   const backendUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  const url = new URL(`${backendUrl}branches/distance`);
-
-  // Add latitude and longitude as query parameters
-  url.searchParams.append('latitude', String(latitude));
-  url.searchParams.append('longitude', String(longitude));
+  const url = new URL(`${backendUrl}branches/${branchId}/near`);
 
   const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
   

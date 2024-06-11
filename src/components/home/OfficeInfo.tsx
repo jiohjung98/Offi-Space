@@ -26,6 +26,9 @@ const OfficeInfo = () => {
         setIsCurrent(true);
       }
     }
+    if (data?.length == 0) {
+      setIsCurrent(true);
+    }
   }, [selectedBranch, setIsCurrent, data]);
 
   if (!data) {

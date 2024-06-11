@@ -1,32 +1,23 @@
 import { todayListData } from '@/components/reservation/model/myreservation';
-import {
-  deleteMeetingRoom,
-  getReservationDetail
-} from '@/components/reservation/remote/myreservation';
+import { getReservationDetail } from '@/components/reservation/remote/myreservation';
+import { useReservationStore } from '@/store/reservationModal.store';
 import { format, isBefore, parse } from 'date-fns';
 import React from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 
 interface OfficeInfoMeetingType {
   data: todayListData;
 }
 
 const OfficeInfoMeeting = ({ data }: OfficeInfoMeetingType) => {
-  const queryClient = useQueryClient();
+  const { setDeleteOpen, setDeleteDeskId, setIsLeader, setRoomType, setIsMeeting } =
+    useReservationStore();
 
   const { data: meetingData } = useQuery(
     ['reservationDetail', data?.reservationId],
     () => getReservationDetail(data?.reservationId),
     {
       enabled: data?.reservationId != null
-    }
-  );
-  const { mutateAsync } = useMutation(
-    (reservationId: number) => deleteMeetingRoom(reservationId),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['todayReservationList']);
-      }
     }
   );
 
@@ -40,7 +31,13 @@ const OfficeInfoMeeting = ({ data }: OfficeInfoMeetingType) => {
     if (!result && meetingData?.myMemberType == 'REPRESENTATIVE') {
       return (
         <div
-          onClick={() => mutateAsync(data?.reservationId)}
+          onClick={() => {
+            setRoomType('MEETING');
+            setDeleteDeskId(data?.reservationId);
+            setIsMeeting(true);
+            setIsLeader(true);
+            setDeleteOpen(true);
+          }}
           className="cursor-pointer w-[107px] h-9 text-space-purple flex items-center justify-center border-2 border-space-purple font-medium rounded-md">
           예약 취소
         </div>
@@ -48,7 +45,13 @@ const OfficeInfoMeeting = ({ data }: OfficeInfoMeetingType) => {
     } else if (!result && meetingData?.myMemberType == 'PARTICIPANT') {
       return (
         <div
-          onClick={() => mutateAsync(data?.reservationId)}
+          onClick={() => {
+            setRoomType('MEETING');
+            setIsLeader(false);
+            setDeleteDeskId(data?.reservationId);
+            setIsMeeting(true);
+            setDeleteOpen(true);
+          }}
           className="cursor-pointer w-[107px] h-9 text-space-purple flex items-center justify-center border-2 border-space-purple font-medium rounded-md">
           참여 취소
         </div>

@@ -3,11 +3,13 @@ import { notices } from '@/constant/selectedOfficeNotice';
 
 interface OfficeNoticeProps {
   branchName: string;
+  urgentNoticeTitle?: string;
+  urgentNoticeContent?: string;
   // eslint-disable-next-line no-unused-vars
   setUrgentNotice: (notice: { title: string; content: string } | null) => void;
 }
 
-const BranchOffice: React.FC<OfficeNoticeProps> = ({ branchName, setUrgentNotice }) => {
+const BranchOffice: React.FC<OfficeNoticeProps> = ({ branchName, urgentNoticeTitle, urgentNoticeContent, setUrgentNotice }) => {
   const [randomNotices, setRandomNotices] = useState<{ title: string; content: string }[]>([]);
   const [expandedNotice, setExpandedNotice] = useState<{ [key: string]: boolean }>({});
   const [currentDate, setCurrentDate] = useState<string>('');
@@ -54,6 +56,10 @@ const BranchOffice: React.FC<OfficeNoticeProps> = ({ branchName, setUrgentNotice
 
     setRandomNotices(combinedNotices);
     setUrgentNotice(randomUrgentNotice);
+
+    if (urgentNoticeTitle && urgentNoticeContent) {
+      setExpandedNotice({ [urgentNoticeTitle]: true });
+    }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [branchName]);
