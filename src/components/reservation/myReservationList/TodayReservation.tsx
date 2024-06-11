@@ -21,7 +21,7 @@ const TodayReservation = () => {
     const fetchData = async () => {
       const value = await get('targetId');
       if (value === undefined) return;
-      console.log(value);
+
       setOpen(true);
       setIsMeeting(true);
       setReservationId(value as any);
@@ -77,8 +77,6 @@ const TodayReservation = () => {
       </div>
     );
   }
-
-  console.log(data);
 
   return (
     <ul>

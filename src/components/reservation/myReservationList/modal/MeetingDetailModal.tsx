@@ -31,8 +31,6 @@ const MeetingDetailModal = () => {
     }
   );
 
-  console.log(data?.status);
-  console.log(data);
   /* eslint-disable */
   useEffect(() => {
     if (data?.reservationProgress === 'AFTER_USE') {

@@ -20,7 +20,10 @@ const getBranchImage = (imageName: string): string => {
 const BranchInfo: React.FC = () => {
   const router = useRouter();
   const { setReservedBranch } = useBranchStore2();
-  const [urgentNotice, setUrgentNotice] = useState<{ title: string; content: string } | null>(null);
+  const [urgentNotice, setUrgentNotice] = useState<{
+    title: string;
+    content: string;
+  } | null>(null);
 
   const [currentSlide, setCurrentSlide] = useState(1);
   const totalSlides = 2;
@@ -33,7 +36,6 @@ const BranchInfo: React.FC = () => {
   const branchId = router.query.branchId;
 
   const { urgentNoticeTitle, urgentNoticeContent } = router.query;
-
 
   const branchOfficeRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +54,10 @@ const BranchInfo: React.FC = () => {
     ['branch3-1.png', 'branch3-2.png']
   ];
 
-  const hash = Array.from(branchName || "").reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+  const hash = Array.from(branchName || '').reduce(
+    (acc: number, char: string) => acc + char.charCodeAt(0),
+    0
+  );
   const pairIndex = hash % imagePairs.length;
 
   const selectedImagePair = imagePairs[pairIndex];
@@ -60,7 +65,9 @@ const BranchInfo: React.FC = () => {
   const branchImage1 = getBranchImage(selectedImagePair[0]);
   const branchImage2 = getBranchImage(selectedImagePair[1]);
 
-  const numericBranchId = Array.isArray(branchId) ? parseInt(branchId[0], 10) : parseInt(branchId as string, 10);
+  const numericBranchId = Array.isArray(branchId)
+    ? parseInt(branchId[0], 10)
+    : parseInt(branchId as string, 10);
 
   const [activeTab, setActiveTab] = useState('meetingRoom');
 
@@ -70,7 +77,6 @@ const BranchInfo: React.FC = () => {
         const data = await getOfficeMeetingRoomCount(numericBranchId);
         if (data.data) {
           console.log(data);
-          console.log(data.data);
         }
       } catch (error) {
         console.error('Error updating selected branch:', error);
@@ -82,7 +88,14 @@ const BranchInfo: React.FC = () => {
   }, [numericBranchId]);
 
   useEffect(() => {
-    if (branchName && address && branchPhoneNumber && roadFromStation && stationToBranch && numericBranchId) {
+    if (
+      branchName &&
+      address &&
+      branchPhoneNumber &&
+      roadFromStation &&
+      stationToBranch &&
+      numericBranchId
+    ) {
       localStorage.setItem(
         'branchInfo',
         JSON.stringify({
@@ -91,14 +104,28 @@ const BranchInfo: React.FC = () => {
           branchPhoneNumber,
           roadFromStation,
           stationToBranch,
-          branchId: numericBranchId,
+          branchId: numericBranchId
         })
       );
     }
-  }, [branchName, address, branchPhoneNumber, roadFromStation, stationToBranch, numericBranchId]);
+  }, [
+    branchName,
+    address,
+    branchPhoneNumber,
+    roadFromStation,
+    stationToBranch,
+    numericBranchId
+  ]);
 
   useEffect(() => {
-    if (!branchName || !address || !branchPhoneNumber || !roadFromStation || !stationToBranch || !branchId) {
+    if (
+      !branchName ||
+      !address ||
+      !branchPhoneNumber ||
+      !roadFromStation ||
+      !stationToBranch ||
+      !branchId
+    ) {
       const savedBranchInfo = localStorage.getItem('branchInfo');
       if (savedBranchInfo) {
         const {
@@ -135,7 +162,7 @@ const BranchInfo: React.FC = () => {
         setReservedBranch(data?.data, Date.now());
         router.push({
           pathname: '/reservation',
-          query: { tab: activeTab },
+          query: { tab: activeTab }
         });
       }
     } catch (error) {
@@ -161,16 +188,24 @@ const BranchInfo: React.FC = () => {
         <span className="text-lg font-semibold ml-[8px]">{branchName}</span>
       </header>
       <div className="">
-      {urgentNotice && (
+        {urgentNotice && (
           <div className="absolute top-[90px] left-1/2 px-4 py-2 transform -translate-x-1/2 w-[350px] bg-white bg-opacity-80 rounded shadow border border-neutral-200 z-[9999]">
             <div className="flex items-center mb-2">
-              <div className='p-1 bg-yellow-400 rounded-sm justify-center items-center gap-2.5 inline-flex'>
-              <span className="text-neutral-700 text-xs font-medium font-['Pretendard']">긴급</span>
+              <div className="p-1 bg-yellow-400 rounded-sm justify-center items-center gap-2.5 inline-flex">
+                <span className="text-neutral-700 text-xs font-medium font-['Pretendard']">
+                  긴급
+                </span>
               </div>
-              <p className="text-black/opacity-20 text-sm font-semibold font-['Pretendard'] ml-[7px] mt-[3px]">{urgentNotice.title}</p>
-              <button className='ml-auto my-auto' onClick={() => setUrgentNotice(null)}>X</button>
+              <p className="text-black/opacity-20 text-sm font-semibold font-['Pretendard'] ml-[7px] mt-[3px]">
+                {urgentNotice.title}
+              </p>
+              <button className="ml-auto my-auto" onClick={() => setUrgentNotice(null)}>
+                X
+              </button>
             </div>
-            <p className="text-neutral-700 text-sm font-normal font-['Pretendard']">{truncateText(urgentNotice.content, 28)}</p>
+            <p className="text-neutral-700 text-sm font-normal font-['Pretendard']">
+              {truncateText(urgentNotice.content, 28)}
+            </p>
           </div>
         )}
         <Swiper
@@ -273,7 +308,11 @@ const BranchInfo: React.FC = () => {
           <div className="text-black/opacity-20 text-lg font-extrabold py-[10px]">
             공용 공간 리스트
           </div>
-          <TabSection branchId={numericBranchId} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <TabSection
+            branchId={numericBranchId}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
         </div>
         <div className="w-full h-px bg-neutral-200" />
         <div className="px-4 py-6">
@@ -289,7 +328,9 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">라운지</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">
+                라운지
+              </p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -299,7 +340,9 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">리차징룸</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">
+                리차징룸
+              </p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -309,7 +352,9 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">무인택배</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">
+                무인택배
+              </p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -319,7 +364,9 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">폰부스</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">
+                폰부스
+              </p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -329,7 +376,9 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">복합기</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">
+                복합기
+              </p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -339,7 +388,9 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">스낵바</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">
+                스낵바
+              </p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -349,7 +400,9 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">사무용품</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">
+                사무용품
+              </p>
             </div>
             <div className="flex flex-col items-center">
               <Image
@@ -359,7 +412,9 @@ const BranchInfo: React.FC = () => {
                 height={16}
                 className="w-[40px] h-[40px] my-auto"
               />
-              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">무제한 커피</p>
+              <p className="mt-2 text-center text-gray-900 text-sm font-medium font-['Pretendard'] leading-[21px]">
+                무제한 커피
+              </p>
             </div>
           </div>
         </div>
@@ -368,15 +423,20 @@ const BranchInfo: React.FC = () => {
           <div className="text-black/opacity-20 text-lg font-extrabold">공지사항</div>
         </div>
         <div ref={branchOfficeRef}>
-        <BranchOffice branchName={branchName} setUrgentNotice={setUrgentNotice} urgentNoticeTitle={urgentNoticeTitle as string} urgentNoticeContent={urgentNoticeContent as string} />
+          <BranchOffice
+            branchName={branchName}
+            setUrgentNotice={setUrgentNotice}
+            urgentNoticeTitle={urgentNoticeTitle as string}
+            urgentNoticeContent={urgentNoticeContent as string}
+          />
         </div>
         <footer className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[393px] px-4 text-center pb-[30px] bg-white no-box-shadow">
-        <button
-          className="reserveBtn w-[100%] mx-auto h-12 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
-          onClick={handleGoToReservation}>
-          예약하기
-        </button>
-      </footer>
+          <button
+            className="reserveBtn w-[100%] mx-auto h-12 rounded-lg border border-indigo-700 text-center text-stone-50 text-[15px] font-semibold"
+            onClick={handleGoToReservation}>
+            예약하기
+          </button>
+        </footer>
       </article>
       <style jsx global>{`
         .swiper-pagination-bullet {

@@ -100,7 +100,6 @@ const InquiryHistory = () => {
     queryFn: questioninfo
   });
   const inquiriesData = data?.data.privatePostList;
-  console.log(data);
 
   return (
     <div className="w-full h-[800px] max-w-md mx-auto p-4 overflow-y-auto">

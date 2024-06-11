@@ -11,6 +11,7 @@ export default function Profile() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   //api나오면 zustand 로직으로 수정
+  /* eslint-disable */
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
   const member = useMember();
@@ -26,16 +27,16 @@ export default function Profile() {
   //   if (selectedFile) {
   //     formData.append('file', selectedFile);
   //   }
-  //   console.log(formData);
+  //
 
   // };
-  console.log(fileUrl);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       const formData = new FormData();
       formData.append('image', file);
-      console.log(formData);
+
       memberimage(formData);
 
       setSelectedFile(event.target.files[0]);
@@ -57,10 +58,9 @@ export default function Profile() {
     if (selectedFile) {
       formData.append('file', selectedFile);
     }
-    console.log(formData);
   };
   useUpdateMember();
-  console.log(member);
+
   return (
     <div className="w-full  flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-6 rounded-lg ">
