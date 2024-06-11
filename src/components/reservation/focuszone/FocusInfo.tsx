@@ -108,9 +108,16 @@ const FocusInfo = () => {
             <div className="text-gray-800 text-sm font-semibold mt-[28px]">
               · 뒷정리 후 종료버튼을 눌러주세요.
             </div>
-            <div className="mt-1 text-gray-600 text-sm font-normal mx-2 pb-[29px]">
+            <div className="mt-1 text-gray-600 text-sm font-normal mx-2">
               포커스존은 이용 예약 후 사용이 가능하며, 다음 이용자를 위해 뒷정리 후 이용
               종료 버튼을 꼭 눌러주세요.
+            </div>
+            <div className="text-gray-800 text-sm font-semibold mt-[28px]">
+              · 좌석은 당일만 사용 가능해요.
+            </div>
+            <div className="mt-1 text-gray-600 text-sm font-normal mx-2 pb-[29px]">
+              예약된 좌석은 예약일 자정까지 유효합니다. 계속 이용하시려면 자정 이후에는
+              추가 예약이 필요합니다.
             </div>
           </div>
         </div>
