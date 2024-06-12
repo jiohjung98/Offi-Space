@@ -1,3 +1,4 @@
+import Layout from '@/components/shared/Layout';
 import LoadingSpinner from '@/components/shared/LoadingSpinner';
 import { AuthorizationProvider } from '@/providers/Authentication';
 import MockProvider from '@/providers/MockProvider';
@@ -31,21 +32,25 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, [router]);
   return (
-    <MockProvider>
-      <QueryProvider>
-        <Script
-          strategy="beforeInteractive"
-          src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}></Script>
-        <AuthorizationProvider>
-          <QueryClientProvider client={queryClient}>
-            <Hydrate state={pageProps.dehydratedState}>
-              {loading && <LoadingSpinner />}
-              <Component {...pageProps} />
-            </Hydrate>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </AuthorizationProvider>
-      </QueryProvider>
-    </MockProvider>
+    <>
+      <Layout>
+        <MockProvider>
+          <QueryProvider>
+            <Script
+              strategy="beforeInteractive"
+              src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}></Script>
+            <AuthorizationProvider>
+              <QueryClientProvider client={queryClient}>
+                <Hydrate state={pageProps.dehydratedState}>
+                  {loading && <LoadingSpinner />}
+                  <Component {...pageProps} />
+                </Hydrate>
+                <ReactQueryDevtools initialIsOpen={false} />
+              </QueryClientProvider>
+            </AuthorizationProvider>
+          </QueryProvider>
+        </MockProvider>
+      </Layout>
+    </>
   );
 }

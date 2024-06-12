@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import deleteFirstWord from '@/utils/deleteFirtstWord';
@@ -16,12 +15,13 @@ const Layout = ({ children, title, isFullWidth = false }: LayoutProps) => {
   const pathName = usePathname();
   const filteredPathName = deleteFirstWord(pathName);
   console.log(filteredPathName);
+  console.log(title);
 
   return (
     <>
-      <Head>
-        <title>{title ? `${title} | Offispace` : 'Offispace'}</title>
-      </Head>
+      {/* <Head>
+        <title>{title ? `${title} | Effispace` : 'Effispace'}</title>
+      </Head> */}
       {filteredPathName.includes('reservation') ? <ReservationHeader /> : <Header />}
       <section style={{ width: isFullWidth ? '100%' : undefined }}>{children}</section>
       <Footer />

@@ -1,6 +1,8 @@
+/* eslint-disable react/jsx-pascal-case */
 import { signup } from '@/api/auth/auth.post.api';
 import { ISignUp } from '@/api/types/auth';
 import MainContainer from '@/components/shared/MainContainer';
+import SEO from '@/components/shared/SEO';
 import EmailVerification from '@/components/sign/signup/EmailVerification';
 import PasswordVerification from '@/components/sign/signup/PasswordVerification';
 import PhoneCertification from '@/components/sign/signup/PhoneCertification';
@@ -89,14 +91,21 @@ const SignUpPage = () => {
   }, [applyValues, signUpReq]);
 
   return (
-    <MainContainer>
-      {applyValues.step === 0 ? <PhoneCertification onNext={handlePhoneNumber} /> : null}
-      {applyValues.step === 1 ? <EmailVerification onNext={handleNameAndEmail} /> : null}
-      {applyValues.step === 2 ? (
-        <PasswordVerification onNext={handleRemainData} applyValues={applyValues} />
-      ) : null}
-      {applyValues.step === 4 ? <SignupDone /> : null}
-    </MainContainer>
+    <>
+      <SEO title="Offispace | 회원가입" />
+      <MainContainer>
+        {applyValues.step === 0 ? (
+          <PhoneCertification onNext={handlePhoneNumber} />
+        ) : null}
+        {applyValues.step === 1 ? (
+          <EmailVerification onNext={handleNameAndEmail} />
+        ) : null}
+        {applyValues.step === 2 ? (
+          <PasswordVerification onNext={handleRemainData} applyValues={applyValues} />
+        ) : null}
+        {applyValues.step === 4 ? <SignupDone /> : null}
+      </MainContainer>
+    </>
   );
 };
 

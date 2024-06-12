@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import { questioninfo, registerquestion } from '@/api/question/question.api';
 import { Branch } from '@/api/types/branch';
 import { BackArrow } from '@/components/sign/backarrow/BackArrow';
@@ -5,6 +6,7 @@ import SearchModal from '@/components/home/SearchModal';
 import { useQuestionBranchStore } from '@/store/questionBranch.store';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
+import SEO from '@/components/shared/SEO';
 
 const InquiryForm = () => {
   const [title, setTitle] = useState('');
@@ -186,29 +188,32 @@ const InquiryPage = () => {
   // };
 
   return (
-    <div className=" max-w-[393px] h-[890px]  mx-auto relative  overflow-hidden">
-      <div className="mt-[20px] ml-[10px] ">
-        <BackArrow width="40px" height="24px" name="1:1 문의" />
-      </div>
-      <div className="w-full h-[900px] bg-white flex flex-col justify-between items-center">
-        <div className="w-full flex justify-center items-center border-b border-neutral-200 mt-[13px]">
-          <button
-            className={`px-6 py-2 ${view === 'inquiry' ? 'border-b-2 border-indigo-700 text-indigo-700 font-bold' : 'text-neutral-700 font-normal'}`}
-            onClick={() => setView('inquiry')}>
-            문의하기
-          </button>
-          <button
-            className={`px-6 py-2 ${view === 'history' ? 'border-b-2 border-indigo-700 text-indigo-700 font-bold' : 'text-neutral-700 font-normal'}`}
-            onClick={() => setView('history')}>
-            문의내역
-          </button>
+    <>
+      <SEO title="Offispace | 1:1 문의" />
+      <div className=" max-w-[393px] h-[890px]  mx-auto relative  overflow-hidden">
+        <div className="mt-[20px] ml-[10px] ">
+          <BackArrow width="40px" height="24px" name="1:1 문의" />
         </div>
+        <div className="w-full h-[900px] bg-white flex flex-col justify-between items-center">
+          <div className="w-full flex justify-center items-center border-b border-neutral-200 mt-[13px]">
+            <button
+              className={`px-6 py-2 ${view === 'inquiry' ? 'border-b-2 border-indigo-700 text-indigo-700 font-bold' : 'text-neutral-700 font-normal'}`}
+              onClick={() => setView('inquiry')}>
+              문의하기
+            </button>
+            <button
+              className={`px-6 py-2 ${view === 'history' ? 'border-b-2 border-indigo-700 text-indigo-700 font-bold' : 'text-neutral-700 font-normal'}`}
+              onClick={() => setView('history')}>
+              문의내역
+            </button>
+          </div>
 
-        <div className="w-full flex-1 overflow-y-auto">
-          {view === 'inquiry' ? <InquiryForm /> : <InquiryHistory />}
+          <div className="w-full flex-1 overflow-y-auto">
+            {view === 'inquiry' ? <InquiryForm /> : <InquiryHistory />}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

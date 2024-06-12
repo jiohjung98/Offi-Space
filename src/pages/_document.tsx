@@ -4,7 +4,6 @@ export default function Document() {
   return (
     <Html lang="ko">
       <Head>
-        <title>{'Offispace'}</title>
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/favicon16.png" />
       </Head>
