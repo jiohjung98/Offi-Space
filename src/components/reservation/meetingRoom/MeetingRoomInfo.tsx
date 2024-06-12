@@ -248,7 +248,9 @@ const MeetingRoomInfo = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-[full] mt-[32px] h-1 bg-neutral-200" />
+            <div className="relative w-full mt-[32px] h-1 bg-neutral-200">
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-screen h-1 bg-neutral-200"></div>
+            </div>
             <div className="px-4 py-2">
             <div className="flex-none w-full h-[50px] py-2 flex items-center cursor-pointer" onClick={() => console.log("Edit clicked")}>
                 <input
@@ -269,7 +271,9 @@ const MeetingRoomInfo = () => {
                 />
             </div>
             </div>
-            <div className="w-[full] h-0.5 bg-neutral-200" />
+            <div className="relative w-full h-0.5 bg-neutral-200">
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-screen h-0.5 bg-neutral-200"></div>
+            </div>
             <div className="flex px-4 my-4">
                 <div className="text-black/opacity-20 text-base font-bold font-['Pretendard'] my-auto">일정</div>
                 <div className="flex-none ml-[8px]">
@@ -282,7 +286,9 @@ const MeetingRoomInfo = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-[full] h-0.5 bg-neutral-200" />
+            <div className="relative w-full h-0.5 bg-neutral-200">
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-screen h-0.5 bg-neutral-200"></div>
+            </div>
             <div className="px-4 mt-[24px]">
                 <div className='flex justify-between items-center cursor-pointer' onClick={() => setShowSearch(!showSearch)}>
                     <div className='flex flex-row items-center'>
