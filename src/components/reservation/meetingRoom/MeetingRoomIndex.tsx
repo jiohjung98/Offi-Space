@@ -578,7 +578,7 @@ const handleNear2Office = async () => {
                 </div>
                 <div className='flex flex-row mt-[8px]'>
                   <img src={"/map/OfficeLocationSmall1.svg"} width={8} height={12} alt="location" className="mr-[6px] mb-[3px]" />
-                  <div className="text-neutral-700 text-sm font-normal font-['Pretendard'] leading-[21px]">{currentBranch?.branchName}점으로부터 {newMeetingRoomsInfo2[0].distance.toFixed(2)}km</div>
+                  <div className="text-neutral-700 text-sm font-normal font-['Pretendard'] leading-[21px]">{currentBranch?.branchName}으로부터 {newMeetingRoomsInfo2[0].distance.toFixed(2)}km</div>
                 </div>
               </div><div style={{ overflowX: 'auto', display: 'flex' }}>
                   {newMeetingRooms2.map((room) => (
