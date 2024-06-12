@@ -124,7 +124,7 @@ input[type="checkbox"]:checked {
 }
 
 input[type="checkbox"]:checked::after {
-  content: '✔';
+  content: '✓';
   font-size: 16px; 
   color: #7c3aed; 
   position: absolute;
