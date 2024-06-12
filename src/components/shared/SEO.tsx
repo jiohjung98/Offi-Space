@@ -15,7 +15,7 @@ function SEO({ title }: SEOProps) {
       />
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
-      <meta property="og:image" content="/chim.jpeg" />
+      <meta property="og:image" content="/seoLogo.png" />
       <meta property="og:image:width" content="260" />
       <meta property="og:image:height" content="260" />
       <meta
