@@ -85,72 +85,73 @@ const WeekScheduleItem = ({
         </div>
       ) : (
         <>
-          {data.slice(0, 3).map((item: todayListData, index: number) => {
-            if (item.spaceType == 'MEETINGROOM') {
-              return (
-                <div key={index} className="border-b border-gray-300 pb-3 mt-3">
-                  <div className="mx-4 flex items-center justify-between">
-                    {/* 고정 */}
-                    <div className="flex gap-2 items-center">
-                      <div className="w-[3px] h-[72px] bg-yellow-400" />
-                      <div className="flex flex-col gap-2">
-                        <div className="text-space-black text-md font-semibold">
-                          {item?.reservationName}
-                        </div>
-                        <div className="flex flex-col text-sm font-normal text-gray-500">
-                          <div>
-                            {item?.branchName} {item?.spaceName} ({item?.spaceFloor}층)
+          {data.length > 0 &&
+            data.slice(0, 3).map((item: todayListData, index: number) => {
+              if (item.spaceType == 'MEETINGROOM') {
+                return (
+                  <div key={index} className="border-b border-gray-300 pb-3 mt-3">
+                    <div className="mx-4 flex items-center justify-between">
+                      {/* 고정 */}
+                      <div className="flex gap-2 items-center">
+                        <div className="w-[3px] h-[72px] bg-yellow-400" />
+                        <div className="flex flex-col gap-2">
+                          <div className="text-space-black text-md font-semibold">
+                            {item?.reservationName}
                           </div>
-                          <div>
-                            {format(item?.startAt, 'HH:mm')} -{' '}
-                            {format(item?.endAt, 'HH:mm')}
+                          <div className="flex flex-col text-sm font-normal text-gray-500">
+                            <div>
+                              {item?.branchName} {item?.spaceName} ({item?.spaceFloor}층)
+                            </div>
+                            <div>
+                              {format(item?.startAt, 'HH:mm')} -{' '}
+                              {format(item?.endAt, 'HH:mm')}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex flex-col gap-[8px]">
-                      <div className="flex justify-end">
-                        {item?.memberType == 'REPRESENTATIVE' ? (
-                          <div className="flex items-center justify-center w-[46px] h-6 text-center border-2 border-space-blue rounded-[20px] text-white bg-space-blue text-[12px] font-semibold">
-                            호스트
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center w-[46px] h-6 text-center border-2 border-space-blue rounded-[20px] text-space-blue text-[12px] font-semibold">
-                            참석자
-                          </div>
-                        )}
+                      <div className="flex flex-col gap-[8px]">
+                        <div className="flex justify-end">
+                          {item?.memberType == 'REPRESENTATIVE' ? (
+                            <div className="flex items-center justify-center w-[46px] h-6 text-center border-2 border-space-blue rounded-[20px] text-white bg-space-blue text-[12px] font-semibold">
+                              호스트
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-center w-[46px] h-6 text-center border-2 border-space-blue rounded-[20px] text-space-blue text-[12px] font-semibold">
+                              참석자
+                            </div>
+                          )}
+                        </div>
+                        {renderUserImg(item.memberImageUrls)}
                       </div>
-                      {renderUserImg(item.memberImageUrls)}
                     </div>
                   </div>
-                </div>
-              );
-            } else if (item.spaceType == 'FOCUSDESK') {
-              return (
-                <div key={index} className="mx-4 mt-2 pb-3 border-b border-gray-300 ">
-                  <div className="text-space-black text-base font-semibold">
-                    개인 좌석
+                );
+              } else if (item.spaceType == 'FOCUSDESK') {
+                return (
+                  <div key={index} className="mx-4 mt-2 pb-3 border-b border-gray-300 ">
+                    <div className="text-space-black text-base font-semibold">
+                      개인 좌석
+                    </div>
+                    <div className="text-gray-400 text-sm font-normal mt-[5px]">
+                      {renderTime(item.startAt)} ~ |{'   '}
+                      {item.spaceName}
+                    </div>
                   </div>
-                  <div className="text-gray-400 text-sm font-normal mt-[5px]">
-                    {renderTime(item.startAt)} ~ |{'   '}
-                    {item.spaceName}
+                );
+              } else {
+                return (
+                  <div key={index} className="mx-4 mt-2 pb-3 border-b border-gray-300 ">
+                    <div className="text-space-black text-base font-semibold">
+                      개인 휴식
+                    </div>
+                    <div className="text-gray-400 text-sm font-normal mt-[5px]">
+                      {renderTime(item.startAt)} - {renderTime(item.endAt)} |{' '}
+                      {item.spaceName}
+                    </div>
                   </div>
-                </div>
-              );
-            } else {
-              return (
-                <div key={index} className="mx-4 mt-2 pb-3 border-b border-gray-300 ">
-                  <div className="text-space-black text-base font-semibold">
-                    개인 휴식
-                  </div>
-                  <div className="text-gray-400 text-sm font-normal mt-[5px]">
-                    {renderTime(item.startAt)} - {renderTime(item.endAt)} |{' '}
-                    {item.spaceName}
-                  </div>
-                </div>
-              );
-            }
-          })}
+                );
+              }
+            })}
         </>
       )}
     </div>
