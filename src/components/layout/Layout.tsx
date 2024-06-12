@@ -20,7 +20,7 @@ const Layout = ({ children, title, isFullWidth = false }: LayoutProps) => {
   return (
     <>
       <Head>
-        <title>{title ? `${title} | Effispace` : 'Effispace'}</title>
+        <title>{title ? `${title} | Offispace` : 'Offispace'}</title>
       </Head>
       {filteredPathName.includes('reservation') ? <ReservationHeader /> : <Header />}
       <section style={{ width: isFullWidth ? '100%' : undefined }}>{children}</section>
