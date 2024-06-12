@@ -56,7 +56,7 @@ const Notification = () => {
 
       <div className="sticky  top-0 bg-white z-[10]">
         <div className="pt-[20px] ml-[10px]  ">
-          <BackArrow width="40px" height="24px" name="알림" link="/" />
+          <BackArrow width="40px" height="24px" name="알림" />
         </div>
 
         <div className="w-full  bg-white flex flex-col justify-between items-center">

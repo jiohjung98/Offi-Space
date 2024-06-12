@@ -15,7 +15,6 @@ const MyPage = () => {
   const [successModal, setSuccessModal] = useState(false);
   const logout = useLoggedOut();
   const handleLogout = () => {
-    console.log('Logged out');
     setModalVisible(false);
     setSuccessModal(true);
 
@@ -28,7 +27,7 @@ const MyPage = () => {
   const handleCancel = () => {
     setModalVisible(false);
   };
-  console.log(member.imageUrl);
+
   return (
     <div className=" max-w-[393px]  mx-auto relative">
       <Footer />

@@ -12,7 +12,7 @@ const NoticePage = () => {
   return (
     <MainContainer>
       <div className="mt-[40px] ml-[10px] mb-[22px]">
-        <BackArrow width="40px" height="24px" name="공지사항" link="/mypage" />
+        <BackArrow width="40px" height="24px" name="공지사항" />
       </div>
 
       <div className="w-full  flex items-center justify-center mt-3">

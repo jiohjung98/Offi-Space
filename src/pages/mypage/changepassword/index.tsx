@@ -66,7 +66,7 @@ export default function PasswordChange() {
           />
         </Link> */}
 
-          <BackArrow width="40px" height="24px" link="/mypage/changeprofile" />
+          <BackArrow width="40px" height="24px" />
           <h2 className=" mt-[23px] text-2xl font-bold ">새로 사용할 </h2>
           <h2 className="text-2xl font-bold mb-[62px]"> 비밀번호를 설정해주세요. </h2>
 

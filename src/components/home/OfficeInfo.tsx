@@ -37,16 +37,17 @@ const OfficeInfo = () => {
 
   return (
     <div>
-      {data.length == 0 ? <OfficeInfoNone /> : null}
-      {data.map((room: todayListData, i: number) => {
-        if (room.spaceType == 'FOCUSDESK') {
-          return <OfficeInfoFocus data={room} key={i} />;
-        } else if (room.spaceType == 'MEETINGROOM') {
-          return <OfficeInfoMeeting data={room} key={i} />;
-        } else {
-          return <OfficeInfoRecharging data={room} key={i} />;
-        }
-      })}
+      {data && data.length == 0 ? <OfficeInfoNone /> : null}
+      {data &&
+        data.map((room: todayListData, i: number) => {
+          if (room.spaceType == 'FOCUSDESK') {
+            return <OfficeInfoFocus data={room} key={i} />;
+          } else if (room.spaceType == 'MEETINGROOM') {
+            return <OfficeInfoMeeting data={room} key={i} />;
+          } else {
+            return <OfficeInfoRecharging data={room} key={i} />;
+          }
+        })}
     </div>
   );
 };

@@ -50,10 +50,6 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
   };
 
   useEffect(() => {
-    startRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
     if (phoneNumber.length === 13) {
       setBtnStatus('SECOND');
     } else {
@@ -137,9 +133,6 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
         const select = signError.find((item) => item.errorCode === errorCode);
         if (select) {
           setErrorMessage(select.message);
-          console.log(validNumber);
-          console.log(parseInt(validNumber, 10));
-          console.log(Number(validNumber));
           setValidNumber('');
           inputRef.current?.focus();
           return;
