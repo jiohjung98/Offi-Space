@@ -5,7 +5,7 @@ export const tagWithInterest = [
   },
   {
     title: '잡담',
-    description: 'ㅍ'
+    description: 'CHAT'
   },
   {
     title: '정보',

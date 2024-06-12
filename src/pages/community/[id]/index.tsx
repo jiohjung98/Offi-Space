@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-pascal-case */
 import PostDetailIndex from '@/components/community/PostDetailIndex';
 import MainContainer from '@/components/shared/MainContainer';
+import SEO from '@/components/shared/SEO';
 import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import React from 'react';
@@ -7,9 +9,12 @@ import { QueryClient, dehydrate } from 'react-query';
 
 const CommunityDetailPage = () => {
   return (
-    <MainContainer>
-      <PostDetailIndex />
-    </MainContainer>
+    <>
+      <SEO title="Offispace | 커뮤니티" />
+      <MainContainer>
+        <PostDetailIndex />
+      </MainContainer>
+    </>
   );
 };
 
