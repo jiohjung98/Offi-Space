@@ -15,28 +15,34 @@ const OfficeNotice: React.FC = () => {
       const data = await getSelectedOfficeInfo(selectedBranch!.branchName);
       const officeInfo = data.data;
       console.log(officeInfo);
-      router.push({
-        pathname: `/branches/${encodeURIComponent(selectedBranch!.branchName)}`,
-        query: {
-          name: selectedBranch!.branchName,
-          urgentNoticeTitle,
-          urgentNoticeContent,
-          address: officeInfo.branchAddress,
-          branchPhoneNumber: officeInfo.branchPhoneNumber,
-          roadFromStation: officeInfo.roadFromStation,
-          stationToBranch: officeInfo.stationToBranch.join(','),
-          branchId: officeInfo.branchId as number,
-          scrollToOffice: true
-        }
-      }, `/branches/${encodeURIComponent(selectedBranch!.branchName)}`);
+      router.push(
+        {
+          pathname: `/branches/${encodeURIComponent(selectedBranch!.branchName)}`,
+          query: {
+            name: selectedBranch!.branchName,
+            urgentNoticeTitle,
+            urgentNoticeContent,
+            address: officeInfo.branchAddress,
+            branchPhoneNumber: officeInfo.branchPhoneNumber,
+            roadFromStation: officeInfo.roadFromStation,
+            stationToBranch: officeInfo.stationToBranch.join(','),
+            branchId: officeInfo.branchId as number,
+            scrollToOffice: true
+          }
+        },
+        `/branches/${encodeURIComponent(selectedBranch!.branchName)}`
+      );
     } catch (error) {
       console.error('Error fetching office info:', error);
     }
   };
-  
+
   return (
     <>
-  <div className="w-full h-12 mt-7 flex items-center gap-[13px] px-[13px] py-[14px] rounded shadow border border-gray-200" style={{ backgroundColor: 'rgb(228, 224, 245)' }}>
+      <div
+        onClick={handleOfficeInfo}
+        className=" cursor-pointer w-full h-12 mt-7 flex items-center gap-[13px] px-[13px] py-[14px] rounded shadow border border-gray-200"
+        style={{ backgroundColor: 'rgb(228, 224, 245)' }}>
         <div>
           <img src="/home/notice.svg" alt="" />
         </div>
@@ -46,7 +52,7 @@ const OfficeNotice: React.FC = () => {
             {urgentNoticeTitle ? urgentNoticeTitle : '긴급 공지가 없습니다.'}
           </div>
           {urgentNoticeContent && (
-            <div onClick={handleOfficeInfo} className="cursor-pointer">
+            <div className="">
               <img src="/home/toNext.svg" alt="" />
             </div>
           )}

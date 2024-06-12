@@ -184,7 +184,11 @@ const BranchInfo: React.FC = () => {
   return (
     <section className="w-full h-full">
       <header className="top-0 left-0 right-0 bg-white z-50 py-4 flex items-center">
-        <IoIosArrowRoundBack size={40} className="ml-[6px]" onClick={handleBackClick} />
+        <IoIosArrowRoundBack
+          size={40}
+          className="ml-[6px]  cursor-pointer"
+          onClick={handleBackClick}
+        />
         <span className="text-lg font-semibold ml-[8px]">{branchName}</span>
       </header>
       <div className="">
