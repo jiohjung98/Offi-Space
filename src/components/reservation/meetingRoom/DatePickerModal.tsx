@@ -330,11 +330,12 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
           </div>
         )}
         <div className="pt-[10px] w-full text-center items-center">
-          <button
-            className="absolute bottom-[30px] flex w-[88%] mx-auto h-12 bg-indigo-700 text-white rounded-lg justify-center items-center"
-            onClick={handleConfirm}>
-            확인
-          </button>
+        <button
+          className="absolute bottom-[30px] flex w-[88%] mx-auto h-12 text-white rounded-lg justify-center items-center"
+          style={{ backgroundColor: '#4E32BB' }}
+          onClick={handleConfirm}>
+          확인
+        </button>
         </div>
       </div>
     </div>
