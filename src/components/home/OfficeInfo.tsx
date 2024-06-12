@@ -39,6 +39,7 @@ const OfficeInfo = () => {
     <div>
       {data && data.length == 0 ? <OfficeInfoNone /> : null}
       {data &&
+        data.length > 0 &&
         data.map((room: todayListData, i: number) => {
           if (room.spaceType == 'FOCUSDESK') {
             return <OfficeInfoFocus data={room} key={i} />;
