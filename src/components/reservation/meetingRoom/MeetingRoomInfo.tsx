@@ -49,6 +49,16 @@ const MeetingRoomInfo = () => {
     inputRef.current?.focus();
   };
 
+  const [toastMessage, setToastMessage] = useState('');
+
+const showToast = (message: React.SetStateAction<string>) => {
+    setToastMessage(message);
+    setTimeout(() => {
+        setToastMessage('');
+    }, 3000); 
+};
+
+
   const selectedBranch = useBranchStore((state) => state.selectedBranch);
   const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
   const reservedBranch = useBranchStore2((state) => state.reservedBranch);
@@ -185,9 +195,15 @@ const MeetingRoomInfo = () => {
   };
 
   const handleAddMember = (member: Member) => {
+    if (addedMembers.length >= (meetingRoom!.meetingRoomCapacity - 1)) {
+        showToast(`최대 ${meetingRoom!.meetingRoomCapacity - 1}명까지 초대할 수 있습니다.`);
+        return;
+    }
     setAddedMembers([...addedMembers, member]);
     setInvitedMemberIds([...invitedMemberIds, member.memberId]);
-  };
+};
+
+
 
   const handleRemoveMember = (member: Member) => {
     setAddedMembers(addedMembers.filter((m) => m.memberId !== member.memberId));
@@ -380,6 +396,11 @@ const MeetingRoomInfo = () => {
                     </>
                 )}
             </div>
+            {toastMessage && (
+                <div className="fixed bottom-[130px] w-[303px] left-1/2 transform -translate-x-1/2 h-[68px] text-white opacity-90 bg-neutral-700 px-4 py-2 rounded-[40px] flex items-center justify-center">
+                    {toastMessage}
+                </div>
+            )}
             <div className="flex px-4 items-start mt-[24px]">
                 <Image src={'/reservation/ExclamationMark.svg'} alt="Location" width={14} height={14} className="mr-2" />
                 <p className="text-zinc-400 text-xs font-normal font-['Pretendard'] leading-tight">일정이 이미 있는 사용자는 참석 멤버로 등록할 수 없어요! 일정을 조정한 뒤 추가할 수 있습니다.</p>
