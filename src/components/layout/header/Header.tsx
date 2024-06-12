@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <header className="border-b border-stone-50  bg-white fixed top-0 w-[393px] h-20 px-4 py-6 flex justify-between items-center z-[9999]">
       <div onClick={() => router.push('/')} className="w-[116px] cursor-pointer">
-        <img src="/officelogo.svg" alt="" />
+        <img src="/OffispaceBlack.png" alt="" />
       </div>
       <div className="flex items-center justify-center gap-6">
         <div onClick={() => router.push('mypage/question')} className="cursor-pointer">
