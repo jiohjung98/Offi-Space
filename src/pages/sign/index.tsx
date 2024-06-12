@@ -20,6 +20,7 @@ const SignHomePage = () => {
     }
   }, [router, token]);
 
+  /*eslint-disable */
   const [FcmToken, setFcmToken] = useState('');
 
   // const sendPush = useSendPush();
@@ -39,7 +40,6 @@ const SignHomePage = () => {
     fetchToken();
   }, []);
 
-  console.log(FcmToken);
   return (
     <MainContainer>
       <div className="flex flex-col justify-center items-center gap-[39px] h-[470px]">

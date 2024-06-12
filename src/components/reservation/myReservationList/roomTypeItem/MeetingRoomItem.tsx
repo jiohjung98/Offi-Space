@@ -81,7 +81,7 @@ const MeetingRoomItem = ({ roomData }: MeetingRoomItemType) => {
             <div className="flex flex-col text-sm font-normal text-gray-500">
               {/* 변경 필요 */}
               <div>
-                {roomData?.branchName} {roomData?.spaceName}
+                {roomData?.branchName} {roomData?.spaceName} ({roomData?.spaceFloor}층)
               </div>
               <div>
                 {format(roomData?.startAt, 'HH:mm')} - {format(roomData?.endAt, 'HH:mm')}

@@ -7,31 +7,67 @@ import { getTodayReservationList } from '../remote/myreservation';
 import { todayListData } from '../model/myreservation';
 import { motion } from 'framer-motion';
 import { useReservationStore } from '@/store/reservationModal.store';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { openDB } from 'idb';
 const TodayReservation = () => {
   const { data } = useQuery(['todayReservationList'], () => getTodayReservationList());
   const { setOpen, setReservationId, setIsMeeting } = useReservationStore();
   const searchParams = useSearchParams();
   const router = useRouter();
   const search = searchParams.get('targetId');
-  const pathname = usePathname();
+  // const pathname = usePathname();
   /* eslint-disable */
   useEffect(() => {
-    setOpen(true);
-    setIsMeeting(true);
-    setReservationId(search as any);
+    const fetchData = async () => {
+      const value = await get('targetId');
+      if (value === undefined) return;
+
+      setOpen(true);
+      setIsMeeting(true);
+      setReservationId(value as any);
+      del('targetId');
+    };
+
+    fetchData();
   }, [search, router]);
 
-  //10초후에 사라지도록 설정
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchParams.toString()) {
-        // 쿼리 스트링이 있는 경우 쿼리 스트링을 제거하고 페이지를 새로고침하지 않습니다.
-        router.replace(pathname);
+  async function get(key: IDBKeyRange | IDBValidKey) {
+    const db = await openDB('reservationIdstore', 1, {
+      upgrade(db) {
+        db.createObjectStore('reservationId');
       }
-    }, 10000);
-    return () => clearTimeout(timer);
-  }, [setReservationId, setOpen]);
+    });
+    const tx = db.transaction('reservationId', 'readonly');
+    const value = await tx.store.get(key);
+    await tx.done;
+    return value;
+  }
+
+  async function del(key: IDBKeyRange | IDBValidKey) {
+    const db = await openDB('reservationIdstore', 1, {
+      upgrade(db) {
+        db.createObjectStore('reservationId');
+      }
+    });
+    const tx = db.transaction('reservationId', 'readwrite');
+    await tx.store.delete(key);
+    await tx.done;
+  }
+
+  //10초후에 사라지도록 설정
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     if (searchParams.toString()) {
+  //       // 쿼리 스트링이 있는 경우 쿼리 스트링을 제거하고 페이지를 새로고침하지 않습니다.
+  //       router.replace(pathname);
+  //     }
+  //   }, 10000);
+  //   return () => clearTimeout(timer);
+  // }, [setReservationId, setOpen]);
+
+  if (!data) {
+    return null;
+  }
 
   if (data?.length == 0) {
     return (
@@ -44,28 +80,29 @@ const TodayReservation = () => {
 
   return (
     <ul>
-      {data?.map((item: todayListData, i: number) => (
-        <motion.li
-          key={i}
-          initial={{ opacity: 0, translateX: -90 }}
-          transition={{
-            duration: 0.6,
-            ease: 'easeInOut',
-            delay: 0.1
-          }}
-          animate={{
-            opacity: 1,
-            translateX: 0
-          }}>
-          {item.spaceType === 'MEETINGROOM' ? (
-            <MeetingRoomItem roomData={item} />
-          ) : item.spaceType === 'FOCUSDESK' ? (
-            <FocuszoneItem roomData={item} />
-          ) : (
-            <RechargingItem roomData={item} />
-          )}
-        </motion.li>
-      ))}
+      {data &&
+        data?.map((item: todayListData, i: number) => (
+          <motion.li
+            key={i}
+            initial={{ opacity: 0, translateX: -90 }}
+            transition={{
+              duration: 0.6,
+              ease: 'easeInOut',
+              delay: 0.1
+            }}
+            animate={{
+              opacity: 1,
+              translateX: 0
+            }}>
+            {item.spaceType === 'MEETINGROOM' ? (
+              <MeetingRoomItem roomData={item} />
+            ) : item.spaceType === 'FOCUSDESK' ? (
+              <FocuszoneItem roomData={item} />
+            ) : (
+              <RechargingItem roomData={item} />
+            )}
+          </motion.li>
+        ))}
     </ul>
   );
 };

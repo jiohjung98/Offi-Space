@@ -7,6 +7,7 @@ export interface NotificationType {
   targetUrl: string;
   date: string;
   targetId: string;
+  image: string;
 }
 
 interface NotificationListType {

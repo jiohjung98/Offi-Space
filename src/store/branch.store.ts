@@ -14,17 +14,16 @@ export const useBranchStore = create(
     (set) => ({
       selectedBranch: null,
       setSelectedBranch: (branch: Branch | null, time: number) => {
-        console.log('Setting selectedBranch:', branch); 
         set({ selectedBranch: branch, updatedTimeSelected: time });
       },
-      updatedTimeSelected: null,
+      updatedTimeSelected: null
     }),
     {
       name: 'selectedBranch',
       getStorage: () => localStorage,
       onRehydrateStorage: () => (state) => {
-        console.log('Rehydrated state:', state); 
-      },
+        console.log('Rehydrated state:', state);
+      }
     }
   )
 );

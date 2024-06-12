@@ -115,8 +115,6 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
 
     if (btnStatus == 'THIRD') {
       if (validNumber.length != 6) {
-        console.log(validNumber);
-
         setValidNumber('');
         setErrorMessage('6자리 코드를 입력해주세요.');
         inputRef.current?.focus();
@@ -137,9 +135,7 @@ const PhoneCertification = ({ onNext }: PhoneCertificationProps) => {
         const select = signError.find((item) => item.errorCode === errorCode);
         if (select) {
           setErrorMessage(select.message);
-          console.log(validNumber);
-          console.log(parseInt(validNumber, 10));
-          console.log(Number(validNumber));
+
           setValidNumber('');
           inputRef.current?.focus();
           return;

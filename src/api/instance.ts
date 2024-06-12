@@ -10,7 +10,7 @@ import logOnDev from '@utils/logOnDev';
 // import jwtDecode from 'jwt-decode';
 import { updateRefresh } from './refresh/tokenRefresh.api';
 
-import { UseRouter } from '@/hook/UseRouter';
+// import { UseRouter } from '@/hook/UseRouter';
 
 export const instance: Axios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -75,7 +75,8 @@ instance.interceptors.response.use(
             }
           } catch (refreshError) {
             removeCookie('refreshToken');
-            UseRouter('');
+
+            // window.location.href = '/';
             return Promise.reject(refreshError);
           }
         } else {

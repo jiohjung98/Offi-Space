@@ -15,18 +15,19 @@ const MyPage = () => {
   const [successModal, setSuccessModal] = useState(false);
   const logout = useLoggedOut();
   const handleLogout = () => {
-    console.log('Logged out');
     setModalVisible(false);
     setSuccessModal(true);
+
     setTimeout(() => {
       logout();
     }, 2000);
   };
+
   useUpdateMember();
   const handleCancel = () => {
     setModalVisible(false);
   };
-  console.log(member.imageUrl);
+
   return (
     <div className=" max-w-[393px]  mx-auto relative">
       <Footer />
@@ -58,7 +59,7 @@ const MyPage = () => {
         </div>
         <Link href="/mypage/changeprofile">
           <div>
-            <div className="w-[361px] h-[42px] p-2 rounded-sm border border-zinc-400 flex justify-center items-center gap-2 mt-[32px]">
+            <div className=" sm:w-[340px] w-[361px] h-[42px] p-2 rounded-sm border border-zinc-400 flex justify-center items-center gap-2 mt-[32px]">
               <div className="text-black/opacity-20 text-base font-normal font-['Pretendard'] leading-normal">
                 프로필 수정
               </div>
@@ -150,7 +151,7 @@ const MyPage = () => {
           <div className="h-6 flex justify-start items-start gap-3.5">
             <div className="w-[360px] flex justify-between">
               <div className="text-center text-black/opacity-20 text-base font-normal font-['Pretendard'] leading-normal">
-                알림 설정 가이드
+                알림 설정
               </div>
               <img className="mr-[16px]" src="/mypage/RightArrowIcon.svg" />
             </div>

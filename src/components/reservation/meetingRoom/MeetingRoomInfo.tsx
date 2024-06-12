@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { getMeetingRoomInfo } from '@/api/reservation/getMeetingRoomInfo';
 import { searchMembers } from '@/api/reservation/searchMembers';
-import { MeetingRoomInfo as MeetingRoomInfoType } from "@/api/types/room";
-import { Member } from "@/api/types/member";
-import Image from "next/image";
+import { MeetingRoomInfo as MeetingRoomInfoType } from '@/api/types/room';
+import { Member } from '@/api/types/member';
+import Image from 'next/image';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import { useBranchStore2 } from '@/store/reserve.store';
 import { getSelectedOfficeInfo } from '@/api/map/getSelectedOffice';
@@ -14,200 +14,201 @@ import ReservationModal from './ReservationModal';
 import { useBranchStore } from '@/store/branch.store';
 
 const MeetingRoomInfo = () => {
-    const [meetingRoom, setMeetingRoom] = useState<MeetingRoomInfoType | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [eventName, setEventName] = useState('');
-    const [showReservationModal, setShowReservationModal] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [showSearch, setShowSearch] = useState(false);
-    const inputRef = useRef<HTMLInputElement | null>(null);
+  const [meetingRoom, setMeetingRoom] = useState<MeetingRoomInfoType | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [eventName, setEventName] = useState('');
+  const [showReservationModal, setShowReservationModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-    const [storedGetTime, setStoredGetTime] = useState('');
-    const [storedStartTime, setStoredStartTime] = useState('');
-    const [storedEndTime, setStoredEndTime] = useState('');
-    const [storedMeetingRoomId, setStoredMeetingRoomId] = useState('');
-    const [formattedGetTime, setFormattedGetTime] = useState('');
-    const [formattedStartTime, setFormattedStartTime] = useState('');
-    const [formattedEndTime, setFormattedEndTime] = useState('');
+  const [storedGetTime, setStoredGetTime] = useState('');
+  const [storedStartTime, setStoredStartTime] = useState('');
+  const [storedEndTime, setStoredEndTime] = useState('');
+  const [storedMeetingRoomId, setStoredMeetingRoomId] = useState('');
+  const [formattedGetTime, setFormattedGetTime] = useState('');
+  const [formattedStartTime, setFormattedStartTime] = useState('');
+  const [formattedEndTime, setFormattedEndTime] = useState('');
 
-    const [inviteableMembers, setInviteableMembers] = useState<Member[]>([]);
-    const [nonInviteableMembers, setNonInviteableMembers] = useState<Member[]>([]);
-    const [addedMembers, setAddedMembers] = useState<Member[]>([]);
-    const [invitedMemberIds, setInvitedMemberIds] = useState<string[]>([]);
-    const [isReserveButtonDisabled, setIsReserveButtonDisabled] = useState(true);
+  const [inviteableMembers, setInviteableMembers] = useState<Member[]>([]);
+  const [nonInviteableMembers, setNonInviteableMembers] = useState<Member[]>([]);
+  const [addedMembers, setAddedMembers] = useState<Member[]>([]);
+  const [invitedMemberIds, setInvitedMemberIds] = useState<string[]>([]);
+  const [isReserveButtonDisabled, setIsReserveButtonDisabled] = useState(true);
 
-    useEffect(() => {
-        if (eventName.trim() === '') {
-            setIsReserveButtonDisabled(true);
-        } else {
-            setIsReserveButtonDisabled(false);
-        }
-    }, [eventName]);
+  useEffect(() => {
+    if (eventName.trim() === '') {
+      setIsReserveButtonDisabled(true);
+    } else {
+      setIsReserveButtonDisabled(false);
+    }
+  }, [eventName]);
 
+  const handleImageClick = () => {
+    inputRef.current?.focus();
+  };
 
-    const handleImageClick = () => {
-        inputRef.current?.focus();
-    };
+  const selectedBranch = useBranchStore((state) => state.selectedBranch);
+  const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
+  const reservedBranch = useBranchStore2((state) => state.reservedBranch);
+  const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
 
-    const selectedBranch = useBranchStore((state) => state.selectedBranch);
-    const updatedTimeSelected = useBranchStore((state) => state.updatedTimeSelected);
-    const reservedBranch = useBranchStore2((state) => state.reservedBranch);
-    const updatedTimeReserved = useBranchStore2((state) => state.updatedTimeReserved);
-
-    const currentBranch =
-    updatedTimeSelected && updatedTimeReserved && updatedTimeSelected > updatedTimeReserved
+  const currentBranch =
+    updatedTimeSelected &&
+    updatedTimeReserved &&
+    updatedTimeSelected > updatedTimeReserved
       ? selectedBranch
       : reservedBranch || selectedBranch;
 
-    
-    console.log(`current Branch = ${currentBranch?.branchName}`);
-    const router = useRouter();
+  const router = useRouter();
 
+  const { meetingRoomId } = router.query;
+
+  useEffect(() => {
+    const getTimes = router.query.startTime as string;
+    const startsTime = router.query.startedAt as string;
+    const endsTime = router.query.endedAt as string;
     const { meetingRoomId } = router.query;
 
-    useEffect(() => {
-        const getTimes = router.query.startTime as string;
-        const startsTime = router.query.startedAt as string;
-        const endsTime = router.query.endedAt as string;
-        const { meetingRoomId } = router.query;
+    if (getTimes && startsTime && endsTime && meetingRoomId) {
+      localStorage.setItem('getAt', getTimes);
+      localStorage.setItem('startedAt', startsTime);
+      localStorage.setItem('endedAt', endsTime);
+      localStorage.setItem('meetingRoomId', meetingRoomId as string);
 
-        if (getTimes && startsTime && endsTime && meetingRoomId) {
-            localStorage.setItem('getAt', getTimes);
-            localStorage.setItem('startedAt', startsTime);
-            localStorage.setItem('endedAt', endsTime);
-            localStorage.setItem('meetingRoomId', meetingRoomId as string);
+      setStoredGetTime(getTimes);
+      setStoredStartTime(startsTime);
+      setStoredEndTime(endsTime);
+      setStoredMeetingRoomId(meetingRoomId as string);
+    } else {
+      const savedGetTime = localStorage.getItem('getAt');
+      const savedStartTime = localStorage.getItem('startedAt');
+      const savedEndTime = localStorage.getItem('endedAt');
+      const savedMeetingRoomId = localStorage.getItem('meetingRoomId');
 
-            setStoredGetTime(getTimes);
-            setStoredStartTime(startsTime);
-            setStoredEndTime(endsTime);
-            setStoredMeetingRoomId(meetingRoomId as string);
-        } else {
-            const savedGetTime = localStorage.getItem('getAt');
-            const savedStartTime = localStorage.getItem('startedAt');
-            const savedEndTime = localStorage.getItem('endedAt');
-            const savedMeetingRoomId = localStorage.getItem('meetingRoomId');
-
-            if (savedGetTime && savedStartTime && savedEndTime && savedMeetingRoomId) {
-                setStoredGetTime(savedGetTime);
-                setStoredStartTime(savedStartTime);
-                setStoredEndTime(savedEndTime);
-                setStoredMeetingRoomId(savedMeetingRoomId);
-            }
-        }
-    }, [router.query]);
-
-    useEffect(() => {
-        const formattedStart = `${storedStartTime}.220Z`;
-        const formattedEnd = `${storedEndTime}.220Z`;
-
-        setFormattedStartTime(formattedStart);
-        setFormattedEndTime(formattedEnd);
-        setFormattedGetTime(storedGetTime);
-    }, [storedGetTime, storedStartTime, storedEndTime, storedMeetingRoomId]);
-
-    const handleBackClick = () => {
-        router.back();
-    };
-
-    useEffect(() => {
-        if (meetingRoomId) {
-            getMeetingRoomInfo(meetingRoomId as string)
-                .then(data => {
-                    setMeetingRoom(data);
-                    setLoading(false);
-                })
-                .catch(err => {
-                    setError(err.message);
-                    setLoading(false);
-                });
-        }
-    }, [meetingRoomId]);
-
-    const handleOfficeInfo = async () => {
-        try {
-            console.log(currentBranch!.branchName);
-            const data = await getSelectedOfficeInfo(currentBranch!.branchName);
-            console.log(data);
-            const officeInfo = data.data;
-            console.log(officeInfo);
-            router.push({
-                pathname: `/branches/${encodeURIComponent(currentBranch!.branchName)}`,
-                query: {
-                    name: officeInfo.branchName,
-                    address: officeInfo.branchAddress,
-                    branchPhoneNumber: officeInfo.branchPhoneNumber,
-                    roadFromStation: officeInfo.roadFromStation,
-                    stationToBranch: officeInfo.stationToBranch.join(','),
-                    branchId: officeInfo.branchId
-                }
-            }, `/branches/${encodeURIComponent(currentBranch!.branchName)}`);
-        } catch (error) {
-            console.error('Error fetching office info:', error);
-        }
-    };
-
-    const handleReserve = () => {
-        const reservation: Reserve = {
-            reservationName: eventName,
-            meetingRoomId: meetingRoom!.meetingRoomId,
-            startAt: formattedStartTime,
-            endAt: formattedEndTime,
-            memberIds: addedMembers.map(member => (member.memberId))
-        };
-
-        reserveMeetingRoom(reservation)
-            .then(() => {
-                console.log('Meeting room reserved successfully');
-                setShowReservationModal(true);
-            })
-            .catch(error => {
-                console.error('Error reserving meeting room:', error);
-            });
-    };
-
-    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const searchTerm = e.target.value;
-        setSearchTerm(searchTerm);
-
-        if (searchTerm.trim().length > 0) {
-            try {
-                const results = await searchMembers(searchTerm, storedStartTime, storedEndTime);
-                setInviteableMembers(results.memberCanInviteList);
-                setNonInviteableMembers(results.memberCantInviteList);
-            } catch (error) {
-                console.error('Error searching members:', error);
-            }
-        } else {
-            setInviteableMembers([]);
-            setNonInviteableMembers([]);
-        }
-    };
-
-    const handleAddMember = (member: Member) => {
-        setAddedMembers([...addedMembers, member]);
-        setInvitedMemberIds([...invitedMemberIds, member.memberId]);
-    };
-
-    const handleRemoveMember = (member: Member) => {
-        setAddedMembers(addedMembers.filter(m => m.memberId !== member.memberId));
-        setInvitedMemberIds(invitedMemberIds.filter(id => id !== member.memberId)); 
-    };
-
-    if (loading) {
-        return <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="loader"></div>
-        </div>
+      if (savedGetTime && savedStartTime && savedEndTime && savedMeetingRoomId) {
+        setStoredGetTime(savedGetTime);
+        setStoredStartTime(savedStartTime);
+        setStoredEndTime(savedEndTime);
+        setStoredMeetingRoomId(savedMeetingRoomId);
+      }
     }
+  }, [router.query]);
 
-    if (error) {
-        return <div>Error: {error}</div>;
+  useEffect(() => {
+    const formattedStart = `${storedStartTime}.220Z`;
+    const formattedEnd = `${storedEndTime}.220Z`;
+
+    setFormattedStartTime(formattedStart);
+    setFormattedEndTime(formattedEnd);
+    setFormattedGetTime(storedGetTime);
+  }, [storedGetTime, storedStartTime, storedEndTime, storedMeetingRoomId]);
+
+  const handleBackClick = () => {
+    router.back();
+  };
+
+  useEffect(() => {
+    if (meetingRoomId) {
+      getMeetingRoomInfo(meetingRoomId as string)
+        .then((data) => {
+          setMeetingRoom(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
     }
+  }, [meetingRoomId]);
 
-    if (!meetingRoom) {
-        return <div>No meeting room data</div>;
+  const handleOfficeInfo = async () => {
+    try {
+      const data = await getSelectedOfficeInfo(currentBranch!.branchName);
+
+      const officeInfo = data.data;
+
+      router.push(
+        {
+          pathname: `/branches/${encodeURIComponent(currentBranch!.branchName)}`,
+          query: {
+            name: officeInfo.branchName,
+            address: officeInfo.branchAddress,
+            branchPhoneNumber: officeInfo.branchPhoneNumber,
+            roadFromStation: officeInfo.roadFromStation,
+            stationToBranch: officeInfo.stationToBranch.join(','),
+            branchId: officeInfo.branchId
+          }
+        },
+        `/branches/${encodeURIComponent(currentBranch!.branchName)}`
+      );
+    } catch (error) {
+      console.error('Error fetching office info:', error);
     }
+  };
 
+  const handleReserve = () => {
+    const reservation: Reserve = {
+      reservationName: eventName,
+      meetingRoomId: meetingRoom!.meetingRoomId,
+      startAt: formattedStartTime,
+      endAt: formattedEndTime,
+      memberIds: addedMembers.map((member) => member.memberId)
+    };
+
+    reserveMeetingRoom(reservation)
+      .then(() => {
+        setShowReservationModal(true);
+      })
+      .catch((error) => {
+        console.error('Error reserving meeting room:', error);
+      });
+  };
+
+  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = e.target.value;
+    setSearchTerm(searchTerm);
+
+    if (searchTerm.trim().length > 0) {
+      try {
+        const results = await searchMembers(searchTerm, storedStartTime, storedEndTime);
+        setInviteableMembers(results.memberCanInviteList);
+        setNonInviteableMembers(results.memberCantInviteList);
+      } catch (error) {
+        console.error('Error searching members:', error);
+      }
+    } else {
+      setInviteableMembers([]);
+      setNonInviteableMembers([]);
+    }
+  };
+
+  const handleAddMember = (member: Member) => {
+    setAddedMembers([...addedMembers, member]);
+    setInvitedMemberIds([...invitedMemberIds, member.memberId]);
+  };
+
+  const handleRemoveMember = (member: Member) => {
+    setAddedMembers(addedMembers.filter((m) => m.memberId !== member.memberId));
+    setInvitedMemberIds(invitedMemberIds.filter((id) => id !== member.memberId));
+  };
+
+  if (loading) {
+    return (
+      <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!meetingRoom) {
+    return <div>No meeting room data</div>;
+  }
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -392,17 +393,16 @@ const MeetingRoomInfo = () => {
                 예약
             </button>
         </footer>
-        </div>
-        <ReservationModal
-            isVisible={showReservationModal}
-            eventName={eventName}
-            getTimes={formattedGetTime}
-            selectedBranch={meetingRoom.branchName}
-            meetingRoomName={meetingRoom.meetingRoomName}
-        />
+      </div>
+      <ReservationModal
+        isVisible={showReservationModal}
+        eventName={eventName}
+        getTimes={formattedGetTime}
+        selectedBranch={meetingRoom.branchName}
+        meetingRoomName={meetingRoom.meetingRoomName}
+      />
     </div>
-    
-    );
+  );
 };
 
 export default MeetingRoomInfo;

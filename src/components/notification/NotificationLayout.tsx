@@ -8,7 +8,7 @@ export const NotificationLayout = ({ notice }: { notice: NotificationType }) => 
 
   return (
     <Link
-      href={`/reservation/myreservationlist?targetId=${notice?.targetId}`}
+      href={`/reservation/myreservationlist`}
       onClick={() => {
         setOpen(true);
         setIsMeeting(true);
@@ -17,7 +17,7 @@ export const NotificationLayout = ({ notice }: { notice: NotificationType }) => 
       <div
         key={notice?.notificationId}
         className="flex flex-row  justify-start items-center mt-[16px] mb-[36px] relative">
-        <img src="/Notification-Check.svg" className="mr-[14px]" />
+        <img src={notice?.image} className="mr-[14px] w-[28px] h-[28px]" />
 
         <div className="flex flex-col justify-start items-start">
           <div className="text-base font-medium text-black mb-[6px]">{notice?.title}</div>

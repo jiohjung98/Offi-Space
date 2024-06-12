@@ -10,7 +10,6 @@ const useNoticeGet = (sortType: string) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const pageRef = useIntersectionObserver(ref, {});
   const isPageEnd = !!pageRef?.isIntersecting;
-  console.log(isPageEnd);
   const {
     data,
     fetchNextPage,
