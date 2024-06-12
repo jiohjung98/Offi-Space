@@ -30,6 +30,7 @@ export interface reservationDetailData {
   participants: participantsType[];
   myMemberType: string;
   reservationProgress: string;
+  reservationStatus: string;
 }
 
 export interface Representative {

@@ -4,4 +4,5 @@ export interface TermsType {
   description: string;
   required: boolean;
   subTitle: string;
+  checked: boolean;
 }

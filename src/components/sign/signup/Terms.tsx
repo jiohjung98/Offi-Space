@@ -1,6 +1,5 @@
 import React, { Dispatch, MouseEvent, useEffect, useState } from 'react';
 import TermsTitle from './terms/TermsTitle';
-import { 약관목록 } from '@constant/temrs';
 import { TermsType } from '@/models/terms';
 import TermsItem from './terms/TermsItem';
 import dynamic from 'next/dynamic';
@@ -12,15 +11,21 @@ const TermsModal = dynamic(() => import('./terms/TermsModal'), {
 interface TermsProps {
   setIsSmsAgree: Dispatch<React.SetStateAction<boolean>>;
   setIsAllAgreeChecked: Dispatch<React.SetStateAction<boolean>>;
+  termsAgreements: TermsType[];
+  setTermsAgreements: Dispatch<React.SetStateAction<TermsType[]>>;
 }
 
-const Terms = ({ setIsSmsAgree, setIsAllAgreeChecked }: TermsProps) => {
-  const [termsAgreements, setTermsAgreements] = useState(() =>
-    setInitialValues(약관목록)
-  );
+const Terms = ({
+  setIsSmsAgree,
+  setIsAllAgreeChecked,
+  termsAgreements,
+  setTermsAgreements
+}: TermsProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [modalDescription, setModalDescription] = useState<string | null>(null);
   const [modalSubTitle, setModalSubTitle] = useState<string | null>(null);
+
+  console.log(termsAgreements);
 
   useEffect(() => {
     const isAllRequireChecked = termsAgreements
@@ -88,9 +93,5 @@ const Terms = ({ setIsSmsAgree, setIsAllAgreeChecked }: TermsProps) => {
     </div>
   );
 };
-
-function setInitialValues(terms: TermsType[]) {
-  return terms.map((term) => ({ ...term, checked: false }));
-}
 
 export default Terms;

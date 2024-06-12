@@ -26,7 +26,8 @@ export const 약관목록 = [
 4) "멤버"는 "Offispace"에서 제공하는 "웹사이트 등" 에 게시된 이 약관에 따라 가입한 하나의 계정으로 모든 "웹사이트 등"에 로그인하여 이용할 수 있습니다.
 
 #### 상기 본인은 위와 같이 서비스 이용약관에 동의함.`,
-    required: true
+    required: true,
+    checked: false
   },
   {
     id: 2,
@@ -48,7 +49,8 @@ Offispace는 「개인정보보호법」 및 관계 법령에 의거하여 고�
 - 직무 정보
     
 #### 상기 본인은 위와 같이 개인정보 수집 및 활용에 동의함.`,
-    required: true
+    required: true,
+    checked: false
   },
   {
     id: 3,
@@ -78,6 +80,7 @@ Offispace는 개인정보보호법 및 정보통신망이용촉진 및 정보보
 Offispace 정보수정 페이지에서 개별서비스의 마케팅 수신동의를 변경(동의/철회)할 수 있으며, 동의일로부터 회원 탈퇴 혹은 마케팅 수신 동의 해제 시까지 광고성 정보 전달을 위하여 보유ㆍ이용됩니다.
 
 #### 상기 본인은 위와 같이 마케팅 정보 수신에 동의함.`,
-    required: false
+    required: false,
+    checked: false
   }
 ];

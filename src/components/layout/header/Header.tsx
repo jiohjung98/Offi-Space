@@ -9,7 +9,7 @@ const Header = () => {
         <img src="/officelogo.svg" alt="" />
       </div>
       <div className="flex items-center justify-center gap-6">
-        <div className="cursor-pointer">
+        <div onClick={() => router.push('mypage/question')} className="cursor-pointer">
           <img src="/Inquiry.svg" alt="" />
         </div>
         <Link href={'/notification'}>
