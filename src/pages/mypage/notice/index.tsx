@@ -23,7 +23,7 @@ const NoticePage = () => {
               onClick={() => toggleNotice('notice')}>
               <div className="flex justify-between items-center">
                 <div className="text-black/opacity-20 text-sm font-semibold leading-[21px] tracking-tight">
-                  [안내] 5/13 (월) 02~03 커뮤니티 서비스 점검
+                  [안내] 5/20 (월) 02~03 커뮤니티 서비스 점검
                 </div>
                 <img
                   className="w-[23px] h-[34px] mr-[6px] cursor-pointer "
@@ -36,7 +36,7 @@ const NoticePage = () => {
                 />
               </div>
               <div className="text-zinc-400 text-xs font-normal tracking-tight">
-                2024. 00. 00
+                2024. 05. 18
               </div>
             </div>
             {openNotice === 'notice' && (
@@ -46,7 +46,7 @@ const NoticePage = () => {
                 Offispace 커뮤니티 서비스팀입니다.
                 <br />
                 <br />
-                5월 13일 (월요일) 새벽 2시부터 3시까지 (총 1시간 예상)
+                5월 20일 (월요일) 새벽 2시부터 3시까지 (총 1시간 예상)
                 <br />
                 전체 커뮤니티 서비스 점검이 진행됩니다.
                 <br />
@@ -71,7 +71,7 @@ const NoticePage = () => {
               onClick={() => toggleNotice('update1')}>
               <div className="flex justify-between items-center">
                 <div className="text-black/opacity-20 text-sm font-semibold leading-[21px] tracking-tight">
-                  [업데이트 내역] 1.0.2 업데이트
+                  [업데이트 내역] 1.0.3 업데이트
                 </div>
                 <img
                   className="w-[23px] h-[34px] mr-[6px] cursor-pointer"
@@ -84,7 +84,7 @@ const NoticePage = () => {
                 />
               </div>
               <div className="text-zinc-400 text-xs font-normal tracking-tight">
-                2024. 00. 00
+                2024. 05. 15
               </div>
             </div>
             {openNotice === 'update1' && (
@@ -93,7 +93,7 @@ const NoticePage = () => {
                 <br />
                 Offispace 서비스팀입니다.
                 <br />
-                4월 2일 이루어진 1.0.2 업데이트 사항을 알려드립니다.
+                5월 2일 이루어진 1.0.3 업데이트 사항을 알려드립니다.
                 <br />
                 <br />
                 1. 알림 센터
@@ -115,7 +115,7 @@ const NoticePage = () => {
               onClick={() => toggleNotice('update2')}>
               <div className="flex justify-between items-center">
                 <div className="text-black/opacity-20 text-sm font-semibold leading-[21px] tracking-tight">
-                  [업데이트 내역] 1.0.3 업데이트
+                  [업데이트 내역] 1.0.2 업데이트
                 </div>
                 <img
                   className="w-[23px] h-[34px] mr-[6px] cursor-pointer"
@@ -128,7 +128,7 @@ const NoticePage = () => {
                 />
               </div>
               <div className="text-zinc-400 text-xs font-normal tracking-tight">
-                2024. 00. 00
+                2024. 04. 12
               </div>
             </div>
             {openNotice === 'update2' && (
@@ -138,7 +138,7 @@ const NoticePage = () => {
                 Offispace 서비스팀입니다.
                 <br />
                 <br />
-                5월 12일 앱 사용성 개선 및 버그 수정을 위해 1.0.3 업데이트가 있었습니다.
+                4월 12일 앱 사용성 개선 및 버그 수정을 위해 1.0.2 업데이트가 있었습니다.
                 <br />
                 <br />
                 감사합니다.
