@@ -59,7 +59,7 @@ const MyPage = () => {
         </div>
         <Link href="/mypage/changeprofile">
           <div>
-            <div className=" sm:w-[340px] w-[361px] h-[42px] p-2 rounded-sm border border-zinc-400 flex justify-center items-center gap-2 mt-[32px]">
+            <div className=" xs:w-[340px] w-[361px] h-[42px] p-2 rounded-sm border border-zinc-400 flex justify-center items-center gap-2 mt-[32px]">
               <div className="text-black/opacity-20 text-base font-normal font-['Pretendard'] leading-normal">
                 프로필 수정
               </div>

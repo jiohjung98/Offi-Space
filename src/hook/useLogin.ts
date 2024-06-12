@@ -15,7 +15,7 @@ const useLogin = () => {
 
   const onSuccess = async (data: UserLoginType) => {
     const { accessToken } = data.data;
-    const cookieOptions = { path: '/', maxAge: 30000 };
+    const cookieOptions = { path: '/', maxAge: 3000000 * 15 };
     // const token = await getTokenHandler();
     // fcmpost({ fcmToken: token });
     setCookie('token', accessToken, cookieOptions);
