@@ -1,23 +1,23 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface BackArrowProps {
   width: string;
   height: string;
   name?: string;
-  link: string;
 }
-export const BackArrow = ({ width, height, name, link }: BackArrowProps) => {
+export const BackArrow = ({ width, height, name }: BackArrowProps) => {
+  const router = useRouter();
   return (
-    <div className="h-[48px] flex flex-row justify-start items-center">
-      <Link href={`/${link}`}>
-        <img
-          src="/mypage/passwordchange/BackArrow.svg"
-          alt="Back"
-          className="cursor-pointer"
-          width={width}
-          height={height}
-        />
-      </Link>
+    <div
+      onClick={() => router.back()}
+      className="h-[48px] flex flex-row justify-start items-center">
+      <img
+        src="/mypage/passwordchange/BackArrow.svg"
+        alt="Back"
+        className="cursor-pointer"
+        width={width}
+        height={height}
+      />
       <div className="ml-3 text-center text-black text-lg font-bold font-['Pretendard'] ">
         {name}
       </div>

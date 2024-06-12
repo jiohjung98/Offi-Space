@@ -41,7 +41,7 @@ const Footer = () => {
               )}
             </div>
             <div className="text-center text-black text-xs font-normal font-['Pretendard']">
-              예약/일정
+              예약
             </div>
           </div>
         </Link>

@@ -11,7 +11,7 @@ import { useMutation } from 'react-query';
 
 const SignUpPage = () => {
   const [applyValues, setApplyValues] = useState<Partial<ApplyValues>>({
-    step: 0
+    step: 2
   });
 
   const { mutateAsync: signUpReq } = useMutation(

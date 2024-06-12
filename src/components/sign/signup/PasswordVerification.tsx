@@ -6,6 +6,8 @@ import Terms from './Terms';
 import { JobPositionType } from '@/models/jobPosition';
 import { jobPosition } from '@/constant/jobPosition';
 import ToBack from '@/components/shared/sign/ToBack';
+import { TermsType } from '@/models/terms';
+import { 약관목록 } from '@constant/temrs';
 /* eslint-disable no-unused-vars */
 const JobPosition = dynamic(() => import('./JobPosition'), {
   ssr: false
@@ -32,6 +34,10 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
   const [isAllAgreeChecked, setIsAllAgreeChecked] = useState(false); //모두동의했는가
 
   const [isAllDataValid, setIsAllDataValid] = useState(false); // 모두동의 job선택됨 비밀번호 통과
+
+  const [termsAgreements, setTermsAgreements] = useState(() =>
+    setInitialValues(약관목록)
+  );
 
   useEffect(() => {
     if (isAllAgreeChecked && selectedJob != '' && !passwordError && password != '') {
@@ -240,7 +246,12 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
           />
         </div>
       </div>
-      <Terms setIsSmsAgree={setIsSmsAgree} setIsAllAgreeChecked={setIsAllAgreeChecked} />
+      <Terms
+        setIsSmsAgree={setIsSmsAgree}
+        setIsAllAgreeChecked={setIsAllAgreeChecked}
+        termsAgreements={termsAgreements}
+        setTermsAgreements={setTermsAgreements}
+      />
       <div className="w-full flex justify-center items-center mx-auto mb-6">
         <button
           disabled={!isAllDataValid}
@@ -255,5 +266,9 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
     </div>
   );
 };
+
+function setInitialValues(terms: TermsType[]) {
+  return terms.map((term) => ({ ...term, checked: false }));
+}
 
 export default PasswordVerification;

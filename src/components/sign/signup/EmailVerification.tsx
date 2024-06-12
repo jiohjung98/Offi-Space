@@ -110,10 +110,6 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
   }, [emailValid]);
 
   useEffect(() => {
-    startRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     if (errorMessage != '') {
       timeoutId = setTimeout(() => {
