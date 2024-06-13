@@ -6,7 +6,7 @@ const MainHeader = () => {
   const router = useRouter();
   return (
     <header>
-      <div className="flex justify-between items-center py-2">
+      <div className="flex justify-between items-center py-6">
         <div className="w-[116px] h-8 cursor-pointer">
           <img src="/OffispaceLogo.png" alt="" className="w-full" />
         </div>

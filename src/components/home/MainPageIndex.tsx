@@ -16,7 +16,6 @@ const MainPageIndex = () => {
   return (
     <div className="mb-[100px]">
       <BgPurpleLayout>
-        <div className="h-6 w-full" /> {/* 핸드폰 기본 상단 레이아웃 자리 */}
         <MainHeader />
         <CurrentOffice />
         <OfficeNotice />
