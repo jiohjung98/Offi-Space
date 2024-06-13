@@ -35,7 +35,7 @@ const MemberWithdrawal = () => {
               </div>
 
               <div className="w-[330px] h-[1px] mt-[8px] mb-[23px] bg-gray-300" />
-              <div className="text-sm text-stone-500 leading-relaxed">
+              <div className="text-sm ml-[4px]  text-stone-500 leading-relaxed">
                 ・회원 탈퇴 시 개인정보는 삭제되고 복구되지 않습니다.
                 <br />
                 ・동일 이메일로 재가입 시 인증 절차를 다시 진행해야 합니다.
@@ -47,25 +47,28 @@ const MemberWithdrawal = () => {
                 제외)
               </div>
             </div>
-
-            <div className="flex flex-row items-center justify-center mt-10 ml-8">
+            <div className="flex flex-row items-center justify-center mt-10 pr-5">
               <input
                 type="checkbox"
                 id="agreement"
-                className="w-5 h-5 border border-neutral-600"
+                className="invisible"
                 checked={isChecked}
                 onChange={handleCheckboxChange}
               />
               <label
                 htmlFor="agreement"
-                className="ml-3 text-sm text-stone-500 flex justify-center">
+                className="ml-3 text-sm text-stone-500 flex justify-center items-center">
+                <span
+                  className={`w-5 h-5 border border-neutral-600  mr-2 flex items-center cursor-pointer justify-center ${isChecked ? 'bg-neutral-600 text-white' : ''}`}>
+                  {isChecked && <img src="/mypage/CheckVector.svg" alt="checked" />}
+                </span>
                 안내 사항을 모두 확인하였으며, 이에 동의합니다.
               </label>
             </div>
 
             <button
               onClick={handleWithdrawal}
-              className={`w-full mt-20 py-3 rounded-lg text-white font-semibold  flex justify-center  ${isChecked ? 'bg-space-purple' : 'bg-gray-400'} `}
+              className={`w-full mt-20 py-3 rounded-lg text-white font-semibold  flex justify-center  ${isChecked ? 'bg-black' : 'bg-gray-400'} `}
               disabled={!isChecked}>
               회원탈퇴
             </button>

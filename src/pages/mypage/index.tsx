@@ -47,16 +47,16 @@ const MyPage = () => {
               )}
               {/* <img src={`${member.imageUrl}`}></img> */}
             </div>
-            <div className="w-[130px] h-[73px] flex flex-col justify-center items-center">
-              <div className="h-14 flex flex-col justify-start items-start gap-2">
-                <div className="w-[130px] text-center text-indigo-700 text-lg font-bold font-['Pretendard'] leading-[27px] mt-[8px]">
+            <div className=" flex flex-col justify-center items-center">
+              <div className="h-14 flex flex-col  ">
+                <div className="  text-indigo-700 text-lg font-bold mt-[8px] mb-[2px]">
                   {member.memberNickName}
                 </div>
-                <div className="w-[130px] text-center text-neutral-400 text-sm font-medium font-['Pretendard'] leading-[21px]">
+                <div className=" flex justify-center text-neutral-400 text-sm font-medium font-['Pretendard'] ">
                   {job}
                 </div>
               </div>
-              <div className="text-neutral-400 text-sm font-normal font-['Pretendard']">
+              <div className="text-neutral-400 text-sm font-normal font-['Pretendard'] ">
                 {member.memberEmail}
               </div>
             </div>
