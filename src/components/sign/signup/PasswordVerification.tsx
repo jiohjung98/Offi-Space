@@ -55,12 +55,12 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
   }, [selectedJob]);
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordError(false);
     const newPassword = e.target.value;
     setPassword(newPassword);
+    checkValidPassword(newPassword);
   };
 
-  const checkValidPassword = () => {
+  const checkValidPassword = (password: string) => {
     const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(?=\S+$).{8,16}$/;
     if (!passwordRegex.test(password)) {
       setPasswordError(true);
@@ -99,9 +99,12 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
             3 단계
           </span>
         </div>
-        <div className="w-[152.40px] h-[25.20px] bg-indigo-700 flex justify-center items-center">
-          <div className="text-center text-white text-sm font-medium font-pretendard">
-            거의 다 완료되었어요!
+        <div className="flex items-center relative">
+          <img src="/sign/phase.svg" alt="image" className="absolute -left-[7px] z-50" />
+          <div className=" w-[152.40px] h-[25.20px] bg-space-purple flex justify-center items-center">
+            <div className="text-center text-white text-sm font-medium font-pretendard">
+              거의 다 완료되었어요!
+            </div>
           </div>
         </div>
       </div>
@@ -199,7 +202,6 @@ const PasswordVerification = ({ onNext, applyValues }: PasswordVerificationProps
               placeholder="비밀번호를 입력해주세요."
               value={password}
               onChange={handlePasswordChange}
-              onBlur={checkValidPassword}
             />
           </div>
         </div>
