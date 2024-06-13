@@ -20,13 +20,13 @@ export const NotificationLayout = ({ notice }: { notice: NotificationType }) => 
         <img src={notice?.image} className="mr-[14px] w-[28px] h-[28px]" />
 
         <div className="flex flex-col justify-start items-start">
-          <div className="text-base font-medium text-black mb-[6px]">{notice?.title}</div>
-          <div className="text-xs font-medium text-neutral-600  flex-grow">
+          <div className="  text-sm font-bold text-black mb-[6px]">{notice?.title}</div>
+          <div className="text-sm font-medium text-neutral-600  flex-grow">
             {notice?.content}
           </div>
         </div>
         <div
-          className="min-w-[60px] w-auto  pl-[20px] pb-[35px] text-xs font-normal text-neutral-400 absolute
+          className="min-w-[60px] w-auto  pl-[20px] pb-[35px] text-xs  font-light text-neutral-400 absolute
          top-0 right-2
       ">
           {CalculateTime(notice?.date)}

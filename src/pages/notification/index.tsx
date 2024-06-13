@@ -115,7 +115,7 @@ const Notification = () => {
                   <>
                     {todayNotifications.length > 0 && (
                       <Fragment>
-                        <h2 className=" font-bold ">오늘</h2>
+                        <h2 className="text-sm  font-semibold ">오늘</h2>
                         {todayNotifications.map((notice: NotificationType) => (
                           <Fragment key={notice.notificationId}>
                             <NotificationCommunityLayout notice={notice} />
@@ -125,7 +125,7 @@ const Notification = () => {
                     )}
                     {pastNotifications.length > 0 && (
                       <Fragment>
-                        <h2 className=" font-bold mt-[20px] ">최근 7일</h2>
+                        <h2 className=" text-sm  font-semibold mt-[20px] ">최근 7일</h2>
                         {pastNotifications.map((notice: NotificationType) => (
                           <Fragment key={notice.notificationId}>
                             <NotificationCommunityLayout notice={notice} />
