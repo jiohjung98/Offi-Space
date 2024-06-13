@@ -11,11 +11,10 @@ interface LayoutProps {
   isFullWidth?: boolean;
 }
 
+/* eslint-disable  */
 const Layout = ({ children, title, isFullWidth = false }: LayoutProps) => {
   const pathName = usePathname();
   const filteredPathName = deleteFirstWord(pathName);
-  console.log(filteredPathName);
-  console.log(title);
 
   return (
     <>

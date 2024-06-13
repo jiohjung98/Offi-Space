@@ -20,7 +20,7 @@ interface DatePickerModalProps {
   ) => void;
   initialStartTime: Date;
   initialEndTime: Date;
-  activeTab: string; 
+  activeTab: string;
 }
 
 const DatePickerModal: React.FC<DatePickerModalProps> = ({
@@ -46,8 +46,6 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
   const [canVideoConference, setCanVideoConference] = useState<boolean>(false);
   const [isPrivate, setIsPrivate] = useState<boolean>(false);
   const [activeTabState, setActiveTabState] = useState<string>(activeTab);
-
-  console.log(activeTab);
 
   useEffect(() => {
     setActiveTabState(activeTab);
@@ -101,9 +99,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
 
     onConfirm(startDateTime, endDateTime, {
       meetingRoomTypes:
-        selectedMeetingRoomTypes.length === 0
-          ? []
-          : selectedMeetingRoomTypes,
+        selectedMeetingRoomTypes.length === 0 ? [] : selectedMeetingRoomTypes,
       projectorExists,
       canVideoConference,
       isPrivate
@@ -191,7 +187,7 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
           </button>
         </div>
 
-        {activeTabState === 'schedule'   && (
+        {activeTabState === 'schedule' && (
           <>
             <div className="">
               <div className="w-full">
@@ -330,12 +326,12 @@ const DatePickerModal: React.FC<DatePickerModalProps> = ({
           </div>
         )}
         <div className="pt-[10px] w-full text-center items-center">
-        <button
-          className="absolute bottom-[30px] flex w-[88%] mx-auto h-12 text-white rounded-lg justify-center items-center"
-          style={{ backgroundColor: '#4E32BB' }}
-          onClick={handleConfirm}>
-          확인
-        </button>
+          <button
+            className="absolute bottom-[30px] flex w-[88%] mx-auto h-12 text-white rounded-lg justify-center items-center"
+            style={{ backgroundColor: '#4E32BB' }}
+            onClick={handleConfirm}>
+            확인
+          </button>
         </div>
       </div>
     </div>

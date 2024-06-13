@@ -21,9 +21,7 @@ export const useBranchStore = create(
     {
       name: 'selectedBranch',
       getStorage: () => localStorage,
-      onRehydrateStorage: () => (state) => {
-        console.log('Rehydrated state:', state);
-      }
+      onRehydrateStorage: () => () => {}
     }
   )
 );

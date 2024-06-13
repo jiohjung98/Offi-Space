@@ -42,7 +42,7 @@ const UseMap: React.FC = () => {
         const initialCenter = new naver.maps.LatLng(37.4979, 127.0276);
         const mapOptions: naver.maps.MapOptions = {
           center: initialCenter,
-          zoom: 16,
+          zoom: 16
         };
         const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
         setMap(mapInstance);
@@ -68,7 +68,6 @@ const UseMap: React.FC = () => {
   useEffect(() => {
     getBranchInfo()
       .then((response) => {
-        console.log('Branch Info:', response);
         setBranches(response.data);
       })
       .catch((error) => {
@@ -83,7 +82,7 @@ const UseMap: React.FC = () => {
   }, [branches, map]);
 
   useEffect(() => {
-    const filtered = branches.filter(branch => branch.branchName.includes(searchQuery));
+    const filtered = branches.filter((branch) => branch.branchName.includes(searchQuery));
     setFilteredBranches(filtered);
   }, [searchQuery, branches]);
 
@@ -94,7 +93,7 @@ const UseMap: React.FC = () => {
   }, [selectedMarker]);
 
   const setMarkers = (map: naver.maps.Map) => {
-    Object.values(markerRefs.current).forEach(marker => marker.setMap(null));
+    Object.values(markerRefs.current).forEach((marker) => marker.setMap(null));
     markerRefs.current = {};
 
     branches.forEach((branch) => {
@@ -106,8 +105,8 @@ const UseMap: React.FC = () => {
           size: new naver.maps.Size(33, 46),
           scaledSize: new naver.maps.Size(33, 46),
           origin: new naver.maps.Point(0, 0),
-          anchor: new naver.maps.Point(24, 24),
-        },
+          anchor: new naver.maps.Point(24, 24)
+        }
       });
 
       naver.maps.Event.addListener(marker, 'click', () => {
@@ -119,13 +118,13 @@ const UseMap: React.FC = () => {
   };
 
   const updateMarkers = () => {
-    Object.values(markerRefs.current).forEach(marker => {
+    Object.values(markerRefs.current).forEach((marker) => {
       marker.setIcon({
         url: '/map/OfficeInActive.png',
         size: new naver.maps.Size(33, 46),
         scaledSize: new naver.maps.Size(33, 46),
         origin: new naver.maps.Point(0, 0),
-        anchor: new naver.maps.Point(24, 24),
+        anchor: new naver.maps.Point(24, 24)
       });
     });
 
@@ -137,20 +136,20 @@ const UseMap: React.FC = () => {
           size: new naver.maps.Size(45, 63),
           scaledSize: new naver.maps.Size(45, 63),
           origin: new naver.maps.Point(0, 0),
-          anchor: new naver.maps.Point(30, 30),
+          anchor: new naver.maps.Point(30, 30)
         });
       }
     }
   };
 
   const resetMarkers = () => {
-    Object.values(markerRefs.current).forEach(marker => {
+    Object.values(markerRefs.current).forEach((marker) => {
       marker.setIcon({
         url: '/map/OfficeInActive.png',
         size: new naver.maps.Size(33, 46),
         scaledSize: new naver.maps.Size(33, 46),
         origin: new naver.maps.Point(0, 0),
-        anchor: new naver.maps.Point(24, 24),
+        anchor: new naver.maps.Point(24, 24)
       });
     });
   };
@@ -177,8 +176,8 @@ const UseMap: React.FC = () => {
                 size: new naver.maps.Size(48, 48),
                 scaledSize: new naver.maps.Size(48, 48),
                 origin: new naver.maps.Point(0, 0),
-                anchor: new naver.maps.Point(24, 24),
-              },
+                anchor: new naver.maps.Point(24, 24)
+              }
             });
           }
           setLoading(false);
@@ -209,11 +208,10 @@ const UseMap: React.FC = () => {
 
   const handleOfficeAvailable = async (branch: Branch) => {
     try {
-      const data = await getOfficeAvailable(branch.branchName); 
+      const data = await getOfficeAvailable(branch.branchName);
       if (data.data) {
         SetBranchCount(data.data.branchTotalMeetingRoomCount);
         SetCanBranchCount(data.data.branchActiveMeetingRoomCount);
-        console.log(data);
       }
     } catch (error) {
       console.error('Error updating selected branch:', error);
@@ -228,7 +226,6 @@ const UseMap: React.FC = () => {
     setIsModalOpen(true);
     setSelectedMarker(branch.branchName);
     handleOfficeAvailable(branch);
-    
   };
 
   const handleSearchQueryChange = (query: string) => {
@@ -248,23 +245,34 @@ const UseMap: React.FC = () => {
     e.stopPropagation();
     setShowMessage(false);
   };
-  
 
   return (
     <section className="relative w-full h-screen">
       <div ref={mapRef} className="w-full h-full" />
       {showMessage && (
         <>
-          <div className={`absolute ${isModalOpen ? 'bottom-[355px]' : 'bottom-[180px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center ${isIOS && !isStandalone ? 'mb-[60px]' : ''}`}>
+          <div
+            className={`absolute ${isModalOpen ? 'bottom-[355px]' : 'bottom-[180px]'} left-4 bg-white px-3 py-3.5 shadow-lg flex items-center ${isIOS && !isStandalone ? 'mb-[60px]' : ''}`}>
             <span>더 정확한 접속위치를 확인해보세요!</span>
-            <div onClick={handleCurrentLocationTextClick} className="ml-4 inline-block cursor-pointer">
-              <Image src='/CloseBtn.svg' alt='closeBtn' width={13} height={13} />
+            <div
+              onClick={handleCurrentLocationTextClick}
+              className="ml-4 inline-block cursor-pointer">
+              <Image src="/CloseBtn.svg" alt="closeBtn" width={13} height={13} />
             </div>
           </div>
-          <Image src='/map/triangle.svg' alt="Current Location" className={`absolute ${isModalOpen ? 'bottom-[345px]' : 'bottom-[170px]'} left-[40px]  ${isIOS && !isStandalone ? 'mb-[60px]' : ''}`} width={18} height={10} />
+          <Image
+            src="/map/triangle.svg"
+            alt="Current Location"
+            className={`absolute ${isModalOpen ? 'bottom-[345px]' : 'bottom-[170px]'} left-[40px]  ${isIOS && !isStandalone ? 'mb-[60px]' : ''}`}
+            width={18}
+            height={10}
+          />
         </>
       )}
-      <MapSearchBar onFocus={() => setShowSearchResults(true)} onChange={handleSearchQueryChange} />
+      <MapSearchBar
+        onFocus={() => setShowSearchResults(true)}
+        onChange={handleSearchQueryChange}
+      />
       {showSearchResults && (
         <MapSearchResult
           onClose={() => setShowSearchResults(false)}
@@ -278,18 +286,17 @@ const UseMap: React.FC = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         branchName={selectedBranch?.branchName || ''}
-        branchAddress={selectedBranch?.branchAddress || ''} 
-        branchActiveMeetingRoomCount={canBranchCount} 
-        branchTotalMeetingRoomCount={branchCount}        
+        branchAddress={selectedBranch?.branchAddress || ''}
+        branchActiveMeetingRoomCount={canBranchCount}
+        branchTotalMeetingRoomCount={branchCount}
       />
       <button
         id="current-location-button"
         className={`absolute ${isModalOpen ? 'bottom-[320px]' : 'bottom-[105px]'} left-4 p-2 flex items-center justify-center ${isIOS && !isStandalone ? 'mb-16' : ''}`}
         onMouseEnter={() => setImageSrc('/map/MapLocationActive.svg')}
         onMouseLeave={() => setImageSrc('/map/MapLocation.svg')}
-        onClick={handleCurrentLocationClick}
-      >
-      <Image src={imageSrc} alt="Current Location" width={48} height={48} />
+        onClick={handleCurrentLocationClick}>
+        <Image src={imageSrc} alt="Current Location" width={48} height={48} />
       </button>
       {loading && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">

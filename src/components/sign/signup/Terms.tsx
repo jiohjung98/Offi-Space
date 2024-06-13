@@ -25,8 +25,6 @@ const Terms = ({
   const [modalDescription, setModalDescription] = useState<string | null>(null);
   const [modalSubTitle, setModalSubTitle] = useState<string | null>(null);
 
-  console.log(termsAgreements);
-
   useEffect(() => {
     const isAllRequireChecked = termsAgreements
       .filter((term) => term.required)

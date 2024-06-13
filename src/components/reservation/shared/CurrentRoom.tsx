@@ -43,20 +43,20 @@ const CurrentRoom = () => {
     setShowSelectOfficeMap(false);
   };
 
-  useEffect(() => {
-    console.log('Selected Branch Updated:', selectedBranch);
-  }, [selectedBranch]);
+  // useEffect(() => {
+  //   console.log('Selected Branch Updated:', selectedBranch);
+  // }, [selectedBranch]);
 
-  useEffect(() => {
-    console.log('Reserved Branch Updated:', reservedBranch);
-  }, [reservedBranch]);
+  // useEffect(() => {
+  //   console.log('Reserved Branch Updated:', reservedBranch);
+  // }, [reservedBranch]);
 
   const currentBranch =
-  selectedUpdatedTime &&
-  reservedUpdatedTime &&
-  selectedUpdatedTime > reservedUpdatedTime
-    ? selectedBranch
-    : reservedBranch || selectedBranch;
+    selectedUpdatedTime &&
+    reservedUpdatedTime &&
+    selectedUpdatedTime > reservedUpdatedTime
+      ? selectedBranch
+      : reservedBranch || selectedBranch;
 
   return (
     <>
