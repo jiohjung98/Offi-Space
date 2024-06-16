@@ -9,6 +9,7 @@ import { useQuery } from 'react-query';
 import { fcmpost } from '@/api/fcm/fcm.post.api';
 import { getTokenHandler } from '@/components/pwa/Fcm';
 const Index = () => {
+  //
   /* eslint-disable */
   const member = useMember();
   const { data: memberData } = useQuery({ queryKey: ['userinfo'], queryFn: userinfo });
