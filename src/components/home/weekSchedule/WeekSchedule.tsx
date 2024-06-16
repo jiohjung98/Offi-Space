@@ -39,7 +39,7 @@ const WeekSchedule = () => {
       <div className="flex gap-[11px] justify-center items-center bg-violet-50">
         {daysOfWeek.map((day, i) => (
           <div
-            className={`py-[13px] px-[11px] flex flex-col gap-[13px] cursor-pointer text-base font-medium 
+            className={`mt-3 mb-3 py-[13px] px-[11px] flex flex-col gap-[13px] cursor-pointer text-base font-medium 
             ${isSaturday(day) || isSunday(day) ? 'text-gray-400' : 'text-gray-600'} 
             ${selectedDate && isSameDay(day, selectedDate) ? 'bg-space-purple text-white rounded-[30px]' : ''}
             items-center justify-center`}

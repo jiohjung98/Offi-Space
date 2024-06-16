@@ -158,9 +158,16 @@ const EmailVerification = ({ onNext }: EmailVerification) => {
               3 단계
             </span>
           </div>
-          <div className="w-[152.40px] h-[25.20px] bg-indigo-700 flex justify-center items-center">
-            <div className="text-center text-white text-sm font-medium font-pretendard">
-              한번 더 확인이 필요해요.
+          <div className="flex items-center relative">
+            <img
+              src="/sign/phase.svg"
+              alt="image"
+              className="absolute -left-[7px] z-50"
+            />
+            <div className=" w-[152.40px] h-[25.20px] bg-space-purple flex justify-center items-center">
+              <div className="text-center text-white text-sm font-medium font-pretendard">
+                한번 더 확인이 필요해요.
+              </div>
             </div>
           </div>
         </div>
