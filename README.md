@@ -95,15 +95,17 @@ zustand 를 사용해 오피스 정보를 전역으로 1개 사용했는데, 예
 
 ### 오피스 전역 상태 1
 
-<img width="800" alt="OfficeInfo1" src="https://github.com/jiohjung98/Offi-Space/assets/104253583/87fa10e5-1dd3-4454-9530-6c15fd1319a8">
+
+<img width="800" alt="OfficeInfo1" src="https://github.com/jiohjung98/Offi-Space/assets/104253583/791fb5b6-8be3-4f12-bf84-dc7dfe415638">
 
 ### 오피스 전역 상태 2
 
-<img width="800" alt="OfficeInfo2" src="https://github.com/jiohjung98/Offi-Space/assets/104253583/ab4cd5cf-ce8b-4211-9bd7-dff61a65ed81">
+<img width="800" alt="OfficeInfo2" src="https://github.com/jiohjung98/Offi-Space/assets/104253583/e389bd42-678a-431e-ad0c-ca40f544a5fc">
 
 ### 예약 페이지에서의 오피스 전역 상태 불러오는 방법
 
-<img width="800" alt="OfficeInfo2" src="https://github.com/jiohjung98/Offi-Space/assets/104253583/335774cd-e90a-4f3b-9512-ccffd0d45539">
+
+<img width="800" alt="OfficeInfo2" src="https://github.com/jiohjung98/Offi-Space/assets/104253583/0bf0cc1f-ffd8-47f3-b189-3698491e7640">
 
 예약 페이지에서는 지점 설정을 총 3가지 방법으로 할 수 있습니다.
 메인페이지에서 지점 설정, 예약페이지 내에서 지점 설정, 지도의 오피스 모달에서의 예약하기 버튼을 통해 지점 설정이 이뤄지는데,
